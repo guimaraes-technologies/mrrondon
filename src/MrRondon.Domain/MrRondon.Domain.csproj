@@ -40,8 +40,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entities\Address.cs" />
     <Compile Include="Entities\Category.cs" />
+    <Compile Include="Entities\City.cs" />
+    <Compile Include="Entities\Company.cs" />
     <Compile Include="Entities\Event.cs" />
+    <Compile Include="Entities\FavoriteEvent.cs" />
+    <Compile Include="Entities\Message.cs" />
+    <Compile Include="Entities\HistoricalSight.cs" />
+    <Compile Include="Entities\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />
