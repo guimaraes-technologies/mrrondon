@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Security.Claims;
+using Microsoft.Owin.Security.OAuth;
 
 namespace MrRondon.Infra.Security.Entities
 {
@@ -26,6 +29,16 @@ namespace MrRondon.Infra.Security.Entities
         {
             Claims = Claims ?? new List<Claims>();
             Claims.Add(c);
+        }
+        
+        public ClaimsIdentity ClaimsToApi(string authenticationType = OAuthDefaults.AuthenticationType)
+        {
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.NameIdentifier, UserId.ToString()),
+                new Claim(ClaimTypes.Name, Email)
+            };
+            return new ClaimsIdentity(claims, authenticationType);
         }
     }
 }

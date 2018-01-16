@@ -2,9 +2,9 @@
 
 namespace MrRondon.Domain.Entities
 {
-    public class User
+    public class Person
     {
-        public Guid UserId { get; set; }
+        public Guid PersonId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Email { get; set; }

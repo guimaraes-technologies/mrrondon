@@ -48,7 +48,7 @@
     <Compile Include="Entities\FavoriteEvent.cs" />
     <Compile Include="Entities\Message.cs" />
     <Compile Include="Entities\HistoricalSight.cs" />
-    <Compile Include="Entities\User.cs" />
+    <Compile Include="Entities\Person.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />
