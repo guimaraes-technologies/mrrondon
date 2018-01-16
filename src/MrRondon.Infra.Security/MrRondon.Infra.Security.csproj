@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{0DA2D667-7A4C-4C62-8197-75C5CCFC40C0}</ProjectGuid>
+    <ProjectGuid>{745301BD-5F93-4DA3-9800-A68EB2C6698F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MrRondon.Domain</RootNamespace>
-    <AssemblyName>MrRondon.Domain</AssemblyName>
+    <RootNamespace>MrRondon.Infra.Security</RootNamespace>
+    <AssemblyName>MrRondon.Infra.Security</AssemblyName>
     <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -40,10 +40,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Entities\Category.cs" />
-    <Compile Include="Entities\Event.cs" />
+    <Compile Include="Entities\Claims.cs" />
+    <Compile Include="Entities\Client.cs" />
+    <Compile Include="Entities\Login.cs" />
+    <Compile Include="Entities\RefreshToken.cs" />
+    <Compile Include="Entities\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
