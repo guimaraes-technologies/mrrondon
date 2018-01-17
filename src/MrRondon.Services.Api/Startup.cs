@@ -4,10 +4,11 @@ using Microsoft.Owin;
 using Microsoft.Owin.Cors;
 using Microsoft.Owin.Security.OAuth;
 using MrRondon.Services.Api;
+using MrRondon.Services.Api.Authorization;
 using Owin;
 
-[assembly: OwinStartup(typeof(Services.Api.Startup))]
-namespace Services.Api
+[assembly: OwinStartup(typeof(Startup))]
+namespace MrRondon.Services.Api
 {
     public class Startup
     {
@@ -28,7 +29,7 @@ namespace Services.Api
             var authAuthorizationServerOptions = new OAuthAuthorizationServerOptions
             {
                 AllowInsecureHttp = true,
-                TokenEndpointPath = new PathString("/seguranca/login"),
+                TokenEndpointPath = new PathString("/security/token"),
                 AccessTokenExpireTimeSpan = TimeSpan.FromMinutes(10),
                 Provider = new TokenProvider(),
                 RefreshTokenProvider = new RefreshTokenProvider()
