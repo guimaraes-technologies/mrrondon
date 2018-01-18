@@ -152,6 +152,7 @@
     <Compile Include="Authorization\TokenProvider.cs" />
     <Compile Include="Context\MainContext.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
+    <Compile Include="Controllers\CityController.cs" />
     <Compile Include="Controllers\EventController.cs" />
     <Compile Include="Controllers\HistoricalSightController.cs" />
     <Compile Include="Controllers\SubCategoryController.cs" />
