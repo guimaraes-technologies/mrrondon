@@ -150,6 +150,7 @@
     <Compile Include="Authorization\RefreshTokenProvider.cs" />
     <Compile Include="Authorization\TokenProvider.cs" />
     <Compile Include="Context\MainContext.cs" />
+    <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\EventController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
