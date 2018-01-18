@@ -77,6 +77,16 @@ namespace MrRondon.Services.Api.Migrations
 
             if (!context.Events.Any())
             {
+                var city1 = new City
+                {
+                    CityId = 1,
+                    Name = "Porto Velho"
+                };
+                var city2 = new City
+                {
+                    CityId = 2,
+                    Name = "Ouro Preto D'Oeste"
+                };
                 var address1 = new Address
                 {
                     AddressId = Guid.NewGuid(),
@@ -85,7 +95,9 @@ namespace MrRondon.Services.Api.Migrations
                     Neighborhood = "Centro",
                     Number = "S/N",
                     Street = "Farquar",
-                    ZipCode = "76.817-003"
+                    ZipCode = "76.817-003",
+                    CityId = city1.CityId,
+                    City = city1
                 };
 
                 var address2 = new Address
@@ -96,7 +108,9 @@ namespace MrRondon.Services.Api.Migrations
                     Neighborhood = "Centro",
                     Number = "S/N",
                     Street = "Farquar",
-                    ZipCode = "76.817-003"
+                    ZipCode = "76.817-003",
+                    CityId = city2.CityId,
+                    City = city2
                 };
 
                 context.Events.AddRange(

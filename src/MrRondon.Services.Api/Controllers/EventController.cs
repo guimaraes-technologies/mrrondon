@@ -1,4 +1,6 @@
-﻿using System.Web.Http;
+﻿using System;
+using System.Linq;
+using System.Web.Http;
 using MrRondon.Services.Api.Context;
 
 namespace MrRondon.Services.Api.Controllers
@@ -13,10 +15,19 @@ namespace MrRondon.Services.Api.Controllers
             _db = new MainContext();
         }
 
-        [Route("{city}")]
+        [AllowAnonymous]
+        [Route("{city=}")]
         public IHttpActionResult Get(string city)
         {
-            return Ok(_db.Events);
+            try
+            {
+                city = city ?? string.Empty;
+                return Ok(_db.Events.Where(x => x.Address.City.Name.Contains(city)));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         protected override void Dispose(bool disposing)
