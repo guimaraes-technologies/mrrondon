@@ -153,6 +153,7 @@
     <Compile Include="Context\MainContext.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\EventController.cs" />
+    <Compile Include="Controllers\HistoricalSightController.cs" />
     <Compile Include="Controllers\SubCategoryController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
