@@ -1,10 +1,12 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace MrRondon.Infra.Security.Entities
 {
     public class RefreshToken
     {
-        public string Id { get; set; }
+        [Key]
+        public string RefreshTokenId { get; set; }
         public string Subject { get; set; }
         public string ClientId { get; set; }
         public DateTime IssuedUtc { get; set; }

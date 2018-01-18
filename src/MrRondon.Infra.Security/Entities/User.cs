@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;
 using Microsoft.Owin.Security.OAuth;
 
@@ -8,6 +8,7 @@ namespace MrRondon.Infra.Security.Entities
 {
     public class User
     {
+        [Key]
         public Guid UserId { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }

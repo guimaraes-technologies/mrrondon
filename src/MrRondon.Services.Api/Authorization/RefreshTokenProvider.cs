@@ -22,7 +22,7 @@ namespace MrRondon.Services.Api.Authorization
             var refreshTokenLifeTime = context.OwinContext.Get<string>("as:clientRefreshTokenLifeTime");
             var token = new RefreshToken
             {
-                Id = PasswordHelper.GetHash(refreshTokenId),
+                RefreshTokenId = PasswordHelper.GetHash(refreshTokenId),
                 ClientId = clientid,
                 Subject = context.Ticket.Identity.Name,
                 IssuedUtc = DateTime.UtcNow,

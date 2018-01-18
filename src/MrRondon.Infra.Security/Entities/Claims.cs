@@ -1,9 +1,11 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace MrRondon.Infra.Security.Entities
 {
     public class Claims
     {
+        [Key]
         public Guid ClaimId { get; set; }
         public string ClaimType { get; set; }
 

@@ -1,9 +1,11 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace MrRondon.Domain.Entities
 {
     public class Address
     {
+        [Key]
         public Guid AddressId { get; set; }
         public string Street { get; set; }
         public string Neighborhood { get; set; }

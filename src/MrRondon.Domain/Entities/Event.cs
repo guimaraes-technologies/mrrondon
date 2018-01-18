@@ -1,9 +1,11 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace MrRondon.Domain.Entities
 {
     public class Event
     {
+        [Key]
         public Guid EventId { get; set; }
         public string Name { get; set; }
         public decimal Value { get; set; }

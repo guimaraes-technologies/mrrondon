@@ -29,6 +29,11 @@ namespace MrRondon.Services.Api.Context
             modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
             modelBuilder.Conventions.Remove<ManyToManyCascadeDeleteConvention>();
 
+            // Configurações gerais do Contexto
+            modelBuilder.Properties().Where(p => p.Name == p.ReflectedType.Name  + "Id").Configure(p => p.IsKey());
+            modelBuilder.Properties<string>().Configure(p => p.HasColumnType("varchar"));
+            modelBuilder.Properties<string>().Configure(p => p.HasMaxLength(100));
+
             base.OnModelCreating(modelBuilder);
         }
     }
