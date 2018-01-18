@@ -11,19 +11,21 @@ namespace MrRondon.Services.Api.Authorization
     {
         public async Task CreateAsync(AuthenticationTokenCreateContext context)
         {
-            var clientid = context.Ticket.Properties.Dictionary["as:client_id"];
+            var clientName = context.Ticket.Properties.Dictionary["as:client_id"];
 
-            if (string.IsNullOrEmpty(clientid)) return;
+            if (string.IsNullOrEmpty(clientName)) return;
 
             var refreshTokenId = Guid.NewGuid().ToString("n");
 
             var repo = new MainContext();
+            var client = await repo.Clients.FindAsync(clientName);
+            if (client == null) return;
 
             var refreshTokenLifeTime = context.OwinContext.Get<string>("as:clientRefreshTokenLifeTime");
             var token = new RefreshToken
             {
                 RefreshTokenId = PasswordHelper.GetHash(refreshTokenId),
-                ClientId = clientid,
+                ClientId = client.ClientId,
                 Subject = context.Ticket.Identity.Name,
                 IssuedUtc = DateTime.UtcNow,
                 ExpiresUtc = DateTime.UtcNow.AddMinutes(Convert.ToDouble(refreshTokenLifeTime))

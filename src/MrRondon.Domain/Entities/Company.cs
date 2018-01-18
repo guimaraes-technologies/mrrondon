@@ -25,17 +25,14 @@ namespace MrRondon.Domain.Entities
         [MinLength(14, ErrorMessage = "Mínimo {0} caracteres")]
         [MaxLength(14, ErrorMessage = "Máximo {0} caracteres")]
         public string Cnpj { get; set; }
-
-
+        
         [Display(Name = "Endereço")]
         [Required(ErrorMessage = "Campo {0} obrigatório")]
-        [MinLength(4, ErrorMessage = "Mínimo {0} caracteres")]
-        [MaxLength(20, ErrorMessage = "Máximo {0} caracteres")]
         public Guid AddressId { get; set; }
         public Address Address { get; set; }
-
-
+        
         [Display(Name = "Sub Categoria")]
+        [Required(ErrorMessage = "Campo {0} obrigatório")]
         public int SubCategoryId { get; set; }
         public Category SubCategory { get; set; }
     }

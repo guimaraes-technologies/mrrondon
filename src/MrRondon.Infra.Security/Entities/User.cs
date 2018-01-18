@@ -13,11 +13,11 @@ namespace MrRondon.Infra.Security.Entities
         public string Email { get; set; }
         public string Password { get; set; }
         public int AccessFailed { get; set; }
-        public DateTime? LastLoginDate { get; set; }
-        public DateTime? LockoutEndDate { get; set; }
-        public DateTime CreateonDate { get; set; }
+        public DateTime? LastLogin { get; set; }
+        public DateTime? LockoutEnd { get; set; }
+        public DateTime CreateOn { get; set; }
 
-        public virtual ICollection<Claims> Claims { get; set; }
+        public virtual ICollection<Claim> Claims { get; set; }
         public virtual ICollection<Login> Logins { get; set; }
 
         public void AddLogin(string loginProvider, string providerKey)
@@ -26,18 +26,18 @@ namespace MrRondon.Infra.Security.Entities
             Logins.Add(new Login { LoginProvider = loginProvider, ProviderKey = providerKey });
         }
 
-        public void AddClaim(Claims c)
+        public void AddClaim(Claim c)
         {
-            Claims = Claims ?? new List<Claims>();
+            Claims = Claims ?? new List<Claim>();
             Claims.Add(c);
         }
         
         public ClaimsIdentity ClaimsToApi(string authenticationType = OAuthDefaults.AuthenticationType)
         {
-            var claims = new List<Claim>
+            var claims = new List<System.Security.Claims.Claim>
             {
-                new Claim(ClaimTypes.NameIdentifier, UserId.ToString()),
-                new Claim(ClaimTypes.Name, Email)
+                new System.Security.Claims.Claim(ClaimTypes.NameIdentifier, UserId.ToString()),
+                new System.Security.Claims.Claim(ClaimTypes.Name, Email)
             };
             return new ClaimsIdentity(claims, authenticationType);
         }

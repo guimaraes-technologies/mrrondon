@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MrRondon.Infra.Security.Entities
 {
-    public class Claims
+    public class Claim
     {
         [Key]
         public Guid ClaimId { get; set; }

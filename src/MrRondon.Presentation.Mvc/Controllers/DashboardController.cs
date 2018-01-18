@@ -1,4 +1,5 @@
 ﻿using System.Web.Mvc;
+using MrRondon.Presentation.Mvc.Extensions;
 
 namespace MrRondon.Presentation.Mvc.Controllers
 {
@@ -7,7 +8,7 @@ namespace MrRondon.Presentation.Mvc.Controllers
         [AllowAnonymous]
         public ActionResult Index()
         {
-            return View();
+            return View().Success("Welcome");
         }
     }
 }

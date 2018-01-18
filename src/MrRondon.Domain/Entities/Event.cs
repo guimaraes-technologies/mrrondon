@@ -26,8 +26,9 @@ namespace MrRondon.Domain.Entities
         [Required(ErrorMessage = "Campo {0} obrigatório")]
         public DateTime EndDate { get; set; }
         //todo insert cover image and event image
-        
+
         [Display(Name = "Endereço")]
+        [Required(ErrorMessage = "Campo {0} obrigatório")]
         public Guid AddressId { get; set; }
         public Address Address { get; set; }
     }

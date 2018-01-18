@@ -1,0 +1,56 @@
+﻿@if (TempData["Success"] != null)
+{
+    <script type="text/javascript">
+        Lobibox.notify('success',
+        {
+            position: 'top right',
+            sound: 'sound2',
+            delay: 3000,
+            msg: '@TempData["Success"]',
+            title: 'Sucesso',
+            icon: 'smile icon'
+        });
+    </script>
+}
+else if (TempData["Error"] != null)
+{
+    <script type="text/javascript">
+        Lobibox.notify('error',
+        {
+            position: 'top right',
+            sound: 'sound4',
+            delay: 3000,
+            msg: '@TempData["Error"]',
+            title: 'Erro',
+            icon: 'frown icon'
+        });
+    </script>
+}
+else if (TempData["Alert"] != null)
+{
+    <script type="text/javascript">
+        Lobibox.notify('warning',
+        {
+            position: 'top right',
+            sound: 'sound5',
+            delay: 3000,
+            msg: '@TempData["Alert"]',
+            title: 'Alerta',
+            icon: 'warning icon'
+        });
+    </script>
+}
+else if (TempData["Information"] != null)
+{
+    <script type="text/javascript">
+        Lobibox.notify('info',
+        {
+            position: 'top right',
+            sound: 'sound6',
+            delay: 3000,
+            msg: '@TempData["Information"]',
+            title: 'Informação',
+            icon: 'info circle icon'
+        });
+    </script>
+}

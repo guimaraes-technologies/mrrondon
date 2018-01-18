@@ -141,7 +141,7 @@ namespace MrRondon.Services.Api.Authorization
             var user = repo.Users.FirstOrDefault(f => f.Email == username);
 
             if (user == null) throw new Exception("Login ou senha incorreta");
-            if (user.LockoutEndDate.HasValue && DateTime.Now < user.LockoutEndDate)
+            if (user.LockoutEnd.HasValue && DateTime.Now < user.LockoutEnd)
                 throw new Exception(
                     "Sua conta foi temporariamente bloqueada por exceder o número de tentativas inválidas, tente novamente mais tarde.");
 
@@ -150,13 +150,13 @@ namespace MrRondon.Services.Api.Authorization
             if (hashedPassword != null && PasswordHelper.VerifyHash(password, "SHA512", hashedPassword))
             {
                 user.AccessFailed = 0;
-                user.LastLoginDate = DateTime.Now;
-                user.LockoutEndDate = null;
+                user.LastLogin = DateTime.Now;
+                user.LockoutEnd = null;
             }
             else
             {
-                if (user.AccessFailed == 5 && !user.LockoutEndDate.HasValue)
-                    user.LockoutEndDate = DateTime.Now.AddMinutes(2);
+                if (user.AccessFailed == 5 && !user.LockoutEnd.HasValue)
+                    user.LockoutEnd = DateTime.Now.AddMinutes(2);
                 else user.AccessFailed = user.AccessFailed + 1;
             }
 

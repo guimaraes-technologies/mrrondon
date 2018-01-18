@@ -1,11 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Data.Entity.Migrations;
+using System.Linq;
 using MrRondon.Domain.Entities;
+using MrRondon.Infra.Security.Entities;
 
 namespace MrRondon.Services.Api.Migrations
 {
-    internal sealed class Configuration : DbMigrationsConfiguration<MrRondon.Services.Api.Context.MainContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<Context.MainContext>
     {
         public Configuration()
         {
@@ -15,6 +17,22 @@ namespace MrRondon.Services.Api.Migrations
 
         protected override void Seed(Context.MainContext context)
         {
+            if (!context.Clients.Any())
+            {
+                context.Clients.Add(new Client
+                {
+                    ClientId = Guid.NewGuid(),
+                    Secret = "Mr.Rondon.Turismo.App",
+                    Name = "mrrondon.app",
+                    RefreshTokenLifeTime = 1,
+                    ApplicationType = ApplicationTypes.NativeConfidential,
+                    AllowedOrigin = "*",
+                    Active = true
+
+                });
+            }
+            if (context.Categories.Any()) return;
+
             context.Categories.AddRange(new List<Category>
             {
                 new Category
