@@ -28,10 +28,9 @@ namespace MrRondon.Domain.Entities
         
         [Display(Name = "CEP")]
         [Required(ErrorMessage = "Campo {0} obrigatório")]
-        [MinLength(11, ErrorMessage = "Mínimo {0} caracteres")]
         [MaxLength(11, ErrorMessage = "Máximo {0} caracteres")]
         public string ZipCode { get; set; }
-        public int Latitude { get; set; }
-        public int Longitude { get; set; }
+        public double Latitude { get; set; }
+        public double Longitude { get; set; }
     }
 }

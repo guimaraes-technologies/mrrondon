@@ -75,6 +75,57 @@ namespace MrRondon.Services.Api.Migrations
                 }
             });
 
+            if (!context.Events.Any())
+            {
+                var address1 = new Address
+                {
+                    AddressId = Guid.NewGuid(),
+                    Latitude = -8.8013796,
+                    Longitude = -63.9260293,
+                    Neighborhood = "Centro",
+                    Number = "S/N",
+                    Street = "Farquar",
+                    ZipCode = "76.817-003"
+                };
+
+                var address2 = new Address
+                {
+                    AddressId = Guid.NewGuid(),
+                    Latitude = -12.4242083,
+                    Longitude = -64.4219781,
+                    Neighborhood = "Centro",
+                    Number = "S/N",
+                    Street = "Farquar",
+                    ZipCode = "76.817-003"
+                };
+
+                context.Events.AddRange(
+                    new List<Event>
+                    {
+                        new Event
+                        {
+                            EventId = Guid.NewGuid(),
+                            AddressId = address1.AddressId,
+                            Address = address1,
+                            Name = "Luminato Festival",
+                            StartDate = DateTime.Now,
+                            EndDate = DateTime.Now.AddDays(2),
+                            Value = 10
+                        },
+                        new Event
+                        {
+                            EventId = Guid.NewGuid(),
+                            AddressId = address2.AddressId,
+                            Address = address2,
+                            Name = "Canadian National Exhibition",
+                            StartDate = DateTime.Now,
+                            EndDate = DateTime.Now.AddDays(1),
+                            Value = 100
+                        }
+                    }
+                );
+            }
+
             context.SaveChanges();
         }
     }
