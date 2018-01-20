@@ -30,6 +30,21 @@ namespace MrRondon.Services.Api.Controllers
             }
         }
 
+        [AllowAnonymous]
+        [Route("{categoryId:int}/{name=}")]
+        public IHttpActionResult GetByCategory(int categoryId, string name)
+        {
+            try
+            {
+                name = name ?? string.Empty;
+                return Ok(_db.Categories.Where(x => x.SubCategoryId == categoryId && x.Name.Contains(name)));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing) _db.Dispose();
