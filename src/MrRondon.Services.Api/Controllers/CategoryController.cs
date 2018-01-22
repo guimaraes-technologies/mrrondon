@@ -16,7 +16,7 @@ namespace MrRondon.Services.Api.Controllers
         }
 
         [AllowAnonymous]
-        [Route("{name=}")]
+        [Route("{name:alpha=}")]
         public IHttpActionResult Get(string name)
         {
             try

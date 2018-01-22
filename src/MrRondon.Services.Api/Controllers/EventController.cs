@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Linq;
+using System.Data.Entity;
 using System.Web.Http;
 using MrRondon.Services.Api.Context;
+using MrRondon.Services.Api.Helpers;
 
 namespace MrRondon.Services.Api.Controllers
 {
@@ -16,7 +18,29 @@ namespace MrRondon.Services.Api.Controllers
         }
 
         [AllowAnonymous]
-        [Route("{city=}")]
+        [Route("nearby/meters/{precision:int}/latitude/{latitudeFrom:double}/longitude/{longitudeFrom:double}")]
+        public IHttpActionResult GetNearby(int precision, string latitudeFrom, string longitudeFrom)
+        {
+            try
+            {
+                var latitude = double.Parse(latitudeFrom);
+                var longitude = double.Parse(longitudeFrom);
+                var events = _db.Events.Include(i => i.Address.City).ToList();
+
+                var sss = (from item in events
+                    where GeoLocatorHelper.PlacesAround(latitude, longitude, item.Address.Latitude, item.Address.Longitude, precision) <= precision
+                    select item);
+                
+                return Ok(sss);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [AllowAnonymous]
+        [Route("{city:alpha=}")]
         public IHttpActionResult Get(string city)
         {
             try

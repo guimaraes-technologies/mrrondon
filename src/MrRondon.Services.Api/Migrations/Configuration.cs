@@ -90,8 +90,8 @@ namespace MrRondon.Services.Api.Migrations
                 var address1 = new Address
                 {
                     AddressId = Guid.NewGuid(),
-                    Latitude = -8.8013796,
-                    Longitude = -63.9260293,
+                    Latitude = -8.7526757,
+                    Longitude = -63.9128231,
                     Neighborhood = "Centro",
                     Number = "S/N",
                     Street = "Farquar",
@@ -99,12 +99,12 @@ namespace MrRondon.Services.Api.Migrations
                     CityId = city1.CityId,
                     City = city1
                 };
-
+                
                 var address2 = new Address
                 {
                     AddressId = Guid.NewGuid(),
-                    Latitude = -12.4242083,
-                    Longitude = -64.4219781,
+                    Latitude = -8.751807,
+                    Longitude = -63.910008,
                     Neighborhood = "Centro",
                     Number = "S/N",
                     Street = "Farquar",
