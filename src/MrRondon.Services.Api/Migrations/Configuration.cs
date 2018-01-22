@@ -99,7 +99,7 @@ namespace MrRondon.Services.Api.Migrations
                     CityId = city1.CityId,
                     City = city1
                 };
-                
+
                 var address2 = new Address
                 {
                     AddressId = Guid.NewGuid(),
@@ -108,6 +108,32 @@ namespace MrRondon.Services.Api.Migrations
                     Neighborhood = "Centro",
                     Number = "S/N",
                     Street = "Farquar",
+                    ZipCode = "76.817-003",
+                    CityId = city2.CityId,
+                    City = city2
+                };
+
+                var address3 = new Address
+                {
+                    AddressId = Guid.NewGuid(),
+                    Latitude = -8.799778,
+                    Longitude = -63.807484,
+                    Neighborhood = "Cidade Jardim",
+                    Number = "S/N",
+                    Street = "BR 364, KM 702",
+                    ZipCode = "76.817-003",
+                    CityId = city2.CityId,
+                    City = city2
+                };
+                
+                var address4 = new Address
+                {
+                    AddressId = Guid.NewGuid(),
+                    Latitude = -8.804051,
+                    Longitude = -63.803288,
+                    Neighborhood = "Bairro Novo",
+                    Number = "S/N",
+                    Street = "Condomínio Residencial Amarilis",
                     ZipCode = "76.817-003",
                     CityId = city2.CityId,
                     City = city2
@@ -135,6 +161,26 @@ namespace MrRondon.Services.Api.Migrations
                             StartDate = DateTime.Now,
                             EndDate = DateTime.Now.AddDays(1),
                             Value = 100
+                        },
+                        new Event
+                        {
+                            EventId = Guid.NewGuid(),
+                            AddressId = address3.AddressId,
+                            Address = address3,
+                            Name = "Fim de semana em família",
+                            StartDate = DateTime.Now.AddDays(3),
+                            EndDate = DateTime.Now.AddDays(3),
+                            Value = 150
+                        },
+                        new Event
+                        {
+                            EventId = Guid.NewGuid(),
+                            AddressId = address4.AddressId,
+                            Address = address4,
+                            Name = "Reunião do condomínio",
+                            StartDate = DateTime.Now.AddDays(4),
+                            EndDate = DateTime.Now.AddDays(5),
+                            Value = 1
                         }
                     }
                 );

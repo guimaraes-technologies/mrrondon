@@ -16,7 +16,7 @@ namespace MrRondon.Services.Api.Controllers
         }
 
         [AllowAnonymous]
-        [Route("{name=}")]
+        [Route("{name:alpha=}")]
         public IHttpActionResult Get(string name)
         {
             try
@@ -31,7 +31,7 @@ namespace MrRondon.Services.Api.Controllers
         }
 
         [AllowAnonymous]
-        [Route("{categoryId:int}/{name=}")]
+        [Route("{categoryId:int}/{name:alpha=}")]
         public IHttpActionResult GetByCategory(int categoryId, string name)
         {
             try

@@ -18,7 +18,7 @@ namespace MrRondon.Services.Api.Helpers
                        Math.Sin(longitudeInRadian / 2) * Math.Sin(longitudeInRadian / 2));
             var c = 2 * Math.Asin(Math.Min(1, Math.Sqrt(tmp)));
             var d = earthRadius * c;
-            var distanceInMeters = d * precision;
+            var distanceInMeters = d * 1000;
             return distanceInMeters;
         }
     }
