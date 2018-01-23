@@ -13,6 +13,10 @@ namespace MrRondon.Domain.Entities
         [MaxLength(20, ErrorMessage = "Máximo {0} caracteres")]
         public string Name { get; set; }
 
+        [Display(Name = "Imagem")]
+        [Required(ErrorMessage = "Campo {0} obrigatório")]
+        public byte[] Image { get; set; }
+
         [Display(Name = "Sub Categoria")]
         public int? SubCategoryId { get; set; }
         public Category SubCategory { get; set; }

@@ -27,10 +27,22 @@ namespace MrRondon.Services.Api.Controllers
                 var longitude = double.Parse(longitudeFrom);
                 var events = _db.Events.Include(i => i.Address.City).ToList();
 
+                var poiipu = _db.Events
+                    .Include(i => i.Address.City)
+                    .Where(x => GeoLocatorHelper.PlacesAround(latitude, longitude, x.Address.Latitude, x.Address.Longitude, precision) <= precision);
+
+
+                var t = _db.EventsNearby(latitude, longitude, precision);
+                    
+
+                var list = (from it in _db.Events.Include(i => i.Address.City)
+                            where GeoLocatorHelper.PlacesAround(latitude, longitude, it.Address.Latitude, it.Address.Longitude, precision) <= precision
+                            select it);
+
                 var sss = (from item in events
-                    where GeoLocatorHelper.PlacesAround(latitude, longitude, item.Address.Latitude, item.Address.Longitude, precision) <= precision
-                    select item);
-                
+                           where GeoLocatorHelper.PlacesAround(latitude, longitude, item.Address.Latitude, item.Address.Longitude, precision) <= precision
+                           select item);
+
                 return Ok(sss);
             }
             catch (Exception ex)
@@ -59,5 +71,15 @@ namespace MrRondon.Services.Api.Controllers
             if (disposing) _db.Dispose();
             base.Dispose(disposing);
         }
+    }
+
+    public static class Teste
+    {
+        public static object EventsNearby(this MainContext ctx, double latitude, double longitude, int precision)
+        {
+            ctx.Events.;
+        }
+
+        
     }
 }
