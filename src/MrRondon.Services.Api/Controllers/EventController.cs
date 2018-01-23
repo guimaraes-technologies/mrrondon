@@ -27,23 +27,11 @@ namespace MrRondon.Services.Api.Controllers
                 var longitude = double.Parse(longitudeFrom);
                 var events = _db.Events.Include(i => i.Address.City).ToList();
 
-                var poiipu = _db.Events
-                    .Include(i => i.Address.City)
-                    .Where(x => GeoLocatorHelper.PlacesAround(latitude, longitude, x.Address.Latitude, x.Address.Longitude, precision) <= precision);
-
-
-                var t = _db.EventsNearby(latitude, longitude, precision);
-                    
-
-                var list = (from it in _db.Events.Include(i => i.Address.City)
-                            where GeoLocatorHelper.PlacesAround(latitude, longitude, it.Address.Latitude, it.Address.Longitude, precision) <= precision
-                            select it);
-
-                var sss = (from item in events
+                var items = (from item in events
                            where GeoLocatorHelper.PlacesAround(latitude, longitude, item.Address.Latitude, item.Address.Longitude, precision) <= precision
                            select item);
 
-                return Ok(sss);
+                return Ok(items);
             }
             catch (Exception ex)
             {
