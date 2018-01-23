@@ -46,7 +46,7 @@ namespace MrRondon.Services.Api.Controllers
             try
             {
                 city = city ?? string.Empty;
-                return Ok(_db.Events.Where(x => x.Address.City.Name.Contains(city)));
+                return Ok(_db.Events.Include(i => i.Address.City).Where(x => x.Address.City.Name.Contains(city)));
             }
             catch (Exception ex)
             {
