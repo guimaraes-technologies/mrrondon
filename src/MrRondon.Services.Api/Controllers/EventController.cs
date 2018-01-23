@@ -72,14 +72,4 @@ namespace MrRondon.Services.Api.Controllers
             base.Dispose(disposing);
         }
     }
-
-    public static class Teste
-    {
-        public static object EventsNearby(this MainContext ctx, double latitude, double longitude, int precision)
-        {
-            ctx.Events.;
-        }
-
-        
-    }
 }
