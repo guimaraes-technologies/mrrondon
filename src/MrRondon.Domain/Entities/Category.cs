@@ -10,11 +10,11 @@ namespace MrRondon.Domain.Entities
         [Display(Name = "Nome")]
         [Required(ErrorMessage = "Campo {0} obrigatório")]
         [MinLength(4, ErrorMessage = "Mínimo {0} caracteres")]
-        [MaxLength(20, ErrorMessage = "Máximo {0} caracteres")]
+        [MaxLength(30, ErrorMessage = "Máximo {0} caracteres")]
         public string Name { get; set; }
 
         [Display(Name = "Imagem")]
-        [Required(ErrorMessage = "Campo {0} obrigatório")]
+        //[Required(ErrorMessage = "Campo {0} obrigatório")]
         public byte[] Image { get; set; }
 
         [Display(Name = "Sub Categoria")]

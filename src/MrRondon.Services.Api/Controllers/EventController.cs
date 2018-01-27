@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Data.Entity;
 using System.Web.Http;
-using MrRondon.Services.Api.Context;
+using MrRondon.Infra.Data.Context;
 using MrRondon.Services.Api.Helpers;
 
 namespace MrRondon.Services.Api.Controllers

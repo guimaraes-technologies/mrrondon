@@ -184,6 +184,10 @@
     <Folder Include="Views\Account\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\MrRondon.Infra.Data\MrRondon.Infra.Data.csproj">
+      <Project>{41bbe859-0495-4f10-af0c-0831e3772336}</Project>
+      <Name>MrRondon.Infra.Data</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MrRondon.Domain\MrRondon.Domain.csproj">
       <Project>{0da2d667-7a4c-4c62-8197-75c5ccfc40c0}</Project>
       <Name>MrRondon.Domain</Name>

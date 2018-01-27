@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Microsoft.Owin.Security.Infrastructure;
+using MrRondon.Infra.Data.Context;
 using MrRondon.Infra.Security.Entities;
 using MrRondon.Infra.Security.Helpers;
-using MrRondon.Services.Api.Context;
 
 namespace MrRondon.Services.Api.Authorization
 {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Web.Http;
-using MrRondon.Services.Api.Context;
+using MrRondon.Infra.Data.Context;
 
 namespace MrRondon.Services.Api.Controllers
 {

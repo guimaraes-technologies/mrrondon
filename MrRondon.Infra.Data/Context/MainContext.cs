@@ -2,9 +2,8 @@
 using System.Data.Entity.ModelConfiguration.Conventions;
 using MrRondon.Domain.Entities;
 using MrRondon.Infra.Security.Entities;
-using Person = MrRondon.Domain.Entities.Person;
 
-namespace MrRondon.Services.Api.Context
+namespace MrRondon.Infra.Data.Context
 {
     public class MainContext : DbContext
     {
