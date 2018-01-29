@@ -3,6 +3,7 @@ using System.Linq;
 using System.Data.Entity;
 using System.Web.Http;
 using MrRondon.Infra.Data.Context;
+using MrRondon.Services.Api.Authorization;
 using MrRondon.Services.Api.Helpers;
 
 namespace MrRondon.Services.Api.Controllers
@@ -28,8 +29,8 @@ namespace MrRondon.Services.Api.Controllers
                 var events = _db.Events.Include(i => i.Address.City).ToList();
 
                 var items = (from item in events
-                           where GeoLocatorHelper.PlacesAround(latitude, longitude, item.Address.Latitude, item.Address.Longitude, precision) <= precision
-                           select item);
+                             where GeoLocatorHelper.PlacesAround(latitude, longitude, item.Address.Latitude, item.Address.Longitude, precision) <= precision
+                             select item);
 
                 return Ok(items);
             }

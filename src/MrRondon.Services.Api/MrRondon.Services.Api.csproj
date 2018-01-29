@@ -148,6 +148,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Authorization\Authentication.cs" />
     <Compile Include="Authorization\RefreshTokenProvider.cs" />
     <Compile Include="Authorization\TokenProvider.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
