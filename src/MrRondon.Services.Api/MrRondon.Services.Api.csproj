@@ -157,6 +157,7 @@
     <Compile Include="Controllers\EventController.cs" />
     <Compile Include="Controllers\HistoricalSightController.cs" />
     <Compile Include="Controllers\SubCategoryController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Extensions\DoubleExtension.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

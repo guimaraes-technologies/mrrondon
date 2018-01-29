@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;
+using System.Web.UI.WebControls.WebParts;
 using Microsoft.Owin.Security.OAuth;
 
 namespace MrRondon.Infra.Security.Entities
