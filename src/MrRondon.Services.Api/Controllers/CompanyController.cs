@@ -45,6 +45,21 @@ namespace MrRondon.Services.Api.Controllers
             }
         }
 
+        [AllowAnonymous]
+        [Route("{segmentId:int}/{city:int}/{name:alpha=}")]
+        public IHttpActionResult Get(int segmentId, int city, string name)
+        {
+            try
+            {
+                name = name ?? string.Empty;
+                return Ok(_db.Companies.Where(x => x.SegmentId == segmentId && x.Address.CityId == city && (x.Name.Contains(name) || x.FancyName.Contains(name))));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing) _db.Dispose();
