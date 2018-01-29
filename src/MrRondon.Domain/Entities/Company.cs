@@ -25,7 +25,15 @@ namespace MrRondon.Domain.Entities
         [MinLength(14, ErrorMessage = "Mínimo {0} caracteres")]
         [MaxLength(14, ErrorMessage = "Máximo {0} caracteres")]
         public string Cnpj { get; set; }
-        
+
+        [Display(Name = "Imagem da Logo")]
+        //[Required(ErrorMessage = "Campo {0} obrigatório")]
+        public byte[] Logo { get; set; }
+
+        [Display(Name = "Imagem da Capa")]
+        //[Required(ErrorMessage = "Campo {0} obrigatório")]
+        public byte[] Cover { get; set; }
+
         [Display(Name = "Endereço")]
         [Required(ErrorMessage = "Campo {0} obrigatório")]
         public Guid AddressId { get; set; }
@@ -33,7 +41,7 @@ namespace MrRondon.Domain.Entities
         
         [Display(Name = "Sub Categoria")]
         [Required(ErrorMessage = "Campo {0} obrigatório")]
-        public int SubCategoryId { get; set; }
-        public Category SubCategory { get; set; }
+        public int SegmentId { get; set; }
+        public Category Segment { get; set; }
     }
 }
