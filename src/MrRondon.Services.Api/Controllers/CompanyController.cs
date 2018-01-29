@@ -31,7 +31,7 @@ namespace MrRondon.Services.Api.Controllers
         }
 
         [AllowAnonymous]
-        [Route("{name:alpha=}")]
+        [Route("{segmentId:int}/{name:alpha=}")]
         public IHttpActionResult Get(int segmentId, string name)
         {
             try
