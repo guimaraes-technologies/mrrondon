@@ -23,7 +23,7 @@ namespace MrRondon.Domain.Entities
         [Display(Name = "CNPJ")]
         [Required(ErrorMessage = "Campo {0} obrigatório")]
         [MinLength(14, ErrorMessage = "Mínimo {0} caracteres")]
-        [MaxLength(14, ErrorMessage = "Máximo {0} caracteres")]
+        [MaxLength(18, ErrorMessage = "Máximo {0} caracteres")]
         public string Cnpj { get; set; }
 
         [Display(Name = "Imagem da Logo")]

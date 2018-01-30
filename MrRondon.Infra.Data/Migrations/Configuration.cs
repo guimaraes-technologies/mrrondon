@@ -7,7 +7,7 @@ using MrRondon.Infra.Security.Entities;
 namespace MrRondon.Infra.Data.Migrations
 {
     using System.Data.Entity.Migrations;
-    
+
     internal sealed class Configuration : DbMigrationsConfiguration<Context.MainContext>
     {
         public Configuration()
@@ -18,6 +18,23 @@ namespace MrRondon.Infra.Data.Migrations
 
         protected override void Seed(Context.MainContext context)
         {
+            var city1 = new City
+            {
+                CityId = 1,
+                Name = "Porto Velho"
+            };
+            var city2 = new City
+            {
+                CityId = 2,
+                Name = "Ouro Preto D'Oeste"
+            };
+
+            if (!context.Cities.Any())
+            {
+                context.Cities.Add(city1);
+                context.Cities.Add(city2);
+            }
+
             if (!context.Clients.Any())
             {
                 context.Clients.Add(new Client
@@ -32,347 +49,370 @@ namespace MrRondon.Infra.Data.Migrations
 
                 });
             }
-            if (context.Categories.Any()) return;
 
-            context.Categories.AddRange(new List<Category>
+            if (!context.Categories.Any())
             {
-                new Category
+                context.Categories.AddRange(new List<Category>
                 {
-                    CategoryId = 1,
-                    Name = "Aventura"
-                },
-                new Category
-                {
-                    CategoryId = 2,
-                    Name = "Rapel",
-                    SubCategoryId = 1
-                },
-                new Category
-                {
-                    CategoryId = 3,
-                    Name = "Camping's",
-                    SubCategoryId = 1
-                },
-                new Category
-                {
-                    CategoryId = 4,
-                    Name = "Aeroclube",
-                    SubCategoryId = 1
-                },
-                new Category
-                {
-                    CategoryId = 5,
-                    Name = "Kart",
-                    SubCategoryId = 1
-                },
-                new Category
-                {
-                    CategoryId = 6,
-                    Name = "Paintball",
-                    SubCategoryId = 1
-                },
-                new Category
-                {
-                    CategoryId = 7,
-                    Name = "AirSoft",
-                    SubCategoryId = 1
-                },
-                new Category
-                {
-                    CategoryId = 8,
-                    Name = "Trilha",
-                    SubCategoryId = 1
-                },
+                    new Category
+                    {
+                        CategoryId = 1,
+                        Name = "Aventura"
+                    },
+                    new Category
+                    {
+                        CategoryId = 2,
+                        Name = "Rapel",
+                        SubCategoryId = 1
+                    },
+                    new Category
+                    {
+                        CategoryId = 3,
+                        Name = "Camping's",
+                        SubCategoryId = 1
+                    },
+                    new Category
+                    {
+                        CategoryId = 4,
+                        Name = "Aeroclube",
+                        SubCategoryId = 1
+                    },
+                    new Category
+                    {
+                        CategoryId = 5,
+                        Name = "Kart",
+                        SubCategoryId = 1
+                    },
+                    new Category
+                    {
+                        CategoryId = 6,
+                        Name = "Paintball",
+                        SubCategoryId = 1
+                    },
+                    new Category
+                    {
+                        CategoryId = 7,
+                        Name = "AirSoft",
+                        SubCategoryId = 1
+                    },
+                    new Category
+                    {
+                        CategoryId = 8,
+                        Name = "Trilha",
+                        SubCategoryId = 1
+                    },
 
 
 
-                new Category
-                {
-                    CategoryId = 9,
-                    Name = "Hospedagem"
-                },
-                new Category
-                {
-                    CategoryId = 10,
-                    Name = "Hotéis",
-                    SubCategoryId = 9
-                },
-                new Category
-                {
-                    CategoryId = 11,
-                    Name = "Hotéis Fazenda",
-                    SubCategoryId = 9
-                },
-                new Category
-                {
-                    CategoryId = 12,
-                    Name = "Pousadas",
-                    SubCategoryId = 9
-                },
-                new Category
-                {
-                    CategoryId = 13,
-                    Name = "Resort's",
-                    SubCategoryId = 9
-                },
+                    new Category
+                    {
+                        CategoryId = 9,
+                        Name = "Hospedagem"
+                    },
+                    new Category
+                    {
+                        CategoryId = 10,
+                        Name = "Hotéis",
+                        SubCategoryId = 9
+                    },
+                    new Category
+                    {
+                        CategoryId = 11,
+                        Name = "Hotéis Fazenda",
+                        SubCategoryId = 9
+                    },
+                    new Category
+                    {
+                        CategoryId = 12,
+                        Name = "Pousadas",
+                        SubCategoryId = 9
+                    },
+                    new Category
+                    {
+                        CategoryId = 13,
+                        Name = "Resort's",
+                        SubCategoryId = 9
+                    },
 
-                new Category
-                {
-                    CategoryId = 14,
-                    Name = "Gastronomia"
-                },
-                new Category
-                {
-                    CategoryId = 15,
-                    Name = "Restaurantes",
-                    SubCategoryId = 14
-                },
-                new Category
-                {
-                    CategoryId = 16,
-                    Name = "Pizzarias",
-                    SubCategoryId = 14
-                },
-                new Category
-                {
-                    CategoryId = 17,
-                    Name = "Lanchonetes",
-                    SubCategoryId = 14
-                },
-                new Category
-                {
-                    CategoryId = 18,
-                    Name = "Restaurantes",
-                    SubCategoryId = 14
-                },
-                new Category
-                {
-                    CategoryId = 19,
-                    Name = "Food Truck",
-                    SubCategoryId = 14
-                },
-                new Category
-                {
-                    CategoryId = 20,
-                    Name = "Food Truck",
-                    SubCategoryId = 14
-                },
-                new Category
-                {
-                    CategoryId = 21,
-                    Name = "Cafeterias",
-                    SubCategoryId = 14
-                },
-                new Category
-                {
-                    CategoryId = 22,
-                    Name = "Sorveterias",
-                    SubCategoryId = 14
-                },
-                new Category
-                {
-                    CategoryId = 23,
-                    Name = "Açaiterias",
-                    SubCategoryId = 14
-                },
-                new Category
-                {
-                    CategoryId = 24,
-                    Name = "Bares",
-                    SubCategoryId = 14
-                },
-                new Category
-                {
-                    CategoryId = 25,
-                    Name = "Drive Thru",
-                    SubCategoryId = 14
-                },
-
-
-                new Category
-                {
-                    CategoryId = 26,
-                    Name = "Rent a Car"
-                },
+                    new Category
+                    {
+                        CategoryId = 14,
+                        Name = "Gastronomia"
+                    },
+                    new Category
+                    {
+                        CategoryId = 15,
+                        Name = "Restaurantes",
+                        SubCategoryId = 14
+                    },
+                    new Category
+                    {
+                        CategoryId = 16,
+                        Name = "Pizzarias",
+                        SubCategoryId = 14
+                    },
+                    new Category
+                    {
+                        CategoryId = 17,
+                        Name = "Lanchonetes",
+                        SubCategoryId = 14
+                    },
+                    new Category
+                    {
+                        CategoryId = 18,
+                        Name = "Restaurantes",
+                        SubCategoryId = 14
+                    },
+                    new Category
+                    {
+                        CategoryId = 19,
+                        Name = "Food Truck",
+                        SubCategoryId = 14
+                    },
+                    new Category
+                    {
+                        CategoryId = 20,
+                        Name = "Food Truck",
+                        SubCategoryId = 14
+                    },
+                    new Category
+                    {
+                        CategoryId = 21,
+                        Name = "Cafeterias",
+                        SubCategoryId = 14
+                    },
+                    new Category
+                    {
+                        CategoryId = 22,
+                        Name = "Sorveterias",
+                        SubCategoryId = 14
+                    },
+                    new Category
+                    {
+                        CategoryId = 23,
+                        Name = "Açaiterias",
+                        SubCategoryId = 14
+                    },
+                    new Category
+                    {
+                        CategoryId = 24,
+                        Name = "Bares",
+                        SubCategoryId = 14
+                    },
+                    new Category
+                    {
+                        CategoryId = 25,
+                        Name = "Drive Thru",
+                        SubCategoryId = 14
+                    },
 
 
-                new Category
-                {
-                    CategoryId = 27,
-                    Name = "Entretenimento",
-                },
-                new Category
-                {
-                    CategoryId = 28,
-                    Name = "Botecos",
-                    SubCategoryId = 27
-                },
-                new Category
-                {
-                    CategoryId = 29,
-                    Name = "Boates",
-                    SubCategoryId = 27
-                },
-                new Category
-                {
-                    CategoryId = 30,
-                    Name = "Bilhares",
-                    SubCategoryId = 27
-                },
-                new Category
-                {
-                    CategoryId = 31,
-                    Name = "Shopping",
-                    SubCategoryId = 27
-                },
-                new Category
-                {
-                    CategoryId = 32,
-                    Name = "Cinemas",
-                    SubCategoryId = 27
-                },
-                new Category
-                {
-                    CategoryId = 33,
-                    Name = "Treatros",
-                    SubCategoryId = 27
-                },
-                new Category
-                {
-                    CategoryId = 34,
-                    Name = "Casas de Espetáculos",
-                    SubCategoryId = 27
-                },
-                new Category
-                {
-                    CategoryId = 35,
-                    Name = "Boliches",
-                    SubCategoryId = 27
-                },
-                new Category
-                {
-                    CategoryId = 36,
-                    Name = "Praças",
-                    SubCategoryId = 27
-                },
+                    new Category
+                    {
+                        CategoryId = 26,
+                        Name = "Rent a Car"
+                    },
 
 
-                new Category
-                {
-                    CategoryId = 37,
-                    Name = "Parques"
-                },
-                new Category
-                {
-                    CategoryId = 38,
-                    Name = "Parques Aquáticos",
-                    SubCategoryId = 37
-                },
-                new Category
-                {
-                    CategoryId = 39,
-                    Name = "Parques Temáticos",
-                    SubCategoryId = 37
-                },
-                new Category
-                {
-                    CategoryId = 40,
-                    Name = "Parques Naturais",
-                    SubCategoryId = 37
-                },
+                    new Category
+                    {
+                        CategoryId = 27,
+                        Name = "Entretenimento",
+                    },
+                    new Category
+                    {
+                        CategoryId = 28,
+                        Name = "Botecos",
+                        SubCategoryId = 27
+                    },
+                    new Category
+                    {
+                        CategoryId = 29,
+                        Name = "Boates",
+                        SubCategoryId = 27
+                    },
+                    new Category
+                    {
+                        CategoryId = 30,
+                        Name = "Bilhares",
+                        SubCategoryId = 27
+                    },
+                    new Category
+                    {
+                        CategoryId = 31,
+                        Name = "Shopping",
+                        SubCategoryId = 27
+                    },
+                    new Category
+                    {
+                        CategoryId = 32,
+                        Name = "Cinemas",
+                        SubCategoryId = 27
+                    },
+                    new Category
+                    {
+                        CategoryId = 33,
+                        Name = "Treatros",
+                        SubCategoryId = 27
+                    },
+                    new Category
+                    {
+                        CategoryId = 34,
+                        Name = "Casas de Espetáculos",
+                        SubCategoryId = 27
+                    },
+                    new Category
+                    {
+                        CategoryId = 35,
+                        Name = "Boliches",
+                        SubCategoryId = 27
+                    },
+                    new Category
+                    {
+                        CategoryId = 36,
+                        Name = "Praças",
+                        SubCategoryId = 27
+                    },
 
 
-                new Category
-                {
-                    CategoryId = 41,
-                    Name = "Marinhas"
-                },
+                    new Category
+                    {
+                        CategoryId = 37,
+                        Name = "Parques"
+                    },
+                    new Category
+                    {
+                        CategoryId = 38,
+                        Name = "Parques Aquáticos",
+                        SubCategoryId = 37
+                    },
+                    new Category
+                    {
+                        CategoryId = 39,
+                        Name = "Parques Temáticos",
+                        SubCategoryId = 37
+                    },
+                    new Category
+                    {
+                        CategoryId = 40,
+                        Name = "Parques Naturais",
+                        SubCategoryId = 37
+                    },
 
 
-                new Category
-                {
-                    CategoryId = 42,
-                    Name = "Serviços Úteis"
-                },
-                new Category
-                {
-                    CategoryId = 43,
-                    Name = "Aeroporto",
-                    SubCategoryId = 42
-                },
-                new Category
-                {
-                    CategoryId = 44,
-                    Name = "Rodoviária",
-                    SubCategoryId = 42
-                },
-                new Category
-                {
-                    CategoryId = 45,
-                    Name = "Coopetaxi",
-                    SubCategoryId = 42
-                },
-                new Category
-                {
-                    CategoryId = 46,
-                    Name = "Hospitais",
-                    SubCategoryId = 42
-                },
-                new Category
-                {
-                    CategoryId = 47,
-                    Name = "Polícia",
-                    SubCategoryId = 42
-                },
+                    new Category
+                    {
+                        CategoryId = 41,
+                        Name = "Marinhas"
+                    },
 
 
-                new Category
+                    new Category
+                    {
+                        CategoryId = 42,
+                        Name = "Serviços Úteis"
+                    },
+                    new Category
+                    {
+                        CategoryId = 43,
+                        Name = "Aeroporto",
+                        SubCategoryId = 42
+                    },
+                    new Category
+                    {
+                        CategoryId = 44,
+                        Name = "Rodoviária",
+                        SubCategoryId = 42
+                    },
+                    new Category
+                    {
+                        CategoryId = 45,
+                        Name = "Coopetaxi",
+                        SubCategoryId = 42
+                    },
+                    new Category
+                    {
+                        CategoryId = 46,
+                        Name = "Hospitais",
+                        SubCategoryId = 42
+                    },
+                    new Category
+                    {
+                        CategoryId = 47,
+                        Name = "Polícia",
+                        SubCategoryId = 42
+                    },
+
+
+                    new Category
+                    {
+                        CategoryId = 48,
+                        Name = "Locação de Equipamentos"
+                    },
+
+
+                    new Category
+                    {
+                        CategoryId = 49,
+                        Name = "Centro de Convenções"
+                    },
+
+
+                    new Category
+                    {
+                        CategoryId = 50,
+                        Name = "Transporte Turístico"
+                    },
+
+
+                    new Category
+                    {
+                        CategoryId = 51,
+                        Name = "Agências de Turismo"
+                    },
+
+
+                    new Category
+                    {
+                        CategoryId = 52,
+                        Name = "Promotores de Eventos"
+                    }
+                });
+            }
+
+            if (!context.Companies.Any())
+            {
+                var address1 = new Address
                 {
-                    CategoryId = 48,
-                    Name = "Locação de Equipamentos"
-                },
-
-
-                new Category
-                {
-                    CategoryId = 49,
-                    Name = "Centro de Convenções"
-                },
-
-
-                new Category
-                {
-                    CategoryId = 50,
-                    Name = "Transporte Turístico"
-                },
-
-
-                new Category
-                {
-                    CategoryId = 51,
-                    Name = "Agências de Turismo"
-                },
-
-
-                new Category
-                {
-                    CategoryId = 52,
-                    Name = "Promotores de Eventos"
-                }
-            });
+                    AddressId = Guid.NewGuid(),
+                    CityId = city1.CityId,
+                    City = city1,
+                    ZipCode = "11111-111",
+                    Number = "1234",
+                    Neighborhood = "Bairro Novo",
+                    Street = "Rodovia BR 364, km 702",
+                    Latitude = -8.799778,
+                    Longitude = -63.807484
+                };
+            
+                context.Companies.AddRange(
+                    new List<Company>
+                    {
+                        new Company
+                        {
+                            CompanyId = Guid.NewGuid(),
+                            AddressId = address1.AddressId,
+                            Address = address1,
+                            Name = "Guimaraes Tecnologia",
+                            FancyName = "Guimares Tecnologia LTDA",
+                            Cnpj = "04.956.000/001-00",
+                            SegmentId = 5
+                        }
+                    });
+            }
 
             if (!context.Events.Any())
             {
-                var city1 = new City
-                {
-                    CityId = 1,
-                    Name = "Porto Velho"
-                };
-                var city2 = new City
-                {
-                    CityId = 2,
-                    Name = "Ouro Preto D'Oeste"
-                };
                 var address1 = new Address
                 {
                     AddressId = Guid.NewGuid(),
