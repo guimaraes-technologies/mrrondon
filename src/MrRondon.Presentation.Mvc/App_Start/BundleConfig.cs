@@ -6,6 +6,12 @@ namespace MrRondon.Presentation.Mvc
     {
         public static void RegisterBundles(BundleCollection bundles)
         {
+            bundles.Add(new StyleBundle("~/Content/basic").Include(
+                "~/Content/semantic.css",
+                "~/Content/plugins/lobibox/lobibox.css",
+                "~/Content/site/basic.css",
+                "~/Content/site/responsive.css"));
+
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
                 "~/Scripts/modernizr-*"));
 
@@ -13,11 +19,6 @@ namespace MrRondon.Presentation.Mvc
                 "~/Scripts/jquery-{version}.js",
                 "~/Scripts/bootstrap.js",
                 "~/Scripts/plugins/lobibox/lobibox.js"));
-
-            bundles.Add(new StyleBundle("~/Content/css").Include(
-                "~/Content/bootstrap.css",
-                "~/Content/plugins/lobibox/lobibox.css",
-                "~/Content/Site.css"));
             
             BundleTable.EnableOptimizations = false;
         }

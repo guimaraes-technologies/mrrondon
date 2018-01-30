@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Security.Claims;
 using System.Web.UI.WebControls.WebParts;
+using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.OAuth;
 
 namespace MrRondon.Infra.Security.Entities
@@ -33,12 +35,13 @@ namespace MrRondon.Infra.Security.Entities
             Claims.Add(c);
         }
         
-        public ClaimsIdentity ClaimsToApi(string authenticationType = OAuthDefaults.AuthenticationType)
+        public ClaimsIdentity GetClaims(string authenticationType = OAuthDefaults.AuthenticationType)
         {
             var claims = new List<System.Security.Claims.Claim>
             {
                 new System.Security.Claims.Claim(ClaimTypes.NameIdentifier, UserId.ToString()),
-                new System.Security.Claims.Claim(ClaimTypes.Name, Email)
+                new System.Security.Claims.Claim(ClaimTypes.Name, Email),
+                new System.Security.Claims.Claim("http://schemas.microsoft.com/accesscontrolservice/2010/07/claims/identityprovider", "GT - Guimaraes Tecnologia")
             };
             return new ClaimsIdentity(claims, authenticationType);
         }
