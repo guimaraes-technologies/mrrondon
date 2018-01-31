@@ -51,9 +51,11 @@
     </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.7\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
@@ -266,6 +268,7 @@
     <Content Include="Content\semantic.css" />
     <Content Include="Content\site\basic.css" />
     <Content Include="Content\site\responsive.css" />
+    <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\semantic.js" />
     <Content Include="Content\semantic.min.css" />
     <Content Include="Scripts\semantic.min.js" />
@@ -274,7 +277,6 @@
     <Content Include="Global.asax" />
     <Content Include="Areas\Admin\Views\web.config" />
     <Content Include="Areas\Admin\Views\_ViewStart.cshtml" />
-    <Content Include="Areas\Admin\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\Admin\Views\Category\Create.cshtml" />
     <Content Include="Areas\Admin\Views\Category\Delete.cshtml" />
     <Content Include="Areas\Admin\Views\Category\Details.cshtml" />
@@ -285,6 +287,7 @@
     <Content Include="Content\themes\default\assets\fonts\icons.ttf" />
     <Content Include="Content\themes\default\assets\fonts\icons.woff" />
     <Content Include="Content\themes\default\assets\fonts\icons.woff2" />
+    <Content Include="Areas\Admin\Views\Shared\_Layout.cshtml" />
     <None Include="Scripts\jquery-3.2.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.2.1.js" />
     <Content Include="Scripts\jquery-3.2.1.min.js" />
@@ -293,6 +296,7 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\plugins\lolibox\lobibox.js" />
     <Content Include="Scripts\plugins\lolibox\lobibox.min.js" />
+    <Content Include="Scripts\site\basic.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -329,6 +333,8 @@
     <Content Include="sounds\sound5.ogg" />
     <Content Include="sounds\sound6.ogg" />
     <Content Include="Views\Account\Signin.cshtml" />
+    <Content Include="Views\Shared\_LayoutExterno.cshtml" />
+    <Content Include="Views\Shared\_Settings.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -336,7 +342,9 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Content\Images\" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MrRondon.Domain\MrRondon.Domain.csproj">
       <Project>{0da2d667-7a4c-4c62-8197-75c5ccfc40c0}</Project>

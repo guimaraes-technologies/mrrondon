@@ -10,29 +10,29 @@
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
-@RenderSection("navigation_left", required: false)
-<main class="gt-main">
-    <div class="gt-container">
-        @RenderBody()
-    </div>w
-    <footer class="gt-footer gt-text-uppercase">
-        <div class="ui horizontal bulleted list gt-m-0">
-            <h3>Setur</h3>
+    @RenderSection("navigation_left", required: false)
+    <main class="gt-main">
+        <div class="gt-container">
+            @RenderBody()
         </div>
-        <div class="ui horizontal bulleted list gt-float-right gt-m-0">
-            <a class="item" href="http://ozielguimaraes.net">Desenvolvido por: GoNew</a>
-        </div>
-        <div></div>
-        <div class="ui tiny horizontal list gt-text-uppercase gt-m-0">
-            <div class="disabled item" href="#">Mr Rondon Turismo</div>
-        </div>
-        <div class="ui tiny horizontal list gt-float-right gt-text-uppercase gt-m-0">
-            <div class="disabled item" href="#">&copy; Governo do Estado de Rondônia - Todos os Direitos Reservados</div>
-        </div>
-    </footer>
-</main>
-@Scripts.Render("~/bundles/basic")
-@RenderSection("scripts", required: false)
-@Html.Partial("_Message")
+        <footer class="gt-footer gt-text-uppercase">
+            <div class="ui horizontal bulleted list gt-m-0">
+                <h3>Setur</h3>
+            </div>
+            <div class="ui horizontal bulleted list gt-float-right gt-m-0">
+                <a class="item" href="http://ozielguimaraes.net">Desenvolvido por: GoNew</a>
+            </div>
+            <div></div>
+            <div class="ui tiny horizontal list gt-text-uppercase gt-m-0">
+                <div class="disabled item" href="#">Mr Rondon Turismo</div>
+            </div>
+            <div class="ui tiny horizontal list gt-float-right gt-text-uppercase gt-m-0">
+                <div class="disabled item" href="#">&copy; Governo do Estado de Rondônia - Todos os Direitos Reservados</div>
+            </div>
+        </footer>
+    </main>
+    @Scripts.Render("~/bundles/basic")
+    @RenderSection("scripts", required: false)
+    @Html.Partial("_Message")
 </body>
 </html>

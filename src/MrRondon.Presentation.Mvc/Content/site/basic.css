@@ -22,7 +22,7 @@
         right: 0;
         bottom: 0;
         left: 0;
-        background-color: rgba(74, 85, 187, .3);
+        background-color: #00897b;
         opacity: .6;
         z-index: 1;
     }
@@ -77,13 +77,13 @@
 .gt-navigation-left {
     width: 300px;
     height: 100%;
-    background-color: #4a55bb;
+    background-color: #00897b;
     position: relative;
 }
 
     .gt-navigation-left > .gt-main-descricao {
         border-radius: 0 !important;
-        background-color: #4a55bb !important;
+        background-color: #00897b !important;
         color: rgba(255, 255, 255, 0.7) !important;
         margin: 0 !important;
         display: block;
@@ -97,7 +97,7 @@
             left: 47px;
             width: 18px;
             height: 18px;
-            background: #4a55bb;
+            background: #00897b;
             border-right: 3px solid rgba(0, 0, 0, 0.1);
             border-bottom: 3px solid rgba(0, 0, 0, 0.1);
             -webkit-transform: rotate(45deg);
@@ -219,7 +219,7 @@
             position: absolute;
             top: 50%;
             transform: translateY(-50%);
-            background: #4a55bb;
+            background: #00897b;
             border: 3px solid rgba(0, 0, 0, 0.1) !important;
             border-radius: 100%;
             margin: 0 0 0 -1px !important;
