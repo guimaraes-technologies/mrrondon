@@ -1,42 +1,23 @@
-﻿@model MrRondon.Domain.Entities.Category
-
+﻿@model Category
+@using MrRondon.Domain.Entities
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Detalhes de categoria";
 }
-
-<h2>Details</h2>
-
-<div>
-    <h4>Category</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Image)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Image)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.SubCategoryId)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.SubCategoryId)
-        </dd>
-
-    </dl>
+@section header
+{
+    <h1 class="ui header">
+        <span class="content gt-text-uppercase">@ViewBag.Title</span>
+    </h1>
+}
+@section navigation_right
+{
+    @Html.Partial("_Navigation", 1)
+}
+<div class="ui stackable column grid divided gt-grid-details">
+    <div class="row">
+        <div class="sixteen wide column">
+            <h4 class="ui header">@Html.DisplayNameFor(e => e.Name)</h4>
+            @Model.Name
+        </div>
+    </div>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.CategoryId }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>

@@ -3,9 +3,13 @@
 
 <div class="ui equal width form">
     <div class="fields">
-        <div class="field">
+        <div class="eight wide field">
             @Html.LabelFor(e => e.Name)
             @Html.SemanticTextBoxFor(e => e.Name, null)
+        </div>
+        <div class="eight wide field">
+            @Html.LabelFor(e => e.SubCategoryId)
+            @Html.SemanticDropDownListFor(model => model.SubCategoryId, ViewBag.SubCategories as SelectList, "Selecione...", new { @class = "ui fluid dropdown" })
         </div>
     </div>
 </div>

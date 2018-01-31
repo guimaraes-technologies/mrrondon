@@ -30,6 +30,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
 
         public ActionResult Create()
         {
+            ViewBag.SubCategories = new SelectList(_db.Categories.Where(s => s.SubCategoryId != null).OrderBy(o => o.Name), "CategoryId", "Name");
             return View();
         }
 
@@ -37,17 +38,31 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "CategoryId,Name,Image,SubCategoryId")] Category category)
         {
-            if (!ModelState.IsValid) return View(category);
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    ViewBag.SubCategories = new SelectList(_db.Categories.Where(s => s.SubCategoryId != null).OrderBy(o => o.Name), "CategoryId", "Name");
+                    return View(category);
+                }
 
-            _db.Categories.Add(category);
-            _db.SaveChanges();
-            return RedirectToAction("Index");
+                _db.Categories.Add(category);
+                _db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                ViewBag.SubCategories = new SelectList(_db.Categories.Where(s => s.SubCategoryId != null).OrderBy(o => o.Name), "CategoryId", "Name");
+                return View(category).Error(ex.Message);
+            }
         }
 
         public ActionResult Edit(int id)
         {
             var category = _db.Categories.Find(id);
             if (category == null) return HttpNotFound();
+
+            ViewBag.SubCategories = new SelectList(_db.Categories.Where(s => s.SubCategoryId != null).OrderBy(o => o.Name), "CategoryId", "Name");
             return View(category);
         }
 
@@ -55,11 +70,19 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "CategoryId,Name,Image,SubCategoryId")] Category category)
         {
-            if (!ModelState.IsValid) return View(category);
+            try
+            {
+                if (!ModelState.IsValid) return View(category);
 
-            _db.Entry(category).State = EntityState.Modified;
-            _db.SaveChanges();
-            return RedirectToAction("Index");
+                _db.Entry(category).State = EntityState.Modified;
+                _db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                ViewBag.SubCategories = new SelectList(_db.Categories.Where(s => s.SubCategoryId != null).OrderBy(o => o.Name), "CategoryId", "Name");
+                return View(category).Error(ex.Message);
+            }
         }
 
         public ActionResult Delete(int id)

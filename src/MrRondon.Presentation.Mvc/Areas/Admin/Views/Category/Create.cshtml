@@ -12,8 +12,7 @@
 
 @section navigation_right
 {
-    <h3>Navegação Aqui</h3>
-    @*@Html.Partial("_Navegacao", 2)*@
+    @Html.Partial("_Navigation", 2)
 }
 
 @using (Html.BeginForm("Create", "Category", FormMethod.Post, new { @class = "ui form" }))

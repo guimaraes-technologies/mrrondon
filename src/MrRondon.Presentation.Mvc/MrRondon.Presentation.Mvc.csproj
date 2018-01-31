@@ -376,6 +376,7 @@
     <Content Include="Scripts\DataTables\extensions\RowReorder\Readme.md" />
     <Content Include="Scripts\DataTables\extensions\Scroller\Readme.md" />
     <Content Include="Scripts\DataTables\extensions\Select\Readme.md" />
+    <Content Include="Areas\Admin\Views\Category\_Navigation.cshtml" />
     <None Include="Scripts\jquery-3.2.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.2.1.js" />
     <Content Include="Scripts\jquery-3.2.1.min.js" />
