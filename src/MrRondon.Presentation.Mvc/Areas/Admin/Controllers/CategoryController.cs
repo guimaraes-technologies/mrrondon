@@ -4,7 +4,9 @@ using System.Linq;
 using System.Web.Mvc;
 using MrRondon.Domain.Entities;
 using MrRondon.Infra.CrossCutting.Helper;
+using MrRondon.Infra.CrossCutting.Helper.Buttons;
 using MrRondon.Infra.Data.Context;
+using MrRondon.Infra.Data.Repositories;
 using MrRondon.Presentation.Mvc.Extensions;
 
 namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
@@ -94,17 +96,18 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
         {
             int recordsTotal;
             var search = parameters.Search.Value?.ToLower() ?? string.Empty;
-            var listObjects = _db.Categories.Where(w => w.Name.Contains(search));
-            var dtResult = new DataTableResultSet(parameters.Draw, listObjects.Count());
+            var repo = new RepositorioBase<Category>(_db);
+            var items = repo.GetItemsByExpression(w => w.Name.Contains(search), x => x.Name, 0, 10, out recordsTotal).ToList();
+            var dtResult = new DataTableResultSet(parameters.Draw, items.Count);
 
-            //var buttonsQuestao = new ButtonsCategoriaBolsa();
-            foreach (var item in listObjects)
+            var buttons = new ButtonsCategory();
+            foreach (var item in items)
             {
                 dtResult.data.Add(new[]
                 {
                     item.CategoryId.ToString(),
                     $"{item.Name}",
-                    //buttonsQuestao.ToPagination(item.CategoriaBolsaId, item.Ativo)
+                    buttons.ToPagination(item.CategoryId)
                 });
             }
             return Json(dtResult, JsonRequestBehavior.AllowGet);
