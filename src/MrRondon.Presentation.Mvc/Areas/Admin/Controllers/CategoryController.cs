@@ -136,11 +136,10 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
         [HttpPost]
         public JsonResult GetPagination(DataTableParameters parameters)
         {
-            int recordsTotal;
             var search = parameters.Search.Value?.ToLower() ?? string.Empty;
             var repo = new RepositorioBase<Category>(_db);
-            var items = repo.GetItemsByExpression(w => w.Name.Contains(search), x => x.Name, 0, 10, out recordsTotal).ToList();
-            var dtResult = new DataTableResultSet(parameters.Draw, items.Count);
+            var items = repo.GetItemsByExpression(w => w.Name.Contains(search), x => x.Name, 0, 10, out var recordsTotal).ToList();
+            var dtResult = new DataTableResultSet(parameters.Draw, recordsTotal);
 
             var buttons = new ButtonsCategory();
             foreach (var item in items)

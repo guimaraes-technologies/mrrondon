@@ -378,6 +378,12 @@
     <Content Include="Scripts\DataTables\extensions\Scroller\Readme.md" />
     <Content Include="Scripts\DataTables\extensions\Select\Readme.md" />
     <Content Include="Areas\Admin\Views\Category\_Navigation.cshtml" />
+    <Content Include="Areas\Admin\Views\City\_Form.cshtml" />
+    <Content Include="Areas\Admin\Views\City\_Navigation.cshtml" />
+    <Content Include="Areas\Admin\Views\City\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\City\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\City\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\City\Index.cshtml" />
     <None Include="Properties\PublishProfiles\Webdeploy.pubxml" />
     <None Include="Scripts\jquery-3.2.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.2.1.js" />
@@ -398,6 +404,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\CategoryController.cs" />
+    <Compile Include="Areas\Admin\Controllers\CityController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Extensions\HtmlExtension.cs" />
     <Compile Include="Global.asax.cs">

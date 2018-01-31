@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "Todas Categorias";
+    ViewBag.Title = "Todas cidades";
 }
 
 @section header
@@ -14,7 +14,7 @@
     @Html.Partial("_Navigation", 1)
 }
 
-<table class="ui very basic table gt-datatable" data-action="@Url.Action("GetPagination", "Category", new { area = "Admin" })">
+<table class="ui very basic table gt-datatable" data-action="@Url.Action("GetPagination", "City", new { area = "Admin" })">
     <thead>
         <tr>
             <th hidden></th>

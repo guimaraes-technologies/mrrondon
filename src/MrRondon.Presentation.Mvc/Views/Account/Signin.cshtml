@@ -4,8 +4,7 @@
 @{ViewBag.Title = "Área restrita";}
 <div class="ui stacked segment" style="width: 100%; max-width: 450px;margin: -70px auto 0 auto;position: relative;z-index: 1;">
     <h1 class="ui center aligned header gt-text-uppercase" style="margin: 1em 0">@ViewBag.Title</h1>
-    @using (Html.BeginForm("Signin", "Account" +
-                                     "", new {Model.ReturnUrl}, FormMethod.Post, new {@class = "ui large form"}))
+    @using (Html.BeginForm("Signin", "Account", new {Model.ReturnUrl}, FormMethod.Post, new {@class = "ui large form"}))
     {
         @Html.AntiForgeryToken()
         <div class="field">
