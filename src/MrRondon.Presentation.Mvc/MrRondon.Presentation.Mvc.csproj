@@ -263,6 +263,7 @@
     <Content Include="Content\components\visibility.min.js" />
     <Content Include="Content\components\visit.js" />
     <Content Include="Content\components\visit.min.js" />
+    <Content Include="Content\Images\without_image.jpg" />
     <Content Include="Content\plugins\lolibox\lobibox.css" />
     <Content Include="Content\plugins\lolibox\lobibox.min.css" />
     <Content Include="Content\semantic.css" />
@@ -433,9 +434,7 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Content\Images\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\MrRondon.Domain\MrRondon.Domain.csproj">
       <Project>{0da2d667-7a4c-4c62-8197-75c5ccfc40c0}</Project>

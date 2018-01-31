@@ -15,9 +15,13 @@
 }
 <div class="ui stackable column grid divided gt-grid-details">
     <div class="row">
-        <div class="sixteen wide column">
+        <div class="eight wide column">
             <h4 class="ui header">@Html.DisplayNameFor(e => e.Name)</h4>
             @Model.Name
+        </div>
+        <div class="eight wide column">
+            <h4 class="ui header">@Html.DisplayNameFor(e => e.SubCategoryId)</h4>
+            @(Model.SubCategory?.Name ?? "Não possui")
         </div>
     </div>
 </div>

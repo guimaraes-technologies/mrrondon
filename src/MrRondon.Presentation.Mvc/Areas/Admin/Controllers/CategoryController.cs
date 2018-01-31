@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
+using System.Web;
 using System.Web.Mvc;
 using MrRondon.Domain.Entities;
 using MrRondon.Infra.CrossCutting.Helper;
@@ -11,19 +13,19 @@ using MrRondon.Presentation.Mvc.Extensions;
 
 namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
 {
-    [AllowAnonymous]
     public class CategoryController : Controller
     {
         private readonly MainContext _db = new MainContext();
 
         public ActionResult Index()
         {
-            return View(_db.Categories.Where(x => x.SubCategoryId == null).ToList());
+            return View();
         }
 
         public ActionResult Details(int id)
         {
-            var category = _db.Categories.Find(id);
+            var repo = new RepositorioBase<Category>(_db);
+            var category = repo.GetItemByExpression(x => x.CategoryId == id, "SubCategory");
             if (category == null) return HttpNotFound();
             return View(category);
         }
@@ -36,30 +38,40 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "CategoryId,Name,Image,SubCategoryId")] Category category)
+        public ActionResult Create([Bind(Include = "CategoryId,Name,Image,SubCategoryId")] Category model, HttpPostedFileBase image)
         {
             try
             {
+                if (image == null)
+                {
+                    ViewBag.SubCategories = new SelectList(_db.Categories.Where(s => s.SubCategoryId != null).OrderBy(o => o.Name), "CategoryId", "Name");
+                    return View(model).Error("A imagem da categoria é obrigatória");
+                }
+
                 if (!ModelState.IsValid)
                 {
                     ViewBag.SubCategories = new SelectList(_db.Categories.Where(s => s.SubCategoryId != null).OrderBy(o => o.Name), "CategoryId", "Name");
-                    return View(category);
+                    return View(model);
                 }
 
-                _db.Categories.Add(category);
+                var br = new BinaryReader(image.InputStream);
+                model.SetImage(br.ReadBytes(image.ContentLength));
+                br.Close();
+                _db.Categories.Add(model);
                 _db.SaveChanges();
                 return RedirectToAction("Index");
             }
             catch (Exception ex)
             {
                 ViewBag.SubCategories = new SelectList(_db.Categories.Where(s => s.SubCategoryId != null).OrderBy(o => o.Name), "CategoryId", "Name");
-                return View(category).Error(ex.Message);
+                return View(model).Error(ex.Message);
             }
         }
 
         public ActionResult Edit(int id)
         {
-            var category = _db.Categories.Find(id);
+            var repo = new RepositorioBase<Category>(_db);
+            var category = repo.GetItemByExpression(x => x.CategoryId == id, "SubCategory");
             if (category == null) return HttpNotFound();
 
             ViewBag.SubCategories = new SelectList(_db.Categories.Where(s => s.SubCategoryId != null).OrderBy(o => o.Name), "CategoryId", "Name");
@@ -68,30 +80,37 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "CategoryId,Name,Image,SubCategoryId")] Category category)
+        public ActionResult Edit([Bind(Include = "CategoryId,Name,Image,SubCategoryId")] Category model, HttpPostedFileBase image)
         {
             try
             {
-                if (!ModelState.IsValid) return View(category);
+                if (image == null)
+                {
+                    ViewBag.SubCategories = new SelectList(_db.Categories.Where(s => s.SubCategoryId != null).OrderBy(o => o.Name), "CategoryId", "Name");
+                    return View(model).Error("A imagem da categoria é obrigatória");
+                }
 
-                _db.Entry(category).State = EntityState.Modified;
+                if (!ModelState.IsValid) return View(model);
+
+                var br = new BinaryReader(image.InputStream);
+                model.SetImage(br.ReadBytes(image.ContentLength));
+                br.Close();
+                _db.Entry(model).State = EntityState.Modified;
                 _db.SaveChanges();
                 return RedirectToAction("Index");
             }
             catch (Exception ex)
             {
                 ViewBag.SubCategories = new SelectList(_db.Categories.Where(s => s.SubCategoryId != null).OrderBy(o => o.Name), "CategoryId", "Name");
-                return View(category).Error(ex.Message);
+                return View(model).Error(ex.Message);
             }
         }
 
         public ActionResult Delete(int id)
         {
-            var category = _db.Categories.Find(id);
-            if (category == null)
-            {
-                return HttpNotFound();
-            }
+            var repo = new RepositorioBase<Category>(_db);
+            var category = repo.GetItemByExpression(x => x.CategoryId == id, "SubCategory");
+            if (category == null) return HttpNotFound();
             return View(category);
         }
 

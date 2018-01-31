@@ -20,5 +20,10 @@ namespace MrRondon.Domain.Entities
         [Display(Name = "Sub Categoria")]
         public int? SubCategoryId { get; set; }
         public Category SubCategory { get; set; }
+
+        public void SetImage(byte[] imageBytes)
+        {
+            Image = imageBytes;
+        }
     }
 }

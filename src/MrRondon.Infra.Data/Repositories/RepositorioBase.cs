@@ -61,8 +61,7 @@ namespace MrRondon.Infra.Data.Repositories
                 if (dbQuery != null) dbQuery.Include(obj);
                 else dbQuery = DbSet.Include(obj);
             }
-
-            return dbQuery?.FirstOrDefault(expression) ?? DbSet.FirstOrDefault(expression);
+            return dbQuery == null ? DbSet.FirstOrDefault(expression) : dbQuery.FirstOrDefault(expression);
         }
 
         public virtual IEnumerable<TEntity> GetItemsByExpression(Expression<Func<TEntity, bool>> expression, Expression<Func<TEntity, object>> orderBy, int start, int length, out int recordsTotal, params string[] objectsToInclude)
