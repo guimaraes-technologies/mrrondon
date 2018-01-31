@@ -8,7 +8,12 @@
     flex-flow: row wrap;
     overflow: hidden;
 }
-
+.gt-header{
+    background-color: #045e55 !important;
+}
+.gt-header > h1 {
+    color: #c3c3c3 !important;
+}
 .gt-top-header {
     width: 100%;
     min-height: 345px;
