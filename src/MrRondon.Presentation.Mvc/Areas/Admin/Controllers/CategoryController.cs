@@ -3,6 +3,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
 using MrRondon.Domain.Entities;
+using MrRondon.Infra.CrossCutting.Helper;
 using MrRondon.Infra.Data.Context;
 using MrRondon.Presentation.Mvc.Extensions;
 
@@ -58,7 +59,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
             _db.SaveChanges();
             return RedirectToAction("Index");
         }
-        
+
         public ActionResult Delete(int id)
         {
             var category = _db.Categories.Find(id);
@@ -68,7 +69,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
             }
             return View(category);
         }
-        
+
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
@@ -86,6 +87,27 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
             {
                 return RedirectToAction("Index").Error(ex.Message);
             }
+        }
+
+        [HttpPost]
+        public JsonResult GetPagination(DataTableParameters parameters)
+        {
+            int recordsTotal;
+            var search = parameters.Search.Value?.ToLower() ?? string.Empty;
+            var listObjects = _db.Categories.Where(w => w.Name.Contains(search));
+            var dtResult = new DataTableResultSet(parameters.Draw, listObjects.Count());
+
+            //var buttonsQuestao = new ButtonsCategoriaBolsa();
+            foreach (var item in listObjects)
+            {
+                dtResult.data.Add(new[]
+                {
+                    item.CategoryId.ToString(),
+                    $"{item.Name}",
+                    //buttonsQuestao.ToPagination(item.CategoriaBolsaId, item.Ativo)
+                });
+            }
+            return Json(dtResult, JsonRequestBehavior.AllowGet);
         }
 
         protected override void Dispose(bool disposing)

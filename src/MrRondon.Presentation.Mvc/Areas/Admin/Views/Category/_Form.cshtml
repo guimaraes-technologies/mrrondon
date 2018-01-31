@@ -1,0 +1,11 @@
+﻿@using MrRondon.Presentation.Mvc.Extensions
+@model MrRondon.Domain.Entities.Category
+
+<div class="ui equal width form">
+    <div class="fields">
+        <div class="field">
+            @Html.LabelFor(e => e.Name)
+            @Html.SemanticTextBoxFor(e => e.Name, null)
+        </div>
+    </div>
+</div>

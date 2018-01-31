@@ -28,6 +28,10 @@ namespace MrRondon.Presentation.Mvc
                 "~/Scripts/jquery.mask.js",
                 "~/Scripts/site/validation.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/datatable").Include(
+                "~/Scripts/DataTables/media/js/jquery.dataTables.js",
+                "~/Scripts/site/datatable.js"));
+
             BundleTable.EnableOptimizations = false;
         }
     }
