@@ -86,7 +86,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
             var items = repo.GetItemsByExpression(w => w.Name.Contains(search), x => x.Name, 0, 10, out var recordsTotal).ToList();
             var dtResult = new DataTableResultSet(parameters.Draw, recordsTotal);
 
-            var buttons = new ButtonsCategory();
+            var buttons = new ButtonsCity();
             foreach (var item in items)
             {
                 dtResult.data.Add(new[]
