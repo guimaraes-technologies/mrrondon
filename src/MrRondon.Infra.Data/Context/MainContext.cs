@@ -1,4 +1,5 @@
 ﻿using System.Data.Entity;
+using System.Data.Entity.ModelConfiguration.Conventions;
 using MrRondon.Domain.Entities;
 using MrRondon.Infra.Security.Entities;
 

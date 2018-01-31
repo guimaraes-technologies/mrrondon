@@ -1,22 +1,23 @@
 ﻿@using System.Web.Optimization
-@using SPBA.Infra.CrossCutting.Helpers
+@using MrRondon.Presentation.Mvc.Extensions
 @model MrRondon.Presentation.Mvc.ViewModels.SigninVm
 @{ViewBag.Title = "Área restrita";}
 <div class="ui stacked segment" style="width: 100%; max-width: 450px;margin: -70px auto 0 auto;position: relative;z-index: 1;">
     <h1 class="ui center aligned header gt-text-uppercase" style="margin: 1em 0">@ViewBag.Title</h1>
-    @using (Html.BeginForm("Signin", "Conta", new {Model.ReturnUrl}, FormMethod.Post, new {@class = "ui large form"}))
+    @using (Html.BeginForm("Signin", "Account" +
+                                     "", new {Model.ReturnUrl}, FormMethod.Post, new {@class = "ui large form"}))
     {
         @Html.AntiForgeryToken()
         <div class="field">
             <div class="ui right icon input">
                 <i class="user icon"></i>
-                @Html.SemanticTextCpfFor(model => model.UserName, new {placeholder = "CPF"})
+                @Html.SemanticTextCpfFor(model => model.UserName, new {placeholder = "Login"})
             </div>
         </div>
         <div class="field">
             <div class="ui right icon input">
                 <i class="lock icon"></i>
-                @Html.PasswordFor(model => model.Senha, new {placeholder = "Senha"})
+                @Html.PasswordFor(model => model.Password, new {placeholder = "Senha"})
             </div>
         </div>
         <div class="field">
@@ -24,7 +25,7 @@
         </div>
     }
     <div class="ui message">
-        <a href="@Url.Action("RecuperarSenha")">Esqueceu sua senha?</a>
+        <a href="@Url.Action("RecoveryPassword")">Esqueceu sua senha?</a>
     </div>
 </div>
 @section Scripts{

@@ -3,6 +3,7 @@ using System.Security.Claims;
 using System.Security.Principal;
 using System.Web;
 using Microsoft.Owin.Security;
+using Microsoft.Owin.Security.OAuth;
 using MrRondon.Infra.CrossCutting.Message;
 using MrRondon.Infra.Security.Entities;
 
@@ -37,7 +38,7 @@ namespace MrRondon.Infra.Security.Helpers
                 user.AccessFailed = 0;
                 user.LastLogin = DateTime.Now;
                 user.LockoutEnd = null;
-                Auth.SignIn(user.GetClaims());
+                Auth.SignIn(user.GetClaims(OAuthDefaults.AuthenticationType));
             }
             else
             {

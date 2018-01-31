@@ -132,7 +132,7 @@ namespace MrRondon.Services.Api.Authorization
             return Task.FromResult<object>(null);
         }
 
-        private static ClaimsIdentity ValidAccess(string username, string password, string authenticationType)
+        private static ClaimsIdentity ValidAccess(string username, string password, string authenticationType = OAuthDefaults.AuthenticationType)
         {
             if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
                 throw new Exception("Login ou senha incorreta");
@@ -142,8 +142,7 @@ namespace MrRondon.Services.Api.Authorization
 
             if (user == null) throw new Exception("Login ou senha incorreta");
             if (user.LockoutEnd.HasValue && DateTime.Now < user.LockoutEnd)
-                throw new Exception(
-                    "Sua conta foi temporariamente bloqueada por exceder o número de tentativas inválidas, tente novamente mais tarde.");
+                throw new Exception("Sua conta foi temporariamente bloqueada por exceder o número de tentativas inválidas, tente novamente mais tarde.");
 
             var hashedPassword = user.Password;
 
@@ -165,7 +164,7 @@ namespace MrRondon.Services.Api.Authorization
 
             if (user.AccessFailed > 0) throw new Exception("Login ou senha incorreta");
 
-            return user.ClaimsToApi(authenticationType);
+            return user.GetClaims(authenticationType);
         }
     }
 }

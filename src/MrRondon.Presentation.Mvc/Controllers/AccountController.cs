@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Web.Mvc;
 using MrRondon.Infra.CrossCutting.Message;
 using MrRondon.Infra.Data.Context;
@@ -28,38 +27,44 @@ namespace MrRondon.Presentation.Mvc.Controllers
         [AllowAnonymous]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Signin(SigninVm signin)
+        public ActionResult Signin(SigninVm model)
         {
-            if (!ModelState.IsValid) return View(signin).Error(Error.Default);
-            var user = _db.Users.FirstOrDefault(f => f.Email.Equals(signin.UserName));
-            
-            AccountManager.Signin(user, signin.Password);
+            try
+            {
+                if (!ModelState.IsValid) return View(model).Error(Error.Default);
+                var user = _db.Users.FirstOrDefault(f => f.Email.Equals(model.UserName));
 
-            if (!_usuarioAppService.VerificarSenha(signin.Senha, user.UsuarioId)) return View(signin).Error(Error.WrongUserNameOrPassword);
+                AccountManager.Signin(user, model.Password);
 
-            return !string.IsNullOrEmpty(signin.ReturnUrl) ? RedirectToLocal(signin.ReturnUrl) : RedirectToArea(user);
+                return !string.IsNullOrEmpty(model.ReturnUrl) ? RedirectToLocal(model.ReturnUrl) : RedirectToArea();
+            }
+            catch (Exception ex)
+            {
+                return View(model).Error(ex.Message);
+            }
         }
 
-        public ActionResult NovaSenha()
+        /*
+        public ActionResult NewPassword()
         {
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult NovaSenha(SenhaVm senhaVm, string captcha)
+        public ActionResult NewPassword(NewPasswordVm model, string captcha)
         {
             try
             {
                 if (captcha != HttpContext.Session["captcha"].ToString())
-                    return View(senhaVm).Error("O código informado não está correto!");
+                    return View(model).Error("O código informado não está correto!");
 
                 if (!ModelState.IsValid) return View().Error(Error.ModelState);
                 var user = _usuarioAppService.ObterPorId(Account.UsuarioId);
 
-                if (!_usuarioAppService.VerificarSenha(senhaVm.SenhaAntiga, user.UsuarioId))
+                if (!_usuarioAppService.VerificarSenha(model.SenhaAntiga, user.UsuarioId))
                     throw new Exception("Senha antiga não confere.");
-                _usuarioAppService.AlterarSenha(user.UsuarioId, senhaVm.ConfirmarSenha);
+                _usuarioAppService.AlterarSenha(user.UsuarioId, model.ConfirmarSenha);
                 return RedirectToAction("Detalhes").Success(Success.Saved);
             }
             catch (Exception e)
@@ -69,15 +74,15 @@ namespace MrRondon.Presentation.Mvc.Controllers
         }
 
         [AllowAnonymous]
-        public ActionResult AlterarSenha(Guid id)
+        public ActionResult ChangePassword(Guid id)
         {
-            return View(new AlterarSenha { UsuarioId = id });
+            return View(new ChangePasswordVm { UsuarioId = id });
         }
 
         [AllowAnonymous]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult AlterarSenha(AlterarSenha changePassword)
+        public ActionResult ChangePassword(ChangePasswordVm changePassword)
         {
             if (ModelState.IsValid)
             {
@@ -87,19 +92,19 @@ namespace MrRondon.Presentation.Mvc.Controllers
             return View().Error(Error.ModelState);
         }
 
-        public ActionResult Detalhes()
+        public ActionResult Details()
         {
             return View(_usuarioAppService.ObterPorId(Account.UsuarioId));
         }
 
-        public ActionResult Editar()
+        public ActionResult Edit()
         {
             return View(_usuarioAppService.ObterPorIdCustom(Account.UsuarioId));
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Editar(UsuarioContatoVm model)
+        public ActionResult Edit(UsuarioContatoVm model)
         {
             try
             {
@@ -172,56 +177,20 @@ namespace MrRondon.Presentation.Mvc.Controllers
             {
                 return View(model).Error(ex.Message);
             }
-        }
-
-        #region APOIO
+        }*/
 
         [AllowAnonymous]
         private ActionResult RedirectToLocal(string returnUrl)
         {
-            if (Url.IsLocalUrl(returnUrl))
-            {
-                return Redirect(returnUrl);
-            }
-            return RedirectToAction("Index", "Home", new { area = "" });
+            if (Url.IsLocalUrl(returnUrl)) return Redirect(returnUrl);
+
+            return RedirectToAction("Index", "Category", new { area = "Admin" });
         }
 
-        [AllowAnonymous]
         private ActionResult RedirectToArea()
         {
-            if (User.IsInRole("Coordenador"))
-            {
-                return RedirectToAction("Index", "Home", new { area = "Coordenador" });
-            }
-            if (User.IsInRole("Atleta"))
-            {
-                return RedirectToAction("Index", "Home", new { area = "Atleta" });
-            }
-            if (User.IsInRole("Entidade"))
-            {
-                return RedirectToAction("Index", "Home", new { area = "Entidade" });
-            }
-            return RedirectToAction("Index", "Home", new { area = "" });
+            return RedirectToAction("Index", "Category", new { area = "Admin" });
         }
-
-        private ActionResult RedirectToArea(UsuarioVm user)
-        {
-            if (user.ListaRole.Any(x => x.Nome.Equals("Coordenador")))
-            {
-                return RedirectToAction("Index", "Processo", new { area = "Coordenador" });
-            }
-            if (user.ListaRole.Any(x => x.Nome.Equals("Atleta")))
-            {
-                return RedirectToAction("Index", "Processo", new { area = "Atleta" });
-            }
-            if (user.ListaRole.Any(x => x.Nome.Equals("Entidade")))
-            {
-                return RedirectToAction("Index", "Atleta", new { area = "Entidade" });
-            }
-            return RedirectToAction("Index", "Home", new { area = "" });
-        }
-
-        #endregion
 
         protected override void Dispose(bool disposing)
         {

@@ -54,12 +54,9 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Entities\Claim.cs" />
@@ -75,8 +72,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\MrRondon.Infra.CrossCutting.Message\MrRondon.Infra.CrossCutting.Message.csproj">
-      <Project>{d3393e3d-ba97-4105-980e-e1163c073f9f}</Project>
+    <ProjectReference Include="..\MrRondon.Infra.CrossCutting.Message\MrRondon.Infra.CrossCutting.Message.csproj">
+      <Project>{d1f4856f-cea2-4c7c-a597-83c9a6adc196}</Project>
       <Name>MrRondon.Infra.CrossCutting.Message</Name>
     </ProjectReference>
   </ItemGroup>

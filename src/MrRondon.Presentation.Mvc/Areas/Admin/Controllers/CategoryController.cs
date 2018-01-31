@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data;
 using System.Data.Entity;
 using System.Linq;
-using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using MrRondon.Domain.Entities;
 using MrRondon.Infra.Data.Context;
+using MrRondon.Presentation.Mvc.Extensions;
 
 namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
 {
@@ -37,14 +34,11 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "CategoryId,Name,Image,SubCategoryId")] Category category)
         {
-            if (ModelState.IsValid)
-            {
-                _db.Categories.Add(category);
-                _db.SaveChanges();
-                return RedirectToAction("Index");
-            }
+            if (!ModelState.IsValid) return View(category);
 
-            return View(category);
+            _db.Categories.Add(category);
+            _db.SaveChanges();
+            return RedirectToAction("Index");
         }
 
         public ActionResult Edit(int id)
@@ -58,45 +52,47 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "CategoryId,Name,Image,SubCategoryId")] Category category)
         {
-            if (ModelState.IsValid)
-            {
-                _db.Entry(category).State = EntityState.Modified;
-                _db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            return View(category);
-        }
+            if (!ModelState.IsValid) return View(category);
 
-        // GET: Admin/Category/Delete/5
-        public ActionResult Delete(int? id)
+            _db.Entry(category).State = EntityState.Modified;
+            _db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+        
+        public ActionResult Delete(int id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Category category = _db.Categories.Find(id);
+            var category = _db.Categories.Find(id);
             if (category == null)
             {
                 return HttpNotFound();
             }
             return View(category);
         }
-
-        // POST: Admin/Category/Delete/5
+        
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Category category = _db.Categories.Find(id);
-            _db.Categories.Remove(category);
-            _db.SaveChanges();
-            return RedirectToAction("Index");
+            try
+            {
+                var category = _db.Categories.Find(id);
+                if (category == null) return RedirectToAction("Index").Success("Categoria removida com sucesso");
+
+                _db.Categories.Remove(category);
+                _db.SaveChanges();
+                return RedirectToAction("Index").Success("Categoria removida com sucesso");
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("Index").Error(ex.Message);
+            }
         }
 
         protected override void Dispose(bool disposing)
         {
             if (disposing)
             {
+                GC.SuppressFinalize(this);
                 _db.Dispose();
             }
             base.Dispose(disposing);

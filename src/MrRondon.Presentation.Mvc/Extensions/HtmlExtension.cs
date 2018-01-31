@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Web.Mvc;
+using MrRondon.Infra.CrossCutting.Helper;
 using Newtonsoft.Json;
 
-namespace SPBA.Infra.CrossCutting.Helpers
+namespace MrRondon.Presentation.Mvc.Extensions
 {
     public static class HtmlExtension
     {
-
-        public static MvcHtmlString Voltar(this HtmlHelper html, string textoLink = "Voltar")
+        public static MvcHtmlString Back(this HtmlHelper html, string textoLink = "Voltar")
         {
             return new MvcHtmlString($"<a href=\"javascript:history.go(-1);\">{textoLink}</a>");
         }
@@ -33,6 +33,7 @@ namespace SPBA.Infra.CrossCutting.Helpers
 
             return new MvcHtmlString(tag.ToString(TagRenderMode.SelfClosing));
         }
+
         public static MvcHtmlString SemanticNumericBoxFor<TModel, TProperty>(this HtmlHelper<TModel> html, Expression<Func<TModel, TProperty>> expression, dynamic htmlAttributes)
         {
             var fullBindingName = html.ViewContext.ViewData.TemplateInfo.GetFullHtmlFieldName(ExpressionHelper.GetExpressionText(expression));
@@ -51,6 +52,7 @@ namespace SPBA.Infra.CrossCutting.Helpers
 
             return new MvcHtmlString(tag.ToString(TagRenderMode.SelfClosing));
         }
+
         public static MvcHtmlString SemanticPasswordFor<TModel, TProperty>(this HtmlHelper<TModel> html, Expression<Func<TModel, TProperty>> expression, object htmlAttributes)
         {
             var fullBindingName = html.ViewContext.ViewData.TemplateInfo.GetFullHtmlFieldName(ExpressionHelper.GetExpressionText(expression));
@@ -69,6 +71,7 @@ namespace SPBA.Infra.CrossCutting.Helpers
 
             return new MvcHtmlString(tag.ToString(TagRenderMode.SelfClosing));
         }
+
         public static MvcHtmlString SemanticTextAreaFor<TModel, TProperty>(this HtmlHelper<TModel> html, Expression<Func<TModel, TProperty>> expression, dynamic htmlAttributes = null)
         {
             var fullBindingName = html.ViewContext.ViewData.TemplateInfo.GetFullHtmlFieldName(ExpressionHelper.GetExpressionText(expression));
@@ -86,6 +89,7 @@ namespace SPBA.Infra.CrossCutting.Helpers
 
             return new MvcHtmlString(tag.ToString());
         }
+
         public static MvcHtmlString SemanticTextEmailFor<TModel, TProperty>(this HtmlHelper<TModel> html, Expression<Func<TModel, TProperty>> expression, dynamic htmlAttributes)
         {
             var fullBindingName = html.ViewContext.ViewData.TemplateInfo.GetFullHtmlFieldName(ExpressionHelper.GetExpressionText(expression));
@@ -104,6 +108,7 @@ namespace SPBA.Infra.CrossCutting.Helpers
 
             return new MvcHtmlString(tag.ToString(TagRenderMode.SelfClosing));
         }
+
         public static MvcHtmlString SemanticTextCpfFor<TModel, TProperty>(this HtmlHelper<TModel> html, Expression<Func<TModel, TProperty>> expression, dynamic htmlAttributes)
         {
             var fullBindingName = html.ViewContext.ViewData.TemplateInfo.GetFullHtmlFieldName(ExpressionHelper.GetExpressionText(expression));
@@ -124,6 +129,7 @@ namespace SPBA.Infra.CrossCutting.Helpers
 
             return new MvcHtmlString(tag.ToString(TagRenderMode.SelfClosing));
         }
+
         public static MvcHtmlString SemanticTextCrefFor<TModel, TProperty>(this HtmlHelper<TModel> html, Expression<Func<TModel, TProperty>> expression, dynamic htmlAttributes)
         {
             var fullBindingName = html.ViewContext.ViewData.TemplateInfo.GetFullHtmlFieldName(ExpressionHelper.GetExpressionText(expression));
@@ -145,6 +151,7 @@ namespace SPBA.Infra.CrossCutting.Helpers
 
             return new MvcHtmlString(tag.ToString(TagRenderMode.SelfClosing));
         }
+
         public static MvcHtmlString SemanticTextTelefoneFor<TModel, TProperty>(this HtmlHelper<TModel> html, Expression<Func<TModel, TProperty>> expression, dynamic htmlAttributes)
         {
             var fullBindingName = html.ViewContext.ViewData.TemplateInfo.GetFullHtmlFieldName(ExpressionHelper.GetExpressionText(expression));
@@ -164,6 +171,7 @@ namespace SPBA.Infra.CrossCutting.Helpers
 
             return new MvcHtmlString(tag.ToString(TagRenderMode.SelfClosing));
         }
+
         public static MvcHtmlString SemanticTextCnpjFor<TModel, TProperty>(this HtmlHelper<TModel> html, Expression<Func<TModel, TProperty>> expression, dynamic htmlAttributes)
         {
             var fullBindingName = html.ViewContext.ViewData.TemplateInfo.GetFullHtmlFieldName(ExpressionHelper.GetExpressionText(expression));
@@ -183,6 +191,7 @@ namespace SPBA.Infra.CrossCutting.Helpers
 
             return new MvcHtmlString(tag.ToString(TagRenderMode.SelfClosing));
         }
+
         public static MvcHtmlString SemanticTextCepFor<TModel, TProperty>(this HtmlHelper<TModel> html, Expression<Func<TModel, TProperty>> expression, dynamic htmlAttributes)
         {
             var fullBindingName = html.ViewContext.ViewData.TemplateInfo.GetFullHtmlFieldName(ExpressionHelper.GetExpressionText(expression));
@@ -202,6 +211,7 @@ namespace SPBA.Infra.CrossCutting.Helpers
 
             return new MvcHtmlString(tag.ToString(TagRenderMode.SelfClosing));
         }
+
         public static MvcHtmlString SemanticTextDataFor<TModel, TProperty>(this HtmlHelper<TModel> html, Expression<Func<TModel, TProperty>> expression, dynamic htmlAttributes)
         {
             var fullBindingName = html.ViewContext.ViewData.TemplateInfo.GetFullHtmlFieldName(ExpressionHelper.GetExpressionText(expression));
@@ -224,6 +234,7 @@ namespace SPBA.Infra.CrossCutting.Helpers
 
             return new MvcHtmlString(tag.ToString(TagRenderMode.SelfClosing));
         }
+
         public static MvcHtmlString SemanticEnumDropDownListFor<TModel, TProperty>(this HtmlHelper<TModel> html, Expression<Func<TModel, TProperty>> expression, string optionLabel = "Selecione...", object htmlAttributes = null)
         {
             var fullBindingName = html.ViewContext.ViewData.TemplateInfo.GetFullHtmlFieldName(ExpressionHelper.GetExpressionText(expression));
@@ -247,11 +258,7 @@ namespace SPBA.Infra.CrossCutting.Helpers
             tag.Attributes.Add("id", TagBuilder.CreateSanitizedId(fullBindingName));
             tag.Attributes.Add("name", fullBindingName);
             tag.InnerHtml += $"<option value=''>{optionLabel}</option>";
-            //Type t = typeof(TProperty);
-            //if (t.IsGenericType)
-            //{
-            //    t = typeof(TProperty).GenericTypeArguments[0];
-            //}
+
             foreach (Enum item in Enum.GetValues(Nullable.GetUnderlyingType(typeof(TProperty)) ?? typeof(TProperty)))
             {
                 tag.InnerHtml += $"<option value='{item}' {(Equals(item, metadata.Model) ? "selected" : string.Empty)}>{EnumDescription.Get(item)}</option>";
@@ -259,6 +266,7 @@ namespace SPBA.Infra.CrossCutting.Helpers
 
             return new MvcHtmlString(tag.ToString());
         }
+
         public static MvcHtmlString SemanticEnumDropDownListFor<TModel, TProperty>(this HtmlHelper<TModel> html, Expression<Func<TModel, TProperty>> expression, IEnumerable<SelectListItem> selectList, string optionLabel, object htmlAttributes)
         {
             var fullBindingName = html.ViewContext.ViewData.TemplateInfo.GetFullHtmlFieldName(ExpressionHelper.GetExpressionText(expression));
@@ -283,6 +291,7 @@ namespace SPBA.Infra.CrossCutting.Helpers
 
             return new MvcHtmlString(tag.ToString());
         }
+
         public static MvcHtmlString SemanticDropDownListFor<TModel, TProperty>(this HtmlHelper<TModel> html, Expression<Func<TModel, TProperty>> expression, IEnumerable<SelectListItem> selectList, string optionLabel = "Selecione...", object htmlAttributes = null)
         {
             var fullBindingName = html.ViewContext.ViewData.TemplateInfo.GetFullHtmlFieldName(ExpressionHelper.GetExpressionText(expression));
@@ -299,7 +308,7 @@ namespace SPBA.Infra.CrossCutting.Helpers
             tag.AddCssClass("ui search dropdown");
 
             tag.InnerHtml += $"<option value=''>{optionLabel}</option>";
-            if(selectList == null) return new MvcHtmlString(tag.ToString());
+            if (selectList == null) return new MvcHtmlString(tag.ToString());
 
             foreach (var item in selectList)
             {
@@ -308,6 +317,7 @@ namespace SPBA.Infra.CrossCutting.Helpers
 
             return new MvcHtmlString(tag.ToString());
         }
+
         public static MvcHtmlString SemanticDropDownBoolFor<TModel, TProperty>(this HtmlHelper<TModel> html, Expression<Func<TModel, TProperty>> expression, string optionLabel, object htmlAttributes)
         {
             var fullBindingName = html.ViewContext.ViewData.TemplateInfo.GetFullHtmlFieldName(ExpressionHelper.GetExpressionText(expression));
@@ -331,6 +341,7 @@ namespace SPBA.Infra.CrossCutting.Helpers
             tag.InnerHtml += $"<option value='false'>Não</option>";
             return new MvcHtmlString(tag.ToString());
         }
+
         public static MvcHtmlString SemanticDropDownBoolFor<TModel, TProperty>(this HtmlHelper<TModel> html, Expression<Func<TModel, TProperty>> expression, string optionLabel, object htmlAttributes, bool value)
         {
             var fullBindingName = html.ViewContext.ViewData.TemplateInfo.GetFullHtmlFieldName(ExpressionHelper.GetExpressionText(expression));
@@ -350,7 +361,7 @@ namespace SPBA.Infra.CrossCutting.Helpers
             tag.Attributes.Add("id", TagBuilder.CreateSanitizedId(fullBindingName));
             tag.Attributes.Add("name", fullBindingName);
             tag.InnerHtml += $"<option value=''>{optionLabel}</option>";
-            if (value == true)
+            if (value)
             {
                 tag.InnerHtml += "<option value='true' selected>Sim</option>";
                 tag.InnerHtml += "<option value='false'>Não</option>";
@@ -362,6 +373,7 @@ namespace SPBA.Infra.CrossCutting.Helpers
             }
             return new MvcHtmlString(tag.ToString());
         }
+
         public static MvcHtmlString SemanticRadioBoxFor<TModel, TProperty>(this HtmlHelper<TModel> html, Expression<Func<TModel, TProperty>> expression, string value, bool ischecked = false)
         {
             var fullBindingName = html.ViewContext.ViewData.TemplateInfo.GetFullHtmlFieldName(ExpressionHelper.GetExpressionText(expression));
@@ -376,6 +388,7 @@ namespace SPBA.Infra.CrossCutting.Helpers
 
             return new MvcHtmlString(tag.ToString(TagRenderMode.SelfClosing));
         }
+
         private static void InsertValidateAttribute(TagBuilder tag, IDictionary<string, object> validations)
         {
             if (!validations.Any()) return;

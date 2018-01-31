@@ -61,20 +61,20 @@ namespace MrRondon.Infra.CrossCutting.Message {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to CPF inválido.
-        /// </summary>
-        public static string CpfInvalido {
-            get {
-                return ResourceManager.GetString("CpfInvalido", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Sua operação não pode ser completada. Por favor, tente novamente.
         /// </summary>
         public static string Default {
             get {
                 return ResourceManager.GetString("Default", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Usuário desabilitado.
+        /// </summary>
+        public static string DisabledUser {
+            get {
+                return ResourceManager.GetString("DisabledUser", resourceCulture);
             }
         }
         
@@ -111,24 +111,6 @@ namespace MrRondon.Infra.CrossCutting.Message {
         public static string Required {
             get {
                 return ResourceManager.GetString("Required", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Usuário desabilitado.
-        /// </summary>
-        public static string UserDisabled {
-            get {
-                return ResourceManager.GetString("UserDisabled", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to O valor do campo {0} está incorreto.
-        /// </summary>
-        public static string ValorIncorreto {
-            get {
-                return ResourceManager.GetString("ValorIncorreto", resourceCulture);
             }
         }
         

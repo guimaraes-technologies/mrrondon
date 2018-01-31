@@ -35,7 +35,7 @@ namespace MrRondon.Infra.Security.Entities
             Claims.Add(c);
         }
         
-        public ClaimsIdentity GetClaims(string authenticationType = OAuthDefaults.AuthenticationType)
+        public ClaimsIdentity GetClaims(string authenticationType)
         {
             var claims = new List<System.Security.Claims.Claim>
             {

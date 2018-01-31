@@ -117,11 +117,11 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="CpfInvalido" xml:space="preserve">
-    <value>CPF inválido</value>
-  </data>
   <data name="Default" xml:space="preserve">
     <value>Sua operação não pode ser completada. Por favor, tente novamente</value>
+  </data>
+  <data name="DisabledUser" xml:space="preserve">
+    <value>Usuário desabilitado</value>
   </data>
   <data name="MaxLength" xml:space="preserve">
     <value>Máximo {1} caracteres permitido</value>
@@ -134,12 +134,6 @@
   </data>
   <data name="Required" xml:space="preserve">
     <value>O campo {0} é obrigatório.</value>
-  </data>
-  <data name="UserDisabled" xml:space="preserve">
-    <value>Usuário desabilitado</value>
-  </data>
-  <data name="ValorIncorreto" xml:space="preserve">
-    <value>O valor do campo {0} está incorreto</value>
   </data>
   <data name="WrongUserNameOrPassword" xml:space="preserve">
     <value>Usuário ou Senha incorreta</value>
