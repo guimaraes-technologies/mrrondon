@@ -32,7 +32,7 @@ namespace MrRondon.Presentation.Mvc
                 "~/Scripts/DataTables/media/js/jquery.dataTables.js",
                 "~/Scripts/site/datatable.js"));
 
-            BundleTable.EnableOptimizations = false;
+            BundleTable.EnableOptimizations = true;
         }
     }
 }
