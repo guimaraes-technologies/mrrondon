@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace MrRondon.Domain.Entities
@@ -43,5 +44,7 @@ namespace MrRondon.Domain.Entities
         [Required(ErrorMessage = "Campo {0} obrigatório")]
         public int SegmentId { get; set; }
         public Category Segment { get; set; }
+
+        public ICollection<Contact> Contacts { get; set; }
     }
 }

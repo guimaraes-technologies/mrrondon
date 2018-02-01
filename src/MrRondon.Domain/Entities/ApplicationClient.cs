@@ -1,9 +1,9 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace MrRondon.Infra.Security.Entities
+namespace MrRondon.Domain.Entities
 {
-    public class Client
+    public class ApplicationClient
     {
         [Key]
         public Guid ClientId { get; set; }

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace MrRondon.Infra.Security.Entities
+namespace MrRondon.Domain.Entities
 {
     public class Login
     {

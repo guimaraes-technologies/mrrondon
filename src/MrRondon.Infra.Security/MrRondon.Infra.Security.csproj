@@ -59,11 +59,6 @@
     <Reference Include="System.Net.Http" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Entities\Claim.cs" />
-    <Compile Include="Entities\Client.cs" />
-    <Compile Include="Entities\Login.cs" />
-    <Compile Include="Entities\RefreshToken.cs" />
-    <Compile Include="Entities\User.cs" />
     <Compile Include="Helpers\AccountManager.cs" />
     <Compile Include="Helpers\PasswordHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -72,6 +67,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\MrRondon.Domain\MrRondon.Domain.csproj">
+      <Project>{0DA2D667-7A4C-4C62-8197-75C5CCFC40C0}</Project>
+      <Name>MrRondon.Domain</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MrRondon.Infra.CrossCutting.Message\MrRondon.Infra.CrossCutting.Message.csproj">
       <Project>{d1f4856f-cea2-4c7c-a597-83c9a6adc196}</Project>
       <Name>MrRondon.Infra.CrossCutting.Message</Name>

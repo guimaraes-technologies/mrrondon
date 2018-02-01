@@ -4,8 +4,8 @@ using System.Security.Principal;
 using System.Web;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.OAuth;
+using MrRondon.Domain.Entities;
 using MrRondon.Infra.CrossCutting.Message;
-using MrRondon.Infra.Security.Entities;
 
 namespace MrRondon.Infra.Security.Helpers
 {
@@ -50,6 +50,11 @@ namespace MrRondon.Infra.Security.Helpers
             }
             
             if (user.AccessFailed > 0) throw new Exception(Error.WrongUserNameOrPassword);
+        }
+
+        public static void Signout()
+        {
+            Auth.SignOut("ApplicationCookie");
         }
     }
 }

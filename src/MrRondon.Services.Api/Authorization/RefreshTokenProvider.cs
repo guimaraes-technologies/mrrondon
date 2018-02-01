@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Microsoft.Owin.Security.Infrastructure;
+using MrRondon.Domain.Entities;
 using MrRondon.Infra.Data.Context;
-using MrRondon.Infra.Security.Entities;
 using MrRondon.Infra.Security.Helpers;
 
 namespace MrRondon.Services.Api.Authorization
@@ -25,7 +25,7 @@ namespace MrRondon.Services.Api.Authorization
             var token = new RefreshToken
             {
                 RefreshTokenId = PasswordHelper.GetHash(refreshTokenId),
-                ClientId = client.ClientId,
+                ApplicationClientId = client.ClientId,
                 Subject = context.Ticket.Identity.Name,
                 IssuedUtc = DateTime.UtcNow,
                 ExpiresUtc = DateTime.UtcNow.AddMinutes(Convert.ToDouble(refreshTokenLifeTime))

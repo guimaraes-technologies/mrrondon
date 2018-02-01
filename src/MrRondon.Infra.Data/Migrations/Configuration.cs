@@ -2,7 +2,6 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using MrRondon.Domain.Entities;
-using MrRondon.Infra.Security.Entities;
 
 namespace MrRondon.Infra.Data.Migrations
 {
@@ -37,7 +36,7 @@ namespace MrRondon.Infra.Data.Migrations
 
             if (!context.Clients.Any())
             {
-                context.Clients.Add(new Client
+                context.Clients.Add(new ApplicationClient
                 {
                     ClientId = Guid.NewGuid(),
                     Secret = "Mr.Rondon.Turismo.App",
