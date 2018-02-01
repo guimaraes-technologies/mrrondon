@@ -1,0 +1,24 @@
+﻿@using MrRondon.Presentation.Mvc.Extensions
+@model MrRondon.Domain.Entities.Category
+
+<div class="ui equal width form">
+    <div class="fields">
+        <div class="eight wide field">
+            @Html.LabelFor(e => e.Name)
+            @Html.SemanticTextBoxFor(e => e.Name, null)
+        </div>
+    </div>
+    <div class="fields">
+
+        <div class="form-group col-md-2">
+            @Html.LabelFor(m => m.Image)
+            <div class="categoryImage" style="height: 300px; width: 300px;border: black 1px solid">
+                <img alt="" class="ui medium circular image" src="@Url.Content("~/Content/Images/without_image.jpg")" style="height: 100%">
+            </div>
+            <div class="btn btn-default btn-file w100">
+                <span class="attach basic icon"></span> Anexar arquivo
+                <input id="image" type="file" name="image" class="upload" />
+            </div>
+        </div>
+    </div>
+</div>

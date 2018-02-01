@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "Todas Categorias";
+    ViewBag.Title = "Todas Sub Categorias";
 }
 
 @section header
@@ -14,12 +14,11 @@
     @Html.Partial("_Navigation", 1)
 }
 
-<table class="ui very basic table gt-datatable" data-action="@Url.Action("GetPagination", "Category", new { area = "Admin" })">
+<table class="ui very basic table gt-datatable" data-action="@Url.Action("GetPagination", "SubCategory", new { area = "Admin" })">
     <thead>
         <tr>
             <th hidden></th>
-            <th class="seven wide"></th>
-            <th class="seven wide"></th>
+            <th class="fourteen wide"></th>
             <th class="two wide"></th>
         </tr>
     </thead>
