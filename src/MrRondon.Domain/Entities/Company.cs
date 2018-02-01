@@ -39,7 +39,7 @@ namespace MrRondon.Domain.Entities
         public Guid AddressId { get; set; }
         public Address Address { get; set; }
         
-        [Display(Name = "Sub Categoria")]
+        [Display(Name = "Segmento")]
         [Required(ErrorMessage = "Campo {0} obrigatório")]
         public int SegmentId { get; set; }
         public Category Segment { get; set; }

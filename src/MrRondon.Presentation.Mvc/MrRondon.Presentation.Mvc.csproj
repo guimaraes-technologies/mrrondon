@@ -384,6 +384,12 @@
     <Content Include="Areas\Admin\Views\City\Details.cshtml" />
     <Content Include="Areas\Admin\Views\City\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\City\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Company\_Form.cshtml" />
+    <Content Include="Areas\Admin\Views\Company\_Navigation.cshtml" />
+    <Content Include="Areas\Admin\Views\Company\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Company\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\Company\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Company\Index.cshtml" />
     <None Include="Properties\PublishProfiles\Webdeploy.pubxml" />
     <None Include="Scripts\jquery-3.2.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.2.1.js" />
@@ -405,6 +411,7 @@
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\CategoryController.cs" />
     <Compile Include="Areas\Admin\Controllers\CityController.cs" />
+    <Compile Include="Areas\Admin\Controllers\CompanyController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Extensions\HtmlExtension.cs" />
     <Compile Include="Global.asax.cs">
@@ -414,6 +421,7 @@
     <Compile Include="LoginVm.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModels\CompanyAddressVm.cs" />
     <Compile Include="ViewModels\NewPasswordVm.cs" />
     <Compile Include="ViewModels\SigninVm.cs" />
   </ItemGroup>
