@@ -130,7 +130,7 @@ namespace MrRondon.Presentation.Mvc.Extensions
             return new MvcHtmlString(tag.ToString(TagRenderMode.SelfClosing));
         }
 
-        public static MvcHtmlString SemanticTextCrefFor<TModel, TProperty>(this HtmlHelper<TModel> html, Expression<Func<TModel, TProperty>> expression, dynamic htmlAttributes)
+        public static MvcHtmlString SemanticTextTelephoneFor<TModel, TProperty>(this HtmlHelper<TModel> html, Expression<Func<TModel, TProperty>> expression, dynamic htmlAttributes)
         {
             var fullBindingName = html.ViewContext.ViewData.TemplateInfo.GetFullHtmlFieldName(ExpressionHelper.GetExpressionText(expression));
             var metadata = ModelMetadata.FromLambdaExpression(expression, html.ViewData);
@@ -144,29 +144,7 @@ namespace MrRondon.Presentation.Mvc.Extensions
             tag.Attributes.Add("type", "text");
             tag.Attributes.Add("id", TagBuilder.CreateSanitizedId(fullBindingName));
             tag.Attributes.Add("name", fullBindingName);
-            tag.Attributes.Add("data-mascara", "cref");
-            tag.Attributes.Add("class", "gt-text-uppercase");
-            tag.Attributes.Add("placeholder", "Ex.: 123456789-G/RO");
-            tag.Attributes.Add("value", metadata.Model?.ToString() ?? string.Empty);
-
-            return new MvcHtmlString(tag.ToString(TagRenderMode.SelfClosing));
-        }
-
-        public static MvcHtmlString SemanticTextTelefoneFor<TModel, TProperty>(this HtmlHelper<TModel> html, Expression<Func<TModel, TProperty>> expression, dynamic htmlAttributes)
-        {
-            var fullBindingName = html.ViewContext.ViewData.TemplateInfo.GetFullHtmlFieldName(ExpressionHelper.GetExpressionText(expression));
-            var metadata = ModelMetadata.FromLambdaExpression(expression, html.ViewData);
-            var validations = html.GetUnobtrusiveValidationAttributes(metadata.PropertyName, metadata);
-            var tag = new TagBuilder("input");
-
-            InsertValidateAttribute(tag, validations);
-
-            if (htmlAttributes != null) tag.MergeAttributes(HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes));
-
-            tag.Attributes.Add("type", "text");
-            tag.Attributes.Add("id", TagBuilder.CreateSanitizedId(fullBindingName));
-            tag.Attributes.Add("name", fullBindingName);
-            tag.Attributes.Add("data-mascara", "telefone");
+            tag.Attributes.Add("data-mascara", "telephone");
             tag.Attributes.Add("value", metadata.Model?.ToString() ?? string.Empty);
 
             return new MvcHtmlString(tag.ToString(TagRenderMode.SelfClosing));
@@ -192,7 +170,7 @@ namespace MrRondon.Presentation.Mvc.Extensions
             return new MvcHtmlString(tag.ToString(TagRenderMode.SelfClosing));
         }
 
-        public static MvcHtmlString SemanticTextCepFor<TModel, TProperty>(this HtmlHelper<TModel> html, Expression<Func<TModel, TProperty>> expression, dynamic htmlAttributes)
+        public static MvcHtmlString SemanticTextZipCodeFor<TModel, TProperty>(this HtmlHelper<TModel> html, Expression<Func<TModel, TProperty>> expression, dynamic htmlAttributes)
         {
             var fullBindingName = html.ViewContext.ViewData.TemplateInfo.GetFullHtmlFieldName(ExpressionHelper.GetExpressionText(expression));
             var metadata = ModelMetadata.FromLambdaExpression(expression, html.ViewData);
@@ -212,7 +190,7 @@ namespace MrRondon.Presentation.Mvc.Extensions
             return new MvcHtmlString(tag.ToString(TagRenderMode.SelfClosing));
         }
 
-        public static MvcHtmlString SemanticTextDataFor<TModel, TProperty>(this HtmlHelper<TModel> html, Expression<Func<TModel, TProperty>> expression, dynamic htmlAttributes)
+        public static MvcHtmlString SemanticTextDateFor<TModel, TProperty>(this HtmlHelper<TModel> html, Expression<Func<TModel, TProperty>> expression, dynamic htmlAttributes)
         {
             var fullBindingName = html.ViewContext.ViewData.TemplateInfo.GetFullHtmlFieldName(ExpressionHelper.GetExpressionText(expression));
             var metadata = ModelMetadata.FromLambdaExpression(expression, html.ViewData);
@@ -226,7 +204,7 @@ namespace MrRondon.Presentation.Mvc.Extensions
             tag.Attributes.Add("type", "text");
             tag.Attributes.Add("id", TagBuilder.CreateSanitizedId(fullBindingName));
             tag.Attributes.Add("name", fullBindingName);
-            tag.Attributes.Add("data-mascara", "data");
+            tag.Attributes.Add("data-mascara", "date");
 
             var valorInput = metadata.Model?.ToString();
             if (string.IsNullOrWhiteSpace(valorInput)) tag.Attributes.Add("value", string.Empty);

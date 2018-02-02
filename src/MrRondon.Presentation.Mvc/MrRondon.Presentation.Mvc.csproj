@@ -349,6 +349,8 @@
     <Content Include="Scripts\DataTables\media\js\jquery.dataTables.js" />
     <Content Include="Scripts\DataTables\media\js\jquery.dataTables.min.js" />
     <Content Include="Scripts\DataTables\media\js\jquery.js" />
+    <Content Include="Scripts\jquery.mask.js" />
+    <Content Include="Scripts\jquery.mask.min.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\semantic.js" />
     <Content Include="Content\semantic.min.css" />
@@ -412,6 +414,7 @@
     <Content Include="Scripts\plugins\lolibox\lobibox.min.js" />
     <Content Include="Scripts\site\basic.js" />
     <Content Include="Scripts\site\datatable.js" />
+    <Content Include="Scripts\site\validation.js" />
     <Content Include="ViewSwitcher.ascx" />
     <Content Include="Web.config" />
   </ItemGroup>
