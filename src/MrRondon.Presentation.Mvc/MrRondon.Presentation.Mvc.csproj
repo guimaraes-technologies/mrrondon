@@ -267,6 +267,9 @@
     <Content Include="Content\components\visibility.min.js" />
     <Content Include="Content\components\visit.js" />
     <Content Include="Content\components\visit.min.js" />
+    <Content Include="Content\Images\brasao_ro.png" />
+    <Content Include="Content\Images\carrossel\1.png" />
+    <Content Include="Content\Images\ponto.png" />
     <Content Include="Content\Images\without_image.jpg" />
     <Content Include="Content\plugins\lolibox\lobibox.css" />
     <Content Include="Content\plugins\lolibox\lobibox.min.css" />
@@ -413,6 +416,7 @@
     <Content Include="Scripts\plugins\lolibox\lobibox.js" />
     <Content Include="Scripts\plugins\lolibox\lobibox.min.js" />
     <Content Include="Scripts\site\basic.js" />
+    <Content Include="Scripts\site\carrossel.js" />
     <Content Include="Scripts\site\datatable.js" />
     <Content Include="Scripts\site\validation.js" />
     <Content Include="ViewSwitcher.ascx" />
