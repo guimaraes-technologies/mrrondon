@@ -53,11 +53,11 @@
     <Compile Include="Entities\Login.cs" />
     <Compile Include="Entities\Message.cs" />
     <Compile Include="Entities\HistoricalSight.cs" />
-    <Compile Include="Entities\Person.cs" />
     <Compile Include="Entities\RefreshToken.cs" />
     <Compile Include="Entities\Role.cs" />
     <Compile Include="Entities\User.cs" />
     <Compile Include="Interfaces\Repositories\IRepositorioBase.cs" />
+    <Compile Include="PasswordAssertionConcern.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

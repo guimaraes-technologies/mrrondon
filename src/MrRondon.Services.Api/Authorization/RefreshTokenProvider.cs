@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Microsoft.Owin.Security.Infrastructure;
+using MrRondon.Domain;
 using MrRondon.Domain.Entities;
 using MrRondon.Infra.Data.Context;
 using MrRondon.Infra.Security.Helpers;
@@ -24,7 +25,7 @@ namespace MrRondon.Services.Api.Authorization
             var refreshTokenLifeTime = context.OwinContext.Get<string>("as:clientRefreshTokenLifeTime");
             var token = new RefreshToken
             {
-                RefreshTokenId = PasswordHelper.GetHash(refreshTokenId),
+                RefreshTokenId = PasswordAssertionConcern.GetHash(refreshTokenId),
                 ApplicationClientId = client.ApplicationClientId,
                 Subject = context.Ticket.Identity.Name,
                 IssuedUtc = DateTime.UtcNow,
@@ -45,7 +46,7 @@ namespace MrRondon.Services.Api.Authorization
             var allowedOrigin = context.OwinContext.Get<string>("as:clientAllowedOrigin");
             context.OwinContext.Response.Headers.Add("Access-Control-Allow-Origin", new[] { allowedOrigin });
 
-            var hashedTokenId = PasswordHelper.GetHash(context.Token);
+            var hashedTokenId = PasswordAssertionConcern.GetHash(context.Token);
 
             var repo = new MainContext();
             var refreshToken = await repo.RefreshTokens.FindAsync(hashedTokenId);

@@ -32,7 +32,7 @@ namespace MrRondon.Domain.Entities
         [MaxLength(14, ErrorMessage = "Máximo {0} caracteres")]
         public string Telephone { get; set; }
 
-        public Guid PersonId { get; set; }
-        public Person Person { get; set; }
+        public Guid UserId { get; set; }
+        public User User { get; set; }
     }
 }

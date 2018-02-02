@@ -36,7 +36,7 @@ namespace MrRondon.Services.Api.Controllers
         {
             try
             {
-                return Ok(_db.FavoriteEvents.Include(i => i.Event).Where(x => x.PersonId == Authentication.Current.UserId).Select(s => s.Event));
+                return Ok(_db.FavoriteEvents.Include(i => i.Event).Where(x => x.UserId == Authentication.Current.UserId).Select(s => s.Event));
             }
             catch (Exception ex)
             {

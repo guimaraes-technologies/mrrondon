@@ -21,7 +21,6 @@ namespace MrRondon.Infra.Data.Context
         public DbSet<FavoriteEvent> FavoriteEvents { get; set; }
         public DbSet<HistoricalSight> HistoricalSights { get; set; }
         public DbSet<Message> Messages { get; set; }
-        public DbSet<Person> Persons { get; set; }
         public DbSet<RefreshToken> RefreshTokens { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<User> Users { get; set; }

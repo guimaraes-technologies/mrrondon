@@ -2,9 +2,9 @@
 using System.Security.Cryptography;
 using System.Text;
 
-namespace MrRondon.Infra.Security.Helpers
+namespace MrRondon.Domain
 {
-    public class PasswordHelper
+    public class PasswordAssertionConcern
     {
         public static string ComputeHash(string plainText, string hashAlgorithm = "SHA512", byte[] saltBytes = null)
         {

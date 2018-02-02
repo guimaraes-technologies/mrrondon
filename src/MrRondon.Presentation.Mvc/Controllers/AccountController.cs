@@ -37,7 +37,7 @@ namespace MrRondon.Presentation.Mvc.Controllers
             try
             {
                 if (!ModelState.IsValid) return View(model).Error(Error.Default);
-                var user = _db.Users.FirstOrDefault(f => f.Email.Equals(model.UserName));
+                var user = _db.Users.FirstOrDefault(f => f.Cpf.Equals(model.UserName));
 
                 AccountManager.Signin(user, model.Password);
                 _db.Entry(user).State = EntityState.Modified;
@@ -70,7 +70,7 @@ namespace MrRondon.Presentation.Mvc.Controllers
                 if (!ModelState.IsValid) return View(model);
 
                 var repo = new RepositorioBase<User>(_db);
-                var user = repo.GetItemByExpression(x => x.Email.Equals(model.UserName));
+                var user = repo.GetItemByExpression(x => x.Cpf.Equals(model.UserName));
 
                 var email = user.Contacts.FirstOrDefault(f => f.ContactType == ContactType.Email)?.Description;
 

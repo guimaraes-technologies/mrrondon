@@ -6,6 +6,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.OAuth;
+using MrRondon.Domain;
 using MrRondon.Domain.Entities;
 using MrRondon.Infra.Data.Context;
 using MrRondon.Infra.Security.Helpers;
@@ -138,7 +139,7 @@ namespace MrRondon.Services.Api.Authorization
                 throw new Exception("Login ou senha incorreta");
 
             var repo = new MainContext();
-            var user = repo.Users.FirstOrDefault(f => f.Email == username);
+            var user = repo.Users.FirstOrDefault(f => f.Cpf == username);
 
             if (user == null) throw new Exception("Login ou senha incorreta");
             if (user.LockoutEnd.HasValue && DateTime.Now < user.LockoutEnd)
@@ -146,7 +147,7 @@ namespace MrRondon.Services.Api.Authorization
 
             var hashedPassword = user.Password;
 
-            if (hashedPassword != null && PasswordHelper.VerifyHash(password, "SHA512", hashedPassword))
+            if (hashedPassword != null && PasswordAssertionConcern.VerifyHash(password, "SHA512", hashedPassword))
             {
                 user.AccessFailed = 0;
                 user.LastLogin = DateTime.Now;

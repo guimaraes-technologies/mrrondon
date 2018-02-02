@@ -17,6 +17,40 @@ namespace MrRondon.Infra.Data.Migrations
 
         protected override void Seed(Context.MainContext context)
         {
+            if (!context.Users.Any())
+            {
+                var usernames = new[] { "administrator", "user" };
+                var roles = new List<Role>
+                {
+                    new Role {RoleId = 1, Name = "Admin", Description = "Usuário que controla o sistema."},
+                };
+
+                var users = new List<User>();
+                for (var i = 0; i < usernames.Length; i++)
+                {
+                    var cpf = i + 1;
+                    var user = new User
+                    {
+                        UserId = Guid.NewGuid(),
+                        FirstName = "User",
+                        LastName = "Master",
+                        Cpf = string.Format("{0}{0}{0}.{0}{0}{0}.{0}{0}{0}-{0}{0}", cpf),
+                        AccessFailed = 0,
+                        Contacts = new List<Contact>
+                        {
+                            new Contact
+                            {
+                                Description = $"{usernames[i]}@gmail.com",
+                                ContactType = ContactType.Email
+                            }
+                        },
+                        Roles = new List<Role> { roles[0] }
+                    };
+                    user.EncryptPassword("111111");
+                    context.Users.Add(user);
+                }
+            }
+
             var city1 = new City
             {
                 CityId = 1,
@@ -393,7 +427,7 @@ namespace MrRondon.Infra.Data.Migrations
                     Latitude = -8.799778,
                     Longitude = -63.807484
                 };
-            
+
                 context.Companies.AddRange(
                     new List<Company>
                     {
