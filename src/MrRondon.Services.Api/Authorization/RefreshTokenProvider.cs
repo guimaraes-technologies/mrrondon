@@ -25,7 +25,7 @@ namespace MrRondon.Services.Api.Authorization
             var token = new RefreshToken
             {
                 RefreshTokenId = PasswordHelper.GetHash(refreshTokenId),
-                ApplicationClientId = client.ClientId,
+                ApplicationClientId = client.ApplicationClientId,
                 Subject = context.Ticket.Identity.Name,
                 IssuedUtc = DateTime.UtcNow,
                 ExpiresUtc = DateTime.UtcNow.AddMinutes(Convert.ToDouble(refreshTokenLifeTime))

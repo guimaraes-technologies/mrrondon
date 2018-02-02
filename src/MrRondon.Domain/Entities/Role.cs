@@ -8,6 +8,6 @@ namespace MrRondon.Domain.Entities
         public string Name { get; set; }
         public string Description { get; set; }
 
-        public ICollection<User> Usuarios { get; set; }
+        public ICollection<User> Users { get; set; }
     }
 }

@@ -6,7 +6,7 @@ namespace MrRondon.Domain.Entities
     public class ApplicationClient
     {
         [Key]
-        public Guid ClientId { get; set; }
+        public Guid ApplicationClientId { get; set; }
         public string Secret { get; set; }
         public string Name { get; set; }
         public ApplicationTypes ApplicationType { get; set; }

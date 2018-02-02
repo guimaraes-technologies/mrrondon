@@ -37,6 +37,21 @@ namespace MrRondon.Infra.Data.Context
             modelBuilder.Properties<string>().Configure(p => p.HasColumnType("varchar"));
             modelBuilder.Properties<string>().Configure(p => p.HasMaxLength(100));
 
+            modelBuilder.Entity<Category>()
+                .HasOptional(p => p.SubCategory)
+                .WithMany()
+                .HasForeignKey(p => p.SubCategoryId);
+
+            modelBuilder.Entity<User>()
+                .HasMany(u => u.Roles)
+                .WithMany(u => u.Users)
+                .Map(m =>
+                {
+                    m.ToTable("UserRole");
+                    m.MapLeftKey("UserId");
+                    m.MapRightKey("RoleId");
+                });
+
             base.OnModelCreating(modelBuilder);
         }
     }

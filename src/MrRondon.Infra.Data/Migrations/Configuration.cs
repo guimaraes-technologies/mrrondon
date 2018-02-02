@@ -38,7 +38,7 @@ namespace MrRondon.Infra.Data.Migrations
             {
                 context.Clients.Add(new ApplicationClient
                 {
-                    ClientId = Guid.NewGuid(),
+                    ApplicationClientId = Guid.NewGuid(),
                     Secret = "Mr.Rondon.Turismo.App",
                     Name = "mrrondon.app",
                     RefreshTokenLifeTime = 1,
