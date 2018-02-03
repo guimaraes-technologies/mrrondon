@@ -13,6 +13,8 @@ namespace MrRondon.Domain.Entities
         public string Cpf { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
+
+        [MaxLength(100)]
         public string Password { get;  private set; }
         public int AccessFailed { get; set; }
         public DateTime? LastLogin { get; set; }

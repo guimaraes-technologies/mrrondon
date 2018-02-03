@@ -19,14 +19,14 @@ namespace MrRondon.Infra.Data.Migrations
         {
             if (!context.Users.Any())
             {
-                var usernames = new[] { "administrator", "user" };
+                var emails = new[] { "administrator", "user" };
                 var roles = new List<Role>
                 {
                     new Role {RoleId = 1, Name = "Admin", Description = "Usuário que controla o sistema."},
                 };
 
                 var users = new List<User>();
-                for (var i = 0; i < usernames.Length; i++)
+                for (var i = 0; i < emails.Length; i++)
                 {
                     var cpf = i + 1;
                     var user = new User
@@ -40,7 +40,8 @@ namespace MrRondon.Infra.Data.Migrations
                         {
                             new Contact
                             {
-                                Description = $"{usernames[i]}@gmail.com",
+                                ContactId = Guid.NewGuid(),
+                                Description = $"{emails[i]}@gmail.com",
                                 ContactType = ContactType.Email
                             }
                         },
