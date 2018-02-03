@@ -26,7 +26,7 @@ namespace MrRondon.Presentation.Mvc.Controllers
         [AllowAnonymous]
         public ActionResult Signin(string returnUrl)
         {
-            return AccountManager.IsAuthenticated ? RedirectToArea() : View(new SigninVm { ReturnUrl = returnUrl });
+            return AccountManager.IsAuthenticated ? RedirectToLocal(returnUrl) : View(new SigninVm { ReturnUrl = returnUrl });
         }
 
         [AllowAnonymous]
@@ -42,7 +42,8 @@ namespace MrRondon.Presentation.Mvc.Controllers
                 AccountManager.Signin(user, model.Password);
                 _db.Entry(user).State = EntityState.Modified;
                 _db.SaveChanges();
-                return !string.IsNullOrEmpty(model.ReturnUrl) ? RedirectToLocal(model.ReturnUrl) : RedirectToArea();
+
+                return RedirectToLocal(model.ReturnUrl);
             }
             catch (Exception ex)
             {
@@ -189,17 +190,13 @@ namespace MrRondon.Presentation.Mvc.Controllers
         [AllowAnonymous]
         private ActionResult RedirectToLocal(string returnUrl)
         {
-            if (Url.IsLocalUrl(returnUrl)) return Redirect(returnUrl);
+            if (!AccountManager.IsAuthenticated) return RedirectToAction("Signin", "Account", new { area = "" });
+
+            if (!string.IsNullOrWhiteSpace(returnUrl) && AccountManager.IsAuthenticated)
+                return Redirect(returnUrl);
 
             return RedirectToAction("Index", "Category", new { area = "Admin" });
         }
-
-        private ActionResult RedirectToArea()
-        {
-            return RedirectToAction("Index", "Category", new { area = "Admin" });
-        }
-
-
 
         public void BalanceRoles(User oldUser, User newUser, int[] rolesIds, MainContext ctx)
         {
