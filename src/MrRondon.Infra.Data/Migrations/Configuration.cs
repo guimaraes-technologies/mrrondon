@@ -69,9 +69,9 @@ namespace MrRondon.Infra.Data.Migrations
                 context.Cities.Add(city2);
             }
 
-            if (!context.Clients.Any())
+            if (!context.ApplicationClients.Any())
             {
-                context.Clients.Add(new ApplicationClient
+                context.ApplicationClients.Add(new ApplicationClient
                 {
                     ApplicationClientId = Guid.NewGuid(),
                     Secret = "Mr.Rondon.Turismo.App",

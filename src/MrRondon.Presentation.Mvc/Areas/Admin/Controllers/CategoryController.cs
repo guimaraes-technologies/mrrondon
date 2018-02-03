@@ -24,7 +24,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
 
         public ActionResult Details(int id)
         {
-            var repo = new RepositorioBase<Category>(_db);
+            var repo = new RepositoryBase<Category>(_db);
             var category = repo.GetItemByExpression(x => x.CategoryId == id, "SubCategory");
             if (category == null) return HttpNotFound();
             return View(category);
@@ -70,7 +70,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
 
         public ActionResult Edit(int id)
         {
-            var repo = new RepositorioBase<Category>(_db);
+            var repo = new RepositoryBase<Category>(_db);
             var category = repo.GetItemByExpression(x => x.CategoryId == id, "SubCategory");
             if (category == null) return HttpNotFound();
 
@@ -108,7 +108,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
 
         public ActionResult Delete(int id)
         {
-            var repo = new RepositorioBase<Category>(_db);
+            var repo = new RepositoryBase<Category>(_db);
             var category = repo.GetItemByExpression(x => x.CategoryId == id, "SubCategory");
             if (category == null) return HttpNotFound();
             return View(category);
@@ -138,7 +138,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
         {
             int recordsTotal;
             var search = parameters.Search.Value?.ToLower() ?? string.Empty;
-            var repo = new RepositorioBase<Category>(_db);
+            var repo = new RepositoryBase<Category>(_db);
             var items = repo.GetItemsByExpression(w => w.SubCategoryId == null && w.Name.Contains(search), x => x.Name, parameters.Start, parameters.Length, out recordsTotal).ToList();
             var dtResult = new DataTableResultSet(parameters.Draw, recordsTotal);
 

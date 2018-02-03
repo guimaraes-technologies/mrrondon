@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Data.Entity;
 using System.Threading.Tasks;
 using Microsoft.Owin.Security.Infrastructure;
 using MrRondon.Domain;
 using MrRondon.Domain.Entities;
 using MrRondon.Infra.Data.Context;
+using MrRondon.Infra.Data.Repositories;
 using MrRondon.Infra.Security.Helpers;
 
 namespace MrRondon.Services.Api.Authorization
@@ -18,15 +20,15 @@ namespace MrRondon.Services.Api.Authorization
 
             var refreshTokenId = Guid.NewGuid().ToString("n");
 
-            var repo = new MainContext();
-            var client = await repo.Clients.FindAsync(clientName);
-            if (client == null) return;
+            var repo = new RepositoryBase<ApplicationClient>();
+            var applicationClientId = repo.GetItemByExpression(f => f.Name.Equals(clientName))?.ApplicationClientId;
+            if (!applicationClientId.HasValue) return;
 
             var refreshTokenLifeTime = context.OwinContext.Get<string>("as:clientRefreshTokenLifeTime");
             var token = new RefreshToken
             {
                 RefreshTokenId = PasswordAssertionConcern.GetHash(refreshTokenId),
-                ApplicationClientId = client.ApplicationClientId,
+                ApplicationClientId = applicationClientId.Value,
                 Subject = context.Ticket.Identity.Name,
                 IssuedUtc = DateTime.UtcNow,
                 ExpiresUtc = DateTime.UtcNow.AddMinutes(Convert.ToDouble(refreshTokenLifeTime))
@@ -34,9 +36,9 @@ namespace MrRondon.Services.Api.Authorization
             context.Ticket.Properties.IssuedUtc = token.IssuedUtc;
             context.Ticket.Properties.ExpiresUtc = token.ExpiresUtc;
             token.ProtectedTicket = context.SerializeTicket();
-
-            repo.RefreshTokens.Add(token);
-            var result = await repo.SaveChangesAsync() > 0;
+            
+            var refreshTokenRepo = new RepositoryRefreshToken();
+            var result = await refreshTokenRepo.AddAsync(token);
 
             if (result) context.SetToken(refreshTokenId);
         }
@@ -48,15 +50,14 @@ namespace MrRondon.Services.Api.Authorization
 
             var hashedTokenId = PasswordAssertionConcern.GetHash(context.Token);
 
-            var repo = new MainContext();
-            var refreshToken = await repo.RefreshTokens.FindAsync(hashedTokenId);
+            var repo = new RepositoryRefreshToken();
+            var refreshToken = await repo.FindAsync(hashedTokenId);
 
             if (refreshToken != null)
             {
                 //Get protectedTicket from refreshToken class
                 context.DeserializeTicket(refreshToken.ProtectedTicket);
-                repo.RefreshTokens.Remove(refreshToken);
-                await repo.SaveChangesAsync();
+                await repo.RemoveAsync(refreshToken);
             }
         }
 

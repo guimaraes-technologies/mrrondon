@@ -23,7 +23,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
 
         public ActionResult Details(Guid id)
         {
-            var repo = new RepositorioBase<Company>(_db);
+            var repo = new RepositoryBase<Company>(_db);
             var model = repo.GetItemByExpression(x => x.CompanyId == id);
             if (model == null) return HttpNotFound();
             return View(new CompanyAddressVm
@@ -59,7 +59,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
 
         public ActionResult Edit(Guid id)
         {
-            var repo = new RepositorioBase<Company>(_db);
+            var repo = new RepositoryBase<Company>(_db);
             var model = repo.GetItemByExpression(x => x.CompanyId == id, "Segment");
             if (model == null) return HttpNotFound();
 
@@ -95,7 +95,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
         {
             int recordsTotal;
             var search = parameters.Search.Value?.ToLower() ?? string.Empty;
-            var repo = new RepositorioBase<Company>(_db);
+            var repo = new RepositoryBase<Company>(_db);
             var items = repo.GetItemsByExpression(w => w.Name.Contains(search), x => x.Name, parameters.Start, parameters.Length, out recordsTotal).ToList();
             var dtResult = new DataTableResultSet(parameters.Draw, recordsTotal);
 

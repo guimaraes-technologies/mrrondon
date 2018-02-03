@@ -22,7 +22,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
 
         public ActionResult Details(int id)
         {
-            var repo = new RepositorioBase<City>(_db);
+            var repo = new RepositoryBase<City>(_db);
             var city = repo.GetItemByExpression(x => x.CityId == id);
             if (city == null) return HttpNotFound();
             return View(city);
@@ -53,7 +53,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
 
         public ActionResult Edit(int id)
         {
-            var repo = new RepositorioBase<City>(_db);
+            var repo = new RepositoryBase<City>(_db);
             var city = repo.GetItemByExpression(x => x.CityId == id);
             if (city == null) return HttpNotFound();
 
@@ -83,7 +83,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
         {
             int recordsTotal;
             var search = parameters.Search.Value?.ToLower() ?? string.Empty;
-            var repo = new RepositorioBase<City>(_db);
+            var repo = new RepositoryBase<City>(_db);
             var items = repo.GetItemsByExpression(w => w.Name.Contains(search), x => x.Name, parameters.Start, parameters.Length, out recordsTotal).ToList();
             var dtResult = new DataTableResultSet(parameters.Draw, recordsTotal);
 

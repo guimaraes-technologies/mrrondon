@@ -4,22 +4,23 @@ using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 using MrRondon.Domain.Interfaces.Repositories;
 using MrRondon.Infra.Data.Context;
 
 namespace MrRondon.Infra.Data.Repositories
 {
-    public class RepositorioBase<TEntity> : IRepositoryBase<TEntity> where TEntity : class
+    public class RepositoryBase<TEntity> : IRepositoryBase<TEntity> where TEntity : class
     {
         protected MainContext Context;
         protected DbSet<TEntity> DbSet;
 
-        public RepositorioBase(MainContext mainContext = null)
+        public RepositoryBase(MainContext mainContext = null)
         {
             Context = mainContext ?? new MainContext();
             DbSet = Context.Set<TEntity>();
         }
-
+        
         public virtual TEntity Add(TEntity entity)
         {
             DbSet.Add(entity);

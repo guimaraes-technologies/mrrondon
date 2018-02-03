@@ -47,7 +47,8 @@
     <Compile Include="Context\MainContext.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Repositories\RepositorioBase.cs" />
+    <Compile Include="Repositories\RepositoryBase.cs" />
+    <Compile Include="Repositories\RepositoryRefreshToken.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

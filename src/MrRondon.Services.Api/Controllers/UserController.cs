@@ -18,7 +18,6 @@ namespace MrRondon.Services.Api.Controllers
             _db = new MainContext();
         }
 
-
         [Route("information")]
         public IHttpActionResult GetInformation()
         {

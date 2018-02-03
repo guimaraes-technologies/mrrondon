@@ -6,7 +6,6 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.OAuth;
-using MrRondon.Domain;
 using MrRondon.Domain.Entities;
 using MrRondon.Infra.Data.Context;
 using MrRondon.Infra.Security.Helpers;
@@ -15,15 +14,10 @@ namespace MrRondon.Services.Api.Authorization
 {
     public class TokenProvider : OAuthAuthorizationServerProvider
     {
-        public override Task ValidateClientAuthentication(OAuthValidateClientAuthenticationContext context)
+        public override async Task ValidateClientAuthentication(OAuthValidateClientAuthenticationContext context)
         {
-            var clientId = string.Empty;
-            var clientSecret = string.Empty;
-
-            if (!context.TryGetBasicCredentials(out clientId, out clientSecret))
-            {
-                context.TryGetFormCredentials(out clientId, out clientSecret);
-            }
+            if (!context.TryGetBasicCredentials(out _, out var clientSecret))
+                context.TryGetFormCredentials(out _, out clientSecret);
 
             if (context.ClientId == null)
             {
@@ -31,16 +25,18 @@ namespace MrRondon.Services.Api.Authorization
                 //if you want to force sending clientId/secrects once obtain access tokens. 
                 context.Rejected();
                 context.SetError("invalid_clientId", "Chave do cliente deve ser enviada.");
-                return Task.FromResult<object>(null);
+                await Task.FromResult<object>(null);
+                return;
             }
 
             var repo = new MainContext();
-            var client = repo.Clients.Find(context.ClientId);
+            var client = await repo.ApplicationClients.FirstOrDefaultAsync(f => f.Name.Equals(context.ClientId));
 
             if (client == null)
             {
                 context.SetError("invalid_clientId", $"Cliente '{context.ClientId}' não está registrado no sistema.");
-                return Task.FromResult<object>(null);
+                await Task.FromResult<object>(null);
+                return;
             }
 
             if (client.ApplicationType == ApplicationTypes.NativeConfidential)
@@ -48,26 +44,30 @@ namespace MrRondon.Services.Api.Authorization
                 if (string.IsNullOrWhiteSpace(clientSecret))
                 {
                     context.SetError("invalid_clientId", "Chave do cliente deveria ser enviada.");
-                    return Task.FromResult<object>(null);
+                    await Task.FromResult<object>(null);
+                    return;
                 }
                 if (client.Secret != clientSecret)
                 {
                     context.SetError("invalid_clientId", "Chave do cliente é inválida.");
-                    return Task.FromResult<object>(null);
+                    await Task.FromResult<object>(null);
+                    return;
                 }
             }
 
             if (!client.Active)
             {
                 context.SetError("invalid_clientId", "Cliente está desativado.");
-                return Task.FromResult<object>(null);
+                await Task.FromResult<object>(null);
+                return;
             }
 
             context.OwinContext.Set("as:clientAllowedOrigin", client.AllowedOrigin);
             context.OwinContext.Set("as:clientRefreshTokenLifeTime", client.RefreshTokenLifeTime.ToString());
 
             context.Validated();
-            return Task.FromResult<object>(null);
+            await Task.FromResult<object>(null);
+            return;
         }
 
         public override async Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
@@ -78,7 +78,7 @@ namespace MrRondon.Services.Api.Authorization
 
                 context.OwinContext.Response.Headers.Add("Access-Control-Allow-Origin", new[] { allowedOrigin });
 
-                var identity = ValidAccess(context.UserName, context.Password, context.Options.AuthenticationType);
+                var identity = ValidateAccess(context.UserName, context.Password, context.Options.AuthenticationType);
 
                 var props = new AuthenticationProperties(new Dictionary<string, string>
                 {
@@ -133,39 +133,15 @@ namespace MrRondon.Services.Api.Authorization
             return Task.FromResult<object>(null);
         }
 
-        private static ClaimsIdentity ValidAccess(string username, string password, string authenticationType = OAuthDefaults.AuthenticationType)
+        private static ClaimsIdentity ValidateAccess(string username, string password, string authenticationType = OAuthDefaults.AuthenticationType)
         {
-            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
-                throw new Exception("Login ou senha incorreta");
-
             var repo = new MainContext();
-            var user = repo.Users.FirstOrDefault(f => f.Cpf == username);
-
-            if (user == null) throw new Exception("Login ou senha incorreta");
-            if (user.LockoutEnd.HasValue && DateTime.Now < user.LockoutEnd)
-                throw new Exception("Sua conta foi temporariamente bloqueada por exceder o número de tentativas inválidas, tente novamente mais tarde.");
-
-            var hashedPassword = user.Password;
-
-            if (hashedPassword != null && PasswordAssertionConcern.VerifyHash(password, "SHA512", hashedPassword))
-            {
-                user.AccessFailed = 0;
-                user.LastLogin = DateTime.Now;
-                user.LockoutEnd = null;
-            }
-            else
-            {
-                if (user.AccessFailed == 5 && !user.LockoutEnd.HasValue)
-                    user.LockoutEnd = DateTime.Now.AddMinutes(2);
-                else user.AccessFailed = user.AccessFailed + 1;
-            }
+            var user = repo.Users.Include(i => i.Roles).FirstOrDefault(f => f.Cpf == username);
+            var claims = AccountManager.ValidateLogin(user, password, authenticationType);
 
             repo.Entry(user).State = EntityState.Modified;
             repo.SaveChanges();
-
-            if (user.AccessFailed > 0) throw new Exception("Login ou senha incorreta");
-
-            return user.GetClaims(authenticationType);
+            return claims;
         }
     }
 }

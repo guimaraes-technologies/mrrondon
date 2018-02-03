@@ -69,7 +69,7 @@ namespace MrRondon.Presentation.Mvc.Controllers
             {
                 if (!ModelState.IsValid) return View(model);
 
-                var repo = new RepositorioBase<User>(_db);
+                var repo = new RepositoryBase<User>(_db);
                 var user = repo.GetItemByExpression(x => x.Cpf.Equals(model.UserName));
 
                 var email = user.Contacts.FirstOrDefault(f => f.ContactType == ContactType.Email)?.Description;
