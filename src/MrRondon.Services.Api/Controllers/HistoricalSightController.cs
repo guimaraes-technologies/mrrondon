@@ -1,4 +1,5 @@
-﻿using System;
+﻿using System.Data.Entity;
+using System;
 using System.Linq;
 using System.Web.Http;
 using MrRondon.Infra.Data.Context;
@@ -13,6 +14,23 @@ namespace MrRondon.Services.Api.Controllers
         public HistoricalSightController()
         {
             _db = new MainContext();
+        }
+
+        [AllowAnonymous]
+        [Route("{id:int}")]
+        public IHttpActionResult Get(int id)
+        {
+            try
+            {
+                var item = _db.HistoricalSights
+                    .Include(i => i.Address.City)
+                    .FirstOrDefault(f => f.HistoricalSightId == id);
+                return Ok(item);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [AllowAnonymous]
