@@ -51,7 +51,7 @@ namespace MrRondon.Services.Api.Controllers
         }
 
         [AllowAnonymous]
-        [Route("{segmentId:int}/{name:alpha=}")]
+        [Route("segment/{segmentId:int}/{name:alpha=}")]
         public IHttpActionResult Get(int segmentId, string name)
         {
             try
@@ -66,7 +66,7 @@ namespace MrRondon.Services.Api.Controllers
         }
 
         [AllowAnonymous]
-        [Route("{segmentId:int}/{city:int}/{name:alpha=}")]
+        [Route("segment/{segmentId:int}/{city:int}/{name:alpha=}")]
         public IHttpActionResult Get(int segmentId, int city, string name)
         {
             try
