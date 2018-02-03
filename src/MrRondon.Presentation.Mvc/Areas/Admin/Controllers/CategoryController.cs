@@ -149,7 +149,6 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
                 {
                     item.CategoryId.ToString(),
                     $"{item.Name}",
-                    $"{item.SubCategory?.Name ?? "Não possui"}",
                     buttons.ToPagination(item.CategoryId)
                 });
             }

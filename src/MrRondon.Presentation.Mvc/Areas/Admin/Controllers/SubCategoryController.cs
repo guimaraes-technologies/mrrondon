@@ -136,6 +136,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
                 {
                     item.CategoryId.ToString(),
                     $"{item.Name}",
+                    $"{item.SubCategory?.Name ?? "Não informada"}",
                     buttons.ToPagination(item.CategoryId)
                 });
             }

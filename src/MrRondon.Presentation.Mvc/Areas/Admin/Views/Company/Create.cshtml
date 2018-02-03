@@ -15,7 +15,7 @@
     @Html.Partial("_Navigation", 2)
 }
 
-@using (Html.BeginForm("Create", "Company", FormMethod.Post, new { @class = "ui form" }))
+@using (Html.BeginForm("Create", "Company", FormMethod.Post, new { @class = "ui form", enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
     @Html.Partial("_Form")

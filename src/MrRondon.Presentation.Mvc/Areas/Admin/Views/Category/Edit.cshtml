@@ -15,7 +15,7 @@
     @Html.Partial("_Navigation", 1)
 }
 
-@using (Html.BeginForm("Edit", "Category", FormMethod.Post, new { @class = "ui form" }))
+@using (Html.BeginForm("Edit", "Category", FormMethod.Post, new { @class = "ui form", enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
     @Html.HiddenFor(e => e.CategoryId)
