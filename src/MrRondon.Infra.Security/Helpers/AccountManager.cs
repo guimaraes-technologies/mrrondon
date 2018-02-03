@@ -33,8 +33,7 @@ namespace MrRondon.Infra.Security.Helpers
             if (user.LockoutEnd.HasValue && DateTime.Now < user.LockoutEnd)
                 throw new Exception("Sua conta foi temporariamente bloqueada por exceder o número de tentativas inválidas, tente novamente mais tarde.");
 
-            var passwordHash = PasswordAssertionConcern.ComputeHash(password);
-            if (PasswordAssertionConcern.VerifyHash(passwordHash, user.Password))
+            if (PasswordAssertionConcern.VerifyHash(password, user.Password))
             {
                 user.AccessFailed = 0;
                 user.LastLogin = DateTime.Now;

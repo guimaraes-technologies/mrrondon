@@ -147,8 +147,7 @@ namespace MrRondon.Domain
                 saltBytes[i] = hashWithSaltBytes[hashSizeInBytes + i];
 
             // Compute a new hash string.
-            var expectedHashString =
-                        ComputeHash(plainText, hashAlgorithm, saltBytes);
+            var expectedHashString = ComputeHash(plainText, hashAlgorithm, saltBytes);
 
             // If the computed hash matches the specified hash,
             // the plain text value must be correct.
