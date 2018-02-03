@@ -3,7 +3,6 @@ using System.Security.Claims;
 using System.Security.Principal;
 using System.Web;
 using Microsoft.Owin.Security;
-using Microsoft.Owin.Security.OAuth;
 using MrRondon.Domain;
 using MrRondon.Domain.Entities;
 using MrRondon.Infra.CrossCutting.Message;
@@ -23,10 +22,21 @@ namespace MrRondon.Infra.Security.Helpers
         }
 
         public static bool IsAuthenticated => Current.Identity.IsAuthenticated;
-        public Guid UserId { get; private set; }
-        public string FullName { get; private set; }
+        public Guid UserId { get; }
+        public string FullName { get; }
 
         public static void Signin(User user, string password)
+        {
+            var claims = ValidateLogin(user, password, AuthenticationType.Mvc);
+            Auth.SignIn(claims);
+        }
+
+        public static void Signout()
+        {
+            Auth.SignOut("ApplicationCookie");
+        }
+
+        public static ClaimsIdentity ValidateLogin(User user, string password, string authenticationType)
         {
             if (user == null) throw new Exception(Error.WrongUserNameOrPassword);
 
@@ -38,7 +48,7 @@ namespace MrRondon.Infra.Security.Helpers
                 user.AccessFailed = 0;
                 user.LastLogin = DateTime.Now;
                 user.LockoutEnd = null;
-                Auth.SignIn(user.GetClaims(OAuthDefaults.AuthenticationType));
+                return user.GetClaims(authenticationType);
             }
             else
             {
@@ -48,13 +58,10 @@ namespace MrRondon.Infra.Security.Helpers
                 }
                 else user.AccessFailed = user.AccessFailed + 1;
             }
-            
-            if (user.AccessFailed > 0) throw new Exception(Error.WrongUserNameOrPassword);
-        }
 
-        public static void Signout()
-        {
-            Auth.SignOut("ApplicationCookie");
+            if (user.AccessFailed > 0) throw new Exception(Error.WrongUserNameOrPassword);
+
+            throw new Exception(Error.WrongUserNameOrPassword);
         }
     }
 }

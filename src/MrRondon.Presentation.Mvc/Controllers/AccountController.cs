@@ -37,7 +37,7 @@ namespace MrRondon.Presentation.Mvc.Controllers
             try
             {
                 if (!ModelState.IsValid) return View(model).Error(Error.Default);
-                var user = _db.Users.FirstOrDefault(f => f.Cpf.Equals(model.UserName));
+                var user = _db.Users.Include(i => i.Roles).FirstOrDefault(f => f.Cpf.Equals(model.UserName));
 
                 AccountManager.Signin(user, model.Password);
                 _db.Entry(user).State = EntityState.Modified;
