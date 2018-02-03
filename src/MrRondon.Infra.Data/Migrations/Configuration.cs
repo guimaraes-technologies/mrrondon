@@ -565,7 +565,7 @@ namespace MrRondon.Infra.Data.Migrations
                     AddressId = address1.AddressId,
                     Address = address1,
                     Name = "Principe da Beira",
-                    SightHistory = "A história é interessante, mas outro vai contar",
+                    SightHistory = "A história é interessante, mas outro vai contar  . . . "
                 };
                 context.HistoricalSights.Add(historicalSight);
             }
