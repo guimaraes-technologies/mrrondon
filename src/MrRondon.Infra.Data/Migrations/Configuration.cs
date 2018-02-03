@@ -25,7 +25,6 @@ namespace MrRondon.Infra.Data.Migrations
                     new Role {RoleId = 1, Name = "Admin", Description = "Usuário que controla o sistema."},
                 };
 
-                var users = new List<User>();
                 for (var i = 0; i < emails.Length; i++)
                 {
                     var cpf = i + 1;
@@ -428,7 +427,6 @@ namespace MrRondon.Infra.Data.Migrations
                     Latitude = -8.799778,
                     Longitude = -63.807484
                 };
-
                 context.Companies.AddRange(
                     new List<Company>
                     {
@@ -547,6 +545,30 @@ namespace MrRondon.Infra.Data.Migrations
 
             }
 
+            if (!context.HistoricalSights.Any())
+            {
+                var address1 = new Address
+                {
+                    AddressId = Guid.NewGuid(),
+                    Latitude = -8.7526757,
+                    Longitude = -63.9128231,
+                    Neighborhood = "Centro",
+                    Number = "S/N",
+                    Street = "Farquar",
+                    ZipCode = "76.817-003",
+                    CityId = city1.CityId,
+                    City = city1
+                };
+                var historicalSight = new HistoricalSight
+                {
+                    HistoricalSightId = 1,
+                    AddressId = address1.AddressId,
+                    Address = address1,
+                    Name = "Principe da Beira",
+                    SightHistory = "A história é interessante, mas outro vai contar",
+                };
+                context.HistoricalSights.Add(historicalSight);
+            }
             context.SaveChanges();
         }
     }

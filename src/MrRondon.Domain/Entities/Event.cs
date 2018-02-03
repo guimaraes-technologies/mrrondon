@@ -25,7 +25,14 @@ namespace MrRondon.Domain.Entities
         [Display(Name = "Fim")]
         [Required(ErrorMessage = "Campo {0} obrigatório")]
         public DateTime EndDate { get; set; }
-        //todo insert cover image and event image
+
+        [Display(Name = "Imagem da Logo")]
+        //[Required(ErrorMessage = "Campo {0} obrigatório")]
+        public byte[] Logo { get; set; }
+
+        [Display(Name = "Imagem da Capa")]
+        //[Required(ErrorMessage = "Campo {0} obrigatório")]
+        public byte[] Cover { get; set; }
 
         [Display(Name = "Endereço")]
         [Required(ErrorMessage = "Campo {0} obrigatório")]
