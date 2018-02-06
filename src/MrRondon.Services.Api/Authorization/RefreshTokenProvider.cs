@@ -19,8 +19,8 @@ namespace MrRondon.Services.Api.Authorization
             if (string.IsNullOrEmpty(clientName)) return;
 
             var refreshTokenId = Guid.NewGuid().ToString("n");
-
-            var repo = new RepositoryBase<ApplicationClient>();
+            var db = new MainContext();
+            var repo = new RepositoryBase<ApplicationClient>(db);
             var applicationClientId = repo.GetItemByExpression(f => f.Name.Equals(clientName))?.ApplicationClientId;
             if (!applicationClientId.HasValue) return;
 

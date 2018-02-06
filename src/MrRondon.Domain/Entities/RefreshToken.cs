@@ -7,9 +7,12 @@ namespace MrRondon.Domain.Entities
     {
         [Key]
         public string RefreshTokenId { get; set; }
+
         public string Subject { get; set; }
         public DateTime IssuedUtc { get; set; }
         public DateTime ExpiresUtc { get; set; }
+
+        [MaxLength(250)]
         public string ProtectedTicket { get; set; }
 
         public Guid ApplicationClientId { get; set; }

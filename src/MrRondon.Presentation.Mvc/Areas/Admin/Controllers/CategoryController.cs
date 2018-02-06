@@ -37,26 +37,20 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(Category model, HttpPostedFileBase image)
+        public ActionResult Create(Category model, HttpPostedFileBase imageFile)
         {
             try
             {
-                if (image == null)
+                if (imageFile != null)
                 {
-                    ViewBag.SubCategories = new SelectList(_db.Categories.Where(s => s.SubCategoryId != null).OrderBy(o => o.Name), "CategoryId", "Name");
-                    return View(model).Error("A imagem da categoria é obrigatória");
+                    var br = new BinaryReader(imageFile.InputStream);
+                    model.SetImage(br.ReadBytes(imageFile.ContentLength));
+                    br.Close();
                 }
+                else return View(model).Error("A imagem da categoria é obrigatória");
 
-                if (!ModelState.IsValid)
-                {
-                    ViewBag.SubCategories = new SelectList(_db.Categories.Where(s => s.SubCategoryId != null).OrderBy(o => o.Name), "CategoryId", "Name");
-                    return View(model);
-                }
+                if (!ModelState.IsValid) return View(model);
 
-                var br = new BinaryReader(image.InputStream);
-                model.SetImage(br.ReadBytes(image.ContentLength));
-                br.Close();
                 _db.Categories.Add(model);
                 _db.SaveChanges();
                 return RedirectToAction("Index");
@@ -79,12 +73,11 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(Category model, HttpPostedFileBase image)
+        public ActionResult Edit(Category model, HttpPostedFileBase imageFile)
         {
             try
             {
-                if (image == null)
+                if (imageFile == null)
                 {
                     ViewBag.SubCategories = new SelectList(_db.Categories.Where(s => s.SubCategoryId != null).OrderBy(o => o.Name), "CategoryId", "Name");
                     return View(model).Error("A imagem da categoria é obrigatória");
@@ -92,8 +85,8 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
 
                 if (!ModelState.IsValid) return View(model);
 
-                var br = new BinaryReader(image.InputStream);
-                model.SetImage(br.ReadBytes(image.ContentLength));
+                var br = new BinaryReader(imageFile.InputStream);
+                model.SetImage(br.ReadBytes(imageFile.ContentLength));
                 br.Close();
                 _db.Entry(model).State = EntityState.Modified;
                 _db.SaveChanges();
@@ -115,7 +108,6 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
         }
 
         [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
             try
