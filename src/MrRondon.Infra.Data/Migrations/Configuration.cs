@@ -46,7 +46,7 @@ namespace MrRondon.Infra.Data.Migrations
                         },
                         Roles = new List<Role> { roles[0] }
                     };
-                    user.EncryptPassword("111111");
+                    user.EncryptPassword("(69) 3211-6791(69) 3211-6791");
                     context.Users.Add(user);
                 }
             }
@@ -420,7 +420,7 @@ namespace MrRondon.Infra.Data.Migrations
                     AddressId = Guid.NewGuid(),
                     CityId = city1.CityId,
                     City = city1,
-                    ZipCode = "11111-111",
+                    ZipCode = "(69) 3211-679111-(69) 3211-6791",
                     Number = "1234",
                     Neighborhood = "Bairro Novo",
                     Street = "Rodovia BR 364, km 702",
@@ -568,6 +568,79 @@ namespace MrRondon.Infra.Data.Migrations
                     SightHistory = "A história é interessante, mas outro vai contar  . . . "
                 };
                 context.HistoricalSights.Add(historicalSight);
+            }
+
+            if (!context.Messages.Any())
+            {
+                context.Messages.AddRange(new List<Message>
+                {
+                    new Message
+                    {
+                        MessageId = Guid.NewGuid(),
+                        Title = "Não x lida",
+                        Description = "Nada a declarar",
+                        CellPhone = "(69) 99226-6791",
+                        Telephone = "(69) 3211-6791",
+                        Status = MessageStatus.Attended,
+                        Subject = MessageSubject.NewCompany,
+                        UserId = Guid.Parse("27d6da73-d1af-45ca-a45a-034159dc7997")
+                    },
+                    new Message
+                    {
+                        MessageId = Guid.NewGuid(),
+                        Title = "Não  lida x x",
+                        Description = "Nada a declarar",
+                        CellPhone = "(69) 99226-6791",
+                        Telephone = "(69) 3211-6791",
+                        Status = MessageStatus.Read,
+                        Subject = MessageSubject.UpdateCompany,
+                        UserId = Guid.Parse("27d6da73-d1af-45ca-a45a-034159dc7997")
+                    },
+                    new Message
+                    {
+                        MessageId = Guid.NewGuid(),
+                        Title = "Lida agora",
+                        Description = "Nada a declarar",
+                        CellPhone = "(69) 99226-6791",
+                        Telephone = "(69) 3211-6791",
+                        Status = MessageStatus.Read,
+                        Subject = MessageSubject.UpdateEvent,
+                        UserId = Guid.Parse("27d6da73-d1af-45ca-a45a-034159dc7997")
+                    },
+                    new Message
+                    {
+                        MessageId = Guid.NewGuid(),
+                        Title = "Não  lida",
+                        Description = "Nada 645 64 a xx",
+                        CellPhone = "(69) 99226-6791",
+                        Telephone = "(69) 3211-6791",
+                        Status = MessageStatus.Unread,
+                        Subject = MessageSubject.UpdateCompany,
+                        UserId = Guid.Parse("27d6da73-d1af-45ca-a45a-034159dc7997")
+                    },
+                    new Message
+                    {
+                        MessageId = Guid.NewGuid(),
+                        Title = "Não  lida",
+                        Description = "Nada a declarar",
+                        CellPhone = "(69) 99226-6791",
+                        Telephone = "(69) 3211-6791",
+                        Status = MessageStatus.Read,
+                        Subject = MessageSubject.NewEvent,
+                        UserId = Guid.Parse("27d6da73-d1af-45ca-a45a-034159dc7997")
+                    },
+                    new Message
+                    {
+                        MessageId = Guid.NewGuid(),
+                        Title = "Lida read",
+                        Description = "Nada a declarar read",
+                        CellPhone = "(69) 99226-6791",
+                        Telephone = "(69) 3211-6791",
+                        Status = MessageStatus.Attended,
+                        Subject = MessageSubject.NewEvent,
+                        UserId = Guid.Parse("27d6da73-d1af-45ca-a45a-034159dc7997")
+                    }
+                });
             }
             context.SaveChanges();
         }

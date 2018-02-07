@@ -23,8 +23,8 @@ namespace MrRondon.Domain.Entities
 
         [Display(Name = "Celular")]
         [Required(ErrorMessageResourceType = typeof(Error), ErrorMessageResourceName = "Required")]
-        [MinLength(13, ErrorMessageResourceType = typeof(Error), ErrorMessageResourceName = "MinLength")]
-        [MaxLength(14, ErrorMessageResourceType = typeof(Error), ErrorMessageResourceName = "MaxLength")]
+        [MinLength(14, ErrorMessageResourceType = typeof(Error), ErrorMessageResourceName = "MinLength")]
+        [MaxLength(15, ErrorMessageResourceType = typeof(Error), ErrorMessageResourceName = "MaxLength")]
         public string CellPhone { get; set; }
 
         [Display(Name = "Telefone")]

@@ -413,7 +413,9 @@
     <Content Include="Areas\Admin\Views\Message\Create.cshtml" />
     <Content Include="Areas\Admin\Views\Message\Details.cshtml" />
     <Content Include="Areas\Admin\Views\Message\Edit.cshtml" />
-    <Content Include="Areas\Admin\Views\Message\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Message\Attended.cshtml" />
+    <Content Include="Areas\Admin\Views\Message\Read.cshtml" />
+    <Content Include="Areas\Admin\Views\Message\Unread.cshtml" />
     <None Include="Properties\PublishProfiles\Webdeploy.pubxml" />
     <None Include="Scripts\jquery-3.2.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.2.1.js" />
