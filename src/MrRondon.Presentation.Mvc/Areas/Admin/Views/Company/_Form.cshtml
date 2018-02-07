@@ -1,29 +1,31 @@
 ﻿@using MrRondon.Presentation.Mvc.Extensions
 @model MrRondon.Presentation.Mvc.ViewModels.CompanyAddressVm
 
-<div class="ui equal width form">
-    <div class="fields">
-        <div class="eight wide field">
-            @Html.LabelFor(e => e.Company.Name)
-            @Html.SemanticTextBoxFor(e => e.Company.Name, null)
-        </div>
-        <div class="eight wide field">
-            @Html.LabelFor(e => e.Company.FancyName)
-            @Html.SemanticTextBoxFor(e => e.Company.FancyName, null)
-        </div>
+<div class="fields">
+    <div class="eight wide field">
+        @Html.LabelFor(e => e.Company.Name)
+        @Html.SemanticTextBoxFor(e => e.Company.Name, null)
     </div>
-    <div class="fields">
-        <div class="three wide field">
-            @Html.LabelFor(e => e.Company.Cnpj)
-            @Html.SemanticTextBoxFor(e => e.Company.Cnpj, null)
-        </div>
-        <div class="seven wide field">
-            @Html.Label("Categoria")
-            @Html.SemanticDropDownListFor(e => e.CategoryId, null)
-        </div>
-        <div class="six wide field">
-            @Html.Label("Sub Categoria")
-            @Html.SemanticDropDownListFor(e => e.SubCategoryId, null)
-        </div>
+    <div class="eight wide field">
+        @Html.LabelFor(e => e.Company.FancyName)
+        @Html.SemanticTextBoxFor(e => e.Company.FancyName, null)
     </div>
+</div>
+<div class="fields">
+    <div class="three wide field">
+        @Html.LabelFor(e => e.Company.Cnpj)
+        @Html.SemanticTextBoxFor(e => e.Company.Cnpj, null)
+    </div>
+    <div class="seven wide field">
+        @Html.Label("Categoria")
+        @Html.SemanticDropDownListFor(e => e.CategoryId, null)
+    </div>
+    <div class="six wide field">
+        @Html.Label("Sub Categoria")
+        @Html.SemanticDropDownListFor(e => e.SubCategoryId, null)
+    </div>
+</div>
+
+<div class="list-contact">
+    @Html.Action("Contacts", "Company", new { area = "Admin", companyContact = Model })
 </div>

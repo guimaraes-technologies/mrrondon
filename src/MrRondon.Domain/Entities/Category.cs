@@ -6,8 +6,7 @@ namespace MrRondon.Domain.Entities
 {
     public class Category
     {
-        [Key]
-        public int CategoryId { get; set; }
+        [Key] public int CategoryId { get; set; }
 
         [Display(Name = "Nome")]
         [Required(ErrorMessage = "Campo {0} obrigatório")]
@@ -20,8 +19,7 @@ namespace MrRondon.Domain.Entities
         //[Required(ErrorMessage = "Campo {0} obrigatório")]
         public byte[] Image { get; set; }
 
-        [Display(Name = "Sub Categoria")]
-        public int? SubCategoryId { get; set; }
+        [Display(Name = "Sub Categoria")] public int? SubCategoryId { get; set; }
         public Category SubCategory { get; set; }
 
         public void SetImage(byte[] imageBytes)
@@ -29,4 +27,4 @@ namespace MrRondon.Domain.Entities
             Image = imageBytes;
         }
     }
-}   
+}

@@ -9,8 +9,8 @@
 
     Validation.validate = function () {
         var $this = $(this);
-        var divPai = $(this).closest(".div-pai");
-        var result = divPai.find(".result");
+        var divAllItems = $(this).closest(".all-items");
+        var result = divAllItems.find(".result");
         result.text("");
         var email = $this.val();
         if (Validation.validateEmail(email)) {
@@ -24,14 +24,13 @@
 
     Validation.mask = function (element, mask) {
         element.attr("maxlength", 100);
-        var divPai = element.closest(".div-pai");
-        var result = divPai.find(".result");
+        var divAllItems = element.closest(".all-items");
+        var result = divAllItems.find(".result");
         result.text("");
         element.unbind();
         element.unmask();
         switch (mask) {
             case "cpf": element.mask("999.999.999-99");break;
-            case "cref": element.mask("999999-G/RO"); break;
             case "data": element.mask("99/99/9999"); break;
             case "hora": element.mask("99:99"); break;
             case "cep": element.mask("99999-999"); break;
@@ -43,7 +42,6 @@
     }
 
     $.fn.form.settings.rules.remote = function (value, input, test) {
-       
         $.ajax({
             type: "GET",
             url: $(this).data("val-remote-url"),
@@ -69,7 +67,6 @@
         if (element.data("mascara")) {
             switch (element.data("mascara")) {
                 case "cpf": element.mask("999.999.999-99"); break;
-                case "cref": element.mask("999999-S/SS"); break;
                 case "data": element.mask("99/99/9999"); break;
                 case "hora": element.mask("99:99"); break;
                 case "cep": element.mask("99999-999"); break;

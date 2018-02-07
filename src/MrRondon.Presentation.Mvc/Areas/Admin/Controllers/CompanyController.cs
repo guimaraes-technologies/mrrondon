@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
@@ -90,6 +91,40 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
             }
         }
 
+        [AllowAnonymous]
+        public ActionResult Contacts(CompanyContactVm companyContact)
+        {
+            UrlsContact();
+            companyContact = companyContact ?? new CompanyContactVm();
+            companyContact.Contacts = companyContact.Contacts ?? new List<Contact>();
+            return PartialView("_Contacts", companyContact.Contacts);
+        }
+
+        [AllowAnonymous, HttpPost]
+        public ActionResult AddContact(CompanyContactVm companyContact)
+        {
+            companyContact.Contacts = companyContact.Contacts ?? new List<Contact>();
+            companyContact.Contacts.Add(new Contact { Description = companyContact.Description, ContactType = companyContact.ContactType });
+            companyContact.Description = string.Empty;
+            companyContact.ContactType = 0;
+            UrlsContact();
+            return PartialView("_Contacts", companyContact.Contacts);
+        }
+
+        [AllowAnonymous, HttpPost]
+        public ActionResult RemoveContact(CompanyContactVm companyContact, int index)
+        {
+            UrlsContact();
+            companyContact.Contacts?.RemoveAt(index);
+            return PartialView("_Contacts", companyContact.Contacts);
+        }
+
+        public void UrlsContact()
+        {
+            ViewBag.UrlAdd = Url.Action("AddContact", "Company", new { area = "Admin" });
+            ViewBag.UrlRemove = Url.Action("RemoveContact", "Company", new { area = "Admin" });
+        }
+
         [HttpPost]
         public JsonResult GetPagination(DataTableParameters parameters)
         {
@@ -111,7 +146,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
             }
             return Json(dtResult, JsonRequestBehavior.AllowGet);
         }
-
+        
         protected override void Dispose(bool disposing)
         {
             if (disposing)

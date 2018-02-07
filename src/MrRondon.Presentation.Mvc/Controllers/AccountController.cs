@@ -99,11 +99,11 @@ namespace MrRondon.Presentation.Mvc.Controllers
                     return View(model).Error("O código informado não está correto!");
 
                 if (!ModelState.IsValid) return View().Error(Error.ModelState);
-                var user = _usuarioAppService.ObterPorId(Account.UsuarioId);
+                var user = _usuarioAppService.ObterPorId(Account.UserId);
 
-                if (!_usuarioAppService.VerificarSenha(model.SenhaAntiga, user.UsuarioId))
+                if (!_usuarioAppService.VerificarSenha(model.SenhaAntiga, user.UserId))
                     throw new Exception("Senha antiga não confere.");
-                _usuarioAppService.AlterarSenha(user.UsuarioId, model.ConfirmarSenha);
+                _usuarioAppService.AlterarSenha(user.UserId, model.ConfirmarSenha);
                 return RedirectToAction("Detalhes").Success(Success.Saved);
             }
             catch (Exception e)
@@ -115,7 +115,7 @@ namespace MrRondon.Presentation.Mvc.Controllers
         [AllowAnonymous]
         public ActionResult ChangePassword(Guid id)
         {
-            return View(new ChangePasswordVm { UsuarioId = id });
+            return View(new ChangePasswordVm { UserId = id });
         }
 
         [AllowAnonymous]
@@ -125,7 +125,7 @@ namespace MrRondon.Presentation.Mvc.Controllers
         {
             if (ModelState.IsValid)
             {
-                _usuarioAppService.AlterarSenha(changePassword.UsuarioId, changePassword.ConfirmarSenha);
+                _usuarioAppService.AlterarSenha(changePassword.UserId, changePassword.ConfirmarSenha);
                 return RedirectToAction("Signin").Success(Success.ChangePassword);
             }
             return View().Error(Error.ModelState);
@@ -133,12 +133,12 @@ namespace MrRondon.Presentation.Mvc.Controllers
 
         public ActionResult Details()
         {
-            return View(_usuarioAppService.ObterPorId(Account.UsuarioId));
+            return View(_usuarioAppService.ObterPorId(Account.UserId));
         }
 
         public ActionResult Edit()
         {
-            return View(_usuarioAppService.ObterPorIdCustom(Account.UsuarioId));
+            return View(_usuarioAppService.ObterPorIdCustom(Account.UserId));
         }
 
         [HttpPost]
@@ -150,7 +150,7 @@ namespace MrRondon.Presentation.Mvc.Controllers
                 ModelState.Remove("Cpf");
                 ModelState.Remove("RolesIds");
                 if (!ModelState.IsValid) return View(model).Error(Error.ModelState);
-                if (Account.EntidadeId > 0) model.EntidadeId = Account.EntidadeId;
+                if (Account.ContactId > 0) model.ContactId = Account.ContactId;
                 var result = _usuarioAppService.AtualizarInfo(model);
                 if (result.IsValid) return RedirectToAction("Detalhes").Success(Success.Saved);
 

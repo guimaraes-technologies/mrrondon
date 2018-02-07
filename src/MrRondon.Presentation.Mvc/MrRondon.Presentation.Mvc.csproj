@@ -406,6 +406,8 @@
     <Content Include="Areas\Admin\Views\SubCategory\Details.cshtml" />
     <Content Include="Areas\Admin\Views\SubCategory\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\SubCategory\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\_Contacts.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\_FormAddress.cshtml" />
     <None Include="Properties\PublishProfiles\Webdeploy.pubxml" />
     <None Include="Scripts\jquery-3.2.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.2.1.js" />
@@ -417,7 +419,9 @@
     <Content Include="Scripts\plugins\lolibox\lobibox.min.js" />
     <Content Include="Scripts\site\basic.js" />
     <Content Include="Scripts\site\carrossel.js" />
+    <Content Include="Scripts\site\contact.js" />
     <Content Include="Scripts\site\datatable.js" />
+    <Content Include="Scripts\site\company.js" />
     <Content Include="Scripts\site\validation.js" />
     <Content Include="ViewSwitcher.ascx" />
     <Content Include="Web.config" />
@@ -450,6 +454,7 @@
     </Compile>
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\CompanyAddressVm.cs" />
+    <Compile Include="ViewModels\CompanyContactVm.cs" />
     <Compile Include="ViewModels\NewPasswordVm.cs" />
     <Compile Include="ViewModels\RecoveryPasswordVm.cs" />
     <Compile Include="ViewModels\SigninVm.cs" />

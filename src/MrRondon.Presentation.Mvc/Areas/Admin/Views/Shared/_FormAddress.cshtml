@@ -1,0 +1,39 @@
+﻿@model GT.Application.ViewModels.EnderecoVm
+
+<div class="ui equal width form">
+    <div class="four fields"> 
+        <div class="three wide field">
+            @Html.LabelFor(e => e.Cep)
+            <div id="container-cep" class="ui left icon input">
+                @Html.SemanticTextCepFor(e => e.Cep, new { data_function = "Correios.BuscarCep", placeholder = "Ex.: 12345-678" })                   
+                <i class="search icon"></i>
+            </div>
+        </div>
+        <div class="five wide field">
+            @Html.LabelFor(e => e.Logradouro)
+            @Html.SemanticTextBoxFor(e => e.Logradouro, new { @class = "logradouro", placeholder = "Ex.: Rua Àlvaro Paraguassu" })
+        </div>
+        <div class="two wide field">
+            @Html.LabelFor(e => e.Numero)
+            @Html.SemanticTextBoxFor(e => e.Numero, new { placeholder = "Ex.: 456" })
+        </div>
+        <div class="four wide field">
+            @Html.LabelFor(e => e.Bairro)
+            @Html.SemanticTextBoxFor(e => e.Bairro, new { @class = "bairro", placeholder = "Ex.: Jequitibá" })
+        </div>
+    </div>
+    <div class="three fields">
+        <div class="six wide field">
+            @Html.LabelFor(e => e.Cidade)
+            @Html.SemanticTextBoxFor(e => e.Cidade, new { @class = "cidade", placeholder ="Ex.: Porto Velho" })           
+        </div>
+        <div class="three wide field">
+            @Html.LabelFor(e => e.Estado)
+            @Html.SemanticEnumDropDownListFor(e => e.Estado, "Selecione...", new { @class = "estado ui fluid dropdown js-dropdown" })              
+        </div>
+        <div class="seven wide field">
+            @Html.LabelFor(e => e.Complemento)
+            @Html.SemanticTextBoxFor(e => e.Complemento, new { @class = "complemento", placeholder = "Ex.: Curva do 'S'" })
+        </div>
+    </div>
+</div>
