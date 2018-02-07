@@ -16,7 +16,6 @@ namespace MrRondon.Services.Api.Controllers
             _db = new MainContext();
         }
 
-
         [AllowAnonymous]
         [Route("{id:int}")]
         public IHttpActionResult Get(Guid id)
