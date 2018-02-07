@@ -60,6 +60,11 @@
     <Compile Include="PasswordAssertionConcern.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\MrRondon.Infra.CrossCutting.Message\MrRondon.Infra.CrossCutting.Message.csproj">
+      <Project>{d1f4856f-cea2-4c7c-a597-83c9a6adc196}</Project>
+      <Name>MrRondon.Infra.CrossCutting.Message</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

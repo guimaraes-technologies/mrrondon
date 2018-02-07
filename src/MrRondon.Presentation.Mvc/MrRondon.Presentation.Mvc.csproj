@@ -408,6 +408,12 @@
     <Content Include="Areas\Admin\Views\SubCategory\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_Contacts.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_FormAddress.cshtml" />
+    <Content Include="Areas\Admin\Views\Message\_Form.cshtml" />
+    <Content Include="Areas\Admin\Views\Message\_Navigation.cshtml" />
+    <Content Include="Areas\Admin\Views\Message\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Message\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\Message\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Message\Index.cshtml" />
     <None Include="Properties\PublishProfiles\Webdeploy.pubxml" />
     <None Include="Scripts\jquery-3.2.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.2.1.js" />
@@ -420,6 +426,7 @@
     <Content Include="Scripts\site\basic.js" />
     <Content Include="Scripts\site\carrossel.js" />
     <Content Include="Scripts\site\contact.js" />
+    <Content Include="Scripts\site\correios.js" />
     <Content Include="Scripts\site\datatable.js" />
     <Content Include="Scripts\site\company.js" />
     <Content Include="Scripts\site\validation.js" />
@@ -435,6 +442,7 @@
     <Compile Include="Areas\Admin\Controllers\CategoryController.cs" />
     <Compile Include="Areas\Admin\Controllers\CityController.cs" />
     <Compile Include="Areas\Admin\Controllers\CompanyController.cs" />
+    <Compile Include="Areas\Admin\Controllers\MessageController.cs" />
     <Compile Include="Areas\Admin\Controllers\SubCategoryController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Extensions\HtmlExtension.cs" />
@@ -453,8 +461,7 @@
       <DependentUpon>Site.Mobile.Master</DependentUpon>
     </Compile>
     <Compile Include="Startup.cs" />
-    <Compile Include="ViewModels\CompanyAddressVm.cs" />
-    <Compile Include="ViewModels\CompanyContactVm.cs" />
+    <Compile Include="ViewModels\CrudCompanyVm.cs" />
     <Compile Include="ViewModels\NewPasswordVm.cs" />
     <Compile Include="ViewModels\RecoveryPasswordVm.cs" />
     <Compile Include="ViewModels\SigninVm.cs" />

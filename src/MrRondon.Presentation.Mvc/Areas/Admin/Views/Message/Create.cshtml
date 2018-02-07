@@ -1,6 +1,6 @@
-﻿@model MrRondon.Presentation.Mvc.ViewModels.CrudCompanyVm
+﻿@model MrRondon.Domain.Entities.Message
 @{
-    ViewBag.Title = "Adicionar empresa";
+    ViewBag.Title = "Adicionar mensagem";
 }
 
 @section header
@@ -15,7 +15,7 @@
     @Html.Partial("_Navigation", 2)
 }
 
-@using (Html.BeginForm("Create", "Company", FormMethod.Post, new { @class = "ui form", enctype = "multipart/form-data" }))
+@using (Html.BeginForm("Create", "Message", FormMethod.Post, new { @class = "ui form" }))
 {
     @Html.AntiForgeryToken()
     @Html.Partial("_Form")
@@ -24,5 +24,4 @@
 
 @section scripts {
     @Scripts.Render("~/bundles/validation")
-    @Scripts.Render("~/bundles/company")
 }

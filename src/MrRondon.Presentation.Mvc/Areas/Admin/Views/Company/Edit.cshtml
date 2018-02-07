@@ -1,8 +1,6 @@
-﻿@model MrRondon.Presentation.Mvc.ViewModels.CompanyAddressVm
+﻿@model MrRondon.Presentation.Mvc.ViewModels.CrudCompanyVm
 @{
-                /**/
-
-                ViewBag.Title = "Editar empresa";
+    ViewBag.Title = "Editar empresa";
 }
 
 @section header
@@ -17,10 +15,11 @@
     @Html.Partial("_Navigation", 1)
 }
 
-@using (Html.BeginForm("Edit", "City", FormMethod.Post, new { @class = "ui form", enctype = "multipart/form-data" }))
+@using (Html.BeginForm("Edit", "Company", FormMethod.Post, new { @class = "ui form", enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
     @Html.HiddenFor(e => e.Company.CompanyId)
+    @Html.HiddenFor(e => e.Company.AddressId)
     @Html.Partial("_Form")
     @Html.Partial("_ButtonSubmit")
 }

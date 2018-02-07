@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using MrRondon.Infra.CrossCutting.Message;
 
 namespace MrRondon.Domain.Entities
 {
@@ -9,14 +10,14 @@ namespace MrRondon.Domain.Entities
         [Key] public int CategoryId { get; set; }
 
         [Display(Name = "Nome")]
-        [Required(ErrorMessage = "Campo {0} obrigatório")]
+        [Required(ErrorMessageResourceType = typeof(Error), ErrorMessageResourceName = "Required")]
         [MinLength(4, ErrorMessage = "Mínimo {0} caracteres")]
         [MaxLength(30, ErrorMessage = "Máximo {0} caracteres")]
         public string Name { get; set; }
 
         [Column(TypeName = "image")]
         [Display(Name = "Imagem")]
-        //[Required(ErrorMessage = "Campo {0} obrigatório")]
+        //[Required(ErrorMessageResourceType = typeof(Error), ErrorMessageResourceName = "Required")]
         public byte[] Image { get; set; }
 
         [Display(Name = "Sub Categoria")] public int? SubCategoryId { get; set; }

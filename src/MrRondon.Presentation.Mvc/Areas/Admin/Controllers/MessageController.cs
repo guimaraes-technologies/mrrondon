@@ -11,21 +11,29 @@ using MrRondon.Presentation.Mvc.Extensions;
 
 namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
 {
-    public class CityController : Controller
+    public class MessageController : Controller
     {
         private readonly MainContext _db = new MainContext();
 
-        public ActionResult Index()
+        public ActionResult Unread()
+        {
+            return View();
+        }
+        public ActionResult Read()
+        {
+            return View();
+        }
+        public ActionResult Attended()
         {
             return View();
         }
 
-        public ActionResult Details(int id)
+        public ActionResult Details(Guid id)
         {
-            var repo = new RepositoryBase<City>(_db);
-            var city = repo.GetItemByExpression(x => x.CityId == id);
-            if (city == null) return HttpNotFound();
-            return View(city);
+            var repo = new RepositoryBase<Message>(_db);
+            var model = repo.GetItemByExpression(x => x.MessageId == id);
+            if (model == null) return HttpNotFound();
+            return View(model);
         }
 
         public ActionResult Create()
@@ -35,15 +43,15 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "CityId,Name")] City model)
+        public ActionResult Create(Message model)
         {
             try
             {
                 if (!ModelState.IsValid) return View(model);
-                
-                _db.Cities.Add(model);
+
+                _db.Messages.Add(model);
                 _db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Unread");
             }
             catch (Exception ex)
             {
@@ -51,18 +59,18 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
             }
         }
 
-        public ActionResult Edit(int id)
+        public ActionResult Edit(Guid id)
         {
-            var repo = new RepositoryBase<City>(_db);
-            var city = repo.GetItemByExpression(x => x.CityId == id);
-            if (city == null) return HttpNotFound();
+            var repo = new RepositoryBase<Message>(_db);
+            var model = repo.GetItemByExpression(x => x.MessageId == id);
+            if (model == null) return HttpNotFound();
 
-            return View(city);
+            return View(model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "CityId,Name")] City model)
+        public ActionResult Edit(Message model)
         {
             try
             {
@@ -70,7 +78,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
 
                 _db.Entry(model).State = EntityState.Modified;
                 _db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Unread");
             }
             catch (Exception ex)
             {
@@ -82,18 +90,19 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
         public JsonResult GetPagination(DataTableParameters parameters)
         {
             var search = parameters.Search.Value?.ToLower() ?? string.Empty;
-            var repo = new RepositoryBase<City>(_db);
-            var items = repo.GetItemsByExpression(w => w.Name.Contains(search), x => x.Name, parameters.Start, parameters.Length, out var recordsTotal).ToList();
+            var repo = new RepositoryBase<Message>(_db);
+            var items = repo.GetItemsByExpression(w => w.Title.Contains(search), x => x.Title, parameters.Start, parameters.Length, out var recordsTotal).ToList();
             var dtResult = new DataTableResultSet(parameters.Draw, recordsTotal);
 
-            var buttons = new ButtonsCity();
+            var buttons = new ButtonsMessage();
             foreach (var item in items)
             {
                 dtResult.data.Add(new[]
                 {
-                    item.CityId.ToString(), 
-                    $"{item.Name}",
-                    buttons.ToPagination(item.CityId)
+                    item.MessageId.ToString(),
+                    item.Title,
+                    EnumDescription.Get(item.Subject),
+                    buttons.ToPagination(item.MessageId)
                 });
             }
             return Json(dtResult, JsonRequestBehavior.AllowGet);

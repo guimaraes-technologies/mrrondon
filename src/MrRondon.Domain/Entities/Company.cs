@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using MrRondon.Infra.CrossCutting.Message;
 
 namespace MrRondon.Domain.Entities
 {
@@ -10,38 +11,38 @@ namespace MrRondon.Domain.Entities
         public Guid CompanyId { get; set; }
 
         [Display(Name = "Nome")]
-        [Required(ErrorMessage = "Campo {0} obrigatório")]
+        [Required(ErrorMessageResourceType = typeof(Error), ErrorMessageResourceName = "Required")]
         [MinLength(4, ErrorMessage = "Mínimo {0} caracteres")]
         [MaxLength(60, ErrorMessage = "Máximo {0} caracteres")]
         public string Name { get; set; }
 
         [Display(Name = "Nome Fantasia")]
-        [Required(ErrorMessage = "Campo {0} obrigatório")]
+        [Required(ErrorMessageResourceType = typeof(Error), ErrorMessageResourceName = "Required")]
         [MinLength(4, ErrorMessage = "Mínimo {0} caracteres")]
         [MaxLength(60, ErrorMessage = "Máximo {0} caracteres")]
         public string FancyName { get; set; }
 
         [Display(Name = "CNPJ")]
-        [Required(ErrorMessage = "Campo {0} obrigatório")]
+        [Required(ErrorMessageResourceType = typeof(Error), ErrorMessageResourceName = "Required")]
         [MinLength(14, ErrorMessage = "Mínimo {0} caracteres")]
         [MaxLength(18, ErrorMessage = "Máximo {0} caracteres")]
         public string Cnpj { get; set; }
 
         [Display(Name = "Imagem da Logo")]
-        //[Required(ErrorMessage = "Campo {0} obrigatório")]
+        //[Required(ErrorMessageResourceType = typeof(Error), ErrorMessageResourceName = "Required")]
         public byte[] Logo { get; set; }
 
         [Display(Name = "Imagem da Capa")]
-        //[Required(ErrorMessage = "Campo {0} obrigatório")]
+        //[Required(ErrorMessageResourceType = typeof(Error), ErrorMessageResourceName = "Required")]
         public byte[] Cover { get; set; }
 
         [Display(Name = "Endereço")]
-        [Required(ErrorMessage = "Campo {0} obrigatório")]
+        [Required(ErrorMessageResourceType = typeof(Error), ErrorMessageResourceName = "Required")]
         public Guid AddressId { get; set; }
         public Address Address { get; set; }
         
         [Display(Name = "Segmento")]
-        [Required(ErrorMessage = "Campo {0} obrigatório")]
+        [Required(ErrorMessageResourceType = typeof(Error), ErrorMessageResourceName = "Required")]
         public int SegmentId { get; set; }
         public Category Segment { get; set; }
 

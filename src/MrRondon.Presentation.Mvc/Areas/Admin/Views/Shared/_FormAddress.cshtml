@@ -1,39 +1,36 @@
-﻿@model GT.Application.ViewModels.EnderecoVm
+﻿@using MrRondon.Presentation.Mvc.Extensions
+@model MrRondon.Domain.Entities.Address
 
 <div class="ui equal width form">
-    <div class="four fields"> 
+    <div class="four fields">
         <div class="three wide field">
-            @Html.LabelFor(e => e.Cep)
-            <div id="container-cep" class="ui left icon input">
-                @Html.SemanticTextCepFor(e => e.Cep, new { data_function = "Correios.BuscarCep", placeholder = "Ex.: 12345-678" })                   
+            @Html.LabelFor(e => e.ZipCode)
+            <div id="container-zipcode" class="ui left icon input">
+                @Html.SemanticTextZipCodeFor(e => e.ZipCode, new { data_function = "Correios.SearchZipCode", placeholder = "Ex.: 12345-678" })
                 <i class="search icon"></i>
             </div>
         </div>
         <div class="five wide field">
-            @Html.LabelFor(e => e.Logradouro)
-            @Html.SemanticTextBoxFor(e => e.Logradouro, new { @class = "logradouro", placeholder = "Ex.: Rua Àlvaro Paraguassu" })
+            @Html.LabelFor(e => e.Street)
+            @Html.SemanticTextBoxFor(e => e.Street, new { @class = "street", placeholder = "Ex.: Rua Àlvaro Paraguassu" })
         </div>
         <div class="two wide field">
-            @Html.LabelFor(e => e.Numero)
-            @Html.SemanticTextBoxFor(e => e.Numero, new { placeholder = "Ex.: 456" })
+            @Html.LabelFor(e => e.Number)
+            @Html.SemanticTextBoxFor(e => e.Number, new { placeholder = "Ex.: 456" })
         </div>
         <div class="four wide field">
-            @Html.LabelFor(e => e.Bairro)
-            @Html.SemanticTextBoxFor(e => e.Bairro, new { @class = "bairro", placeholder = "Ex.: Jequitibá" })
+            @Html.LabelFor(e => e.Neighborhood)
+            @Html.SemanticTextBoxFor(e => e.Neighborhood, new { @class = "neighborhood", placeholder = "Ex.: Jequitibá" })
         </div>
     </div>
     <div class="three fields">
         <div class="six wide field">
-            @Html.LabelFor(e => e.Cidade)
-            @Html.SemanticTextBoxFor(e => e.Cidade, new { @class = "cidade", placeholder ="Ex.: Porto Velho" })           
-        </div>
-        <div class="three wide field">
-            @Html.LabelFor(e => e.Estado)
-            @Html.SemanticEnumDropDownListFor(e => e.Estado, "Selecione...", new { @class = "estado ui fluid dropdown js-dropdown" })              
+            @Html.LabelFor(e => e.CityId)
+            @Html.SemanticDropDownListFor(e => e.CityId, (SelectList)ViewBag.Cities)
         </div>
         <div class="seven wide field">
-            @Html.LabelFor(e => e.Complemento)
-            @Html.SemanticTextBoxFor(e => e.Complemento, new { @class = "complemento", placeholder = "Ex.: Curva do 'S'" })
+            @Html.LabelFor(e => e.AdditionalInformation)
+            @Html.SemanticTextBoxFor(e => e.AdditionalInformation, new { @class = "additional-information", placeholder = "Ex.: Curva do 'S'" })
         </div>
     </div>
 </div>

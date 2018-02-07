@@ -1,0 +1,29 @@
+﻿@using MrRondon.Presentation.Mvc.Extensions
+@model MrRondon.Domain.Entities.Message
+
+<div class="fields">
+    <div class="field">
+        @Html.LabelFor(e => e.Telephone)
+        @Html.SemanticTextBoxFor(e => e.Telephone, null)
+    </div>
+    <div class="field">
+        @Html.LabelFor(e => e.CellPhone)
+        @Html.SemanticTextBoxFor(e => e.CellPhone, null)
+    </div>
+    <div class="field">
+        @Html.LabelFor(e => e.Subject)
+        @Html.SemanticTextBoxFor(e => e.Subject, null)
+    </div>
+</div>
+<div class="fields">
+    <div class="sixteen wide field">
+        @Html.LabelFor(e => e.Title)
+        @Html.SemanticTextBoxFor(e => e.Title, null)
+    </div>
+</div>
+<div class="fields">
+    <div class="sixteen wide field">
+        @Html.LabelFor(e => e.Description)
+        @Html.SemanticTextBoxFor(e => e.Description, null)
+    </div>
+</div>

@@ -32,8 +32,12 @@ namespace MrRondon.Presentation.Mvc
                 "~/Scripts/DataTables/media/js/jquery.dataTables.js",
                 "~/Scripts/site/datatable.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/correios").Include(
+                "~/Scripts/site/correios.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/company").Include(
                 "~/Scripts/site/contact.js",
+                "~/Scripts/site/correios.js",
                 "~/Scripts/site/company.js"));
 
             BundleTable.EnableOptimizations = true;

@@ -70,6 +70,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Buttons\ButtonsBase.cs" />
+    <Compile Include="Buttons\ButtonsMessage.cs" />
     <Compile Include="Buttons\ButtonsSubCategory.cs" />
     <Compile Include="Buttons\ButtonsCity.cs" />
     <Compile Include="Buttons\ButtonsCategory.cs" />

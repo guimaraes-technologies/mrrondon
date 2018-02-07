@@ -25,35 +25,39 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
         public ActionResult Details(Guid id)
         {
             var repo = new RepositoryBase<Company>(_db);
-            var model = repo.GetItemByExpression(x => x.CompanyId == id);
-            if (model == null) return HttpNotFound();
-            return View(new CompanyAddressVm
-            {
-                Company = model,
-            });
+            var company = repo.GetItemByExpression(x => x.CompanyId == id);
+            if (company == null) return HttpNotFound();
+            var model = GetCrudVm(company);
+
+            return View(model);
         }
 
         public ActionResult Create()
         {
+            ViewBag.Cities = new SelectList(_db.Cities, "CityId", "Name");
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(CompanyAddressVm model, int categoryId, int? subCategoryId)
+        public ActionResult Create(CrudCompanyVm model)
         {
             try
             {
                 ModelState.Remove(nameof(model.Company.SegmentId));
-                if (!ModelState.IsValid) return View(model);
-
-                model.Company.SegmentId = subCategoryId ?? categoryId;
+                if (!ModelState.IsValid)
+                {
+                    SetBiewBags(model);
+                    return View(model);
+                }
+                
                 _db.Companies.Add(model.Company);
                 _db.SaveChanges();
                 return RedirectToAction("Index");
             }
             catch (Exception ex)
             {
+                SetBiewBags(model);
                 return View(model).Error(ex.Message);
             }
         }
@@ -61,47 +65,52 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
         public ActionResult Edit(Guid id)
         {
             var repo = new RepositoryBase<Company>(_db);
-            var model = repo.GetItemByExpression(x => x.CompanyId == id, "Segment");
-            if (model == null) return HttpNotFound();
+            var company = repo.GetItemByExpression(x => x.CompanyId == id, "Address", "Segment");
+            if (company == null) return HttpNotFound();
 
-            return View(new CompanyAddressVm
-            {
-                Company = model,
-            });
+            var model = GetCrudVm(company);
+            SetBiewBags(model);
+
+            return View(model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(Company model, int categoryId, int? subCategoryId)
+        public ActionResult Edit(Company company)
         {
-            var company = new CompanyAddressVm { Company = model };
+            var model = new CrudCompanyVm { Company = company };
             try
             {
-                ModelState.Remove(nameof(model.SegmentId));
-                if (!ModelState.IsValid) return View(company);
-
-                model.SegmentId = subCategoryId ?? categoryId;
-                _db.Entry(model).State = EntityState.Modified;
+                ModelState.Remove(nameof(company.SegmentId));
+                if (!ModelState.IsValid)
+                {
+                    SetBiewBags(model);
+                    return View(model);
+                }
+                
+                _db.Entry(company).State = EntityState.Modified;
                 _db.SaveChanges();
                 return RedirectToAction("Index");
             }
             catch (Exception ex)
             {
-                return View(company).Error(ex.Message);
+                SetBiewBags(model);
+
+                return View(model).Error(ex.Message);
             }
         }
 
         [AllowAnonymous]
-        public ActionResult Contacts(CompanyContactVm companyContact)
+        public ActionResult Contacts(CrudCompanyVm companyContact)
         {
             UrlsContact();
-            companyContact = companyContact ?? new CompanyContactVm();
+            companyContact = companyContact ?? new CrudCompanyVm();
             companyContact.Contacts = companyContact.Contacts ?? new List<Contact>();
             return PartialView("_Contacts", companyContact.Contacts);
         }
 
         [AllowAnonymous, HttpPost]
-        public ActionResult AddContact(CompanyContactVm companyContact)
+        public ActionResult AddContact(CrudCompanyVm companyContact)
         {
             companyContact.Contacts = companyContact.Contacts ?? new List<Contact>();
             companyContact.Contacts.Add(new Contact { Description = companyContact.Description, ContactType = companyContact.ContactType });
@@ -112,26 +121,19 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
         }
 
         [AllowAnonymous, HttpPost]
-        public ActionResult RemoveContact(CompanyContactVm companyContact, int index)
+        public ActionResult RemoveContact(CrudCompanyVm companyContact, int index)
         {
             UrlsContact();
             companyContact.Contacts?.RemoveAt(index);
             return PartialView("_Contacts", companyContact.Contacts);
         }
 
-        public void UrlsContact()
-        {
-            ViewBag.UrlAdd = Url.Action("AddContact", "Company", new { area = "Admin" });
-            ViewBag.UrlRemove = Url.Action("RemoveContact", "Company", new { area = "Admin" });
-        }
-
         [HttpPost]
         public JsonResult GetPagination(DataTableParameters parameters)
         {
-            int recordsTotal;
             var search = parameters.Search.Value?.ToLower() ?? string.Empty;
             var repo = new RepositoryBase<Company>(_db);
-            var items = repo.GetItemsByExpression(w => w.Name.Contains(search), x => x.Name, parameters.Start, parameters.Length, out recordsTotal).ToList();
+            var items = repo.GetItemsByExpression(w => w.Name.Contains(search), x => x.Name, parameters.Start, parameters.Length, out var recordsTotal).ToList();
             var dtResult = new DataTableResultSet(parameters.Draw, recordsTotal);
 
             var buttons = new ButtonsCompany();
@@ -146,7 +148,36 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
             }
             return Json(dtResult, JsonRequestBehavior.AllowGet);
         }
-        
+
+        public void UrlsContact()
+        {
+            ViewBag.UrlAdd = Url.Action("AddContact", "Company", new { area = "Admin" });
+            ViewBag.UrlRemove = Url.Action("RemoveContact", "Company", new { area = "Admin" });
+        }
+
+        private static CrudCompanyVm GetCrudVm(Company company)
+        {
+            var model = new CrudCompanyVm { Company = company };
+            if (company.Segment?.SubCategoryId != null)
+            {
+                model.SubCategoryId = company.SegmentId;
+                model.CategoryId = company.Segment.SubCategoryId.Value;
+            }
+            else model.CategoryId = company.SegmentId;
+
+            return model;
+        }
+
+        private void SetBiewBags(CrudCompanyVm model)
+        {
+            ViewBag.Cities = new SelectList(_db.Cities, "CityId", "Name", model.Company.Address.CityId);
+
+            ViewBag.Categories = new SelectList(_db.Categories.Where(s => s.SubCategoryId == null).OrderBy(o => o.Name),
+                "CategoryId", "Name", model.CategoryId);
+
+            ViewBag.SubCategories = new SelectList(_db.Categories.Where(s => s.SubCategoryId == null).OrderBy(o => o.Name), "CategoryId", "Name", model.SubCategoryId);
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

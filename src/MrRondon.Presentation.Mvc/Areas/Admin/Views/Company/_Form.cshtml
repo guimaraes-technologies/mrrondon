@@ -1,6 +1,8 @@
-﻿@using MrRondon.Presentation.Mvc.Extensions
-@model MrRondon.Presentation.Mvc.ViewModels.CompanyAddressVm
+﻿@using MrRondon.Domain.Entities
+@using MrRondon.Presentation.Mvc.Extensions
+@model MrRondon.Presentation.Mvc.ViewModels.CrudCompanyVm
 
+<h3 class="ui dividing header">Informações da Empresa</h3>
 <div class="fields">
     <div class="eight wide field">
         @Html.LabelFor(e => e.Company.Name)
@@ -26,6 +28,10 @@
     </div>
 </div>
 
+<h3 class="ui dividing header">Informações de Contato</h3>
 <div class="list-contact">
     @Html.Action("Contacts", "Company", new { area = "Admin", companyContact = Model })
 </div>
+
+<h3 class="ui dividing header">Informações do Endereço</h3>
+@Html.Partial("_FormAddress", Model?.Company.Address ?? new Address())
