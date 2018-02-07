@@ -63,7 +63,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
         public ActionResult Edit(int id)
         {
             var repo = new RepositoryBase<SubCategory>(_db);
-            var category = repo.GetItemByExpression(x => x.CategoryId == id);
+            var category = repo.GetItemByExpression(x => x.SubCategoryId == id);
             if (category == null) return HttpNotFound();
 
             return View(category);
@@ -93,25 +93,6 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
                 return View(model).Error(ex.Message);
             }
         }
-        
-        [HttpPost, ActionName("Delete")]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            try
-            {
-                var category = _db.SubCategories.Find(id);
-                if (category == null) return RedirectToAction("Index").Success("Categoria removida com sucesso");
-
-                _db.SubCategories.Remove(category);
-                _db.SaveChanges();
-                return RedirectToAction("Index").Success("Categoria removida com sucesso");
-            }
-            catch (Exception ex)
-            {
-                return RedirectToAction("Index").Error(ex.Message);
-            }
-        }
-
         [HttpPost]
         public JsonResult GetPagination(DataTableParameters parameters)
         {
@@ -126,7 +107,8 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
                 dtResult.data.Add(new[]
                 {
                     item.CategoryId.ToString(),
-                    $"{item.Name}",
+                    $"{buttons.Image(item.Image)}",
+                    item.Name,
                     buttons.ToPagination(item.SubCategoryId)
                 });
             }
