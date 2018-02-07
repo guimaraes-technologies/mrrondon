@@ -76,6 +76,7 @@
     <Compile Include="Buttons\ButtonsCategory.cs" />
     <Compile Include="Buttons\ButtonsCompany.cs" />
     <Compile Include="DataTableParameters.cs" />
+    <Compile Include="EmailManager.cs" />
     <Compile Include="EnumDescription.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RegularExpressions.cs" />

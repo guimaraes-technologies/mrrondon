@@ -45,7 +45,7 @@ namespace MrRondon.Domain.Entities
         public string GeneratePasswordRecoveryCode()
         {
             var codes = Guid.NewGuid().ToString().ToUpper().Split('-');
-            return PasswordRecoveryCode = $"GT-{codes[codes.Length - 1]}";
+            return PasswordRecoveryCode = $"GT|{codes[codes.Length - 1]}";
         }
 
         public string EncryptPassword(string password)

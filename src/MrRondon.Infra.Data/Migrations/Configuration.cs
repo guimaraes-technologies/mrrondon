@@ -52,7 +52,7 @@ namespace MrRondon.Infra.Data.Migrations
                         },
                         Roles = new List<Role> { roles[0] }
                     };
-                    user.EncryptPassword("(69) 3211-6791(69) 3211-6791");
+                    user.EncryptPassword("111111");
                     context.Users.Add(user);
                 }
             }

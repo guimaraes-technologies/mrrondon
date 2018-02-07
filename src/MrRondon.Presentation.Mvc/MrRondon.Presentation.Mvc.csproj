@@ -491,6 +491,7 @@
     <Content Include="Views\Shared\_LayoutExterno.cshtml" />
     <Content Include="Views\Shared\_Settings.cshtml" />
     <Content Include="Site.Mobile.Master" />
+    <Content Include="Views\Account\RecoveryPassword.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

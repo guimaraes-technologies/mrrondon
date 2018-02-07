@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using MrRondon.Domain.Entities;
+using MrRondon.Infra.CrossCutting.Helper;
 using MrRondon.Infra.CrossCutting.Message;
 using MrRondon.Infra.Data.Context;
 using MrRondon.Infra.Data.Repositories;
@@ -71,11 +73,23 @@ namespace MrRondon.Presentation.Mvc.Controllers
                 if (!ModelState.IsValid) return View(model);
 
                 var repo = new RepositoryBase<User>(_db);
-                var user = repo.GetItemByExpression(x => x.Cpf.Equals(model.UserName));
+                var user = repo.GetItemByExpression(x => x.Cpf.Equals(model.UserName), "Contacts");
+                if (user == null) return View(model).Success("Um código para redefinição da sua senha foi enviado para o seu email");
+                user.GeneratePasswordRecoveryCode();
+
+                var query = $"UPDATE [{nameof(Domain.Entities.User)}] SET {nameof(user.PasswordRecoveryCode)}='{user.PasswordRecoveryCode}' WHERE {nameof(user.UserId)}='{user.UserId}'";
+                await _db.Database.ExecuteSqlCommandAsync(query);
 
                 var email = user.Contacts.FirstOrDefault(f => f.ContactType == ContactType.Email)?.Description;
 
-                return string.IsNullOrWhiteSpace(email) ? View(model).Error("Não foi possível enviar um email com o seu código de recuperação, pois não existe nenhum Email para contato") : View(model).Success($"Um código para redefinição da sua senha foi enviado para o seu email: '{email}'");
+                if (string.IsNullOrWhiteSpace(email))
+                    return View(model).Error("Não foi possível enviar um email com o seu código de recuperação, pois não existe nenhum Email para contato");
+
+                var emailManager = new EmailManager(new ArrayList { email });
+                emailManager.ForgotPassword(user.FullName, email, $"http:/{Url.Action("RecoveryPassword")}/{user.PasswordRecoveryCode}");
+                await emailManager.SendAsync();
+
+                return View(model).Success($"Um código para redefinição da sua senha foi enviado para o seu email: '{email}'");
             }
             catch (Exception e)
             {
