@@ -86,7 +86,8 @@ namespace MrRondon.Presentation.Mvc.Controllers
                     return View(model).Error("Não foi possível enviar um email com o seu código de recuperação, pois não existe nenhum Email para contato");
 
                 var emailManager = new EmailManager(new ArrayList { email });
-                emailManager.ForgotPassword(user.FullName, email, $"http:/{Url.Action("RecoveryPassword")}/{user.PasswordRecoveryCode}");
+
+                emailManager.ForgotPassword(user.FullName, $"{Request.Url.Authority}/account/newpassword/{user.PasswordRecoveryCode}");
                 await emailManager.SendAsync();
 
                 return View(model).Success($"Um código para redefinição da sua senha foi enviado para o seu email: '{email}'");
@@ -97,35 +98,34 @@ namespace MrRondon.Presentation.Mvc.Controllers
             }
         }
 
-        /*
         public ActionResult NewPassword()
         {
             return View();
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult NewPassword(NewPasswordVm model, string captcha)
-        {
-            try
-            {
-                if (captcha != HttpContext.Session["captcha"].ToString())
-                    return View(model).Error("O código informado não está correto!");
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult NewPassword(NewPasswordVm model)
+        //{
+        //    try
+        //    {
+        //        if (captcha != HttpContext.Session["captcha"].ToString())
+        //            return View(model).Error("O código informado não está correto!");
 
-                if (!ModelState.IsValid) return View().Error(Error.ModelState);
-                var user = _usuarioAppService.ObterPorId(Account.UserId);
+        //        if (!ModelState.IsValid) return View().Error(Error.Default);
+        //        var user = _db.Users.Find(AccountManager.UserId);
+        //        if (user == null)
+        //            if (!_usuarioAppService.VerificarSenha(model.SenhaAntiga, user.UserId)) throw new Exception("Senha antiga não confere.");
+        //        _usuarioAppService.AlterarSenha(user.UserId, model.ConfirmarSenha);
+        //        return RedirectToAction("Detalhes").Success(Success.Saved);
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        return View().Error(e.Message);
+        //    }
+        //}
 
-                if (!_usuarioAppService.VerificarSenha(model.SenhaAntiga, user.UserId))
-                    throw new Exception("Senha antiga não confere.");
-                _usuarioAppService.AlterarSenha(user.UserId, model.ConfirmarSenha);
-                return RedirectToAction("Detalhes").Success(Success.Saved);
-            }
-            catch (Exception e)
-            {
-                return View().Error(e.Message);
-            }
-        }
-
+        /*
         [AllowAnonymous]
         public ActionResult ChangePassword(Guid id)
         {

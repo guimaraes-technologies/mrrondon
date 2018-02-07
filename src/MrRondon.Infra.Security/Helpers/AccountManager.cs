@@ -22,7 +22,7 @@ namespace MrRondon.Infra.Security.Helpers
         }
 
         public static bool IsAuthenticated => Current.Identity.IsAuthenticated;
-        public Guid UserId { get; }
+        public static Guid UserId { get; private set; }
         public string FullName { get; }
 
         public static void Signin(User user, string password)

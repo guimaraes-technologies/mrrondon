@@ -461,6 +461,7 @@
       <DependentUpon>Site.Mobile.Master</DependentUpon>
     </Compile>
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModels\ChangePasswordVm.cs" />
     <Compile Include="ViewModels\CrudCompanyVm.cs" />
     <Compile Include="ViewModels\NewPasswordVm.cs" />
     <Compile Include="ViewModels\RecoveryPasswordVm.cs" />
@@ -492,6 +493,7 @@
     <Content Include="Views\Shared\_Settings.cshtml" />
     <Content Include="Site.Mobile.Master" />
     <Content Include="Views\Account\RecoveryPassword.cshtml" />
+    <Content Include="Views\Account\NewPassword.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

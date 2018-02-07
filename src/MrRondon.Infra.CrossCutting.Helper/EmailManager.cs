@@ -36,9 +36,7 @@ namespace MrRondon.Infra.CrossCutting.Helper
                     SubjectEncoding = Encoding.GetEncoding("ISO-8859-1"),
                     BodyEncoding = Encoding.GetEncoding("ISO-8859-1")
                 };
-
-                if (HttpContext.Current.Request.IsLocal) mailMessage.To.Add(Sender);
-                else foreach (var t in Recipients) mailMessage.To.Add(t.ToString());
+                foreach (var t in Recipients) mailMessage.To.Add(t.ToString());
 
                 var smtp = new SmtpClient
                 {
@@ -54,15 +52,14 @@ namespace MrRondon.Infra.CrossCutting.Helper
             catch { return false; }
         }
 
-        public void ForgotPassword(string user, string sendTo, string url)
+        public void ForgotPassword(string user, string url)
         {
             Subject = "Redefinir senha de acesso";
-            Recipients = new ArrayList { sendTo.ToLower() };
             Body = $@"
                     <section style='width: 400px; padding: 1em;'>
                         <h1 style='text-align: center; text-transform: uppercase;margin: 0'>Mr Rondon<br /><small>Sistema Mr Rondon Turismo</small></h1>
                         <hr />
-                        <p>Olá {user}<br /><br />Para redefinir sua senha no <a href='{url}'> Mr Rondon Turismo</a>, clique no link abaixo:</p>
+                        <p>Olá {user},<br /><br />Para redefinir sua senha no <a href='{url}'> Mr Rondon Turismo</a>, clique no link abaixo:</p>
                         <hr />
                         <a href='{url}' style='display: block;
                                            background: #337f3c;
