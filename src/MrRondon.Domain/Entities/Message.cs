@@ -40,6 +40,8 @@ namespace MrRondon.Domain.Entities
         [EnumDataType(typeof(MessageStatus), ErrorMessageResourceType = typeof(Error), ErrorMessageResourceName = "Required")]
         public MessageStatus Status { get; set; }
 
+        public DateTime CreatedAt { get; set; } = DateTime.Now;
+
         public Guid UserId { get; set; }
         public User User { get; set; }
     }

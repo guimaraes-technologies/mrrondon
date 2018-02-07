@@ -22,7 +22,7 @@ namespace MrRondon.Services.Api.Controllers
             try
             {
                 name = name ?? string.Empty;
-                return Ok(_db.Categories.Where(x => x.SubCategoryId == categoryId && x.Name.Contains(name)));
+                return Ok(_db.SubCategories.Where(x => x.CategoryId == categoryId && x.Name.Contains(name)));
             }
             catch (Exception ex)
             {

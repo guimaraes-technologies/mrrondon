@@ -43,7 +43,7 @@
   <ItemGroup>
     <Compile Include="Entities\Address.cs" />
     <Compile Include="Entities\ApplicationClient.cs" />
-    <Compile Include="Entities\Category.cs" />
+    <Compile Include="Entities\SubCategory.cs" />
     <Compile Include="Entities\City.cs" />
     <Compile Include="Entities\Company.cs" />
     <Compile Include="Entities\Contact.cs" />

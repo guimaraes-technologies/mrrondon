@@ -24,21 +24,21 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
 
         public ActionResult Details(int id)
         {
-            var repo = new RepositoryBase<Category>(_db);
-            var category = repo.GetItemByExpression(x => x.CategoryId == id);
+            var repo = new RepositoryBase<SubCategory>(_db);
+            var category = repo.GetItemByExpression(x => x.CategoryId == id, "Category");
             if (category == null) return HttpNotFound();
             return View(category);
         }
 
         public ActionResult Create()
         {
-            ViewBag.SubCategories = new SelectList(_db.Categories.Where(s => s.SubCategoryId == null).OrderBy(o => o.Name), "CategoryId", "Name");
+            ViewBag.Categories = new SelectList(_db.SubCategories.Where(s => s.CategoryId == null).OrderBy(o => o.Name), "SubCategoryId", "Name");
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Category model, HttpPostedFileBase image)
+        public ActionResult Create(SubCategory model, HttpPostedFileBase image)
         {
             try
             {
@@ -49,49 +49,49 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
 
                 if (!ModelState.IsValid)
                 {
-                    ViewBag.SubCategories = new SelectList(_db.Categories.Where(s => s.SubCategoryId == null).OrderBy(o => o.Name), "CategoryId", "Name", model.SubCategoryId);
+                    ViewBag.Categories = new SelectList(_db.SubCategories.Where(s => s.CategoryId == null).OrderBy(o => o.Name), "SubCategoryId", "Name", model.SubCategoryId);
                     return View(model);
                 }
 
                 var br = new BinaryReader(image.InputStream);
                 model.SetImage(br.ReadBytes(image.ContentLength));
                 br.Close();
-                _db.Categories.Add(model);
+                _db.SubCategories.Add(model);
                 _db.SaveChanges();
                 return RedirectToAction("Index");
             }
             catch (Exception ex)
             {
-                ViewBag.SubCategories = new SelectList(_db.Categories.Where(s => s.SubCategoryId == null).OrderBy(o => o.Name), "CategoryId", "Name", model.SubCategoryId);
+                ViewBag.Categories = new SelectList(_db.SubCategories.Where(s => s.CategoryId == null).OrderBy(o => o.Name), "SubCategoryId", "Name", model.SubCategoryId);
                 return View(model).Error(ex.Message);
             }
         }
 
         public ActionResult Edit(int id)
         {
-            var repo = new RepositoryBase<Category>(_db);
+            var repo = new RepositoryBase<SubCategory>(_db);
             var category = repo.GetItemByExpression(x => x.CategoryId == id);
             if (category == null) return HttpNotFound();
 
-            ViewBag.SubCategories = new SelectList(_db.Categories.Where(s => s.SubCategoryId == null).OrderBy(o => o.Name), "CategoryId", "Name", category.SubCategoryId);
+            ViewBag.Categories = new SelectList(_db.SubCategories.Where(s => s.CategoryId == null).OrderBy(o => o.Name), "SubCategoryId", "Name", category.SubCategoryId);
             return View(category);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(Category model, HttpPostedFileBase image)
+        public ActionResult Edit(SubCategory model, HttpPostedFileBase image)
         {
             try
             {
                 if (image == null)
                 {
-                    ViewBag.SubCategories = new SelectList(_db.Categories.Where(s => s.SubCategoryId == null).OrderBy(o => o.Name), "CategoryId", "Name", model.SubCategoryId);
+                    ViewBag.Categories = new SelectList(_db.SubCategories.Where(s => s.CategoryId == null).OrderBy(o => o.Name), "SubCategoryId", "Name", model.SubCategoryId);
                     return View(model).Error("A imagem da categoria é obrigatória");
                 }
 
                 if (!ModelState.IsValid)
                 {
-                    ViewBag.SubCategories = new SelectList(_db.Categories.Where(s => s.SubCategoryId == null).OrderBy(o => o.Name), "CategoryId", "Name", model.SubCategoryId);
+                    ViewBag.Categories = new SelectList(_db.SubCategories.Where(s => s.CategoryId == null).OrderBy(o => o.Name), "SubCategoryId", "Name", model.SubCategoryId);
                     return View(model);
                 }
 
@@ -104,17 +104,9 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.SubCategories = new SelectList(_db.Categories.Where(s => s.SubCategoryId == null).OrderBy(o => o.Name), "CategoryId", "Name", model.SubCategoryId);
+                ViewBag.Categories = new SelectList(_db.SubCategories.Where(s => s.CategoryId == null).OrderBy(o => o.Name), "SubCategoryId", "Name", model.SubCategoryId);
                 return View(model).Error(ex.Message);
             }
-        }
-
-        public ActionResult Delete(int id)
-        {
-            var repo = new RepositoryBase<Category>(_db);
-            var category = repo.GetItemByExpression(x => x.CategoryId == id);
-            if (category == null) return HttpNotFound();
-            return View(category);
         }
 
         [HttpPost, ActionName("Delete")]
@@ -123,10 +115,10 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
         {
             try
             {
-                var category = _db.Categories.Find(id);
+                var category = _db.SubCategories.Find(id);
                 if (category == null) return RedirectToAction("Index").Success("Categoria removida com sucesso");
 
-                _db.Categories.Remove(category);
+                _db.SubCategories.Remove(category);
                 _db.SaveChanges();
                 return RedirectToAction("Index").Success("Categoria removida com sucesso");
             }
@@ -139,21 +131,20 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
         [HttpPost]
         public JsonResult GetPagination(DataTableParameters parameters)
         {
-            int recordsTotal;
             var search = parameters.Search.Value?.ToLower() ?? string.Empty;
-            var repo = new RepositoryBase<Category>(_db);
-            var items = repo.GetItemsByExpression(w => w.SubCategoryId == null && w.Name.Contains(search), x => x.Name, parameters.Start, parameters.Length, out recordsTotal).ToList();
-            var dtResult = new DataTableResultSet(parameters.Draw, recordsTotal);
+            var repo = new RepositoryBase<SubCategory>(_db);
+            var items = repo.GetItemsByExpression(w => w.CategoryId == null && w.Name.Contains(search)).ToList();
+            var dtResult = new DataTableResultSet(parameters.Draw, 10);
 
             var buttons = new ButtonsSubCategory();
-            foreach (var item in items)
+            foreach (var item in items.ToList())
             {
                 dtResult.data.Add(new[]
                 {
                     item.CategoryId.ToString(),
                     $"{item.Name}",
-                    $"{item.SubCategory?.Name ?? "Não informada"}",
-                    buttons.ToPagination(item.CategoryId)
+                    $"{item.Category?.Name ?? "Não informada"}",
+                    buttons.ToPagination(item.SubCategoryId)
                 });
             }
             return Json(dtResult, JsonRequestBehavior.AllowGet);

@@ -7,7 +7,7 @@ namespace MrRondon.Infra.CrossCutting.Helper.Buttons
     {
         public string ToPagination(Guid id)
         {
-            return $"{Edit(id)} {Details(id)}";
+            return $"{Details(id)}";
         }
 
         private MvcHtmlString Details(Guid id)

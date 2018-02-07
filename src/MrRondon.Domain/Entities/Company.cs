@@ -41,10 +41,9 @@ namespace MrRondon.Domain.Entities
         public Guid AddressId { get; set; }
         public Address Address { get; set; }
         
-        [Display(Name = "Segmento")]
         [Required(ErrorMessageResourceType = typeof(Error), ErrorMessageResourceName = "Required")]
-        public int SegmentId { get; set; }
-        public Category Segment { get; set; }
+        public int SubCategoryId { get; set; }
+        public SubCategory SubCategory { get; set; }
 
         public ICollection<Contact> Contacts { get; set; }
     }

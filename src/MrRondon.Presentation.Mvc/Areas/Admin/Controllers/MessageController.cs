@@ -87,7 +87,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public JsonResult GetPagination(DataTableParameters parameters)
+        public JsonResult GetPagination(DataTableParameters parameters, MessageStatus status)
         {
             var search = parameters.Search.Value?.ToLower() ?? string.Empty;
             var repo = new RepositoryBase<Message>(_db);

@@ -33,7 +33,7 @@ namespace MrRondon.Domain.Entities
         
         [Display(Name = "CEP")]
         [Required(ErrorMessageResourceType = typeof(Error), ErrorMessageResourceName = "Required")]
-        [MaxLength(11, ErrorMessage = "Máximo {0} caracteres")]
+        [MaxLength(10, ErrorMessage = "Máximo {0} caracteres")]
         public string ZipCode { get; set; }
         public double Latitude { get; set; }
         public double Longitude { get; set; }

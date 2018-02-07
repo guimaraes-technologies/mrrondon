@@ -1,4 +1,4 @@
-﻿@model MrRondon.Domain.Entities.Category
+﻿@model MrRondon.Domain.Entities.SubCategory
 @{
     ViewBag.Title = "Editar categoria";
 }
@@ -18,7 +18,7 @@
 @using (Html.BeginForm("Edit", "Category", FormMethod.Post, new { @class = "ui form", enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
-    @Html.HiddenFor(e => e.CategoryId)
+    @Html.HiddenFor(e => e.SubCategoryId)
     @Html.Partial("_Form")
     @Html.Partial("_ButtonSubmit")
 }

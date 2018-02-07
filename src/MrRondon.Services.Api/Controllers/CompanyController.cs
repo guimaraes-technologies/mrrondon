@@ -24,7 +24,7 @@ namespace MrRondon.Services.Api.Controllers
             {
                 var item = _db.Companies
                     .Include(i => i.Address.City)
-                    .Include(s => s.Segment.SubCategory)
+                    .Include(s => s.SubCategory.SubCategory)
                     .FirstOrDefault(f => f.CompanyId == id);
                 return Ok(item);
             }
@@ -56,7 +56,7 @@ namespace MrRondon.Services.Api.Controllers
             try
             {
                 name = name ?? string.Empty;
-                return Ok(_db.Companies.Where(x => x.SegmentId == segmentId && (x.Name.Contains(name) || x.FancyName.Contains(name))));
+                return Ok(_db.Companies.Where(x => x.SubCategoryId == segmentId && (x.Name.Contains(name) || x.FancyName.Contains(name))));
             }
             catch (Exception ex)
             {
@@ -71,7 +71,7 @@ namespace MrRondon.Services.Api.Controllers
             try
             {
                 name = name ?? string.Empty;
-                return Ok(_db.Companies.Where(x => x.SegmentId == segmentId && x.Address.CityId == city && (x.Name.Contains(name) || x.FancyName.Contains(name))));
+                return Ok(_db.Companies.Where(x => x.SubCategoryId == segmentId && x.Address.CityId == city && (x.Name.Contains(name) || x.FancyName.Contains(name))));
             }
             catch (Exception ex)
             {

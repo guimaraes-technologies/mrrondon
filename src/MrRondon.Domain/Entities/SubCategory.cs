@@ -1,13 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using MrRondon.Infra.CrossCutting.Message;
 
 namespace MrRondon.Domain.Entities
 {
-    public class Category
+    public class SubCategory
     {
-        [Key] public int CategoryId { get; set; }
+        [Key]
+        public int SubCategoryId { get; set; }
 
         [Display(Name = "Nome")]
         [Required(ErrorMessageResourceType = typeof(Error), ErrorMessageResourceName = "Required")]
@@ -20,8 +22,21 @@ namespace MrRondon.Domain.Entities
         //[Required(ErrorMessageResourceType = typeof(Error), ErrorMessageResourceName = "Required")]
         public byte[] Image { get; set; }
 
-        [Display(Name = "Sub Categoria")] public int? SubCategoryId { get; set; }
-        public Category SubCategory { get; set; }
+        [Display(Name = "Categoria")]
+        public int? CategoryId { get; set; }
+        public SubCategory Category { get; set; }
+
+        public ICollection<SubCategory> Categories { get; set; }
+
+        public string GetImage
+        {
+            get
+            {
+                if (Image != null && Image.Length > 0) return $"data:image/PNG;base64,{Convert.ToBase64String(Image)}";
+
+                return "~/Content/Images/without_image.jpg";
+            }
+        }
 
         public void SetImage(byte[] imageBytes)
         {

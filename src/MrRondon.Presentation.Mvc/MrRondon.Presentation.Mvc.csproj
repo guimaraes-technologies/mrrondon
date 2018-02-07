@@ -364,7 +364,6 @@
     <Content Include="Areas\Admin\Views\web.config" />
     <Content Include="Areas\Admin\Views\_ViewStart.cshtml" />
     <Content Include="Areas\Admin\Views\Category\Create.cshtml" />
-    <Content Include="Areas\Admin\Views\Category\Delete.cshtml" />
     <Content Include="Areas\Admin\Views\Category\Details.cshtml" />
     <Content Include="Areas\Admin\Views\Category\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Category\Index.cshtml" />
@@ -402,7 +401,6 @@
     <Content Include="Areas\Admin\Views\SubCategory\_Form.cshtml" />
     <Content Include="Areas\Admin\Views\SubCategory\_Navigation.cshtml" />
     <Content Include="Areas\Admin\Views\SubCategory\Create.cshtml" />
-    <Content Include="Areas\Admin\Views\SubCategory\Delete.cshtml" />
     <Content Include="Areas\Admin\Views\SubCategory\Details.cshtml" />
     <Content Include="Areas\Admin\Views\SubCategory\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\SubCategory\Index.cshtml" />

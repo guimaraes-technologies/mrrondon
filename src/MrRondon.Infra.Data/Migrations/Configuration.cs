@@ -17,9 +17,15 @@ namespace MrRondon.Infra.Data.Migrations
 
         protected override void Seed(Context.MainContext context)
         {
+            var userIds = new[]
+            {
+                Guid.Parse("2A3B3A45-2C1C-4CE1-9618-9D5AA6A2D56F"),
+                Guid.Parse("1C868C4A-9EBD-4C8A-91FC-C326A4E9CAE1")
+            };
             if (!context.Users.Any())
             {
                 var emails = new[] { "administrator", "user" };
+
                 var roles = new List<Role>
                 {
                     new Role {RoleId = 1, Name = "Admin", Description = "Usuário que controla o sistema."},
@@ -30,7 +36,7 @@ namespace MrRondon.Infra.Data.Migrations
                     var cpf = i + 1;
                     var user = new User
                     {
-                        UserId = Guid.NewGuid(),
+                        UserId = userIds[i],
                         FirstName = "User",
                         LastName = "Master",
                         Cpf = string.Format("{0}{0}{0}.{0}{0}{0}.{0}{0}{0}-{0}{0}", cpf),
@@ -83,331 +89,331 @@ namespace MrRondon.Infra.Data.Migrations
                 });
             }
 
-            if (!context.Categories.Any())
+            if (!context.SubCategories.Any())
             {
-                context.Categories.AddRange(new List<Category>
+                context.SubCategories.AddRange(new List<SubCategory>
                 {
-                    new Category
+                    new SubCategory
                     {
-                        CategoryId = 1,
+                        SubCategoryId = 1,
                         Name = "Aventura"
                     },
-                    new Category
+                    new SubCategory
                     {
-                        CategoryId = 2,
+                        SubCategoryId = 2,
                         Name = "Rapel",
-                        SubCategoryId = 1
+                        CategoryId = 1
                     },
-                    new Category
+                    new SubCategory
                     {
-                        CategoryId = 3,
+                        SubCategoryId = 3,
                         Name = "Camping's",
-                        SubCategoryId = 1
+                        CategoryId = 1
                     },
-                    new Category
+                    new SubCategory
                     {
-                        CategoryId = 4,
+                        SubCategoryId = 4,
                         Name = "Aeroclube",
-                        SubCategoryId = 1
+                        CategoryId = 1
                     },
-                    new Category
+                    new SubCategory
                     {
-                        CategoryId = 5,
+                        SubCategoryId = 5,
                         Name = "Kart",
-                        SubCategoryId = 1
+                        CategoryId = 1
                     },
-                    new Category
+                    new SubCategory
                     {
-                        CategoryId = 6,
+                        SubCategoryId = 6,
                         Name = "Paintball",
-                        SubCategoryId = 1
+                        CategoryId = 1
                     },
-                    new Category
+                    new SubCategory
                     {
-                        CategoryId = 7,
+                        SubCategoryId = 7,
                         Name = "AirSoft",
-                        SubCategoryId = 1
+                        CategoryId = 1
                     },
-                    new Category
+                    new SubCategory
                     {
-                        CategoryId = 8,
+                        SubCategoryId = 8,
                         Name = "Trilha",
-                        SubCategoryId = 1
+                        CategoryId = 1
                     },
 
 
 
-                    new Category
+                    new SubCategory
                     {
-                        CategoryId = 9,
+                        SubCategoryId = 9,
                         Name = "Hospedagem"
                     },
-                    new Category
+                    new SubCategory
                     {
-                        CategoryId = 10,
+                        SubCategoryId = 10,
                         Name = "Hotéis",
-                        SubCategoryId = 9
+                        CategoryId = 9
                     },
-                    new Category
+                    new SubCategory
                     {
-                        CategoryId = 11,
+                        SubCategoryId = 11,
                         Name = "Hotéis Fazenda",
-                        SubCategoryId = 9
+                        CategoryId = 9
                     },
-                    new Category
+                    new SubCategory
                     {
-                        CategoryId = 12,
+                        SubCategoryId = 12,
                         Name = "Pousadas",
-                        SubCategoryId = 9
+                        CategoryId = 9
                     },
-                    new Category
+                    new SubCategory
                     {
-                        CategoryId = 13,
+                        SubCategoryId = 13,
                         Name = "Resort's",
-                        SubCategoryId = 9
+                        CategoryId = 9
                     },
 
-                    new Category
+                    new SubCategory
                     {
-                        CategoryId = 14,
+                        SubCategoryId = 14,
                         Name = "Gastronomia"
                     },
-                    new Category
+                    new SubCategory
                     {
-                        CategoryId = 15,
+                        SubCategoryId = 15,
                         Name = "Restaurantes",
-                        SubCategoryId = 14
+                        CategoryId = 14
                     },
-                    new Category
+                    new SubCategory
                     {
-                        CategoryId = 16,
+                        SubCategoryId = 16,
                         Name = "Pizzarias",
-                        SubCategoryId = 14
+                        CategoryId = 14
                     },
-                    new Category
+                    new SubCategory
                     {
-                        CategoryId = 17,
+                        SubCategoryId = 17,
                         Name = "Lanchonetes",
-                        SubCategoryId = 14
+                        CategoryId = 14
                     },
-                    new Category
+                    new SubCategory
                     {
-                        CategoryId = 18,
+                        SubCategoryId = 18,
                         Name = "Restaurantes",
-                        SubCategoryId = 14
+                        CategoryId = 14
                     },
-                    new Category
+                    new SubCategory
                     {
-                        CategoryId = 19,
+                        SubCategoryId = 19,
                         Name = "Food Truck",
-                        SubCategoryId = 14
+                        CategoryId = 14
                     },
-                    new Category
+                    new SubCategory
                     {
-                        CategoryId = 20,
+                        SubCategoryId = 20,
                         Name = "Food Truck",
-                        SubCategoryId = 14
+                        CategoryId = 14
                     },
-                    new Category
+                    new SubCategory
                     {
-                        CategoryId = 21,
+                        SubCategoryId = 21,
                         Name = "Cafeterias",
-                        SubCategoryId = 14
+                        CategoryId = 14
                     },
-                    new Category
+                    new SubCategory
                     {
-                        CategoryId = 22,
+                        SubCategoryId = 22,
                         Name = "Sorveterias",
-                        SubCategoryId = 14
+                        CategoryId = 14
                     },
-                    new Category
+                    new SubCategory
                     {
-                        CategoryId = 23,
+                        SubCategoryId = 23,
                         Name = "Açaiterias",
-                        SubCategoryId = 14
+                        CategoryId = 14
                     },
-                    new Category
+                    new SubCategory
                     {
-                        CategoryId = 24,
+                        SubCategoryId = 24,
                         Name = "Bares",
-                        SubCategoryId = 14
+                        CategoryId = 14
                     },
-                    new Category
+                    new SubCategory
                     {
-                        CategoryId = 25,
+                        SubCategoryId = 25,
                         Name = "Drive Thru",
-                        SubCategoryId = 14
+                        CategoryId = 14
                     },
 
 
-                    new Category
+                    new SubCategory
                     {
-                        CategoryId = 26,
+                        SubCategoryId = 26,
                         Name = "Rent a Car"
                     },
 
 
-                    new Category
+                    new SubCategory
                     {
-                        CategoryId = 27,
+                        SubCategoryId = 27,
                         Name = "Entretenimento",
                     },
-                    new Category
+                    new SubCategory
                     {
-                        CategoryId = 28,
+                        SubCategoryId = 28,
                         Name = "Botecos",
-                        SubCategoryId = 27
+                        CategoryId = 27
                     },
-                    new Category
+                    new SubCategory
                     {
-                        CategoryId = 29,
+                        SubCategoryId = 29,
                         Name = "Boates",
-                        SubCategoryId = 27
+                        CategoryId = 27
                     },
-                    new Category
+                    new SubCategory
                     {
-                        CategoryId = 30,
+                        SubCategoryId = 30,
                         Name = "Bilhares",
-                        SubCategoryId = 27
+                        CategoryId = 27
                     },
-                    new Category
+                    new SubCategory
                     {
-                        CategoryId = 31,
+                        SubCategoryId = 31,
                         Name = "Shopping",
-                        SubCategoryId = 27
+                        CategoryId = 27
                     },
-                    new Category
+                    new SubCategory
                     {
-                        CategoryId = 32,
+                        SubCategoryId = 32,
                         Name = "Cinemas",
-                        SubCategoryId = 27
+                        CategoryId = 27
                     },
-                    new Category
+                    new SubCategory
                     {
-                        CategoryId = 33,
+                        SubCategoryId = 33,
                         Name = "Treatros",
-                        SubCategoryId = 27
+                        CategoryId = 27
                     },
-                    new Category
+                    new SubCategory
                     {
-                        CategoryId = 34,
+                        SubCategoryId = 34,
                         Name = "Casas de Espetáculos",
-                        SubCategoryId = 27
+                        CategoryId = 27
                     },
-                    new Category
+                    new SubCategory
                     {
-                        CategoryId = 35,
+                        SubCategoryId = 35,
                         Name = "Boliches",
-                        SubCategoryId = 27
+                        CategoryId = 27
                     },
-                    new Category
+                    new SubCategory
                     {
-                        CategoryId = 36,
+                        SubCategoryId = 36,
                         Name = "Praças",
-                        SubCategoryId = 27
+                        CategoryId = 27
                     },
 
 
-                    new Category
+                    new SubCategory
                     {
-                        CategoryId = 37,
+                        SubCategoryId = 37,
                         Name = "Parques"
                     },
-                    new Category
+                    new SubCategory
                     {
-                        CategoryId = 38,
+                        SubCategoryId = 38,
                         Name = "Parques Aquáticos",
-                        SubCategoryId = 37
+                        CategoryId = 37
                     },
-                    new Category
+                    new SubCategory
                     {
-                        CategoryId = 39,
+                        SubCategoryId = 39,
                         Name = "Parques Temáticos",
-                        SubCategoryId = 37
+                        CategoryId = 37
                     },
-                    new Category
+                    new SubCategory
                     {
-                        CategoryId = 40,
+                        SubCategoryId = 40,
                         Name = "Parques Naturais",
-                        SubCategoryId = 37
+                        CategoryId = 37
                     },
 
 
-                    new Category
+                    new SubCategory
                     {
-                        CategoryId = 41,
-                        Name = "Marinhas"
+                        SubCategoryId = 41,
+                        Name = "Marinas"
                     },
 
 
-                    new Category
+                    new SubCategory
                     {
-                        CategoryId = 42,
+                        SubCategoryId = 42,
                         Name = "Serviços Úteis"
                     },
-                    new Category
+                    new SubCategory
                     {
-                        CategoryId = 43,
+                        SubCategoryId = 43,
                         Name = "Aeroporto",
-                        SubCategoryId = 42
+                        CategoryId = 42
                     },
-                    new Category
+                    new SubCategory
                     {
-                        CategoryId = 44,
+                        SubCategoryId = 44,
                         Name = "Rodoviária",
-                        SubCategoryId = 42
+                        CategoryId = 42
                     },
-                    new Category
+                    new SubCategory
                     {
-                        CategoryId = 45,
+                        SubCategoryId = 45,
                         Name = "Coopetaxi",
-                        SubCategoryId = 42
+                        CategoryId = 42
                     },
-                    new Category
+                    new SubCategory
                     {
-                        CategoryId = 46,
+                        SubCategoryId = 46,
                         Name = "Hospitais",
-                        SubCategoryId = 42
+                        CategoryId = 42
                     },
-                    new Category
+                    new SubCategory
                     {
-                        CategoryId = 47,
+                        SubCategoryId = 47,
                         Name = "Polícia",
-                        SubCategoryId = 42
+                        CategoryId = 42
                     },
 
 
-                    new Category
+                    new SubCategory
                     {
-                        CategoryId = 48,
+                        SubCategoryId = 48,
                         Name = "Locação de Equipamentos"
                     },
 
 
-                    new Category
+                    new SubCategory
                     {
-                        CategoryId = 49,
+                        SubCategoryId = 49,
                         Name = "Centro de Convenções"
                     },
 
 
-                    new Category
+                    new SubCategory
                     {
-                        CategoryId = 50,
+                        SubCategoryId = 50,
                         Name = "Transporte Turístico"
                     },
 
 
-                    new Category
+                    new SubCategory
                     {
-                        CategoryId = 51,
+                        SubCategoryId = 51,
                         Name = "Agências de Turismo"
                     },
 
 
-                    new Category
+                    new SubCategory
                     {
-                        CategoryId = 52,
+                        SubCategoryId = 52,
                         Name = "Promotores de Eventos"
                     }
                 });
@@ -419,8 +425,7 @@ namespace MrRondon.Infra.Data.Migrations
                 {
                     AddressId = Guid.NewGuid(),
                     CityId = city1.CityId,
-                    City = city1,
-                    ZipCode = "(69) 3211-679111-(69) 3211-6791",
+                    ZipCode = "76.817-003",
                     Number = "1234",
                     Neighborhood = "Bairro Novo",
                     Street = "Rodovia BR 364, km 702",
@@ -438,7 +443,7 @@ namespace MrRondon.Infra.Data.Migrations
                             Name = "Guimaraes Tecnologia",
                             FancyName = "Guimares Tecnologia LTDA",
                             Cnpj = "04.956.000/001-00",
-                            SegmentId = 5
+                            SubCategoryId = 5
                         }
                     });
             }
@@ -583,7 +588,7 @@ namespace MrRondon.Infra.Data.Migrations
                         Telephone = "(69) 3211-6791",
                         Status = MessageStatus.Attended,
                         Subject = MessageSubject.NewCompany,
-                        UserId = Guid.Parse("27d6da73-d1af-45ca-a45a-034159dc7997")
+                        UserId = userIds[1]
                     },
                     new Message
                     {
@@ -594,7 +599,7 @@ namespace MrRondon.Infra.Data.Migrations
                         Telephone = "(69) 3211-6791",
                         Status = MessageStatus.Read,
                         Subject = MessageSubject.UpdateCompany,
-                        UserId = Guid.Parse("27d6da73-d1af-45ca-a45a-034159dc7997")
+                        UserId = userIds[1]
                     },
                     new Message
                     {
@@ -605,7 +610,7 @@ namespace MrRondon.Infra.Data.Migrations
                         Telephone = "(69) 3211-6791",
                         Status = MessageStatus.Read,
                         Subject = MessageSubject.UpdateEvent,
-                        UserId = Guid.Parse("27d6da73-d1af-45ca-a45a-034159dc7997")
+                        UserId = userIds[0]
                     },
                     new Message
                     {
@@ -616,7 +621,7 @@ namespace MrRondon.Infra.Data.Migrations
                         Telephone = "(69) 3211-6791",
                         Status = MessageStatus.Unread,
                         Subject = MessageSubject.UpdateCompany,
-                        UserId = Guid.Parse("27d6da73-d1af-45ca-a45a-034159dc7997")
+                        UserId = userIds[0]
                     },
                     new Message
                     {
@@ -627,7 +632,7 @@ namespace MrRondon.Infra.Data.Migrations
                         Telephone = "(69) 3211-6791",
                         Status = MessageStatus.Read,
                         Subject = MessageSubject.NewEvent,
-                        UserId = Guid.Parse("27d6da73-d1af-45ca-a45a-034159dc7997")
+                        UserId = userIds[1]
                     },
                     new Message
                     {
@@ -638,7 +643,7 @@ namespace MrRondon.Infra.Data.Migrations
                         Telephone = "(69) 3211-6791",
                         Status = MessageStatus.Attended,
                         Subject = MessageSubject.NewEvent,
-                        UserId = Guid.Parse("27d6da73-d1af-45ca-a45a-034159dc7997")
+                        UserId = userIds[0]
                     }
                 });
             }

@@ -44,7 +44,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
         {
             try
             {
-                ModelState.Remove(nameof(model.Company.SegmentId));
+                ModelState.Remove(nameof(model.Company.SubCategoryId));
                 if (!ModelState.IsValid)
                 {
                     SetBiewBags(model);
@@ -81,7 +81,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
             var model = new CrudCompanyVm { Company = company };
             try
             {
-                ModelState.Remove(nameof(company.SegmentId));
+                ModelState.Remove(nameof(company.SubCategoryId));
                 if (!ModelState.IsValid)
                 {
                     SetBiewBags(model);
@@ -158,12 +158,12 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
         private static CrudCompanyVm GetCrudVm(Company company)
         {
             var model = new CrudCompanyVm { Company = company };
-            if (company.Segment?.SubCategoryId != null)
+            if (company.SubCategory?.CategoryId != null)
             {
-                model.SubCategoryId = company.SegmentId;
-                model.CategoryId = company.Segment.SubCategoryId.Value;
+                model.SubCategoryId = company.SubCategoryId;
+                model.CategoryId = company.SubCategory.CategoryId.Value;
             }
-            else model.CategoryId = company.SegmentId;
+            else model.CategoryId = company.SubCategoryId;
 
             return model;
         }
@@ -172,10 +172,10 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
         {
             ViewBag.Cities = new SelectList(_db.Cities, "CityId", "Name", model.Company.Address.CityId);
 
-            ViewBag.Categories = new SelectList(_db.Categories.Where(s => s.SubCategoryId == null).OrderBy(o => o.Name),
-                "CategoryId", "Name", model.CategoryId);
+            ViewBag.Categories = new SelectList(_db.SubCategories.Where(s => s.CategoryId == null).OrderBy(o => o.Name),
+                "SubCategoryId", "Name", model.CategoryId);
 
-            ViewBag.SubCategories = new SelectList(_db.Categories.Where(s => s.SubCategoryId == null).OrderBy(o => o.Name), "CategoryId", "Name", model.SubCategoryId);
+            ViewBag.SubCategories = new SelectList(_db.SubCategories.Where(s => s.CategoryId == null).OrderBy(o => o.Name), "SubCategoryId", "Name", model.SubCategoryId);
         }
 
         protected override void Dispose(bool disposing)

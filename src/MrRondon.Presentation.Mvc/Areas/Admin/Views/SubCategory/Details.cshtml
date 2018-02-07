@@ -1,7 +1,7 @@
-﻿@model Category
+﻿@model SubCategory
 @using MrRondon.Domain.Entities
 @{
-    ViewBag.Title = "Detalhes de sub categoria";
+    ViewBag.Title = "Detalhes da sub categoria";
 }
 @section header
 {
@@ -19,9 +19,9 @@
             <h4 class="ui header">@Html.DisplayNameFor(e => e.Name)</h4>
             @Model.Name
         </div>
-        <div class="column">
-            <h4 class="ui header">@Html.DisplayNameFor(e => e.Name)</h4>
-            @Model.Name
+        <div class=" eight wide column">
+            <h4 class="ui header">@Html.DisplayNameFor(e => e.SubCategoryId)</h4>
+            @(Model?.Category?.Name ?? "Não possui")
         </div>
     </div>
 </div>

@@ -18,7 +18,7 @@ namespace MrRondon.Infra.Data.Context
 
         public DbSet<Address> Adresses { get; set; }
         public DbSet<ApplicationClient> ApplicationClients { get; set; }
-        public DbSet<Category> Categories { get; set; }
+        public DbSet<SubCategory> SubCategories { get; set; }
         public DbSet<City> Cities { get; set; }
         public DbSet<Contact> Contacts { get; set; }
         public DbSet<Company> Companies { get; set; }
@@ -41,10 +41,10 @@ namespace MrRondon.Infra.Data.Context
             modelBuilder.Properties<string>().Configure(p => p.HasColumnType("varchar"));
             modelBuilder.Properties<string>().Configure(p => p.HasMaxLength(100));
 
-            modelBuilder.Entity<Category>()
-                .HasOptional(p => p.SubCategory)
-                .WithMany()
-                .HasForeignKey(p => p.SubCategoryId);
+            modelBuilder.Entity<SubCategory>()
+                .HasOptional(p => p.Category)
+                .WithMany(p => p.Categories)
+                .HasForeignKey(p => p.CategoryId);
 
             modelBuilder.Entity<User>()
                 .HasMany(u => u.Roles)

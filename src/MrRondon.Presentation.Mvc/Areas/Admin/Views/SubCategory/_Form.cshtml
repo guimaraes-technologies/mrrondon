@@ -1,5 +1,5 @@
 ﻿@using MrRondon.Presentation.Mvc.Extensions
-@model MrRondon.Domain.Entities.Category
+@model MrRondon.Domain.Entities.SubCategory
 
 <div class="ui equal width form">
     <div class="fields">
@@ -8,8 +8,8 @@
             @Html.SemanticTextBoxFor(e => e.Name, null)
         </div>
         <div class="eight wide field">
-            @Html.LabelFor(e => e.SubCategoryId)
-            @Html.SemanticDropDownListFor(e => e.SubCategoryId, (SelectList)ViewBag.SubCategories)
+            @Html.LabelFor(e => e.CategoryId)
+            @Html.SemanticDropDownListFor(e => e.CategoryId, (SelectList)ViewBag.Categories)
         </div>
     </div>
 </div>
