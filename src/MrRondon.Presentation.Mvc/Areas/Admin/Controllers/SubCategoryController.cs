@@ -133,7 +133,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
         {
             var search = parameters.Search.Value?.ToLower() ?? string.Empty;
             var repo = new RepositoryBase<SubCategory>(_db);
-            var items = repo.GetItemsByExpression(w => w.CategoryId == null && w.Name.Contains(search)).ToList();
+            var items = repo.GetItemsByExpression(w => w.CategoryId == null && w.Name.Contains(search), "Category").ToList();
             var dtResult = new DataTableResultSet(parameters.Draw, 10);
 
             var buttons = new ButtonsSubCategory();

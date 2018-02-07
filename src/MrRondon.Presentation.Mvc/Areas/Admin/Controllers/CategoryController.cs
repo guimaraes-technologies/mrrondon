@@ -25,7 +25,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
         public ActionResult Details(int id)
         {
             var repo = new RepositoryBase<SubCategory>(_db);
-            var category = repo.GetItemByExpression(x => x.SubCategoryId == id, "Category");
+            var category = repo.GetItemByExpression(x => x.SubCategoryId == id);
             if (category == null) return HttpNotFound();
             return View(category);
         }
@@ -63,7 +63,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
         public ActionResult Edit(int id)
         {
             var repo = new RepositoryBase<SubCategory>(_db);
-            var category = repo.GetItemByExpression(x => x.CategoryId == id, "Category");
+            var category = repo.GetItemByExpression(x => x.CategoryId == id);
             if (category == null) return HttpNotFound();
 
             return View(category);
