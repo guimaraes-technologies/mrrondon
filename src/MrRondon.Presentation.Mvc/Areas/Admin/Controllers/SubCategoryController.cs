@@ -108,32 +108,13 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
                 return View(model).Error(ex.Message);
             }
         }
-
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            try
-            {
-                var category = _db.SubCategories.Find(id);
-                if (category == null) return RedirectToAction("Index").Success("Categoria removida com sucesso");
-
-                _db.SubCategories.Remove(category);
-                _db.SaveChanges();
-                return RedirectToAction("Index").Success("Categoria removida com sucesso");
-            }
-            catch (Exception ex)
-            {
-                return RedirectToAction("Index").Error(ex.Message);
-            }
-        }
-
+        
         [HttpPost]
         public JsonResult GetPagination(DataTableParameters parameters)
         {
             var search = parameters.Search.Value?.ToLower() ?? string.Empty;
             var repo = new RepositoryBase<SubCategory>(_db);
-            var items = repo.GetItemsByExpression(w => w.CategoryId == null && w.Name.Contains(search), "Category").ToList();
+            var items = repo.GetItemsByExpression(w => w.CategoryId != null && w.Name.Contains(search), "Category").ToList();
             var dtResult = new DataTableResultSet(parameters.Draw, 10);
 
             var buttons = new ButtonsSubCategory();
