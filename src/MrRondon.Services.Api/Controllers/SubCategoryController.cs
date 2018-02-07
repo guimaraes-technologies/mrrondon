@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Data.Entity;
 using System.Web.Http;
 using MrRondon.Infra.Data.Context;
 
@@ -22,7 +23,7 @@ namespace MrRondon.Services.Api.Controllers
             try
             {
                 name = name ?? string.Empty;
-                return Ok(_db.SubCategories.Where(x => x.CategoryId == categoryId && x.Name.Contains(name)));
+                return Ok(_db.SubCategories.Include(i => i.Category).Where(x => x.CategoryId == categoryId && x.Name.Contains(name)));
             }
             catch (Exception ex)
             {

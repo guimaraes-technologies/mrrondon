@@ -24,7 +24,7 @@ namespace MrRondon.Services.Api.Controllers
             {
                 var item = _db.Companies
                     .Include(i => i.Address.City)
-                    .Include(s => s.SubCategory.SubCategory)
+                    .Include(s => s.SubCategory.Category)
                     .FirstOrDefault(f => f.CompanyId == id);
                 return Ok(item);
             }
