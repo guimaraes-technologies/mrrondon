@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web.Http;
 using MrRondon.Domain.Entities;
 using MrRondon.Infra.Data.Context;
+using MrRondon.Infra.Security.Helpers;
 using MrRondon.Services.Api.Authorization;
 
 namespace MrRondon.Services.Api.Controllers
@@ -23,7 +24,7 @@ namespace MrRondon.Services.Api.Controllers
         {
             try
             {
-                return Ok(_db.Users.Find(Authentication.Current.UserId));
+                return Ok(_db.Users.Find(AccountManager.UserId));
             }
             catch (Exception ex)
             {
@@ -36,7 +37,7 @@ namespace MrRondon.Services.Api.Controllers
         {
             try
             {
-                return Ok(_db.FavoriteEvents.Include(i => i.Event).Where(x => x.UserId == Authentication.Current.UserId));
+                return Ok(_db.FavoriteEvents.Include(i => i.Event).Where(x => x.UserId == AccountManager.UserId));
             }
             catch (Exception ex)
             {
