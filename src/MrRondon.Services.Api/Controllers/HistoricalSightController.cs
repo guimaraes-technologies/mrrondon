@@ -34,13 +34,13 @@ namespace MrRondon.Services.Api.Controllers
         }
 
         [AllowAnonymous]
-        [Route("{name=}")]
-        public IHttpActionResult Get(string name)
+        [Route("city/{cityId:int}/{name=}")]
+        public IHttpActionResult Get(int cityId, string name)
         {
             try
             {
-                name = name ?? string.Empty;
-                return Ok(_db.HistoricalSights.Where(x => x.Name.Contains(name)));
+                name = string.IsNullOrWhiteSpace(name) ? string.Empty : name;
+                return Ok(_db.HistoricalSights.Where(x => x.Address.CityId == cityId && x.Name.Contains(name)));
             }
             catch (Exception ex)
             {

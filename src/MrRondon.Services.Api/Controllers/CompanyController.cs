@@ -35,42 +35,12 @@ namespace MrRondon.Services.Api.Controllers
         }
 
         [AllowAnonymous]
-        [Route("{name:alpha=}")]
-        public IHttpActionResult Get(string name)
-        {
-            try
-            {
-                name = name ?? string.Empty;
-                return Ok(_db.Companies.Where(x => x.Name.Contains(name) || x.FancyName.Contains(name)));
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
-        [AllowAnonymous]
-        [Route("segment/{segmentId:int}/{name:alpha=}")]
-        public IHttpActionResult Get(int segmentId, string name)
-        {
-            try
-            {
-                name = name ?? string.Empty;
-                return Ok(_db.Companies.Where(x => x.SubCategoryId == segmentId && (x.Name.Contains(name) || x.FancyName.Contains(name))));
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
-        [AllowAnonymous]
-        [Route("segment/{segmentId:int}/{city:int}/{name:alpha=}")]
+        [Route("city/{city:int}/segment/{segmentId:int}/{name=}")]
         public IHttpActionResult Get(int segmentId, int city, string name)
         {
             try
             {
-                name = name ?? string.Empty;
+                name = string.IsNullOrWhiteSpace(name) ? string.Empty : name;
                 return Ok(_db.Companies.Where(x => x.SubCategoryId == segmentId && x.Address.CityId == city && (x.Name.Contains(name) || x.FancyName.Contains(name))));
             }
             catch (Exception ex)

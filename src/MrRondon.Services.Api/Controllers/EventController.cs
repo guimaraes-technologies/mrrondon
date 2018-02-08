@@ -40,11 +40,12 @@ namespace MrRondon.Services.Api.Controllers
         }
 
         [AllowAnonymous]
-        [Route("city/{cityId:int}/{name:alpha=}")]
+        [Route("city/{cityId:int}/{name=}")]
         public IHttpActionResult Get(int cityId, string name)
         {
             try
             {
+                name = string.IsNullOrWhiteSpace(name) ? string.Empty : name;
                 return Ok(_db.Events.Include(i => i.Address.City).Where(x => x.Address.CityId == cityId && x.Name.Contains(name)));
             }
             catch (Exception ex)
