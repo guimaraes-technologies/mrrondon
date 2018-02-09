@@ -11,24 +11,28 @@
             </div>
         </div>
         <div class="five wide field">
-            @Html.LabelFor(e => e.Street)
-            @Html.SemanticTextBoxFor(e => e.Street, new { @class = "street", placeholder = "Ex.: Rua Àlvaro Paraguassu" })
+            @Html.LabelFor(e => e.CityId)
+            @Html.SemanticDropDownListFor(e => e.CityId, (SelectList)ViewBag.Cities)
+        </div>
+        <div class="four wide field">
+            @Html.LabelFor(e => e.Latitude)
+            @Html.SemanticNumericBoxFor(e => e.Latitude, new { @class = "latitude", placeholder = "Ex.: -8.7657021" })
+        </div>
+        <div class="four wide field">
+            @Html.LabelFor(e => e.Longitude)
+            @Html.SemanticNumericBoxFor(e => e.Longitude, new { @class = "longitude", placeholder = "Ex.: -63.9080143" })
+        </div>
+    </div>
+    <div class="three fields">
+        <div class="five wide field">
+            @Html.LabelFor(e => e.Neighborhood)
+            @Html.SemanticTextBoxFor(e => e.Neighborhood, new { @class = "neighborhood", placeholder = "Ex.: Jequitibá" })
         </div>
         <div class="two wide field">
             @Html.LabelFor(e => e.Number)
             @Html.SemanticTextBoxFor(e => e.Number, new { placeholder = "Ex.: 456" })
         </div>
-        <div class="four wide field">
-            @Html.LabelFor(e => e.Neighborhood)
-            @Html.SemanticTextBoxFor(e => e.Neighborhood, new { @class = "neighborhood", placeholder = "Ex.: Jequitibá" })
-        </div>
-    </div>
-    <div class="three fields">
-        <div class="six wide field">
-            @Html.LabelFor(e => e.CityId)
-            @Html.SemanticDropDownListFor(e => e.CityId, (SelectList)ViewBag.Cities)
-        </div>
-        <div class="seven wide field">
+        <div class="nine wide field">
             @Html.LabelFor(e => e.AdditionalInformation)
             @Html.SemanticTextBoxFor(e => e.AdditionalInformation, new { @class = "additional-information", placeholder = "Ex.: Curva do 'S'" })
         </div>

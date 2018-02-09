@@ -179,7 +179,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
             else
             {
                 var subCategories = _db.SubCategories.Where(s => s.CategoryId != null).OrderBy(o => o.Name);
-                ViewBag.SubCategories = new SelectList(subCategories, "SubCategoryId", "Name", model?.SubCategoryId);
+                ViewBag.SubCategories = new SelectList(subCategories, "SubCategoryId", "Name", model.SubCategoryId);
             }
         }
 
