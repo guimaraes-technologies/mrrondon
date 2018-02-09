@@ -8,11 +8,6 @@
     <nav class="gt-navigation-left">
         <div class="fluid ui large inverted secondary vertical menu gt-main-menu">
             <a href="@Url.Action("Index", "Category", new {area = "Admin"})" class="item">
-                <i class="dashboard icon"></i>
-                <span>Área do Administrador</span>
-            </a>
-
-            <a href="@Url.Action("Index", "Category", new {area = "Admin"})" class="item">
                 <i class="id card icon"></i>
                 <span>Categorias</span>
             </a>
@@ -30,11 +25,6 @@
             <a href="@Url.Action("Index", "Company", new {area = "Admin"})" class="item">
                 <i class="id card icon"></i>
                 <span>Empresas</span>
-            </a>
-
-            <a href="@Url.Action("Unread", "Message", new {area = "Admin"})" class="item">
-                <i class="id card icon"></i>
-                <span>Mensagens</span>
             </a>
         </div>
         @Html.Partial("_Settings")

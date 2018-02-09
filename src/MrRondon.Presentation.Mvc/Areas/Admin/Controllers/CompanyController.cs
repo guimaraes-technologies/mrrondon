@@ -34,7 +34,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
 
         public ActionResult Create()
         {
-            ViewBag.Cities = new SelectList(_db.Cities, "CityId", "Name");
+            SetBiewBags(null);
             return View();
         }
 
@@ -50,7 +50,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
                     SetBiewBags(model);
                     return View(model);
                 }
-                
+
                 _db.Companies.Add(model.Company);
                 _db.SaveChanges();
                 return RedirectToAction("Index");
@@ -87,7 +87,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
                     SetBiewBags(model);
                     return View(model);
                 }
-                
+
                 _db.Entry(company).State = EntityState.Modified;
                 _db.SaveChanges();
                 return RedirectToAction("Index");
@@ -170,12 +170,17 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
 
         private void SetBiewBags(CrudCompanyVm model)
         {
-            ViewBag.Cities = new SelectList(_db.Cities, "CityId", "Name", model.Company.Address.CityId);
+            ViewBag.Cities = new SelectList(_db.Cities, "CityId", "Name", model?.Company.Address.CityId);
 
-            ViewBag.Categories = new SelectList(_db.SubCategories.Where(s => s.CategoryId == null).OrderBy(o => o.Name),
-                "SubCategoryId", "Name", model.CategoryId);
+            var categories = _db.SubCategories.Where(s => s.CategoryId == null).OrderBy(o => o.Name);
+            ViewBag.Categories = new SelectList(categories, "SubCategoryId", "Name", model?.CategoryId);
 
-            ViewBag.SubCategories = new SelectList(_db.SubCategories.Where(s => s.CategoryId == null).OrderBy(o => o.Name), "SubCategoryId", "Name", model.SubCategoryId);
+            if (model == null || model.CategoryId == 0) ViewBag.SubCategories = new SelectList(Enumerable.Empty<SelectListItem>());
+            else
+            {
+                var subCategories = _db.SubCategories.Where(s => s.CategoryId != null).OrderBy(o => o.Name);
+                ViewBag.SubCategories = new SelectList(subCategories, "SubCategoryId", "Name", model?.SubCategoryId);
+            }
         }
 
         protected override void Dispose(bool disposing)

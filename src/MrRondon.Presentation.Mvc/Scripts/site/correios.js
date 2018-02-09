@@ -16,18 +16,24 @@
             var container = $(this).closest("#container-zipcode").addClass("loading");
             var zipcode = element.val();
             var url = "http://api.postmon.com.br/v1/cep/" + zipcode;
-            $.getJSON(url, function (data) {
-                $(".additional-information").val(data.complemento);
-                $(".neighborhood").val(data.bairro);
-                $(".city").val(data.cidade);
-                $(".street").val(data.logradouro);
-            })
-            .fail(function () {
-                Correios.CleanFields();
-            })
-            .always(function () {
-                container.removeClass("loading");
-            });
+            $.getJSON(url,
+                    function(data) {
+                        $(".additional-information").val(data.complemento);
+                        $(".neighborhood").val(data.bairro);
+                        $(".city").val(data.cidade);
+                        $(".street").val(data.logradouro);
+                    })
+                .done(function() {
+                    //Sucesso na busca do CEP
+                })
+                .fail(function() {
+                    //Falha na busca do CEP
+                    Correios.CleanFields();
+                })
+                .always(function() {
+                    //Final da operação independente do que ocorra
+                    container.removeClass("loading");
+                });
         });
     };
 });

@@ -20,11 +20,11 @@
     </div>
     <div class="seven wide field">
         @Html.Label("Categoria")
-        @Html.SemanticDropDownListFor(e => e.CategoryId, null)
+        @Html.SemanticDropDownListFor(e => e.CategoryId, (SelectList)ViewBag.Categories)
     </div>
     <div class="six wide field">
         @Html.Label("Sub Categoria")
-        @Html.SemanticDropDownListFor(e => e.SubCategoryId, null)
+        @Html.SemanticDropDownListFor(e => e.SubCategoryId, (SelectList)ViewBag.SubCategories)
     </div>
 </div>
 

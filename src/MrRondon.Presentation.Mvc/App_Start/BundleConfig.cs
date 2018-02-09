@@ -37,10 +37,9 @@ namespace MrRondon.Presentation.Mvc
 
             bundles.Add(new ScriptBundle("~/bundles/company").Include(
                 "~/Scripts/site/contact.js",
-                "~/Scripts/site/correios.js",
                 "~/Scripts/site/company.js"));
 
-            BundleTable.EnableOptimizations = true;
+            BundleTable.EnableOptimizations = false;
         }
     }
 }
