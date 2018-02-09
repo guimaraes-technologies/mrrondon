@@ -44,13 +44,16 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
         {
             try
             {
-                ModelState.Remove(nameof(model.Company.SubCategoryId));
+                if (model.SubCategoryId.HasValue && model.SubCategoryId != 0)
+                    model.Company.SubCategoryId = model.SubCategoryId.Value;
+                else model.Company.SubCategoryId = model.CategoryId;
+
                 if (!ModelState.IsValid)
                 {
                     SetBiewBags(model);
                     return View(model);
                 }
-
+                
                 _db.Companies.Add(model.Company);
                 _db.SaveChanges();
                 return RedirectToAction("Index");
