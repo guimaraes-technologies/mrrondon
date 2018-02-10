@@ -7,7 +7,7 @@ namespace MrRondon.Domain.Entities
     public class Login
     {
         [Key]
-        public Guid LoginId { get; set; }
+        public Guid LoginId { get; set; } = Guid.NewGuid();
 
         [Display(Name = "Provedor")]
         [Required(ErrorMessageResourceType = typeof(Error), ErrorMessageResourceName = "Required")]

@@ -6,7 +6,7 @@ namespace MrRondon.Domain.Entities
     public class Contact
     {
         [Key]
-        public Guid ContactId { get; set; }
+        public Guid ContactId { get; set; } = Guid.NewGuid();
         public string Description { get; set; }
         public ContactType ContactType { get; set; }
 

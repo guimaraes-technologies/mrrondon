@@ -7,7 +7,7 @@ namespace MrRondon.Domain.Entities
     public class Event
     {
         [Key]
-        public Guid EventId { get; set; }
+        public Guid EventId { get; set; } = Guid.NewGuid();
 
         [Display(Name = "Nome")]
         [Required(ErrorMessageResourceType = typeof(Error), ErrorMessageResourceName = "Required")]

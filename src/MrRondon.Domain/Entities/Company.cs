@@ -8,7 +8,7 @@ namespace MrRondon.Domain.Entities
     public class Company
     {
         [Key]
-        public Guid CompanyId { get; set; }
+        public Guid CompanyId { get; set; } = Guid.NewGuid();
 
         [Display(Name = "Nome")]
         [Required(ErrorMessageResourceType = typeof(Error), ErrorMessageResourceName = "Required")]
@@ -29,11 +29,11 @@ namespace MrRondon.Domain.Entities
         public string Cnpj { get; set; }
 
         [Display(Name = "Imagem da Logo")]
-        //[Required(ErrorMessageResourceType = typeof(Error), ErrorMessageResourceName = "Required")]
+        [Required(ErrorMessageResourceType = typeof(Error), ErrorMessageResourceName = "Required")]
         public byte[] Logo { get; set; }
 
         [Display(Name = "Imagem da Capa")]
-        //[Required(ErrorMessageResourceType = typeof(Error), ErrorMessageResourceName = "Required")]
+        [Required(ErrorMessageResourceType = typeof(Error), ErrorMessageResourceName = "Required")]
         public byte[] Cover { get; set; }
 
         [Display(Name = "Endereço")]

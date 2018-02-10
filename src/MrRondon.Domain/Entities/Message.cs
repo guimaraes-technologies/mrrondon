@@ -7,7 +7,7 @@ namespace MrRondon.Domain.Entities
     public class Message
     {
         [Key]
-        public Guid MessageId { get; set; }
+        public Guid MessageId { get; set; } = Guid.NewGuid();
 
         [Display(Name = "Titulo")]
         [Required(ErrorMessageResourceType = typeof(Error), ErrorMessageResourceName = "Required")]

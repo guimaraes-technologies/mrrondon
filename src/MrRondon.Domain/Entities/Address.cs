@@ -8,7 +8,7 @@ namespace MrRondon.Domain.Entities
     public class Address
     {
         [Key]
-        public Guid AddressId { get; set; }
+        public Guid AddressId { get; set; } = Guid.NewGuid();
 
         [Display(Name = "Rua/Avenida")]
         [Required(ErrorMessageResourceType = typeof(Error), ErrorMessageResourceName = "Required")]
@@ -30,7 +30,7 @@ namespace MrRondon.Domain.Entities
 
         [DisplayName("Complemento")]
         public string AdditionalInformation { get; set; }
-        
+
         [Display(Name = "CEP")]
         [Required(ErrorMessageResourceType = typeof(Error), ErrorMessageResourceName = "Required")]
         [MaxLength(10, ErrorMessage = "Máximo {0} caracteres")]

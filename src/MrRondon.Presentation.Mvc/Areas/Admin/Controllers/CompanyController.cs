@@ -51,6 +51,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
                 model.Company.Contacts = model.Contacts;
                 ModelState.Remove(nameof(model.Company.Logo));
                 ModelState.Remove(nameof(model.Company.Cover));
+
                 if (!ModelState.IsValid)
                 {
                     SetBiewBags(model);

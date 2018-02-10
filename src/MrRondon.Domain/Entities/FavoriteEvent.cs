@@ -6,7 +6,7 @@ namespace MrRondon.Domain.Entities
     public class FavoriteEvent
     {
         [Key]
-        public Guid FavoriteEventId { get; set; }
+        public Guid FavoriteEventId { get; set; } = Guid.NewGuid();
 
         public Guid EventId { get; set; }
         public Event Event { get; set; }

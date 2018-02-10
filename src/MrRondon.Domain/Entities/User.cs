@@ -9,7 +9,7 @@ namespace MrRondon.Domain.Entities
     public class User
     {
         [Key]
-        public Guid UserId { get; set; }
+        public Guid UserId { get; set; } = Guid.NewGuid();
         public string Cpf { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
