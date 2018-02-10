@@ -23,16 +23,22 @@
             @Html.SemanticTextBoxFor(e => e.Longitude, new { @class = "longitude", placeholder = "Ex.: -63.9080143" })
         </div>
     </div>
-    <div class="three fields">
-        <div class="five wide field">
-            @Html.LabelFor(e => e.Neighborhood)
-            @Html.SemanticTextBoxFor(e => e.Neighborhood, new { @class = "neighborhood", placeholder = "Ex.: Jequitibá" })
+    <div class="two fields">
+        <div class="twelve wide field">
+            @Html.LabelFor(e => e.Street)
+            @Html.SemanticTextBoxFor(e => e.Street, new { placeholder = "Ex.: Rua da Alegria" })
         </div>
-        <div class="two wide field">
+        <div class="four wide field">
             @Html.LabelFor(e => e.Number)
             @Html.SemanticTextBoxFor(e => e.Number, new { placeholder = "Ex.: 456" })
         </div>
-        <div class="nine wide field">
+    </div>
+    <div class="two fields">
+        <div class="six wide field">
+            @Html.LabelFor(e => e.Neighborhood)
+            @Html.SemanticTextBoxFor(e => e.Neighborhood, new { @class = "neighborhood", placeholder = "Ex.: Jequitibá" })
+        </div>
+        <div class="ten wide field">
             @Html.LabelFor(e => e.AdditionalInformation)
             @Html.SemanticTextBoxFor(e => e.AdditionalInformation, new { @class = "additional-information", placeholder = "Ex.: Curva do 'S'" })
         </div>

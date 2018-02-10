@@ -39,7 +39,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create(CrudCompanyVm model)
+        public ActionResult Create(CrudCompanyVm model, Address address)
         {
             try
             {
@@ -47,12 +47,16 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
                     model.Company.SubCategoryId = model.SubCategoryId.Value;
                 else model.Company.SubCategoryId = model.CategoryId;
 
+                model.Company.Address = address;
+                model.Company.Contacts = model.Contacts;
+                ModelState.Remove(nameof(model.Company.Logo));
+                ModelState.Remove(nameof(model.Company.Cover));
                 if (!ModelState.IsValid)
                 {
                     SetBiewBags(model);
                     return View(model);
                 }
-                
+
                 _db.Companies.Add(model.Company);
                 _db.SaveChanges();
                 return RedirectToAction("Index");
@@ -67,7 +71,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
         public ActionResult Edit(Guid id)
         {
             var repo = new RepositoryBase<Company>(_db);
-            var company = repo.GetItemByExpression(x => x.CompanyId == id, "Address", "Segment");
+            var company = repo.GetItemByExpression(x => x.CompanyId == id, "Address", "SubCategory");
             if (company == null) return HttpNotFound();
 
             var model = GetCrudVm(company);

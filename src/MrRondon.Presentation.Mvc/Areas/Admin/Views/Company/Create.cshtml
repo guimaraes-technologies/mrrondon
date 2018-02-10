@@ -63,7 +63,7 @@
     </div>
 
     <h3 class="ui dividing header">Informações do Endereço</h3>
-    @Html.Partial("_FormAddress", Model?.Address ?? new Address())
+    @Html.Partial("_FormAddress", Model?.Company.Address ?? new Address())
     @Html.Partial("_ButtonSubmit")
 }
 
