@@ -1,4 +1,6 @@
-﻿@model MrRondon.Presentation.Mvc.ViewModels.CrudCompanyVm
+﻿@using MrRondon.Domain.Entities
+@using MrRondon.Presentation.Mvc.Extensions
+@model MrRondon.Presentation.Mvc.ViewModels.CrudCompanyVm
 @{
     ViewBag.Title = "Adicionar empresa";
 }
@@ -17,8 +19,51 @@
 
 @using (Html.BeginForm("Create", "Company", FormMethod.Post, new { @class = "ui form", enctype = "multipart/form-data" }))
 {
-    @Html.AntiForgeryToken()
-    @Html.Partial("_Form")
+    <h3 class="ui dividing header">Informações da Empresa</h3>
+
+    @Html.HiddenFor(model => model.Company.Cover)
+    @Html.HiddenFor(model => model.Company.Logo)
+
+    <div class="fields">
+        <div class="wide field">
+            @Html.TextBoxFor(model => model.CoverFile, new { type = "file", onchange = "previewFile()", style = "display:none" })
+        </div>
+        <div class="wide field">
+            @Html.TextBoxFor(model => model.LogoFile, new { type = "file", onchange = "previewFile()", style = "display:none" })
+        </div>
+    </div>
+    <div class="fields">
+        <div class="eight wide field">
+            @Html.LabelFor(e => e.Company.Name)
+            @Html.SemanticTextBoxFor(e => e.Company.Name, null)
+        </div>
+        <div class="eight wide field">
+            @Html.LabelFor(e => e.Company.FancyName)
+            @Html.SemanticTextBoxFor(e => e.Company.FancyName, null)
+        </div>
+    </div>
+    <div class="fields">
+        <div class="three wide field">
+            @Html.LabelFor(e => e.Company.Cnpj)
+            @Html.SemanticTextCnpjFor(e => e.Company.Cnpj, null)
+        </div>
+        <div class="seven wide field">
+            @Html.LabelFor(e => e.CategoryId)
+            @Html.SemanticDropDownListFor(model => model.CategoryId, (SelectList)ViewBag.Categories, "Selecione...", new { data_drop_url = Url.Action("GetSubCategories", "SubCategory", new { categoryId = "value" }), data_drop_setresult = "#SubCategoryId" })
+        </div>
+        <div class="six wide field">
+            @Html.LabelFor(e => e.SubCategoryId)
+            @Html.SemanticDropDownListFor(e => e.SubCategoryId, (SelectList)ViewBag.SubCategories)
+        </div>
+    </div>
+
+    <h3 class="ui dividing header">Informações de Contato</h3>
+    <div class="list-contact">
+        @Html.Action("Contacts", "Company", new { area = "Admin", companyContact = Model })
+    </div>
+
+    <h3 class="ui dividing header">Informações do Endereço</h3>
+    @Html.Partial("_FormAddress", Model?.Address ?? new Address())
     @Html.Partial("_ButtonSubmit")
 }
 

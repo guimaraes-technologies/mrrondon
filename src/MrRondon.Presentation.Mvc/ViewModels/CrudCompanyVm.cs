@@ -20,6 +20,7 @@ namespace MrRondon.Presentation.Mvc.ViewModels
         public HttpPostedFileBase CoverFile { get; set; }
         public HttpPostedFileBase LogoFile { get; set; }
 
+        public Address Address { get; set; }
         public Company Company { get; set; }
 
         public List<Contact> Contacts { get; set; }

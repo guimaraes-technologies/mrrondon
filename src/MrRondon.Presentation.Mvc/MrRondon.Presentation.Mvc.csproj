@@ -414,6 +414,8 @@
     <Content Include="Areas\Admin\Views\Message\Attended.cshtml" />
     <Content Include="Areas\Admin\Views\Message\Read.cshtml" />
     <Content Include="Areas\Admin\Views\Message\Unread.cshtml" />
+    <Content Include="Areas\Admin\Views\Event\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Event\_Navigation.cshtml" />
     <None Include="Properties\PublishProfiles\Webdeploy.pubxml" />
     <None Include="Scripts\jquery-3.2.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.2.1.js" />
@@ -442,6 +444,7 @@
     <Compile Include="Areas\Admin\Controllers\CategoryController.cs" />
     <Compile Include="Areas\Admin\Controllers\CityController.cs" />
     <Compile Include="Areas\Admin\Controllers\CompanyController.cs" />
+    <Compile Include="Areas\Admin\Controllers\EventController.cs" />
     <Compile Include="Areas\Admin\Controllers\MessageController.cs" />
     <Compile Include="Areas\Admin\Controllers\SubCategoryController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
@@ -463,6 +466,7 @@
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\ChangePasswordVm.cs" />
     <Compile Include="ViewModels\CrudCompanyVm.cs" />
+    <Compile Include="ViewModels\CrudEventVm.cs" />
     <Compile Include="ViewModels\NewPasswordVm.cs" />
     <Compile Include="ViewModels\RecoveryPasswordVm.cs" />
     <Compile Include="ViewModels\SigninVm.cs" />

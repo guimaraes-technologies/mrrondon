@@ -22,6 +22,9 @@ namespace MrRondon.Domain.Entities
         //[Required(ErrorMessageResourceType = typeof(Error), ErrorMessageResourceName = "Required")]
         public byte[] Image { get; set; }
 
+        [Display(Name = "Exibir no Aplicativo?")]
+        public bool ShowOnApp { get; set; }
+
         [Display(Name = "Categoria")]
         public int? CategoryId { get; set; }
         public SubCategory Category { get; set; }

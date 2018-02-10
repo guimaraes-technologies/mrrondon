@@ -13,7 +13,7 @@ using MrRondon.Presentation.Mvc.ViewModels;
 
 namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
 {
-    public class CompanyController : Controller
+    public class EventController : Controller
     {
         private readonly MainContext _db = new MainContext();
 
@@ -21,11 +21,12 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
         {
             return View();
         }
+        /*
 
         public ActionResult Details(Guid id)
         {
-            var repo = new RepositoryBase<Company>(_db);
-            var company = repo.GetItemByExpression(x => x.CompanyId == id);
+            var repo = new RepositoryBase<Event>(_db);
+            var company = repo.GetItemByExpression(x => x.EventId == id);
             if (company == null) return HttpNotFound();
             var model = GetCrudVm(company);
 
@@ -37,23 +38,22 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
             SetBiewBags(null);
             return View();
         }
-
         [HttpPost]
-        public ActionResult Create(CrudCompanyVm model)
+        public ActionResult Create(CrudEventVm model)
         {
             try
             {
                 if (model.SubCategoryId.HasValue && model.SubCategoryId != 0)
-                    model.Company.SubCategoryId = model.SubCategoryId.Value;
-                else model.Company.SubCategoryId = model.CategoryId;
+                    model.Event.SubCategoryId = model.SubCategoryId.Value;
+                else model.Event.SubCategoryId = model.CategoryId;
 
                 if (!ModelState.IsValid)
                 {
                     SetBiewBags(model);
                     return View(model);
                 }
-                
-                _db.Companies.Add(model.Company);
+
+                _db.Companies.Add(model.Event);
                 _db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -66,8 +66,8 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
 
         public ActionResult Edit(Guid id)
         {
-            var repo = new RepositoryBase<Company>(_db);
-            var company = repo.GetItemByExpression(x => x.CompanyId == id, "Address", "Segment");
+            var repo = new RepositoryBase<Event>(_db);
+            var company = repo.GetItemByExpression(x => x.EventId == id, "Address", "Segment");
             if (company == null) return HttpNotFound();
 
             var model = GetCrudVm(company);
@@ -77,9 +77,9 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public ActionResult Edit(Company company)
+        public ActionResult Edit(Event company)
         {
-            var model = new CrudCompanyVm { Company = company };
+            var model = new CrudEventVm { Event = company };
             try
             {
                 ModelState.Remove(nameof(company.SubCategoryId));
@@ -102,16 +102,16 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
         }
 
         [AllowAnonymous]
-        public ActionResult Contacts(CrudCompanyVm companyContact)
+        public ActionResult Contacts(CrudEventVm companyContact)
         {
             UrlsContact();
-            companyContact = companyContact ?? new CrudCompanyVm();
+            companyContact = companyContact ?? new CrudEventVm();
             companyContact.Contacts = companyContact.Contacts ?? new List<Contact>();
             return PartialView("_Contacts", companyContact.Contacts);
         }
 
         [AllowAnonymous, HttpPost]
-        public ActionResult AddContact(CrudCompanyVm companyContact)
+        public ActionResult AddContact(CrudEventVm companyContact)
         {
             companyContact.Contacts = companyContact.Contacts ?? new List<Contact>();
             companyContact.Contacts.Add(new Contact { Description = companyContact.Description, ContactType = companyContact.ContactType });
@@ -121,67 +121,43 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
             return PartialView("_Contacts", companyContact.Contacts);
         }
 
-        [AllowAnonymous, HttpPost]
-        public ActionResult RemoveContact(CrudCompanyVm companyContact, int index)
+        public void UrlsContact()
         {
-            UrlsContact();
-            companyContact.Contacts?.RemoveAt(index);
-            return PartialView("_Contacts", companyContact.Contacts);
+            ViewBag.UrlAdd = Url.Action("AddContact", "Event", new { area = "Admin" });
+            ViewBag.UrlRemove = Url.Action("RemoveContact", "Event", new { area = "Admin" });
         }
 
+        private static CrudEventVm GetCrudVm(Event model)
+        {
+            var eventVm = new CrudEventVm { Event = model };
+
+            return eventVm;
+        }
+
+        private void SetBiewBags(CrudEventVm model)
+        {
+
+        }
+        */
         [HttpPost]
         public JsonResult GetPagination(DataTableParameters parameters)
         {
             var search = parameters.Search.Value?.ToLower() ?? string.Empty;
-            var repo = new RepositoryBase<Company>(_db);
+            var repo = new RepositoryBase<Event>(_db);
             var items = repo.GetItemsByExpression(w => w.Name.Contains(search), x => x.Name, parameters.Start, parameters.Length, out var recordsTotal).ToList();
             var dtResult = new DataTableResultSet(parameters.Draw, recordsTotal);
 
-            var buttons = new ButtonsCompany();
+            var buttons = new ButtonsEvent();
             foreach (var item in items)
             {
                 dtResult.data.Add(new[]
                 {
-                    item.CompanyId.ToString(),
+                    item.EventId.ToString(),
                     $"{item.Name}",
-                    buttons.ToPagination(item.CompanyId)
+                    buttons.ToPagination(item.EventId)
                 });
             }
             return Json(dtResult, JsonRequestBehavior.AllowGet);
-        }
-
-        public void UrlsContact()
-        {
-            ViewBag.UrlAdd = Url.Action("AddContact", "Company", new { area = "Admin" });
-            ViewBag.UrlRemove = Url.Action("RemoveContact", "Company", new { area = "Admin" });
-        }
-
-        private static CrudCompanyVm GetCrudVm(Company company)
-        {
-            var model = new CrudCompanyVm { Company = company };
-            if (company.SubCategory?.CategoryId != null)
-            {
-                model.SubCategoryId = company.SubCategoryId;
-                model.CategoryId = company.SubCategory.CategoryId.Value;
-            }
-            else model.CategoryId = company.SubCategoryId;
-
-            return model;
-        }
-
-        private void SetBiewBags(CrudCompanyVm model)
-        {
-            ViewBag.Cities = new SelectList(_db.Cities, "CityId", "Name", model?.Company.Address.CityId);
-
-            var categories = _db.SubCategories.Where(s => s.CategoryId == null).OrderBy(o => o.Name);
-            ViewBag.Categories = new SelectList(categories, "SubCategoryId", "Name", model?.CategoryId);
-
-            if (model == null || model.CategoryId == 0) ViewBag.SubCategories = new SelectList(Enumerable.Empty<SelectListItem>());
-            else
-            {
-                var subCategories = _db.SubCategories.Where(s => s.CategoryId != null).OrderBy(o => o.Name);
-                ViewBag.SubCategories = new SelectList(subCategories, "SubCategoryId", "Name", model.SubCategoryId);
-            }
         }
 
         protected override void Dispose(bool disposing)
