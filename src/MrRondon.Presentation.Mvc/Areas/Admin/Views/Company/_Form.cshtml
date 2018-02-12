@@ -8,11 +8,23 @@
 @Html.HiddenFor(model => model.Company.Logo)
 
 <div class="fields">
-    <div class="wide field">
-        @Html.TextBoxFor(model => model.CoverFile, new { type = "file", onchange = "previewFile()", style = "display:none" })
+    <div class="six wide field">
+        @Html.LabelFor(model => model.Company.Logo)
+        <img id="LogoImage" style="height: 250px; width: 250px;border: #045e55 3px solid" alt="" src="@Url.Content((Model?.Company.GetCover ?? "~/Content/Images/without_image.jpg"))" class="ui centered medium image circular">
+        <div class="ui centered button">
+            <span class="attach basic icon"></span> Anexar arquivo
+
+            @Html.TextBoxFor(model => model.LogoFile, new { type = "file", data_fileupload = $"#{nameof(Model.LogoFile)}", data_show = "#LogoImage", onchange = "ImagePreview.Show()" })
+        </div>
     </div>
-    <div class="wide field">
-        @Html.TextBoxFor(model => model.LogoFile, new { type = "file", onchange = "previewFile()", style = "display:none" })
+    <div class="ten wide field">
+        @Html.LabelFor(model => model.Company.Cover)
+        <img id="CoverImage" style="height: 250px; border: #045e55 3px solid" alt="" class="ui fluid image" src="@Url.Content((Model?.Company.GetCover ?? "~/Content/Images/without_image.jpg"))">
+        <div class="ui button">
+            <span class="attach basic icon"></span> Anexar arquivo
+
+            @Html.TextBoxFor(model => model.CoverFile, new { type = "file", data_fileupload = $"#{nameof(Model.CoverFile)}", data_show = "#CoverImage", onchange = "ImagePreview.Show()" })
+        </div>
     </div>
 </div>
 <div class="fields">
@@ -46,4 +58,5 @@
 </div>
 
 <h3 class="ui dividing header">Informações do Endereço</h3>
-@Html.Partial("_FormAddress", Model?.Address ?? new Address())
+@Html.Partial("_FormAddress", Model?.Company.Address ?? new Address())
+@Html.Partial("_ButtonSubmit")

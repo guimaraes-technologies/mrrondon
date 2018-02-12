@@ -40,7 +40,7 @@ namespace MrRondon.Domain.Entities
         //[Required(ErrorMessageResourceType = typeof(Error), ErrorMessageResourceName = "Required")]
         public byte[] Cover { get; set; }
 
-        public Guid OrganizerId { get; set; }
+        //public Guid OrganizerId { get; set; }
         
         [Display(Name = "Endereço")]
         [Required(ErrorMessageResourceType = typeof(Error), ErrorMessageResourceName = "Required")]

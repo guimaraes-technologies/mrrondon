@@ -82,19 +82,26 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public ActionResult Edit(Company company)
+        public ActionResult Edit(CrudCompanyVm model, Address address)
         {
-            var model = new CrudCompanyVm { Company = company };
             try
             {
-                ModelState.Remove(nameof(company.SubCategoryId));
+                if (model.SubCategoryId.HasValue && model.SubCategoryId != 0)
+                    model.Company.SubCategoryId = model.SubCategoryId.Value;
+                else model.Company.SubCategoryId = model.CategoryId;
+
+                model.Company.Address = address;
+                model.Company.Contacts = model.Contacts;
+                ModelState.Remove(nameof(model.Company.Logo));
+                ModelState.Remove(nameof(model.Company.Cover));
+
                 if (!ModelState.IsValid)
                 {
                     SetBiewBags(model);
                     return View(model);
                 }
 
-                _db.Entry(company).State = EntityState.Modified;
+                _db.Entry(model.Company).State = EntityState.Modified;
                 _db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -176,7 +183,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
 
         private void SetBiewBags(CrudCompanyVm model)
         {
-            ViewBag.Cities = new SelectList(_db.Cities, "CityId", "Name", model?.Company.Address.CityId);
+            ViewBag.Cities = new SelectList(_db.Cities, "CityId", "Name", model?.Company?.Address.CityId);
 
             var categories = _db.SubCategories.Where(s => s.CategoryId == null).OrderBy(o => o.Name);
             ViewBag.Categories = new SelectList(categories, "SubCategoryId", "Name", model?.CategoryId);

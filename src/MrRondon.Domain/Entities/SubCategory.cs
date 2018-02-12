@@ -23,7 +23,7 @@ namespace MrRondon.Domain.Entities
         public byte[] Image { get; set; }
 
         [Display(Name = "Exibir no Aplicativo?")]
-        public bool ShowOnApp { get; set; }
+        public bool ShowOnApp { get; set; } = true;
 
         [Display(Name = "Categoria")]
         public int? CategoryId { get; set; }

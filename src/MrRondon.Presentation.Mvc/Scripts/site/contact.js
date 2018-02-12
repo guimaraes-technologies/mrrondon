@@ -15,8 +15,8 @@
         function () {
             var select = $(this).find("select");
             var divAllItems = $(this).closest(".all-items");
-            var inputDescricao = divAllItems.find(".description");
-            Validation.mask(inputDescricao, select.val().toLocaleLowerCase());
+            var inputDescription = divAllItems.find(".description");
+            Validation.mask(inputDescription, select.val().toLocaleLowerCase());
         });
 
     $(document.body).on("click", ".add-contact",
@@ -24,8 +24,8 @@
             e.preventDefault();
             var url = $(this).attr("href");
             var divAllItems = $(this).closest(".all-items");
-            var inputDescricao = divAllItems.find(".description");
-            if (inputDescricao.val()) {
+            var inputDescription = divAllItems.find(".description");
+            if (inputDescription.val()) {
                 var form = $(this).closest("form");
                 $.ajax({
                     method: "POST",
@@ -38,7 +38,7 @@
                         lastContact();
                     },
                     error: function (x, y, z) {
-                        alert(z);
+                        GT.notification("error", z);
                         console.log(z);
                     }
                 });

@@ -47,7 +47,8 @@ namespace MrRondon.Infra.Data.Migrations
                             {
                                 ContactId = Guid.NewGuid(),
                                 Description = $"{emails[i]}@gmail.com",
-                                ContactType = ContactType.Email
+                                ContactType = ContactType.Email,
+                                UserId = userIds[i]
                             }
                         },
                         Roles = new List<Role> { roles[0] }
@@ -57,22 +58,6 @@ namespace MrRondon.Infra.Data.Migrations
                 }
             }
 
-            var city1 = new City
-            {
-                CityId = 1,
-                Name = "Porto Velho"
-            };
-            var city2 = new City
-            {
-                CityId = 2,
-                Name = "Ouro Preto D'Oeste"
-            };
-
-            if (!context.Cities.Any())
-            {
-                context.Cities.Add(city1);
-                context.Cities.Add(city2);
-            }
 
             if (!context.ApplicationClients.Any())
             {
@@ -419,136 +404,102 @@ namespace MrRondon.Infra.Data.Migrations
                 });
             }
 
-            if (!context.Companies.Any())
-            {
-                var address1 = new Address
-                {
-                    AddressId = Guid.NewGuid(),
-                    CityId = city1.CityId,
-                    ZipCode = "76.817-003",
-                    Number = "1234",
-                    Neighborhood = "Bairro Novo",
-                    Street = "Rodovia BR 364, km 702",
-                    Latitude = -8.799778,
-                    Longitude = -63.807484
-                };
-                context.Companies.AddRange(
-                    new List<Company>
-                    {
-                        new Company
-                        {
-                            CompanyId = Guid.NewGuid(),
-                            AddressId = address1.AddressId,
-                            Address = address1,
-                            Name = "Guimaraes Tecnologia",
-                            FancyName = "Guimares Tecnologia LTDA",
-                            Cnpj = "04.956.000/001-00",
-                            SubCategoryId = 5
-                        }
-                    });
-            }
+            //if (!context.Events.Any())
+            //{
+            //    var address1 = new Address
+            //    {
+            //        AddressId = Guid.NewGuid(),
+            //        Latitude = -8.7526757,
+            //        Longitude = -63.9128231,
+            //        Neighborhood = "Centro",
+            //        Number = "S/N",
+            //        Street = "Farquar",
+            //        ZipCode = "76.817-003",
+            //        CityId = 1
+            //    };
 
-            if (!context.Events.Any())
-            {
-                var address1 = new Address
-                {
-                    AddressId = Guid.NewGuid(),
-                    Latitude = -8.7526757,
-                    Longitude = -63.9128231,
-                    Neighborhood = "Centro",
-                    Number = "S/N",
-                    Street = "Farquar",
-                    ZipCode = "76.817-003",
-                    CityId = city1.CityId,
-                    City = city1
-                };
+            //    var address2 = new Address
+            //    {
+            //        AddressId = Guid.NewGuid(),
+            //        Latitude = -8.751807,
+            //        Longitude = -63.910008,
+            //        Neighborhood = "Centro",
+            //        Number = "S/N",
+            //        Street = "Farquar",
+            //        ZipCode = "76.817-003",
+            //        CityId = 2
+            //    };
 
-                var address2 = new Address
-                {
-                    AddressId = Guid.NewGuid(),
-                    Latitude = -8.751807,
-                    Longitude = -63.910008,
-                    Neighborhood = "Centro",
-                    Number = "S/N",
-                    Street = "Farquar",
-                    ZipCode = "76.817-003",
-                    CityId = city2.CityId,
-                    City = city2
-                };
+            //    var address3 = new Address
+            //    {
+            //        AddressId = Guid.NewGuid(),
+            //        Latitude = -8.799778,
+            //        Longitude = -63.807484,
+            //        Neighborhood = "Cidade Jardim",
+            //        Number = "S/N",
+            //        Street = "BR 364, KM 702",
+            //        ZipCode = "76.817-003",
+            //        CityId = 3
+            //    };
 
-                var address3 = new Address
-                {
-                    AddressId = Guid.NewGuid(),
-                    Latitude = -8.799778,
-                    Longitude = -63.807484,
-                    Neighborhood = "Cidade Jardim",
-                    Number = "S/N",
-                    Street = "BR 364, KM 702",
-                    ZipCode = "76.817-003",
-                    CityId = city2.CityId,
-                    City = city2
-                };
+            //    var address4 = new Address
+            //    {
+            //        AddressId = Guid.NewGuid(),
+            //        Latitude = -8.804051,
+            //        Longitude = -63.803288,
+            //        Neighborhood = "Bairro Novo",
+            //        Number = "S/N",
+            //        Street = "Condomínio Residencial Amarilis",
+            //        ZipCode = "76.817-003",
+            //        CityId = 4
+            //    };
 
-                var address4 = new Address
-                {
-                    AddressId = Guid.NewGuid(),
-                    Latitude = -8.804051,
-                    Longitude = -63.803288,
-                    Neighborhood = "Bairro Novo",
-                    Number = "S/N",
-                    Street = "Condomínio Residencial Amarilis",
-                    ZipCode = "76.817-003",
-                    CityId = city2.CityId,
-                    City = city2
-                };
-
-                context.Events.AddRange(
-                    new List<Event>
-                    {
-                        new Event
-                        {
-                            EventId = Guid.NewGuid(),
-                            AddressId = address1.AddressId,
-                            Address = address1,
-                            Name = "Luminato Festival",
-                            StartDate = DateTime.Now,
-                            EndDate = DateTime.Now.AddDays(2),
-                            Value = 10
-                        },
-                        new Event
-                        {
-                            EventId = Guid.NewGuid(),
-                            AddressId = address2.AddressId,
-                            Address = address2,
-                            Name = "Canadian National Exhibition",
-                            StartDate = DateTime.Now,
-                            EndDate = DateTime.Now.AddDays(1),
-                            Value = 100
-                        },
-                        new Event
-                        {
-                            EventId = Guid.NewGuid(),
-                            AddressId = address3.AddressId,
-                            Address = address3,
-                            Name = "Fim de semana em família",
-                            StartDate = DateTime.Now.AddDays(3),
-                            EndDate = DateTime.Now.AddDays(3),
-                            Value = 150
-                        },
-                        new Event
-                        {
-                            EventId = Guid.NewGuid(),
-                            AddressId = address4.AddressId,
-                            Address = address4,
-                            Name = "Reunião do condomínio",
-                            StartDate = DateTime.Now.AddDays(4),
-                            EndDate = DateTime.Now.AddDays(5),
-                            Value = 1
-                        }
-                    }
-                );
-
-            }
+            //    context.Events.AddRange(
+            //        new List<Event>
+            //        {
+            //            new Event
+            //            {
+            //                EventId = Guid.NewGuid(),
+            //                AddressId = address1.AddressId,
+            //                Address = address1,
+            //                Name = "Luminato Festival",
+            //                StartDate = DateTime.Now,
+            //                EndDate = DateTime.Now.AddDays(2),
+            //                Value = 10
+            //            },
+            //            new Event
+            //            {
+            //                EventId = Guid.NewGuid(),
+            //                AddressId = address2.AddressId,
+            //                Address = address2,
+            //                Name = "Canadian National Exhibition",
+            //                StartDate = DateTime.Now,
+            //                EndDate = DateTime.Now.AddDays(1),
+            //                Value = 100
+            //            },
+            //            new Event
+            //            {
+            //                EventId = Guid.NewGuid(),
+            //                AddressId = address3.AddressId,
+            //                Address = address3,
+            //                Name = "Fim de semana em família",
+            //                StartDate = DateTime.Now.AddDays(3),
+            //                EndDate = DateTime.Now.AddDays(3),
+            //                Value = 150
+            //            },
+            //            new Event
+            //            {
+            //                EventId = Guid.NewGuid(),
+            //                AddressId = address4.AddressId,
+            //                Address = address4,
+            //                Name = "Reunião do condomínio",
+            //                StartDate = DateTime.Now.AddDays(4),
+            //                EndDate = DateTime.Now.AddDays(5),
+            //                Value = 1
+            //            }
+            //        }
+            //    );
+            //}
 
             if (!context.HistoricalSights.Any())
             {
@@ -561,8 +512,7 @@ namespace MrRondon.Infra.Data.Migrations
                     Number = "S/N",
                     Street = "Farquar",
                     ZipCode = "76.817-003",
-                    CityId = city1.CityId,
-                    City = city1
+                    CityId = 1
                 };
                 var historicalSight = new HistoricalSight
                 {
@@ -574,79 +524,7 @@ namespace MrRondon.Infra.Data.Migrations
                 };
                 context.HistoricalSights.Add(historicalSight);
             }
-
-            if (!context.Messages.Any())
-            {
-                context.Messages.AddRange(new List<Message>
-                {
-                    new Message
-                    {
-                        MessageId = Guid.NewGuid(),
-                        Title = "Não x lida",
-                        Description = "Nada a declarar",
-                        CellPhone = "(69) 99226-6791",
-                        Telephone = "(69) 3211-6791",
-                        Status = MessageStatus.Attended,
-                        Subject = MessageSubject.NewCompany,
-                        UserId = userIds[1]
-                    },
-                    new Message
-                    {
-                        MessageId = Guid.NewGuid(),
-                        Title = "Não  lida x x",
-                        Description = "Nada a declarar",
-                        CellPhone = "(69) 99226-6791",
-                        Telephone = "(69) 3211-6791",
-                        Status = MessageStatus.Read,
-                        Subject = MessageSubject.UpdateCompany,
-                        UserId = userIds[1]
-                    },
-                    new Message
-                    {
-                        MessageId = Guid.NewGuid(),
-                        Title = "Lida agora",
-                        Description = "Nada a declarar",
-                        CellPhone = "(69) 99226-6791",
-                        Telephone = "(69) 3211-6791",
-                        Status = MessageStatus.Read,
-                        Subject = MessageSubject.UpdateEvent,
-                        UserId = userIds[0]
-                    },
-                    new Message
-                    {
-                        MessageId = Guid.NewGuid(),
-                        Title = "Não  lida",
-                        Description = "Nada 645 64 a xx",
-                        CellPhone = "(69) 99226-6791",
-                        Telephone = "(69) 3211-6791",
-                        Status = MessageStatus.Unread,
-                        Subject = MessageSubject.UpdateCompany,
-                        UserId = userIds[0]
-                    },
-                    new Message
-                    {
-                        MessageId = Guid.NewGuid(),
-                        Title = "Não  lida",
-                        Description = "Nada a declarar",
-                        CellPhone = "(69) 99226-6791",
-                        Telephone = "(69) 3211-6791",
-                        Status = MessageStatus.Read,
-                        Subject = MessageSubject.NewEvent,
-                        UserId = userIds[1]
-                    },
-                    new Message
-                    {
-                        MessageId = Guid.NewGuid(),
-                        Title = "Lida read",
-                        Description = "Nada a declarar read",
-                        CellPhone = "(69) 99226-6791",
-                        Telephone = "(69) 3211-6791",
-                        Status = MessageStatus.Attended,
-                        Subject = MessageSubject.NewEvent,
-                        UserId = userIds[0]
-                    }
-                });
-            }
+            
             context.SaveChanges();
         }
     }

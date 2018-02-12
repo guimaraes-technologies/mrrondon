@@ -25,5 +25,3 @@
         Company.SetDropdown($(this));
     });
 });
-
-

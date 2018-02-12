@@ -16,7 +16,7 @@ namespace MrRondon.Presentation.Mvc
             //SCRIPTS
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
                 "~/Scripts/modernizr-*"));
-            
+
             bundles.Add(new ScriptBundle("~/bundles/basic").Include(
                 "~/Scripts/jquery-{version}.js",
                 "~/Scripts/semantic.js",
@@ -37,7 +37,8 @@ namespace MrRondon.Presentation.Mvc
 
             bundles.Add(new ScriptBundle("~/bundles/company").Include(
                 "~/Scripts/site/contact.js",
-                "~/Scripts/site/company.js"));
+                "~/Scripts/site/company.js",
+                "~/Scripts/site/image-preview.js"));
 
             BundleTable.EnableOptimizations = false;
         }
