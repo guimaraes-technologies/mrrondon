@@ -28,11 +28,11 @@ namespace MrRondon.Domain.Entities
         public string Cnpj { get; set; }
 
         [Display(Name = "Imagem da Logo")]
-        //[Required(ErrorMessageResourceType = typeof(Error), ErrorMessageResourceName = "Required")]
+        [Required(ErrorMessageResourceType = typeof(Error), ErrorMessageResourceName = "Required")]
         public byte[] Logo { get; set; }
 
         [Display(Name = "Imagem da Capa")]
-        //[Required(ErrorMessageResourceType = typeof(Error), ErrorMessageResourceName = "Required")]
+        [Required(ErrorMessageResourceType = typeof(Error), ErrorMessageResourceName = "Required")]
         public byte[] Cover { get; set; }
 
         [Display(Name = "Endereço")]

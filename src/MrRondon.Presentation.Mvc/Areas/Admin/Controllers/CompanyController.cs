@@ -49,10 +49,11 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
 
                 model.Company.Address = address;
                 model.Company.Contacts = model.Contacts;
-                ModelState.Remove(nameof(model.Company.Logo));
-                ModelState.Remove(nameof(model.Company.Cover));
-
-                model.Company.Logo = FileUpload.GetBytes(model.LogoFile, "Logo");
+                ModelState.Remove("Company_Logo");
+                ModelState.Remove("Company_Cover");
+                if (model.Company.Logo == null || model.LogoFile != null)
+                    model.Company.Logo = FileUpload.GetBytes(model.LogoFile, "Logo");
+                if (model.Company.Cover == null || model.CoverFile != null)
                 model.Company.Cover = FileUpload.GetBytes(model.CoverFile, "Capa");
 
                 if (!ModelState.IsValid)
@@ -75,7 +76,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
         public ActionResult Edit(Guid id)
         {
             var repo = new RepositoryBase<Company>(_db);
-            var company = repo.GetItemByExpression(x => x.CompanyId == id, "Address", "SubCategory");
+            var company = repo.GetItemByExpression(x => x.CompanyId == id, "Address", "SubCategory", "Contacts");
             if (company == null) return HttpNotFound();
 
             var model = GetCrudVm(company);
@@ -95,11 +96,13 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
 
                 model.Company.Address = address;
                 model.Company.Contacts = model.Contacts;
-                ModelState.Remove(nameof(model.Company.Logo));
-                ModelState.Remove(nameof(model.Company.Cover));
 
-                model.Company.Logo = FileUpload.GetBytes(model.LogoFile, "Logo");
-                model.Company.Cover = FileUpload.GetBytes(model.CoverFile, "Capa");
+                ModelState.Remove("Company_Logo");
+                ModelState.Remove("Company_Cover");
+                if (model.Company.Logo == null || model.LogoFile != null)
+                    model.Company.Logo = FileUpload.GetBytes(model.LogoFile, "Logo");
+                if (model.Company.Cover == null || model.CoverFile != null)
+                    model.Company.Cover = FileUpload.GetBytes(model.CoverFile, "Capa");
 
                 if (!ModelState.IsValid)
                 {
@@ -107,6 +110,9 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
                     return View(model);
                 }
 
+                var oldCompany = _db.Companies.Include(c => c.Contacts)
+                    .FirstOrDefault(x => x.CompanyId == model.Company.CompanyId);
+                BalanceContacts(oldCompany, model.Company);
                 _db.Entry(model.Company).State = EntityState.Modified;
                 _db.SaveChanges();
                 return RedirectToAction("Index");
@@ -176,7 +182,11 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
 
         private static CrudCompanyVm GetCrudVm(Company company)
         {
-            var model = new CrudCompanyVm { Company = company };
+            var model = new CrudCompanyVm
+            {
+                Company = company,
+                Contacts = new List<Contact>(company.Contacts)
+            };
             if (company.SubCategory?.CategoryId != null)
             {
                 model.SubCategoryId = company.SubCategoryId;
@@ -199,6 +209,56 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
             {
                 var subCategories = _db.SubCategories.Where(s => s.CategoryId != null).OrderBy(o => o.Name);
                 ViewBag.SubCategories = new SelectList(subCategories, "SubCategoryId", "Name", model.SubCategoryId);
+            }
+        }
+
+        public void BalanceRoles(User oldUser, User newUser, int[] rolesIds)
+        {
+            newUser.Roles = new List<Role>();
+            oldUser.Roles = oldUser.Roles ?? new List<Role>();
+
+            var rolesArray = _db.Roles.ToList();
+            foreach (var role in rolesArray)
+            {
+                if (rolesIds != null && rolesIds.Any(x => x.Equals(role.RoleId)))
+                {
+                    newUser.Roles.Add(_db.Roles.FirstOrDefault(x => x.RoleId == role.RoleId));
+                }
+            }
+
+            foreach (var role in rolesArray)
+            {
+                var userRole = oldUser.Roles.FirstOrDefault(x => x.RoleId == role.RoleId);
+                if (rolesIds != null && rolesIds.Contains(role.RoleId) && userRole == null)
+                {
+                    oldUser.Roles.Add(_db.Roles.FirstOrDefault(x => x.RoleId == role.RoleId));
+                }
+                else
+                {
+                    if (userRole == null) continue;
+                    if (rolesIds != null && rolesIds.Contains(userRole.RoleId)) continue;
+                    oldUser.Roles.Remove(userRole);
+                }
+            }
+        }
+
+        public void BalanceContacts(Company oldCompany, Company newCompany)
+        {
+            var ids = oldCompany.Contacts.Select((t, i) => oldCompany.Contacts.ElementAt(i).ContactId).ToList();
+            _db.Contacts.RemoveRange(oldCompany.Contacts.Where(x => ids.Any(e => e == x.ContactId)));
+
+            if (newCompany.Contacts == null) return;
+            foreach (var item in newCompany.Contacts)
+            {
+                if (oldCompany.Contacts == null) continue;
+                var x = oldCompany.Contacts.FirstOrDefault(
+                        s => s.ContactId == item.ContactId && s.ContactId != Guid.Empty && item.ContactId != Guid.Empty);
+                if (x != null)
+                {
+                    x.Atualizar(item);
+                    _db.Entry(x).CurrentValues.SetValues(item);
+                }
+                else oldCompany.Contacts.Add(item);
             }
         }
 

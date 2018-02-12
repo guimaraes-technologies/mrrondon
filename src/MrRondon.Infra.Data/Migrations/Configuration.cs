@@ -404,7 +404,7 @@ namespace MrRondon.Infra.Data.Migrations
                 });
             }
 
-            //if (!context.Events.Any())
+            //if (!context.HistoricalSights.Any())
             //{
             //    var address1 = new Address
             //    {
@@ -417,113 +417,16 @@ namespace MrRondon.Infra.Data.Migrations
             //        ZipCode = "76.817-003",
             //        CityId = 1
             //    };
-
-            //    var address2 = new Address
+            //    var historicalSight = new HistoricalSight
             //    {
-            //        AddressId = Guid.NewGuid(),
-            //        Latitude = -8.751807,
-            //        Longitude = -63.910008,
-            //        Neighborhood = "Centro",
-            //        Number = "S/N",
-            //        Street = "Farquar",
-            //        ZipCode = "76.817-003",
-            //        CityId = 2
+            //        HistoricalSightId = 1,
+            //        AddressId = address1.AddressId,
+            //        Address = address1,
+            //        Name = "Principe da Beira",
+            //        SightHistory = "A história é interessante, mas outro vai contar  . . . "
             //    };
-
-            //    var address3 = new Address
-            //    {
-            //        AddressId = Guid.NewGuid(),
-            //        Latitude = -8.799778,
-            //        Longitude = -63.807484,
-            //        Neighborhood = "Cidade Jardim",
-            //        Number = "S/N",
-            //        Street = "BR 364, KM 702",
-            //        ZipCode = "76.817-003",
-            //        CityId = 3
-            //    };
-
-            //    var address4 = new Address
-            //    {
-            //        AddressId = Guid.NewGuid(),
-            //        Latitude = -8.804051,
-            //        Longitude = -63.803288,
-            //        Neighborhood = "Bairro Novo",
-            //        Number = "S/N",
-            //        Street = "Condomínio Residencial Amarilis",
-            //        ZipCode = "76.817-003",
-            //        CityId = 4
-            //    };
-
-            //    context.Events.AddRange(
-            //        new List<Event>
-            //        {
-            //            new Event
-            //            {
-            //                EventId = Guid.NewGuid(),
-            //                AddressId = address1.AddressId,
-            //                Address = address1,
-            //                Name = "Luminato Festival",
-            //                StartDate = DateTime.Now,
-            //                EndDate = DateTime.Now.AddDays(2),
-            //                Value = 10
-            //            },
-            //            new Event
-            //            {
-            //                EventId = Guid.NewGuid(),
-            //                AddressId = address2.AddressId,
-            //                Address = address2,
-            //                Name = "Canadian National Exhibition",
-            //                StartDate = DateTime.Now,
-            //                EndDate = DateTime.Now.AddDays(1),
-            //                Value = 100
-            //            },
-            //            new Event
-            //            {
-            //                EventId = Guid.NewGuid(),
-            //                AddressId = address3.AddressId,
-            //                Address = address3,
-            //                Name = "Fim de semana em família",
-            //                StartDate = DateTime.Now.AddDays(3),
-            //                EndDate = DateTime.Now.AddDays(3),
-            //                Value = 150
-            //            },
-            //            new Event
-            //            {
-            //                EventId = Guid.NewGuid(),
-            //                AddressId = address4.AddressId,
-            //                Address = address4,
-            //                Name = "Reunião do condomínio",
-            //                StartDate = DateTime.Now.AddDays(4),
-            //                EndDate = DateTime.Now.AddDays(5),
-            //                Value = 1
-            //            }
-            //        }
-            //    );
+            //    context.HistoricalSights.Add(historicalSight);
             //}
-
-            if (!context.HistoricalSights.Any())
-            {
-                var address1 = new Address
-                {
-                    AddressId = Guid.NewGuid(),
-                    Latitude = -8.7526757,
-                    Longitude = -63.9128231,
-                    Neighborhood = "Centro",
-                    Number = "S/N",
-                    Street = "Farquar",
-                    ZipCode = "76.817-003",
-                    CityId = 1
-                };
-                var historicalSight = new HistoricalSight
-                {
-                    HistoricalSightId = 1,
-                    AddressId = address1.AddressId,
-                    Address = address1,
-                    Name = "Principe da Beira",
-                    SightHistory = "A história é interessante, mas outro vai contar  . . . "
-                };
-                context.HistoricalSights.Add(historicalSight);
-            }
             
             context.SaveChanges();
         }
