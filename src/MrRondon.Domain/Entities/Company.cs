@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.IO;
 using MrRondon.Infra.CrossCutting.Message;
 
 namespace MrRondon.Domain.Entities

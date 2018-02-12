@@ -42,9 +42,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
             {
                 if (imageFile != null)
                 {
-                    var br = new BinaryReader(imageFile.InputStream);
-                    model.SetImage(br.ReadBytes(imageFile.ContentLength));
-                    br.Close();
+                    model.SetImage(FileUpload.GetBytes(imageFile, "Imagem"));
                 }
                 else return View(model).Error("A imagem da categoria é obrigatória");
 
@@ -81,9 +79,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
 
                 if (!ModelState.IsValid) return View(model);
 
-                var br = new BinaryReader(imageFile.InputStream);
-                model.SetImage(br.ReadBytes(imageFile.ContentLength));
-                br.Close();
+                model.SetImage(FileUpload.GetBytes(imageFile, "Imagem"));
                 _db.Entry(model).State = EntityState.Modified;
                 _db.SaveChanges();
                 return RedirectToAction("Index");
@@ -93,6 +89,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
                 return View(model).Error(ex.Message);
             }
         }
+
         [HttpPost]
         public JsonResult GetPagination(DataTableParameters parameters)
         {

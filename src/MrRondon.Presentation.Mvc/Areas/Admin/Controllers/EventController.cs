@@ -8,8 +8,6 @@ using MrRondon.Infra.CrossCutting.Helper;
 using MrRondon.Infra.CrossCutting.Helper.Buttons;
 using MrRondon.Infra.Data.Context;
 using MrRondon.Infra.Data.Repositories;
-using MrRondon.Presentation.Mvc.Extensions;
-using MrRondon.Presentation.Mvc.ViewModels;
 
 namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
 {

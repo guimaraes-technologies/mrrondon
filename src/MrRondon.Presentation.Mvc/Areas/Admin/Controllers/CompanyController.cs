@@ -52,6 +52,9 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
                 ModelState.Remove(nameof(model.Company.Logo));
                 ModelState.Remove(nameof(model.Company.Cover));
 
+                model.Company.Logo = FileUpload.GetBytes(model.LogoFile, "Logo");
+                model.Company.Cover = FileUpload.GetBytes(model.CoverFile, "Capa");
+
                 if (!ModelState.IsValid)
                 {
                     SetBiewBags(model);
@@ -94,6 +97,9 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
                 model.Company.Contacts = model.Contacts;
                 ModelState.Remove(nameof(model.Company.Logo));
                 ModelState.Remove(nameof(model.Company.Cover));
+
+                model.Company.Logo = FileUpload.GetBytes(model.LogoFile, "Logo");
+                model.Company.Cover = FileUpload.GetBytes(model.CoverFile, "Capa");
 
                 if (!ModelState.IsValid)
                 {

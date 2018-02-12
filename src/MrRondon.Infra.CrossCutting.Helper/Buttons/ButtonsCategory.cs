@@ -15,8 +15,8 @@ namespace MrRondon.Infra.CrossCutting.Helper.Buttons
             try
             {
                 var link = new TagBuilder("img");
-                link.MergeAttribute("class", "ui tiny icon");
-                link.MergeAttribute("style", "height: 70px; width: 70px;");
+                link.MergeAttribute("class", "ui medium circular image");
+                link.MergeAttribute("style", "height: 70px; width: 70px;border: #045e55 3px solid");
                 link.MergeAttribute("src", array != null && array.Length > 0 ? $"data:image/PNG;base64,{Convert.ToBase64String(array)}" : "/Content/Images/without_image.jpg");
                 link.MergeAttribute("title", "Imagem");
                 link.MergeAttributes(HtmlHelper.AnonymousObjectToHtmlAttributes(null));

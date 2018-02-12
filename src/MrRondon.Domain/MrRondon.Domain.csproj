@@ -61,6 +61,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\MrRondon.Infra.CrossCutting.Helper\MrRondon.Infra.CrossCutting.Helper.csproj">
+      <Project>{2bc14ee1-95f4-41f7-808e-a0568a0d93e9}</Project>
+      <Name>MrRondon.Infra.CrossCutting.Helper</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MrRondon.Infra.CrossCutting.Message\MrRondon.Infra.CrossCutting.Message.csproj">
       <Project>{d1f4856f-cea2-4c7c-a597-83c9a6adc196}</Project>
       <Name>MrRondon.Infra.CrossCutting.Message</Name>
