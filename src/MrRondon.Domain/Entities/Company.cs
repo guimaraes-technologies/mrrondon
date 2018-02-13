@@ -43,7 +43,6 @@ namespace MrRondon.Domain.Entities
 
         [Required(ErrorMessageResourceType = typeof(Error), ErrorMessageResourceName = "Required")]
         public int SubCategoryId { get; set; }
-
         public SubCategory SubCategory { get; set; }
 
         public ICollection<Contact> Contacts { get; set; }
@@ -72,6 +71,16 @@ namespace MrRondon.Domain.Entities
 
                 return "~/Content/Images/without_image.jpg";
             }
+        }
+
+        public void Update(Company newCompany)
+        {
+            Name = newCompany.Name;
+            FancyName = newCompany.FancyName;
+            Cnpj = newCompany.Cnpj;
+            Logo = newCompany.Logo;
+            Cover = newCompany.Cover;
+            SubCategoryId = newCompany.SubCategoryId;
         }
     }
 }

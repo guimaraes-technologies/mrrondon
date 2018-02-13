@@ -20,6 +20,8 @@ namespace MrRondon.Domain.Entities
         {
             Description = item.Description;
             ContactType = item.ContactType;
+            CompanyId = item.CompanyId;
+            UserId = item.UserId;
         }
     }
 }

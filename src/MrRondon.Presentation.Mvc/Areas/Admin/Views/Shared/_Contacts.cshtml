@@ -11,13 +11,14 @@
             <div class="fields all-items">
                 <input id="@($"Contacts[{i}].ContactId")" name="@($"Contacts[{i}].ContactId")" type="hidden" value="@Model[i].ContactId">
                 <input id="@($"Contacts[{i}].UserId")" name="@($"Contacts[{i}].UserId")" type="hidden" value="@Model[i].UserId">
+                <input id="@($"Contacts[{i}].CompanyId")" name="@($"Contacts[{i}].CompanyId")" type="hidden" value="@Model[i].CompanyId">
                 <div class="six wide field">
                     <select id="@($"Contacts[{i}].ContactType")" name="@($"Contacts[{i}].ContactType")" class="ui fluid dropdown contactType">
                         <option>Selecione...</option>
                         @foreach (var contactType in Enum.GetValues(typeof(ContactType)))
-                        {
-                            <option value="@contactType" @(Model[i].ContactType == (ContactType)contactType ? "selected='selected'" : string.Empty)>@contactType</option>
-                        }
+            {
+                <option value="@contactType" @(Model[i].ContactType == (ContactType)contactType ? "selected='selected'" : string.Empty)>@contactType</option>
+}
                     </select>
                 </div>
                 <div class="eight wide field">
