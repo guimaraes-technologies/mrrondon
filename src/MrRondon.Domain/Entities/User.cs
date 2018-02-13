@@ -33,7 +33,7 @@ namespace MrRondon.Domain.Entities
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.NameIdentifier, UserId.ToString()),
-                new Claim(ClaimTypes.GivenName, FullName),
+                new Claim(ClaimTypes.Name, FullName),
                 new Claim("http://schemas.microsoft.com/accesscontrolservice/2010/07/claims/identityprovider", "GT - Guimaraes Tecnologia")
             };
 
