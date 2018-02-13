@@ -41,5 +41,17 @@ namespace MrRondon.Domain.Entities
         [DisplayName("Cidade")]
         public int CityId { get; set; }
         public City City { get; set; }
+
+        public void UpdateAddress(Address newAddress)
+        {
+            Street = newAddress.Street;
+            Neighborhood = newAddress.Neighborhood;
+            Number = newAddress.Number;
+            AdditionalInformation = newAddress.AdditionalInformation;
+            ZipCode = newAddress.ZipCode;
+            Latitude = newAddress.Latitude;
+            Longitude = newAddress.Longitude;
+            CityId = newAddress.CityId;
+        }
     }
 }

@@ -72,15 +72,5 @@ namespace MrRondon.Domain.Entities
                 return "~/Content/Images/without_image.jpg";
             }
         }
-
-        public void Update(Company newCompany)
-        {
-            Name = newCompany.Name;
-            FancyName = newCompany.FancyName;
-            Cnpj = newCompany.Cnpj;
-            Logo = newCompany.Logo;
-            Cover = newCompany.Cover;
-            SubCategoryId = newCompany.SubCategoryId;
-        }
     }
 }

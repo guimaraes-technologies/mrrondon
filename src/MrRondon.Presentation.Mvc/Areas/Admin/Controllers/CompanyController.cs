@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Web.Mvc;
 using MrRondon.Domain.Entities;
@@ -10,6 +11,7 @@ using MrRondon.Infra.Data.Context;
 using MrRondon.Infra.Data.Repositories;
 using MrRondon.Presentation.Mvc.Extensions;
 using MrRondon.Presentation.Mvc.ViewModels;
+using WebGrease.Css.Extensions;
 
 namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
 {
@@ -54,7 +56,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
                 if (model.Company.Logo == null || model.LogoFile != null)
                     model.Company.Logo = FileUpload.GetBytes(model.LogoFile, "Logo");
                 if (model.Company.Cover == null || model.CoverFile != null)
-                model.Company.Cover = FileUpload.GetBytes(model.CoverFile, "Capa");
+                    model.Company.Cover = FileUpload.GetBytes(model.CoverFile, "Capa");
 
                 if (!ModelState.IsValid)
                 {
@@ -110,12 +112,45 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
                     return View(model);
                 }
 
-                var oldCompany = _db.Companies.Include(c => c.Contacts)
+                var oldCompany = _db.Companies
+                    .Include(c => c.Address)
+                    .Include(c => c.SubCategory)
+                    .Include(c => c.Contacts)
                     .FirstOrDefault(x => x.CompanyId == model.Company.CompanyId);
-                BalanceContacts(oldCompany, model.Company);
-                _db.Entry(model.Company).State = EntityState.Modified;
+                if (oldCompany == null) return RedirectToAction("Index").Success("Empresa atualizada com sucesso");
+
+                // Update parent
+                _db.Entry(oldCompany).CurrentValues.SetValues(model.Company);
+                oldCompany.Address.UpdateAddress(model.Company.Address);
+                _db.Entry(oldCompany.Address).State = EntityState.Modified;
+
+                // Delete children
+                foreach (var existingContact in oldCompany.Contacts.ToList())
+                {
+                    if (model.Contacts.All(c => c.ContactId != existingContact.ContactId))
+                        _db.Contacts.Remove(existingContact);
+                }
+
+                // Update and Insert children
+                foreach (var childContact in model.Contacts)
+                {
+                    var existingContact = oldCompany.Contacts
+                        .FirstOrDefault(c => c.ContactId == childContact.ContactId);
+
+                    childContact.CompanyId = model.Company.CompanyId;
+                    if (existingContact != null)
+                        // Update child
+                        _db.Entry(existingContact).CurrentValues.SetValues(childContact);
+                    else
+                    {
+                        // Insert child
+                        oldCompany.Contacts.Add(childContact);
+                        _db.Contacts.Add(childContact);
+                    }
+                }
+
                 _db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index").Success("Empresa atualizada com sucesso");
             }
             catch (Exception ex)
             {
@@ -182,11 +217,9 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
 
         private static CrudCompanyVm GetCrudVm(Company company)
         {
-            var model = new CrudCompanyVm
-            {
-                Company = company,
-                Contacts = new List<Contact>(company.Contacts)
-            };
+            var model = new CrudCompanyVm { Company = company };
+
+            if (company.Contacts != null) model.Contacts = new List<Contact>(company.Contacts);
             if (company.SubCategory?.CategoryId != null)
             {
                 model.SubCategoryId = company.SubCategoryId;
@@ -244,15 +277,15 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
 
         public void BalanceContacts(Company oldCompany, Company newCompany)
         {
-            var ids = oldCompany.Contacts.Select((t, i) => oldCompany.Contacts.ElementAt(i).ContactId).ToList();
-            _db.Contacts.RemoveRange(oldCompany.Contacts.Where(x => ids.Any(e => e == x.ContactId)));
+            var ids = oldCompany.Contacts.Select(x => x.ContactId).ToList();
+
+            oldCompany.Contacts.Where(w => ids.Any(e => e == w.ContactId)).ForEach(x => _db.Entry(x).State = EntityState.Deleted);
 
             if (newCompany.Contacts == null) return;
             foreach (var item in newCompany.Contacts)
             {
                 if (oldCompany.Contacts == null) continue;
-                var x = oldCompany.Contacts.FirstOrDefault(
-                        s => s.ContactId == item.ContactId && s.ContactId != Guid.Empty && item.ContactId != Guid.Empty);
+                var x = oldCompany.Contacts.FirstOrDefault(s => s.ContactId == item.ContactId && s.ContactId != Guid.Empty && item.ContactId != Guid.Empty);
                 if (x != null)
                 {
                     x.Atualizar(item);
