@@ -74,335 +74,335 @@ namespace MrRondon.Infra.Data.Migrations
                 });
             }
 
-            if (!context.SubCategories.Any())
-            {
-                context.SubCategories.AddRange(new List<SubCategory>
-                {
-                    new SubCategory
-                    {
-                        SubCategoryId = 1,
-                        Name = "Aventura"
-                    },
-                    new SubCategory
-                    {
-                        SubCategoryId = 2,
-                        Name = "Rapel",
-                        CategoryId = 1
-                    },
-                    new SubCategory
-                    {
-                        SubCategoryId = 3,
-                        Name = "Camping's",
-                        CategoryId = 1
-                    },
-                    new SubCategory
-                    {
-                        SubCategoryId = 4,
-                        Name = "Aeroclube",
-                        CategoryId = 1
-                    },
-                    new SubCategory
-                    {
-                        SubCategoryId = 5,
-                        Name = "Kart",
-                        CategoryId = 1
-                    },
-                    new SubCategory
-                    {
-                        SubCategoryId = 6,
-                        Name = "Paintball",
-                        CategoryId = 1
-                    },
-                    new SubCategory
-                    {
-                        SubCategoryId = 7,
-                        Name = "AirSoft",
-                        CategoryId = 1
-                    },
-                    new SubCategory
-                    {
-                        SubCategoryId = 8,
-                        Name = "Trilha",
-                        CategoryId = 1
-                    },
+            //if (!context.SubCategories.Any())
+            //{
+            //    context.SubCategories.AddRange(new List<SubCategory>
+            //    {
+            //        new SubCategory
+            //        {
+            //            SubCategoryId = 1,
+            //            Name = "Aventura"
+            //        },
+            //        new SubCategory
+            //        {
+            //            SubCategoryId = 2,
+            //            Name = "Rapel",
+            //            CategoryId = 1
+            //        },
+            //        new SubCategory
+            //        {
+            //            SubCategoryId = 3,
+            //            Name = "Camping's",
+            //            CategoryId = 1
+            //        },
+            //        new SubCategory
+            //        {
+            //            SubCategoryId = 4,
+            //            Name = "Aeroclube",
+            //            CategoryId = 1
+            //        },
+            //        new SubCategory
+            //        {
+            //            SubCategoryId = 5,
+            //            Name = "Kart",
+            //            CategoryId = 1
+            //        },
+            //        new SubCategory
+            //        {
+            //            SubCategoryId = 6,
+            //            Name = "Paintball",
+            //            CategoryId = 1
+            //        },
+            //        new SubCategory
+            //        {
+            //            SubCategoryId = 7,
+            //            Name = "AirSoft",
+            //            CategoryId = 1
+            //        },
+            //        new SubCategory
+            //        {
+            //            SubCategoryId = 8,
+            //            Name = "Trilha",
+            //            CategoryId = 1
+            //        },
 
 
 
-                    new SubCategory
-                    {
-                        SubCategoryId = 9,
-                        Name = "Hospedagem"
-                    },
-                    new SubCategory
-                    {
-                        SubCategoryId = 10,
-                        Name = "Hotéis",
-                        CategoryId = 9
-                    },
-                    new SubCategory
-                    {
-                        SubCategoryId = 11,
-                        Name = "Hotéis Fazenda",
-                        CategoryId = 9
-                    },
-                    new SubCategory
-                    {
-                        SubCategoryId = 12,
-                        Name = "Pousadas",
-                        CategoryId = 9
-                    },
-                    new SubCategory
-                    {
-                        SubCategoryId = 13,
-                        Name = "Resort's",
-                        CategoryId = 9
-                    },
+            //        new SubCategory
+            //        {
+            //            SubCategoryId = 9,
+            //            Name = "Hospedagem"
+            //        },
+            //        new SubCategory
+            //        {
+            //            SubCategoryId = 10,
+            //            Name = "Hotéis",
+            //            CategoryId = 9
+            //        },
+            //        new SubCategory
+            //        {
+            //            SubCategoryId = 11,
+            //            Name = "Hotéis Fazenda",
+            //            CategoryId = 9
+            //        },
+            //        new SubCategory
+            //        {
+            //            SubCategoryId = 12,
+            //            Name = "Pousadas",
+            //            CategoryId = 9
+            //        },
+            //        new SubCategory
+            //        {
+            //            SubCategoryId = 13,
+            //            Name = "Resort's",
+            //            CategoryId = 9
+            //        },
 
-                    new SubCategory
-                    {
-                        SubCategoryId = 14,
-                        Name = "Gastronomia"
-                    },
-                    new SubCategory
-                    {
-                        SubCategoryId = 15,
-                        Name = "Restaurantes",
-                        CategoryId = 14
-                    },
-                    new SubCategory
-                    {
-                        SubCategoryId = 16,
-                        Name = "Pizzarias",
-                        CategoryId = 14
-                    },
-                    new SubCategory
-                    {
-                        SubCategoryId = 17,
-                        Name = "Lanchonetes",
-                        CategoryId = 14
-                    },
-                    new SubCategory
-                    {
-                        SubCategoryId = 18,
-                        Name = "Restaurantes",
-                        CategoryId = 14
-                    },
-                    new SubCategory
-                    {
-                        SubCategoryId = 19,
-                        Name = "Food Truck",
-                        CategoryId = 14
-                    },
-                    new SubCategory
-                    {
-                        SubCategoryId = 20,
-                        Name = "Food Truck",
-                        CategoryId = 14
-                    },
-                    new SubCategory
-                    {
-                        SubCategoryId = 21,
-                        Name = "Cafeterias",
-                        CategoryId = 14
-                    },
-                    new SubCategory
-                    {
-                        SubCategoryId = 22,
-                        Name = "Sorveterias",
-                        CategoryId = 14
-                    },
-                    new SubCategory
-                    {
-                        SubCategoryId = 23,
-                        Name = "Açaiterias",
-                        CategoryId = 14
-                    },
-                    new SubCategory
-                    {
-                        SubCategoryId = 24,
-                        Name = "Bares",
-                        CategoryId = 14
-                    },
-                    new SubCategory
-                    {
-                        SubCategoryId = 25,
-                        Name = "Drive Thru",
-                        CategoryId = 14
-                    },
-
-
-                    new SubCategory
-                    {
-                        SubCategoryId = 26,
-                        Name = "Rent a Car"
-                    },
+            //        new SubCategory
+            //        {
+            //            SubCategoryId = 14,
+            //            Name = "Gastronomia"
+            //        },
+            //        new SubCategory
+            //        {
+            //            SubCategoryId = 15,
+            //            Name = "Restaurantes",
+            //            CategoryId = 14
+            //        },
+            //        new SubCategory
+            //        {
+            //            SubCategoryId = 16,
+            //            Name = "Pizzarias",
+            //            CategoryId = 14
+            //        },
+            //        new SubCategory
+            //        {
+            //            SubCategoryId = 17,
+            //            Name = "Lanchonetes",
+            //            CategoryId = 14
+            //        },
+            //        new SubCategory
+            //        {
+            //            SubCategoryId = 18,
+            //            Name = "Restaurantes",
+            //            CategoryId = 14
+            //        },
+            //        new SubCategory
+            //        {
+            //            SubCategoryId = 19,
+            //            Name = "Food Truck",
+            //            CategoryId = 14
+            //        },
+            //        new SubCategory
+            //        {
+            //            SubCategoryId = 20,
+            //            Name = "Food Truck",
+            //            CategoryId = 14
+            //        },
+            //        new SubCategory
+            //        {
+            //            SubCategoryId = 21,
+            //            Name = "Cafeterias",
+            //            CategoryId = 14
+            //        },
+            //        new SubCategory
+            //        {
+            //            SubCategoryId = 22,
+            //            Name = "Sorveterias",
+            //            CategoryId = 14
+            //        },
+            //        new SubCategory
+            //        {
+            //            SubCategoryId = 23,
+            //            Name = "Açaiterias",
+            //            CategoryId = 14
+            //        },
+            //        new SubCategory
+            //        {
+            //            SubCategoryId = 24,
+            //            Name = "Bares",
+            //            CategoryId = 14
+            //        },
+            //        new SubCategory
+            //        {
+            //            SubCategoryId = 25,
+            //            Name = "Drive Thru",
+            //            CategoryId = 14
+            //        },
 
 
-                    new SubCategory
-                    {
-                        SubCategoryId = 27,
-                        Name = "Entretenimento",
-                    },
-                    new SubCategory
-                    {
-                        SubCategoryId = 28,
-                        Name = "Botecos",
-                        CategoryId = 27
-                    },
-                    new SubCategory
-                    {
-                        SubCategoryId = 29,
-                        Name = "Boates",
-                        CategoryId = 27
-                    },
-                    new SubCategory
-                    {
-                        SubCategoryId = 30,
-                        Name = "Bilhares",
-                        CategoryId = 27
-                    },
-                    new SubCategory
-                    {
-                        SubCategoryId = 31,
-                        Name = "Shopping",
-                        CategoryId = 27
-                    },
-                    new SubCategory
-                    {
-                        SubCategoryId = 32,
-                        Name = "Cinemas",
-                        CategoryId = 27
-                    },
-                    new SubCategory
-                    {
-                        SubCategoryId = 33,
-                        Name = "Treatros",
-                        CategoryId = 27
-                    },
-                    new SubCategory
-                    {
-                        SubCategoryId = 34,
-                        Name = "Casas de Espetáculos",
-                        CategoryId = 27
-                    },
-                    new SubCategory
-                    {
-                        SubCategoryId = 35,
-                        Name = "Boliches",
-                        CategoryId = 27
-                    },
-                    new SubCategory
-                    {
-                        SubCategoryId = 36,
-                        Name = "Praças",
-                        CategoryId = 27
-                    },
+            //        new SubCategory
+            //        {
+            //            SubCategoryId = 26,
+            //            Name = "Rent a Car"
+            //        },
 
 
-                    new SubCategory
-                    {
-                        SubCategoryId = 37,
-                        Name = "Parques"
-                    },
-                    new SubCategory
-                    {
-                        SubCategoryId = 38,
-                        Name = "Parques Aquáticos",
-                        CategoryId = 37
-                    },
-                    new SubCategory
-                    {
-                        SubCategoryId = 39,
-                        Name = "Parques Temáticos",
-                        CategoryId = 37
-                    },
-                    new SubCategory
-                    {
-                        SubCategoryId = 40,
-                        Name = "Parques Naturais",
-                        CategoryId = 37
-                    },
+            //        new SubCategory
+            //        {
+            //            SubCategoryId = 27,
+            //            Name = "Entretenimento",
+            //        },
+            //        new SubCategory
+            //        {
+            //            SubCategoryId = 28,
+            //            Name = "Botecos",
+            //            CategoryId = 27
+            //        },
+            //        new SubCategory
+            //        {
+            //            SubCategoryId = 29,
+            //            Name = "Boates",
+            //            CategoryId = 27
+            //        },
+            //        new SubCategory
+            //        {
+            //            SubCategoryId = 30,
+            //            Name = "Bilhares",
+            //            CategoryId = 27
+            //        },
+            //        new SubCategory
+            //        {
+            //            SubCategoryId = 31,
+            //            Name = "Shopping",
+            //            CategoryId = 27
+            //        },
+            //        new SubCategory
+            //        {
+            //            SubCategoryId = 32,
+            //            Name = "Cinemas",
+            //            CategoryId = 27
+            //        },
+            //        new SubCategory
+            //        {
+            //            SubCategoryId = 33,
+            //            Name = "Treatros",
+            //            CategoryId = 27
+            //        },
+            //        new SubCategory
+            //        {
+            //            SubCategoryId = 34,
+            //            Name = "Casas de Espetáculos",
+            //            CategoryId = 27
+            //        },
+            //        new SubCategory
+            //        {
+            //            SubCategoryId = 35,
+            //            Name = "Boliches",
+            //            CategoryId = 27
+            //        },
+            //        new SubCategory
+            //        {
+            //            SubCategoryId = 36,
+            //            Name = "Praças",
+            //            CategoryId = 27
+            //        },
 
 
-                    new SubCategory
-                    {
-                        SubCategoryId = 41,
-                        Name = "Marinas"
-                    },
+            //        new SubCategory
+            //        {
+            //            SubCategoryId = 37,
+            //            Name = "Parques"
+            //        },
+            //        new SubCategory
+            //        {
+            //            SubCategoryId = 38,
+            //            Name = "Parques Aquáticos",
+            //            CategoryId = 37
+            //        },
+            //        new SubCategory
+            //        {
+            //            SubCategoryId = 39,
+            //            Name = "Parques Temáticos",
+            //            CategoryId = 37
+            //        },
+            //        new SubCategory
+            //        {
+            //            SubCategoryId = 40,
+            //            Name = "Parques Naturais",
+            //            CategoryId = 37
+            //        },
 
 
-                    new SubCategory
-                    {
-                        SubCategoryId = 42,
-                        Name = "Serviços Úteis"
-                    },
-                    new SubCategory
-                    {
-                        SubCategoryId = 43,
-                        Name = "Aeroporto",
-                        CategoryId = 42
-                    },
-                    new SubCategory
-                    {
-                        SubCategoryId = 44,
-                        Name = "Rodoviária",
-                        CategoryId = 42
-                    },
-                    new SubCategory
-                    {
-                        SubCategoryId = 45,
-                        Name = "Coopetaxi",
-                        CategoryId = 42
-                    },
-                    new SubCategory
-                    {
-                        SubCategoryId = 46,
-                        Name = "Hospitais",
-                        CategoryId = 42
-                    },
-                    new SubCategory
-                    {
-                        SubCategoryId = 47,
-                        Name = "Polícia",
-                        CategoryId = 42
-                    },
+            //        new SubCategory
+            //        {
+            //            SubCategoryId = 41,
+            //            Name = "Marinas"
+            //        },
 
 
-                    new SubCategory
-                    {
-                        SubCategoryId = 48,
-                        Name = "Locação de Equipamentos"
-                    },
+            //        new SubCategory
+            //        {
+            //            SubCategoryId = 42,
+            //            Name = "Serviços Úteis"
+            //        },
+            //        new SubCategory
+            //        {
+            //            SubCategoryId = 43,
+            //            Name = "Aeroporto",
+            //            CategoryId = 42
+            //        },
+            //        new SubCategory
+            //        {
+            //            SubCategoryId = 44,
+            //            Name = "Rodoviária",
+            //            CategoryId = 42
+            //        },
+            //        new SubCategory
+            //        {
+            //            SubCategoryId = 45,
+            //            Name = "Coopetaxi",
+            //            CategoryId = 42
+            //        },
+            //        new SubCategory
+            //        {
+            //            SubCategoryId = 46,
+            //            Name = "Hospitais",
+            //            CategoryId = 42
+            //        },
+            //        new SubCategory
+            //        {
+            //            SubCategoryId = 47,
+            //            Name = "Polícia",
+            //            CategoryId = 42
+            //        },
 
 
-                    new SubCategory
-                    {
-                        SubCategoryId = 49,
-                        Name = "Centro de Convenções"
-                    },
+            //        new SubCategory
+            //        {
+            //            SubCategoryId = 48,
+            //            Name = "Locação de Equipamentos"
+            //        },
 
 
-                    new SubCategory
-                    {
-                        SubCategoryId = 50,
-                        Name = "Transporte Turístico"
-                    },
+            //        new SubCategory
+            //        {
+            //            SubCategoryId = 49,
+            //            Name = "Centro de Convenções"
+            //        },
 
 
-                    new SubCategory
-                    {
-                        SubCategoryId = 51,
-                        Name = "Agências de Turismo"
-                    },
+            //        new SubCategory
+            //        {
+            //            SubCategoryId = 50,
+            //            Name = "Transporte Turístico"
+            //        },
 
 
-                    new SubCategory
-                    {
-                        SubCategoryId = 52,
-                        Name = "Promotores de Eventos"
-                    }
-                });
-            }
+            //        new SubCategory
+            //        {
+            //            SubCategoryId = 51,
+            //            Name = "Agências de Turismo"
+            //        },
+
+
+            //        new SubCategory
+            //        {
+            //            SubCategoryId = 52,
+            //            Name = "Promotores de Eventos"
+            //        }
+            //    });
+            //}
 
             //if (!context.HistoricalSights.Any())
             //{

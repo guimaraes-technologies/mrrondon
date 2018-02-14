@@ -57,7 +57,10 @@ namespace MrRondon.Infra.CrossCutting.Helper
             {
                 image.Save(ms, codec, param);
                 //image.Save($@"C:\Users\GT\Pictures\\new_{filepath}", codec, param);
-                return ms.ToArray();
+                var result = ms.ToArray();
+                ms.Dispose();
+
+                return result;
             }
         }
 

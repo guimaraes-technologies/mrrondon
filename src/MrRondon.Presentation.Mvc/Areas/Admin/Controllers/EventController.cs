@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
 using MrRondon.Domain.Entities;
@@ -8,6 +6,8 @@ using MrRondon.Infra.CrossCutting.Helper;
 using MrRondon.Infra.CrossCutting.Helper.Buttons;
 using MrRondon.Infra.Data.Context;
 using MrRondon.Infra.Data.Repositories;
+using MrRondon.Presentation.Mvc.Extensions;
+using MrRondon.Presentation.Mvc.ViewModels;
 
 namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
 {
@@ -19,39 +19,32 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
         {
             return View();
         }
-        /*
-
-        public ActionResult Details(Guid id)
-        {
-            var repo = new RepositoryBase<Event>(_db);
-            var company = repo.GetItemByExpression(x => x.EventId == id);
-            if (company == null) return HttpNotFound();
-            var model = GetCrudVm(company);
-
-            return View(model);
-        }
 
         public ActionResult Create()
         {
             SetBiewBags(null);
             return View();
         }
+
         [HttpPost]
         public ActionResult Create(CrudEventVm model)
         {
             try
             {
-                if (model.SubCategoryId.HasValue && model.SubCategoryId != 0)
-                    model.Event.SubCategoryId = model.SubCategoryId.Value;
-                else model.Event.SubCategoryId = model.CategoryId;
-
+                ModelState.Remove("Event_Logo");
+                ModelState.Remove("Event_Cover");
                 if (!ModelState.IsValid)
                 {
                     SetBiewBags(model);
                     return View(model);
                 }
 
-                _db.Companies.Add(model.Event);
+                if (model.Event.Logo == null || model.LogoFile != null)
+                    model.Event.Logo = FileUpload.GetBytes(model.LogoFile, "Logo");
+                if (model.Event.Cover == null || model.CoverFile != null)
+                    model.Event.Cover = FileUpload.GetBytes(model.CoverFile, "Capa");
+
+                _db.Events.Add(model.Event);
                 _db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -61,6 +54,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
                 return View(model).Error(ex.Message);
             }
         }
+        /*
 
         public ActionResult Edit(Guid id)
         {
@@ -131,12 +125,13 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
 
             return eventVm;
         }
+        */
 
         private void SetBiewBags(CrudEventVm model)
         {
-
+            ViewBag.Companies = new SelectList(_db.Companies, "CompanyId", "Name", model?.Event?.Organizer?.CompanyId);
         }
-        */
+
         [HttpPost]
         public JsonResult GetPagination(DataTableParameters parameters)
         {

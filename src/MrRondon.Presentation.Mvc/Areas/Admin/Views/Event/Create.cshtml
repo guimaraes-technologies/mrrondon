@@ -1,4 +1,4 @@
-﻿@model MrRondon.Presentation.Mvc.ViewModels.CrudCompanyVm
+﻿@model MrRondon.Presentation.Mvc.ViewModels.CrudEventVm
 @{
     ViewBag.Title = "Adicionar evento";
 }
@@ -15,7 +15,7 @@
     @Html.Partial("_Navigation", 2)
 }
 
-@using (Html.BeginForm("Create", "Company", FormMethod.Post, new { @class = "ui form", enctype = "multipart/form-data" }))
+@using (Html.BeginForm("Create", "Event", FormMethod.Post, new { @class = "ui form", enctype = "multipart/form-data" }))
 {
     @Html.Partial("_Form")
 }
@@ -23,5 +23,4 @@
 @section scripts {
     @Scripts.Render("~/bundles/correios")
     @Scripts.Render("~/bundles/validation")
-    @Scripts.Render("~/bundles/company")
 }

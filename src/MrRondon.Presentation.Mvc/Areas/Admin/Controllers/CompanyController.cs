@@ -102,6 +102,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
                 ModelState.Remove("Company_Cover");
                 if (model.Company.Logo == null || model.LogoFile != null)
                     model.Company.Logo = FileUpload.GetBytes(model.LogoFile, "Logo");
+
                 if (model.Company.Cover == null || model.CoverFile != null)
                     model.Company.Cover = FileUpload.GetBytes(model.CoverFile, "Capa");
 
