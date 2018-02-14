@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.IO;
 using MrRondon.Infra.CrossCutting.Message;
 
 namespace MrRondon.Domain.Entities
@@ -41,6 +40,7 @@ namespace MrRondon.Domain.Entities
 
         public Address Address { get; set; }
 
+        [Display(Name = "Segmento")]
         [Required(ErrorMessageResourceType = typeof(Error), ErrorMessageResourceName = "Required")]
         public int SubCategoryId { get; set; }
         public SubCategory SubCategory { get; set; }
@@ -72,5 +72,7 @@ namespace MrRondon.Domain.Entities
                 return "~/Content/Images/without_image.jpg";
             }
         }
+
+        public string GetSegment => SubCategory.Category == null ? SubCategory.Name : $"{SubCategory.Category.Name} - {SubCategory.Name}";
     }
 }

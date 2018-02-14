@@ -7,7 +7,11 @@ namespace MrRondon.Domain.Entities
     {
         [Key]
         public Guid ContactId { get; set; } = Guid.NewGuid();
+
+        [Display(Name = "Descrição")]
         public string Description { get; set; }
+
+        [Display(Name = "Tipo")]
         public ContactType ContactType { get; set; }
 
         public Guid? UserId { get; set; }

@@ -26,11 +26,10 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
         public ActionResult Details(Guid id)
         {
             var repo = new RepositoryBase<Company>(_db);
-            var company = repo.GetItemByExpression(x => x.CompanyId == id);
+            var company = repo.GetItemByExpression(x => x.CompanyId == id, "SubCategory.Category", "Address.City", "Contacts");
             if (company == null) return HttpNotFound();
-            var model = GetCrudVm(company);
 
-            return View(model);
+            return View(company);
         }
 
         public ActionResult Create()

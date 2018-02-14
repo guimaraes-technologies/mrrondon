@@ -4,7 +4,9 @@ namespace MrRondon.Domain.Entities
 {
     public enum ContactType
     {
+        [Display(Name = "Telefone")]
         Telephone = 1,
+        [Display(Name = "Celular")]
         Cellphone = 2,
         Email = 3
     }
