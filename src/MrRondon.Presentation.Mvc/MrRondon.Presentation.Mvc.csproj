@@ -276,6 +276,7 @@
     <Content Include="Content\semantic.css" />
     <Content Include="Content\site\basic.css" />
     <Content Include="Content\site\responsive.css" />
+    <Content Include="Content\site\semantic-extension.css" />
     <Content Include="Scripts\DataTables\extensions\AutoFill\js\autoFill.bootstrap.js" />
     <Content Include="Scripts\DataTables\extensions\AutoFill\js\autoFill.bootstrap.min.js" />
     <Content Include="Scripts\DataTables\extensions\AutoFill\js\autoFill.bootstrap4.js" />
@@ -439,6 +440,7 @@
     <Content Include="Scripts\site\datatable.js" />
     <Content Include="Scripts\site\company.js" />
     <Content Include="Scripts\site\image-preview.js" />
+    <Content Include="Scripts\site\semantic-extension.js" />
     <Content Include="Scripts\site\validation.js" />
     <Content Include="ViewSwitcher.ascx" />
     <Content Include="Web.config" />

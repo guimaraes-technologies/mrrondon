@@ -48,7 +48,7 @@
     </div>
     <div class="seven wide field">
         @Html.LabelFor(e => e.Event.OrganizerId)
-        @Html.SemanticDropDownListFor(e => e.Event.OrganizerId, (SelectList)ViewBag.Companies)
+        @Html.SemanticDropDownListOptionalFor(e => e.Event.OrganizerId, (SelectList)ViewBag.Companies)
     </div>
 </div>
 <div class="fields">

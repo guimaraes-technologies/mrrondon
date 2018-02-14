@@ -41,7 +41,7 @@ namespace MrRondon.Infra.CrossCutting.Helper.Buttons
                 link.MergeAttribute("data-loading", "btn");
                 link.MergeAttribute("title", "Editar");
                 link.MergeAttributes(HtmlHelper.AnonymousObjectToHtmlAttributes(null));
-                link.InnerHtml = iconEdit.ToString();
+                link.InnerHtml = $"{iconEdit}";
 
                 return MvcHtmlString.Create(link.ToString());
             }

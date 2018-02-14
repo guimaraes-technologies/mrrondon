@@ -11,6 +11,7 @@ namespace MrRondon.Presentation.Mvc
                 "~/Content/semantic.css",
                 "~/Content/plugins/lobibox/lobibox.css",
                 "~/Content/site/basic.css",
+                "~/Content/site/semantic-extension.css", 
                 "~/Content/site/responsive.css"));
 
             //SCRIPTS
@@ -22,6 +23,7 @@ namespace MrRondon.Presentation.Mvc
                 "~/Scripts/semantic.js",
                 "~/Scripts/plugins/lobibox/lobibox.js",
                 "~/Scripts/site/basic.js",
+                "~/Scripts/site/semantic-extension.js",
                 "~/Scripts/respond.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/validation").Include(

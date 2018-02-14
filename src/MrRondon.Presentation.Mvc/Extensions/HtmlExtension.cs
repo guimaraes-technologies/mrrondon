@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Web.Mvc;
 using MrRondon.Infra.CrossCutting.Helper;
+using MrRondon.Infra.CrossCutting.Helper.Buttons;
 using Newtonsoft.Json;
 
 namespace MrRondon.Presentation.Mvc.Extensions
@@ -293,6 +294,41 @@ namespace MrRondon.Presentation.Mvc.Extensions
                 tag.InnerHtml += $"<option value='{item.Value}' {(item.Selected ? "selected" : string.Empty)}>{item.Text}</option>";
             }
 
+            return new MvcHtmlString(tag.ToString());
+        }
+
+        public static MvcHtmlString SemanticDropDownListOptionalFor<TModel, TProperty>(this HtmlHelper<TModel> html, Expression<Func<TModel, TProperty>> expression, IEnumerable<SelectListItem> selectList, string optionLabel = "Selecione...", object htmlAttributes = null)
+        {
+            var fullBindingName = html.ViewContext.ViewData.TemplateInfo.GetFullHtmlFieldName(ExpressionHelper.GetExpressionText(expression));
+            var metadata = ModelMetadata.FromLambdaExpression(expression, html.ViewData);
+            var validations = html.GetUnobtrusiveValidationAttributes(metadata.PropertyName, metadata);
+            var tag = new TagBuilder("div");
+
+            InsertValidateAttribute(tag, validations);
+
+            if (htmlAttributes != null) tag.MergeAttributes(HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes));
+            var removeIcon = new TagBuilder("i");
+            removeIcon.MergeAttribute("class", ButtonsBase.IconRemove);
+            var dropIcon = new TagBuilder("i");
+            dropIcon.MergeAttribute("class", "dropdown icon");
+
+            tag.Attributes.Add("id", TagBuilder.CreateSanitizedId(fullBindingName));
+            tag.Attributes.Add("name", fullBindingName);
+            tag.AddCssClass("ui selection dropdown");
+            tag.InnerHtml = $"<input name='{fullBindingName}' type='hidden'>";
+            tag.InnerHtml += $"{removeIcon} {dropIcon}";
+
+            tag.InnerHtml += $"<div class='default text'>{optionLabel}</div>";
+            tag.InnerHtml += "<div class='menu'>";
+
+            if (selectList == null) return new MvcHtmlString(tag.ToString());
+
+            foreach (var item in selectList)
+            {
+                tag.InnerHtml += $"<div class='item' data-value='{item.Value}' {(item.Selected ? "selected" : string.Empty)}>{item.Text}</div>";
+            }
+
+            tag.InnerHtml += "</div>";//close menu div
             return new MvcHtmlString(tag.ToString());
         }
 
