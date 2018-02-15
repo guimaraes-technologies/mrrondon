@@ -42,6 +42,9 @@ namespace MrRondon.Presentation.Mvc
                 "~/Scripts/site/company.js",
                 "~/Scripts/site/image-preview.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/event").Include(
+                "~/Scripts/site/image-preview.js"));
+
             BundleTable.EnableOptimizations = false;
         }
     }

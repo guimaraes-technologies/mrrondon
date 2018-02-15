@@ -22,7 +22,7 @@ namespace MrRondon.Domain.Entities
 
         [Display(Name = "Valor")]
         [Required(ErrorMessageResourceType = typeof(Error), ErrorMessageResourceName = "Required")]
-        public decimal Value { get; set; }
+        public decimal? Value { get; set; }
 
         [Display(Name = "Início")]
         [Required(ErrorMessageResourceType = typeof(Error), ErrorMessageResourceName = "Required")]
