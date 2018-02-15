@@ -124,7 +124,7 @@ namespace MrRondon.Presentation.Mvc.Extensions
             tag.Attributes.Add("type", "text");
             tag.Attributes.Add("id", TagBuilder.CreateSanitizedId(fullBindingName));
             tag.Attributes.Add("name", fullBindingName);
-            tag.Attributes.Add("data-mascara", "cpf");
+            tag.Attributes.Add("data-mask", "cpf");
             //tag.Attributes.Add("placeholder", "Ex.: 123.456.789-00");
             tag.Attributes.Add("value", metadata.Model?.ToString() ?? string.Empty);
 
@@ -145,7 +145,7 @@ namespace MrRondon.Presentation.Mvc.Extensions
             tag.Attributes.Add("type", "text");
             tag.Attributes.Add("id", TagBuilder.CreateSanitizedId(fullBindingName));
             tag.Attributes.Add("name", fullBindingName);
-            tag.Attributes.Add("data-mascara", "telephone");
+            tag.Attributes.Add("data-mask", "telephone");
             tag.Attributes.Add("value", metadata.Model?.ToString() ?? string.Empty);
 
             return new MvcHtmlString(tag.ToString(TagRenderMode.SelfClosing));
@@ -165,7 +165,7 @@ namespace MrRondon.Presentation.Mvc.Extensions
             tag.Attributes.Add("type", "text");
             tag.Attributes.Add("id", TagBuilder.CreateSanitizedId(fullBindingName));
             tag.Attributes.Add("name", fullBindingName);
-            tag.Attributes.Add("data-mascara", "cnpj");
+            tag.Attributes.Add("data-mask", "cnpj");
             tag.Attributes.Add("value", metadata.Model?.ToString() ?? string.Empty);
 
             return new MvcHtmlString(tag.ToString(TagRenderMode.SelfClosing));
@@ -185,7 +185,7 @@ namespace MrRondon.Presentation.Mvc.Extensions
             tag.Attributes.Add("type", "text");
             tag.Attributes.Add("id", TagBuilder.CreateSanitizedId(fullBindingName));
             tag.Attributes.Add("name", fullBindingName);
-            tag.Attributes.Add("data-mascara", "cep");
+            tag.Attributes.Add("data-mask", "zipcode");
             tag.Attributes.Add("value", metadata.Model?.ToString() ?? string.Empty);
 
             return new MvcHtmlString(tag.ToString(TagRenderMode.SelfClosing));
@@ -205,7 +205,7 @@ namespace MrRondon.Presentation.Mvc.Extensions
             tag.Attributes.Add("type", "text");
             tag.Attributes.Add("id", TagBuilder.CreateSanitizedId(fullBindingName));
             tag.Attributes.Add("name", fullBindingName);
-            tag.Attributes.Add("data-mascara", "date");
+            tag.Attributes.Add("data-mask", "date");
 
             var valorInput = metadata.Model?.ToString();
             if (string.IsNullOrWhiteSpace(valorInput)) tag.Attributes.Add("value", string.Empty);

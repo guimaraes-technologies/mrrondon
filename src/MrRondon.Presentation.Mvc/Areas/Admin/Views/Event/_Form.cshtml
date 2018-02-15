@@ -35,12 +35,22 @@
 </div>
 <div class="fields">
     <div class="three wide field">
-        @Html.LabelFor(e => e.Event.StartDate)
-        @Html.SemanticTextDateFor(e => e.Event.StartDate, null)
+        @Html.LabelFor(model => model.Event.StartDate)
+        <div class="ui calendar">
+            <div class="ui input left icon">
+                <i class="calendar icon"></i>
+                @Html.SemanticTextDateFor(model => model.Event.StartDate, new { @class = "gt-calendar", autocomplete = "off" })
+            </div>
+        </div>
     </div>
     <div class="three wide field">
-        @Html.LabelFor(e => e.Event.EndDate)
-        @Html.SemanticTextDateFor(e => e.Event.EndDate, null)
+        @Html.LabelFor(model => model.Event.EndDate)
+        <div class="ui calendar">
+            <div class="ui input left icon">
+                <i class="calendar icon"></i>
+                @Html.SemanticTextDateFor(model => model.Event.EndDate, new { @class = "gt-calendar", autocomplete = "off" })
+            </div>
+        </div>
     </div>
     <div class="three wide field">
         @Html.LabelFor(e => e.Event.Value)

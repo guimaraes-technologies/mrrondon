@@ -31,9 +31,8 @@
         element.unmask();
         switch (mask) {
             case "cpf": element.mask("999.999.999-99");break;
-            case "data": element.mask("99/99/9999"); break;
-            case "hora": element.mask("99:99"); break;
-            case "cep": element.mask("99999-999"); break;
+            case "date": element.mask("99/99/9999"); break;
+            case "zipcode": element.mask("99999-999"); break;
             case "cnpj": element.mask("99.999.999/9999-99"); break;
             case "telephone": element.mask("(99) 9999-9999");break;
             case "cellphone": element.mask("(99) 99999-9999"); break;
@@ -64,12 +63,11 @@
     };
 
     Validation.SetMask = function (element) {
-        if (element.data("mascara")) {
-            switch (element.data("mascara")) {
+        if (element.data("mask")) {
+            switch (element.data("mask")) {
                 case "cpf": element.mask("999.999.999-99"); break;
-                case "data": element.mask("99/99/9999"); break;
-                case "hora": element.mask("99:99"); break;
-                case "cep": element.mask("99999-999"); break;
+                case "date": element.mask("99/99/9999"); break;
+                case "zipcode": element.mask("99999-999"); break;
                 case "cnpj": element.mask("99.999.999/9999-99"); break;
                 case "telephone": element.mask("(99) 99999-9999"); break;
                 case "cellphone": element.mask("(99) 99999-9999"); break;
@@ -127,12 +125,12 @@
         $form.form({
             fields,
             inline: true,
-            on: 'blur',
+            on: "blur",
             onSuccess: function (e) {
                 e.preventDefault();    
                 return $.ajax({
-                    type: $form.attr('method'),
-                    url: $form.attr('action'),
+                    type: $form.attr("method"),
+                    url: $form.attr("action"),
                     data: $form.serialize(),
                     success: function () {                        
                         $($form.data("closeModal")).modal("hide");

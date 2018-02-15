@@ -267,6 +267,7 @@
     <Content Include="Content\components\visibility.min.js" />
     <Content Include="Content\components\visit.js" />
     <Content Include="Content\components\visit.min.js" />
+    <Content Include="Content\DatePicker\datepicker.css" />
     <Content Include="Content\Images\brasao_ro.png" />
     <Content Include="Content\Images\carrossel\1.png" />
     <Content Include="Content\Images\ponto.png" />
@@ -353,6 +354,7 @@
     <Content Include="Scripts\DataTables\media\js\jquery.dataTables.js" />
     <Content Include="Scripts\DataTables\media\js\jquery.dataTables.min.js" />
     <Content Include="Scripts\DataTables\media\js\jquery.js" />
+    <Content Include="Scripts\DatePicker\datepicker.js" />
     <Content Include="Scripts\jquery.mask.js" />
     <Content Include="Scripts\jquery.mask.min.js" />
     <Content Include="Scripts\respond.js" />
@@ -440,6 +442,7 @@
     <Content Include="Scripts\site\correios.js" />
     <Content Include="Scripts\site\datatable.js" />
     <Content Include="Scripts\site\company.js" />
+    <Content Include="Scripts\site\datepicker.config.js" />
     <Content Include="Scripts\site\image-preview.js" />
     <Content Include="Scripts\site\semantic-extension.js" />
     <Content Include="Scripts\site\validation.js" />

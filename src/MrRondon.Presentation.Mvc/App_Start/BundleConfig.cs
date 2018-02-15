@@ -43,7 +43,12 @@ namespace MrRondon.Presentation.Mvc
                 "~/Scripts/site/image-preview.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/event").Include(
+                "~/Scripts/DatePicker/datepicker.js",
+                "~/Scripts/site/datepicker.config.js",
                 "~/Scripts/site/image-preview.js"));
+
+            bundles.Add(new StyleBundle("~/Content/event").Include(
+                "~/Content/datepicker/datepicker.css"));
 
             BundleTable.EnableOptimizations = false;
         }
