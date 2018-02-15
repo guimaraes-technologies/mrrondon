@@ -42,20 +42,12 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
         {
             try
             {
-                if (image == null)
-                {
-                    return View(model).Error("A imagem da sub categoria é obrigatória");
-                }
-
                 if (!ModelState.IsValid)
                 {
                     ViewBag.Categories = new SelectList(_db.SubCategories.Where(s => s.CategoryId == null).OrderBy(o => o.Name), "SubCategoryId", "Name", model.SubCategoryId);
                     return View(model);
                 }
-
-                var br = new BinaryReader(image.InputStream);
-                model.SetImage(br.ReadBytes(image.ContentLength));
-                br.Close();
+                
                 _db.SubCategories.Add(model);
                 _db.SaveChanges();
                 return RedirectToAction("Index");
@@ -83,21 +75,12 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
         {
             try
             {
-                if (image == null)
-                {
-                    ViewBag.Categories = new SelectList(_db.SubCategories.Where(s => s.CategoryId == null).OrderBy(o => o.Name), "SubCategoryId", "Name", model.SubCategoryId);
-                    return View(model).Error("A imagem da categoria é obrigatória");
-                }
-
                 if (!ModelState.IsValid)
                 {
                     ViewBag.Categories = new SelectList(_db.SubCategories.Where(s => s.CategoryId == null).OrderBy(o => o.Name), "SubCategoryId", "Name", model.SubCategoryId);
                     return View(model);
                 }
-
-                var br = new BinaryReader(image.InputStream);
-                model.SetImage(br.ReadBytes(image.ContentLength));
-                br.Close();
+                
                 _db.Entry(model).State = EntityState.Modified;
                 _db.SaveChanges();
                 return RedirectToAction("Index");

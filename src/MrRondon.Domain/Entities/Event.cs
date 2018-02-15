@@ -21,7 +21,6 @@ namespace MrRondon.Domain.Entities
         public string Description { get; set; }
 
         [Display(Name = "Valor")]
-        [Required(ErrorMessageResourceType = typeof(Error), ErrorMessageResourceName = "Required")]
         public decimal? Value { get; set; }
 
         [Display(Name = "Início")]
@@ -33,18 +32,18 @@ namespace MrRondon.Domain.Entities
         public DateTime EndDate { get; set; }
 
         [Display(Name = "Imagem da Logo")]
-        //[Required(ErrorMessageResourceType = typeof(Error), ErrorMessageResourceName = "Required")]
+        [Required(ErrorMessageResourceType = typeof(Error), ErrorMessageResourceName = "Required")]
         public byte[] Logo { get; set; }
 
         [Display(Name = "Imagem da Capa")]
-        //[Required(ErrorMessageResourceType = typeof(Error), ErrorMessageResourceName = "Required")]
+        [Required(ErrorMessageResourceType = typeof(Error), ErrorMessageResourceName = "Required")]
         public byte[] Cover { get; set; }
 
         [Display(Name = "Organizador")]
         public Guid? OrganizerId { get; set; }
         public Company Organizer { get; set; }
-        
-        public bool SameAsOganizer { get; set; }
+
+        public bool SameAsOganizer { get; set; } = true;
 
         [Display(Name = "Endereço")]
         [Required(ErrorMessageResourceType = typeof(Error), ErrorMessageResourceName = "Required")]

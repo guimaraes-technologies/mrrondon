@@ -19,7 +19,6 @@ namespace MrRondon.Domain.Entities
 
         [Column(TypeName = "image")]
         [Display(Name = "Imagem")]
-        //[Required(ErrorMessageResourceType = typeof(Error), ErrorMessageResourceName = "Required")]
         public byte[] Image { get; set; }
 
         [Display(Name = "Exibir no Aplicativo?")]
