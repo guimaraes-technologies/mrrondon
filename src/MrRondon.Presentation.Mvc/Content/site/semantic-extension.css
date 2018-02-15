@@ -1,12 +1,12 @@
 ﻿.ui.dropdown .remove.icon {
     font-size: 0.857143em;
+    float:left; 
     margin:0;
     padding:0;
-    right: 2em;
+    left:-0.7em;
     top: auto;
-    position: absolute;
+    position: relative;
     opacity: 0.5;
-    z-index: 3;
 }
 
 .ui.dropdown input[value=''] ~ .remove.icon,
