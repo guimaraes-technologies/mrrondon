@@ -30,11 +30,12 @@
         element.unbind();
         element.unmask();
         switch (mask) {
-            case "cpf": element.mask("999.999.999-99");break;
-            case "date": element.mask("99/99/9999"); break;
-            case "zipcode": element.mask("99999-999"); break;
+            case "cpf": element.mask("999.999.999-99"); break;
+            case "data": element.mask("99/99/9999"); break;
+            case "hora": element.mask("99:99"); break;
+            case "cep": element.mask("99999-999"); break;
             case "cnpj": element.mask("99.999.999/9999-99"); break;
-            case "telephone": element.mask("(99) 9999-9999");break;
+            case "telephone": element.mask("(99) 9999-9999"); break;
             case "cellphone": element.mask("(99) 99999-9999"); break;
             case "email": element.bind("blur", Validation.validate); break;
         }
@@ -63,11 +64,12 @@
     };
 
     Validation.SetMask = function (element) {
-        if (element.data("mask")) {
-            switch (element.data("mask")) {
+        if (element.data("gtmask")) {
+            switch (element.data("gtmask")) {
                 case "cpf": element.mask("999.999.999-99"); break;
-                case "date": element.mask("99/99/9999"); break;
-                case "zipcode": element.mask("99999-999"); break;
+                case "data": element.mask("99/99/9999"); break;
+                case "hora": element.mask("99:99"); break;
+                case "cep": element.mask("99999-999"); break;
                 case "cnpj": element.mask("99.999.999/9999-99"); break;
                 case "telephone": element.mask("(99) 99999-9999"); break;
                 case "cellphone": element.mask("(99) 99999-9999"); break;
@@ -106,7 +108,7 @@
     };
 
     Validation.OnSubmitAjax = function (form) {
-        
+
         var $form = $(form);
         var fields = {};
 
@@ -125,17 +127,17 @@
         $form.form({
             fields,
             inline: true,
-            on: "blur",
+            on: 'blur',
             onSuccess: function (e) {
-                e.preventDefault();    
+                e.preventDefault();
                 return $.ajax({
-                    type: $form.attr("method"),
-                    url: $form.attr("action"),
+                    type: $form.attr('method'),
+                    url: $form.attr('action'),
                     data: $form.serialize(),
-                    success: function () {                        
+                    success: function () {
                         $($form.data("closeModal")).modal("hide");
                     }
-                });                 
+                });
             }
         });
     };

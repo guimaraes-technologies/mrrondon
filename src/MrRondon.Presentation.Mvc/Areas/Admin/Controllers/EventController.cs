@@ -33,6 +33,8 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
             {
                 ModelState.Remove("Event_Logo");
                 ModelState.Remove("Event_Cover");
+                RemoveAddressValidation(model);
+
                 if (!ModelState.IsValid)
                 {
                     SetBiewBags(model);
@@ -129,6 +131,11 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
 
         private void SetBiewBags(CrudEventVm model)
         {
+            string cityId;
+            if (model?.Event == null) cityId = string.Empty;
+            else cityId = model.Event.SameAddressAsOganizer ? model.Address?.CityId.ToString() : "";
+
+            ViewBag.Cities = new SelectList(_db.Cities, "CityId", "Name", cityId);
             ViewBag.Companies = new SelectList(_db.Companies, "CompanyId", "Name", model?.Event?.Organizer?.CompanyId);
         }
 
@@ -151,6 +158,16 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
                 });
             }
             return Json(dtResult, JsonRequestBehavior.AllowGet);
+        }
+
+        private void RemoveAddressValidation(CrudEventVm model)
+        {
+            ModelState.Remove(nameof(model.Address.ZipCode));
+            ModelState.Remove(nameof(model.Address.AdditionalInformation));
+            ModelState.Remove(nameof(model.Address.Latitude));
+            ModelState.Remove(nameof(model.Address.Longitude));
+            ModelState.Remove(nameof(model.Address.Number));
+            ModelState.Remove(nameof(model.Address.Street));
         }
 
         protected override void Dispose(bool disposing)

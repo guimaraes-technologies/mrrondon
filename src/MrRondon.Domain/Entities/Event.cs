@@ -43,7 +43,7 @@ namespace MrRondon.Domain.Entities
         public Guid? OrganizerId { get; set; }
         public Company Organizer { get; set; }
 
-        public bool SameAsOganizer { get; set; } = true;
+        public bool SameAddressAsOganizer { get; set; } = true;
 
         [Display(Name = "Endereço")]
         [Required(ErrorMessageResourceType = typeof(Error), ErrorMessageResourceName = "Required")]
