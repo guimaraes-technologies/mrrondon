@@ -24,10 +24,14 @@ namespace MrRondon.Domain.Entities
         public decimal? Value { get; set; }
 
         [Display(Name = "Início")]
+        [DataType(DataType.DateTime)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
         [Required(ErrorMessageResourceType = typeof(Error), ErrorMessageResourceName = "Required")]
         public DateTime StartDate { get; set; }
 
         [Display(Name = "Fim")]
+        [DataType(DataType.DateTime)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
         [Required(ErrorMessageResourceType = typeof(Error), ErrorMessageResourceName = "Required")]
         public DateTime EndDate { get; set; }
 
