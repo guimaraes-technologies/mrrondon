@@ -7,7 +7,8 @@ namespace MrRondon.Domain.Entities
 {
     public class Company
     {
-        [Key] public Guid CompanyId { get; set; } = Guid.NewGuid();
+        [Key]
+        public Guid CompanyId { get; set; } = Guid.NewGuid();
 
         [Display(Name = "Nome")]
         [Required(ErrorMessageResourceType = typeof(Error), ErrorMessageResourceName = "Required")]

@@ -1,4 +1,4 @@
-﻿using System;
+﻿    using System;
 using System.Linq;
 using System.Data.Entity;
 using System.Web.Http;
@@ -16,9 +16,9 @@ namespace MrRondon.Services.Api.Controllers
         {
             _db = new MainContext();
         }
-
+        
         [AllowAnonymous]
-        [Route("nearby/meters/{precision:int}/latitude/{latitudeFrom:double}/longitude/{longitudeFrom:double}")]
+        [Route("nearby/meters/{precision:int}/latitude/{latitudeFrom}/longitude/{longitudeFrom}")]
         public IHttpActionResult GetNearby(int precision, string latitudeFrom, string longitudeFrom)
         {
             try

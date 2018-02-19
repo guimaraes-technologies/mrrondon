@@ -165,6 +165,7 @@
     <Compile Include="Helpers\GeoLocatorHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModels\CategoryListVm.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

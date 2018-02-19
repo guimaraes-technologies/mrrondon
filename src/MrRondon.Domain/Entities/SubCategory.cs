@@ -29,6 +29,7 @@ namespace MrRondon.Domain.Entities
         public SubCategory Category { get; set; }
 
         public ICollection<SubCategory> Categories { get; set; }
+        public ICollection<Company> Companies { get; set; }
 
         public string GetImage
         {

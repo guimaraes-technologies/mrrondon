@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Web.Http;
 using MrRondon.Infra.Data.Context;
+using MrRondon.Services.Api.ViewModels;
 
 namespace MrRondon.Services.Api.Controllers
 {
@@ -22,7 +23,21 @@ namespace MrRondon.Services.Api.Controllers
             try
             {
                 name = name ?? string.Empty;
-                return Ok(_db.SubCategories.Where(x => x.ShowOnApp && x.CategoryId == null && x.Name.Contains(name)));
+
+                //var items = (from subCategory in _db.SubCategories
+                //             join company in _db.Companies on subCategory.SubCategoryId equals company.SubCategoryId
+                //             where subCategory.ShowOnApp
+                //                   && subCategory.CategoryId == null
+                //                   && subCategory.Name.Contains(name)
+                //             select new CategoryListVm(subCategory, company.CompanyId != Guid.Empty)).ToList();
+
+                var categories = _db.SubCategories
+                    .Include("Companies")
+                    .Where(x => x.ShowOnApp && x.CategoryId == null && x.Name.Contains(name)
+                                )
+                    .ToList();
+
+                return Ok(categories);
             }
             catch (Exception ex)
             {

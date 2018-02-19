@@ -23,7 +23,17 @@ namespace MrRondon.Services.Api.Controllers
             try
             {
                 name = name ?? string.Empty;
-                return Ok(_db.SubCategories.Include(i => i.Category).Where(x => x.ShowOnApp && x.CategoryId == categoryId && x.Name.Contains(name)));
+                var subCategories = _db.SubCategories
+                    .Include(i => i.Category)
+                    .Where(x =>
+                    x.Companies.Any(a => a.SubCategoryId == x.SubCategoryId) && x.ShowOnApp &&
+                    x.CategoryId == categoryId && x.Name.Contains(name));
+
+                return Ok(subCategories.Select(s => new
+                {
+                    s.SubCategoryId,
+                    s.Name
+                }));
             }
             catch (Exception ex)
             {
