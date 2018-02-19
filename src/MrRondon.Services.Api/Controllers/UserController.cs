@@ -5,7 +5,6 @@ using System.Web.Http;
 using MrRondon.Domain.Entities;
 using MrRondon.Infra.Data.Context;
 using MrRondon.Infra.Security.Helpers;
-using MrRondon.Services.Api.Authorization;
 
 namespace MrRondon.Services.Api.Controllers
 {
@@ -52,7 +51,7 @@ namespace MrRondon.Services.Api.Controllers
             try
             {
                 _db.FavoriteEvents.Add(model);
-                _db.SaveChangesAsync();
+                _db.SaveChanges();
 
                 return Ok(model);
             }
@@ -69,7 +68,7 @@ namespace MrRondon.Services.Api.Controllers
             try
             {
                 _db.FavoriteEvents.Remove(model);
-                _db.SaveChangesAsync();
+                _db.SaveChanges();
 
                 return Ok(true);
             }
