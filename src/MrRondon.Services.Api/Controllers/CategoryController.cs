@@ -16,8 +16,14 @@ namespace MrRondon.Services.Api.Controllers
             _db = new MainContext();
         }
 
+        [Route("{question}")]
+        public IHttpActionResult Test(string question)
+        {
+            return Ok("Logou");
+        }
+
         [AllowAnonymous]
-        [Route("{name:alpha=}")]
+        [Route("{name=}")]
         public IHttpActionResult Get(string name)
         {
             try

@@ -12,7 +12,7 @@ namespace MrRondon.Domain.Entities
         public DateTime IssuedUtc { get; set; }
         public DateTime ExpiresUtc { get; set; }
 
-        [MaxLength(250)]
+        [MaxLength(750)]
         public string ProtectedTicket { get; set; }
 
         public Guid ApplicationClientId { get; set; }
