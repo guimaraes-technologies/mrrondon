@@ -22,31 +22,21 @@ namespace MrRondon.Infra.Data.Repositories
             return _dbSet.Find(id);
         }
 
-        public async Task<bool> AddAsync(RefreshToken token)
+        public bool Add(RefreshToken token)
         {
             var existingToken = _dbSet.FirstOrDefault(r => r.Subject == token.Subject && r.ApplicationClientId == token.ApplicationClientId);
 
-            if (existingToken != null) return await RemoveAsync(existingToken);
+            if (existingToken != null) return Remove(existingToken);
 
             _dbSet.Add(token);
 
-            return await _context.SaveChangesAsync() > 0;
+            return _context.SaveChanges() > 0;
         }
 
-        public async Task<bool> RemoveAsync(RefreshToken entity)
+        public bool Remove(RefreshToken entity)
         {
             _dbSet.Remove(entity);
-            return await _context.SaveChangesAsync() > 0;
-        }
-
-        public async Task<bool> RemoveAsync(object id)
-        {
-            var entity = await _dbSet.FindAsync(id);
-
-            if (entity == null) return false;
-
-            _dbSet.Remove(entity);
-            return await _context.SaveChangesAsync() > 0;
+            return _context.SaveChanges() > 0;
         }
     }
 }

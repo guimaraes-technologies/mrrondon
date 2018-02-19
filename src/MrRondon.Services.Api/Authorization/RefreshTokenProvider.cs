@@ -36,7 +36,7 @@ namespace MrRondon.Services.Api.Authorization
             token.ProtectedTicket = context.SerializeTicket();
 
             var refreshTokenRepo = new RepositoryRefreshToken(db);
-            var result = await refreshTokenRepo.AddAsync(token);
+            var result = refreshTokenRepo.Add(token);
 
             if (result) context.SetToken(refreshTokenId);
         }
@@ -55,7 +55,7 @@ namespace MrRondon.Services.Api.Authorization
             {
                 //Get protectedTicket from refreshToken class
                 context.DeserializeTicket(refreshToken.ProtectedTicket);
-                await repo.RemoveAsync(refreshToken);
+                repo.Remove(refreshToken);
             }
         }
 

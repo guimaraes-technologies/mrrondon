@@ -30,7 +30,7 @@ namespace MrRondon.Services.Api
             {
                 AllowInsecureHttp = true,
                 TokenEndpointPath = new PathString("/security/token"),
-                AccessTokenExpireTimeSpan = TimeSpan.FromMinutes(1),
+                AccessTokenExpireTimeSpan = TimeSpan.FromDays(1825),
                 Provider = new TokenProvider(),
                 RefreshTokenProvider = new RefreshTokenProvider()
             };
