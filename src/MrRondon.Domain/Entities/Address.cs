@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using MrRondon.Infra.CrossCutting.Message;
 
 namespace MrRondon.Domain.Entities
@@ -35,8 +36,22 @@ namespace MrRondon.Domain.Entities
         [Required(ErrorMessageResourceType = typeof(Error), ErrorMessageResourceName = "Required")]
         [MaxLength(10, ErrorMessage = "Máximo {0} caracteres")]
         public string ZipCode { get; set; }
-        public double Latitude { get; set; }
-        public double Longitude { get; set; }
+        public double Latitude { get; private set; }
+        public double Longitude { get; private set; }
+
+        [NotMapped]
+        public string LatitudeString
+        {
+            get => Latitude.ToString().Replace(",", ".");
+            set => LatitudeString = value;
+        }
+
+        [NotMapped]
+        public string LongitudeString
+        {
+            get => Longitude.ToString().Replace(",", ".");
+            set => LongitudeString = value;
+        }
 
         [DisplayName("Cidade")]
         public int CityId { get; set; }
@@ -52,6 +67,19 @@ namespace MrRondon.Domain.Entities
             Latitude = newAddress.Latitude;
             Longitude = newAddress.Longitude;
             CityId = newAddress.CityId;
+        }
+
+        public Address SetCoordinates(string latitude, string longitude)
+        {
+            if (double.TryParse(latitude.Replace(".", ","), out var latitudeResult))
+                Latitude = latitudeResult;
+            else throw new Exception("Latitude em formato inválido");
+
+            if (double.TryParse(longitude.Replace(".", ","), out var longitudeResult))
+                Longitude = longitudeResult;
+            else throw new Exception("Longitude em formato inválido");
+
+            return this;
         }
     }
 }

@@ -427,6 +427,7 @@
     <Content Include="Areas\Admin\Views\Event\_Form.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_ContactsDetail.cshtml" />
     <Content Include="Areas\Admin\Views\Event\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\_AddressDetail.cshtml" />
     <None Include="Properties\PublishProfiles\Webdeploy.pubxml" />
     <None Include="Scripts\jquery-3.2.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.2.1.js" />

@@ -1,0 +1,41 @@
+﻿@model MrRondon.Domain.Entities.Address
+
+<div class="three column row">
+    <div class="three wide column">
+        <h4 class="ui header">@Html.DisplayNameFor(e => e.ZipCode)</h4>
+        @Model.ZipCode
+    </div>
+    <div class="ten wide column">
+        <h4 class="ui header">@Html.DisplayNameFor(e => e.Street)</h4>
+        @Model.Street
+    </div>
+    <div class="three wide column">
+        <h4 class="ui header">@Html.DisplayNameFor(e => e.Number)</h4>
+        @Model.Number
+    </div>
+</div>
+<div class="four column row">
+    <div class="four wide column">
+        <h4 class="ui header">@Html.DisplayNameFor(e => e.Neighborhood)</h4>
+        @Model.Neighborhood
+    </div>
+    <div class="eight wide column">
+        <h4 class="ui header">@Html.DisplayNameFor(e => e.AdditionalInformation)</h4>
+        @Model.AdditionalInformation
+    </div>
+    <div class="four wide column">
+        <h4 class="ui header">@Html.DisplayNameFor(e => e.CityId)</h4>
+        @Model.City.Name
+    </div>
+</div>
+
+<div class="four column row">
+    <div class="four wide column">
+        <h4 class="ui header">@Html.DisplayNameFor(e => e.Latitude)</h4>
+        @Model.LatitudeString
+    </div>
+    <div class="four wide column">
+        <h4 class="ui header">@Html.DisplayNameFor(e => e.Longitude)</h4>
+        @Model.LongitudeString
+    </div>
+</div>

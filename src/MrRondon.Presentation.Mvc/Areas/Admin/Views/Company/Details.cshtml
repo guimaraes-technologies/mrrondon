@@ -48,34 +48,7 @@
         </div>
 
         <h3 class="ui dividing header">Informações do Endereço</h3>
-        <div class="three column row">
-            <div class="three wide column">
-                <h4 class="ui header">@Html.DisplayNameFor(e => e.Address.ZipCode)</h4>
-                @Model.Address.ZipCode
-            </div>
-            <div class="ten wide column">
-                <h4 class="ui header">@Html.DisplayNameFor(e => e.Address.Street)</h4>
-                @Model.Address.Street
-            </div>
-            <div class="three wide column">
-                <h4 class="ui header">@Html.DisplayNameFor(e => e.Address.Number)</h4>
-                @Model.Address.Number
-            </div>
-        </div>
-        <div class="four column row">
-            <div class="four wide column">
-                <h4 class="ui header">@Html.DisplayNameFor(e => e.Address.Neighborhood)</h4>
-                @Model.Address.Neighborhood
-            </div>
-            <div class="eight wide column">
-                <h4 class="ui header">@Html.DisplayNameFor(e => e.Address.AdditionalInformation)</h4>
-                @Model.Address.AdditionalInformation
-            </div>
-            <div class="four wide column">
-                <h4 class="ui header">@Html.DisplayNameFor(e => e.Address.CityId)</h4>
-                @Model.Address.City.Name
-            </div>
-        </div>
+        @Html.Partial("_AddressDetail", Model.Address)
 
         <h3 class="ui dividing header">Informações de Contato</h3>
         @Html.Partial("_ContactsDetail", Model.Contacts)
