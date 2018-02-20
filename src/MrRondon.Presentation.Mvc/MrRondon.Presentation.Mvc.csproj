@@ -428,6 +428,7 @@
     <Content Include="Areas\Admin\Views\Shared\_ContactsDetail.cshtml" />
     <Content Include="Areas\Admin\Views\Event\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_AddressDetail.cshtml" />
+    <Content Include="Areas\Admin\Views\Event\_Address.cshtml" />
     <None Include="Properties\PublishProfiles\Webdeploy.pubxml" />
     <None Include="Scripts\jquery-3.2.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.2.1.js" />
@@ -480,6 +481,7 @@
       <DependentUpon>Site.Mobile.Master</DependentUpon>
     </Compile>
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModels\AddressForEventVm.cs" />
     <Compile Include="ViewModels\ChangePasswordVm.cs" />
     <Compile Include="ViewModels\CrudCompanyVm.cs" />
     <Compile Include="ViewModels\CrudEventVm.cs" />

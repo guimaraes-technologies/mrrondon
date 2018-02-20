@@ -47,6 +47,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
                     model.Event.Cover = FileUpload.GetBytes(model.CoverFile, "Capa");
 
                 model.Address.SetCoordinates(model.Address.LatitudeString, model.Address.LongitudeString);
+                model.Event.Address = model.Address.GetAddress();
                 _db.Events.Add(model.Event);
                 _db.SaveChanges();
                 return RedirectToAction("Index");

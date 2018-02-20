@@ -1,6 +1,6 @@
-﻿@using MrRondon.Domain.Entities
-@using MrRondon.Presentation.Mvc.Extensions
-@model MrRondon.Presentation.Mvc.ViewModels.CrudEventVm
+﻿@using MrRondon.Presentation.Mvc.Extensions
+@using MrRondon.Presentation.Mvc.ViewModels
+@model CrudEventVm
 
 <h3 class="ui dividing header">Informações do evento</h3>
 
@@ -76,5 +76,5 @@
         <label>Mesmo que o organizador</label>
     </div>
 </h3>
-@Html.Partial("_FormAddress", Model?.Address ?? new Address())
+@Html.Partial("_Address", Model?.Address ?? new AddressForEventVm())
 @Html.Partial("_ButtonSubmit")
