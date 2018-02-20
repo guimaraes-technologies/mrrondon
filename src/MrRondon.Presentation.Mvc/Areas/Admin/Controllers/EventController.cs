@@ -57,6 +57,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
                 return View(model).Error(ex.Message);
             }
         }
+      
         /*
 
         public ActionResult Edit(Guid id)
