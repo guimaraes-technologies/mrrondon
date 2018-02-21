@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Data.Entity;
 using System.Web.Mvc;
 using MrRondon.Domain.Entities;
 using MrRondon.Infra.CrossCutting.Helper;
@@ -31,18 +32,16 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
         {
             try
             {
-                var address = addressForHistorical.GetAddress();
-                //address.SetCoordinates(addressForHistorical.LatitudeString, addressForHistorical.LongitudeString);
-
-                model.HistoricalSight.Address = address;
+                model.Address = addressForHistorical;
+                model.HistoricalSight.Address = addressForHistorical.GetAddress();
 
                 if (model.HistoricalSight.Logo == null || model.LogoFile != null)
                     model.HistoricalSight.Logo = FileUpload.GetBytes(model.LogoFile, "Logo");
                 if (model.HistoricalSight.Cover == null || model.CoverFile != null)
                     model.HistoricalSight.Cover = FileUpload.GetBytes(model.CoverFile, "Capa");
 
-                ModelState.Remove("HistoricalSight-.Logo");
-                ModelState.Remove("HistoricalSight-.Cover");
+                ModelState.Remove("HistoricalSight.Logo");
+                ModelState.Remove("HistoricalSight.Cover");
                 if (!ModelState.IsValid)
                 {
                     SetBiewBags(model);
@@ -61,7 +60,66 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
         }
 
 
+        public ActionResult Edit(int id)
+        {
+            var repo = new RepositoryBase<HistoricalSight>(_db);
+            var historicalSight = repo.GetItemByExpression(x => x.HistoricalSightId == id, "Address");
+            if (historicalSight == null) return HttpNotFound();
 
+            var crud = new CrudHistoricalSightVm
+            {
+                HistoricalSight = historicalSight,
+                Address = AddressForHistoricalSightVm.GetAddress(historicalSight.Address)
+            };
+
+            SetBiewBags(crud);
+
+            return View(crud);
+        }
+
+        [HttpPost]
+        public ActionResult Edit(CrudHistoricalSightVm model, AddressForHistoricalSightVm addressForHistorical)
+        {
+            try
+            {
+                model.Address = addressForHistorical;
+                model.HistoricalSight.Address = addressForHistorical.GetAddress();
+
+                if (model.HistoricalSight.Logo == null || model.LogoFile != null)
+                    model.HistoricalSight.Logo = FileUpload.GetBytes(model.LogoFile, "Logo");
+
+                if (model.HistoricalSight.Cover == null || model.CoverFile != null)
+                    model.HistoricalSight.Cover = FileUpload.GetBytes(model.CoverFile, "Capa");
+
+                ModelState.Remove("HistoricalSight.Logo");
+                ModelState.Remove("HistoricalSight.Cover");
+                if (!ModelState.IsValid)
+                {
+                    SetBiewBags(model);
+                    return View(model);
+                }
+
+                //var oldHistoricalSight = _db.HistoricalSights
+                //    .Include(c => c.Address)
+                //    .FirstOrDefault(x => x.HistoricalSightId == model.HistoricalSight.HistoricalSightId);
+
+                //if (oldHistoricalSight == null) return RedirectToAction("Index").Success("Patrimônio Histórico atualizado com sucesso");
+
+                _db.Entry(model.HistoricalSight).State = EntityState.Modified;
+                //_db.Entry(oldHistoricalSight).CurrentValues.SetValues(model.HistoricalSight);
+                //oldHistoricalSight.Address.UpdateAddress(model.HistoricalSight.Address);
+                //_db.Entry(oldHistoricalSight.Address).State = EntityState.Modified;
+                _db.SaveChanges();
+
+                return RedirectToAction("Index").Success("Patrimônio Histórico atualizado com sucesso");
+            }
+            catch (Exception ex)
+            {
+                SetBiewBags(model);
+
+                return View(model).Error(ex.Message);
+            }
+        }
 
         [HttpPost]
         public JsonResult GetPagination(DataTableParameters parameters)

@@ -1,0 +1,29 @@
+﻿@model MrRondon.Presentation.Mvc.ViewModels.CrudHistoricalSightVm
+@{
+    ViewBag.Title = "Editar Patrimônio Histórico";
+}
+
+@section header
+{
+    <h1 class="ui header">
+        <span class="content gt-text-uppercase">@ViewBag.Title</span>
+    </h1>
+}
+
+@section navigation_right
+{
+    @Html.Partial("_Navigation", 2)
+}
+
+@using (Html.BeginForm("Edit", "HistoricalSight", FormMethod.Post, new { @class = "ui form", enctype = "multipart/form-data" }))
+{
+    @Html.HiddenFor(model => model.Address.AddressId)
+    @Html.HiddenFor(model => model.HistoricalSight.HistoricalSightId)
+    @Html.Partial("_Form")
+}
+
+@section scripts {
+    @Scripts.Render("~/bundles/correios")
+    @Scripts.Render("~/bundles/validation")
+    @Scripts.Render("~/bundles/historicalsight")
+}

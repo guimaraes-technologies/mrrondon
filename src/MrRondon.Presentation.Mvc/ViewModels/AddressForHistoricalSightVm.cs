@@ -1,8 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Globalization;
 using MrRondon.Domain.Entities;
 using MrRondon.Infra.CrossCutting.Message;
 
@@ -50,16 +48,31 @@ namespace MrRondon.Presentation.Mvc.ViewModels
             {
                 AddressId = AddressId,
                 Longitude = Longitude,
-                //LongitudeString = LongitudeString,
                 Number = Number,
                 Street = Street,
                 ZipCode = ZipCode,
-                //LatitudeString = LatitudeString,
                 Latitude = Latitude,
                 Neighborhood = Neighborhood,
                 City = City,
                 CityId = CityId,
                 AdditionalInformation = AdditionalInformation
+            };
+        }
+
+        public static AddressForHistoricalSightVm  GetAddress(Address address)
+        {
+            return new AddressForHistoricalSightVm
+            {
+                AddressId = address.AddressId,
+                Longitude = address.Longitude,
+                Number = address.Number,
+                Street = address.Street,
+                ZipCode = address.ZipCode,
+                Latitude = address.Latitude,
+                Neighborhood = address.Neighborhood,
+                City = address.City,
+                CityId = address.CityId,
+                AdditionalInformation = address.AdditionalInformation
             };
         }
     }
