@@ -51,7 +51,7 @@ namespace MrRondon.Presentation.Mvc.Extensions
             var message = new StringBuilder();
             foreach (var error in modelState.Values.Where(x => x.Errors.Any()).SelectMany(s => s.Errors))
             {
-                 message.Append($"{error.ErrorMessage}; ");
+                 message.Append($"{error.ErrorMessage}\n");
             }
 
             return new MessageActionResultExtension(actionResult, message.ToString(), MessageActionResultExtension.MessageType.Error);

@@ -35,14 +35,14 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
                 //address.SetCoordinates(addressForHistorical.LatitudeString, addressForHistorical.LongitudeString);
 
                 model.HistoricalSight.Address = address;
-                ModelState.Remove("HistoricalSight_Logo");
-                ModelState.Remove("HistoricalSight_Cover");
 
                 if (model.HistoricalSight.Logo == null || model.LogoFile != null)
                     model.HistoricalSight.Logo = FileUpload.GetBytes(model.LogoFile, "Logo");
                 if (model.HistoricalSight.Cover == null || model.CoverFile != null)
                     model.HistoricalSight.Cover = FileUpload.GetBytes(model.CoverFile, "Capa");
 
+                ModelState.Remove("HistoricalSight-.Logo");
+                ModelState.Remove("HistoricalSight-.Cover");
                 if (!ModelState.IsValid)
                 {
                     SetBiewBags(model);
