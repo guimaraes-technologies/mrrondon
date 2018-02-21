@@ -71,6 +71,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Buttons\ButtonsBase.cs" />
+    <Compile Include="Buttons\ButtonsHistoricalSight.cs" />
     <Compile Include="Buttons\ButtonsEvent.cs" />
     <Compile Include="Buttons\ButtonsMessage.cs" />
     <Compile Include="Buttons\ButtonsSubCategory.cs" />

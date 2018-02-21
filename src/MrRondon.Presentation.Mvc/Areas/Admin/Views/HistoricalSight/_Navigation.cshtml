@@ -5,10 +5,10 @@
             <i class="sidebar icon"></i>
         </a>
     </div>
-    <a class="item @(Model == 1 ? "active" : string.Empty)" href="@Url.Action("Index", "Event", new { area = "Admin" })">
-        Todas Eventos
+    <a class="item @(Model == 1 ? "active" : string.Empty)" href="@Url.Action("Index", "HistoricalSight", new { area = "Admin" })">
+        Todos Patrimônios Históricos
     </a>
-    <a class="item @(Model == 2 ? "active" : string.Empty)" href="@Url.Action("Create", "Event", new { area = "Admin" })">
-        Adicionar Evento
+    <a class="item @(Model == 2 ? "active" : string.Empty)" href="@Url.Action("Create", "HistoricalSight", new { area = "Admin" })">
+        Adicionar Patrimônio Histórico
     </a>
 </div>

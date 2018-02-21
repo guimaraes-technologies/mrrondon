@@ -11,6 +11,7 @@ using MrRondon.Infra.Data.Repositories;
 using MrRondon.Presentation.Mvc.Extensions;
 using MrRondon.Presentation.Mvc.ViewModels;
 using WebGrease.Css.Extensions;
+using Address = MrRondon.Domain.Entities.Address;
 
 namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
 {
@@ -47,7 +48,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
                     model.Company.SubCategoryId = model.SubCategoryId.Value;
                 else model.Company.SubCategoryId = model.CategoryId;
 
-                address.SetCoordinates(address.LatitudeString, address.LongitudeString);
+                //address.SetCoordinates(address.LatitudeString, address.LongitudeString);
                 model.Company.Address = address;
                 model.Company.Contacts = model.Contacts;
                 ModelState.Remove("Company_Logo");
@@ -95,7 +96,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
                     model.Company.SubCategoryId = model.SubCategoryId.Value;
                 else model.Company.SubCategoryId = model.CategoryId;
 
-                address.SetCoordinates(address.LatitudeString, address.LongitudeString);
+                //address.SetCoordinates(address.LatitudeString, address.LongitudeString);
                 model.Company.Address = address;
                 model.Company.Contacts = model.Contacts;
 

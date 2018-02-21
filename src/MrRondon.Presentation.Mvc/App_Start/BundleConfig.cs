@@ -14,6 +14,9 @@ namespace MrRondon.Presentation.Mvc
                 "~/Content/site/semantic-extension.css", 
                 "~/Content/site/responsive.css"));
 
+            bundles.Add(new StyleBundle("~/Content/event").Include(
+                "~/Content/datepicker/datepicker.css"));
+
             //SCRIPTS
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
                 "~/Scripts/modernizr-*"));
@@ -47,8 +50,8 @@ namespace MrRondon.Presentation.Mvc
                 "~/Scripts/site/datepicker.config.js",
                 "~/Scripts/site/image-preview.js"));
 
-            bundles.Add(new StyleBundle("~/Content/event").Include(
-                "~/Content/datepicker/datepicker.css"));
+            bundles.Add(new ScriptBundle("~/bundles/historicalsight").Include(
+                "~/Scripts/site/image-preview.js"));
 
             BundleTable.EnableOptimizations = false;
         }

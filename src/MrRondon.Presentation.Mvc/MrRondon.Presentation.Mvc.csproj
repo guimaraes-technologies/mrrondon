@@ -429,6 +429,7 @@
     <Content Include="Areas\Admin\Views\Event\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_AddressDetail.cshtml" />
     <Content Include="Areas\Admin\Views\Event\_Address.cshtml" />
+    <Content Include="Areas\Admin\Views\HistoricalSight\_Address.cshtml" />
     <None Include="Properties\PublishProfiles\Webdeploy.pubxml" />
     <None Include="Scripts\jquery-3.2.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.2.1.js" />
@@ -470,6 +471,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Extensions\MessageActionResultExtension.cs" />
+    <Compile Include="Helpers\DoubleModelBinder.cs" />
     <Compile Include="Helpers\Seo\FriendlyRoute.cs" />
     <Compile Include="LoginVm.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -482,9 +484,11 @@
     </Compile>
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\AddressForEventVm.cs" />
+    <Compile Include="ViewModels\AddressForHistoricalSightVm.cs" />
     <Compile Include="ViewModels\ChangePasswordVm.cs" />
     <Compile Include="ViewModels\CrudCompanyVm.cs" />
     <Compile Include="ViewModels\CrudEventVm.cs" />
+    <Compile Include="ViewModels\CrudHistoricalSightVm.cs" />
     <Compile Include="ViewModels\NewPasswordVm.cs" />
     <Compile Include="ViewModels\RecoveryPasswordVm.cs" />
     <Compile Include="ViewModels\SigninVm.cs" />

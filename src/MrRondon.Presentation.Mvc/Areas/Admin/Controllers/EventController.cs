@@ -156,6 +156,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
                 dtResult.data.Add(new[]
                 {
                     item.EventId.ToString(),
+                    $"{buttons.Image(item.Logo)}",
                     $"{item.Name}",
                     buttons.ToPagination(item.EventId)
                 });

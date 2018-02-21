@@ -36,22 +36,24 @@ namespace MrRondon.Domain.Entities
         [Required(ErrorMessageResourceType = typeof(Error), ErrorMessageResourceName = "Required")]
         [MaxLength(10, ErrorMessage = "Máximo {0} caracteres")]
         public string ZipCode { get; set; }
-        public double Latitude { get; private set; }
-        public double Longitude { get; private set; }
+        public double Latitude { get; set; }
+        public double Longitude { get; set; }
 
-        [NotMapped]
-        public string LatitudeString
-        {
-            get => Latitude.ToString().Replace(",", ".");
-            set => LatitudeString = value;
-        }
+        //[NotMapped]
+        //[Display(Name = "Latitude")]
+        //public string LatitudeString
+        //{
+        //    get => Math.Abs(Latitude) < 1 ? string.Empty : Latitude.ToString().Replace(",", ".");
+        //    set => LatitudeString = value;
+        //}
 
-        [NotMapped]
-        public string LongitudeString
-        {
-            get => Longitude.ToString().Replace(",", ".");
-            set => LongitudeString = value;
-        }
+        //[NotMapped]
+        //[Display(Name = "Longitude")]
+        //public string LongitudeString
+        //{
+        //    get => Math.Abs(Longitude) < 1 ? string.Empty : Longitude.ToString().Replace(",", ".");
+        //    set => LongitudeString = value;
+        //}
 
         [DisplayName("Cidade")]
         public int CityId { get; set; }

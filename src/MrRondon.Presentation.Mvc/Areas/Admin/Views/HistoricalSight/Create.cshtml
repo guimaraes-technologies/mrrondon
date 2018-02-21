@@ -1,6 +1,6 @@
-﻿@model MrRondon.Presentation.Mvc.ViewModels.CrudCompanyVm
+﻿@model MrRondon.Presentation.Mvc.ViewModels.CrudHistoricalSightVm
 @{
-    ViewBag.Title = "Adicionar Ponto Turístico";
+    ViewBag.Title = "Adicionar Patrimônio Histórico";
 }
 
 @section header
@@ -15,7 +15,7 @@
     @Html.Partial("_Navigation", 2)
 }
 
-@using (Html.BeginForm("Create", "Company", FormMethod.Post, new { @class = "ui form", enctype = "multipart/form-data" }))
+@using (Html.BeginForm("Create", "HistoricalSight", FormMethod.Post, new { @class = "ui form", enctype = "multipart/form-data" }))
 {
     @Html.Partial("_Form")
 }
@@ -23,5 +23,5 @@
 @section scripts {
     @Scripts.Render("~/bundles/correios")
     @Scripts.Render("~/bundles/validation")
-    @Scripts.Render("~/bundles/company")
+    @Scripts.Render("~/bundles/historicalsight")
 }

@@ -1,4 +1,8 @@
-﻿using System.Web.Mvc;
+﻿using System.Linq;
+using System.Runtime.InteropServices;
+using System.Text;
+using System.Web.Mvc;
+using ModelState = System.Web.ModelBinding.ModelState;
 
 namespace MrRondon.Presentation.Mvc.Extensions
 {
@@ -8,10 +12,10 @@ namespace MrRondon.Presentation.Mvc.Extensions
         private readonly string _message;
         private readonly MessageType _type;
 
-        public MessageActionResultExtension(ActionResult actionResult, string mensagem, MessageType type)
+        public MessageActionResultExtension(ActionResult actionResult, string message, MessageType type)
         {
             _actionResult = actionResult;
-            _message = mensagem;
+            _message = message;
             _type = type;
         }
 
@@ -32,24 +36,35 @@ namespace MrRondon.Presentation.Mvc.Extensions
 
     public static class ActionResultExtensions
     {
-        public static ActionResult Success(this ActionResult actionResult, string mensagem)
+        public static ActionResult Success(this ActionResult actionResult, string message)
         {
-            return new MessageActionResultExtension(actionResult, mensagem, MessageActionResultExtension.MessageType.Success);
+            return new MessageActionResultExtension(actionResult, message, MessageActionResultExtension.MessageType.Success);
         }
 
-        public static ActionResult Error(this ActionResult actionResult, string mensagem)
+        public static ActionResult Error(this ActionResult actionResult, string message)
         {
-            return new MessageActionResultExtension(actionResult, mensagem, MessageActionResultExtension.MessageType.Error);
+            return new MessageActionResultExtension(actionResult, message, MessageActionResultExtension.MessageType.Error);
         }
 
-        public static ActionResult Alert(this ActionResult actionResult, string mensagem)
+        public static ActionResult Error(this ActionResult actionResult, ModelStateDictionary modelState)
         {
-            return new MessageActionResultExtension(actionResult, mensagem, MessageActionResultExtension.MessageType.Alert);
+            var message = new StringBuilder();
+            foreach (var error in modelState.Values.Where(x => x.Errors.Any()).SelectMany(s => s.Errors))
+            {
+                 message.Append($"{error.ErrorMessage}; ");
+            }
+
+            return new MessageActionResultExtension(actionResult, message.ToString(), MessageActionResultExtension.MessageType.Error);
         }
 
-        public static ActionResult Information(this ActionResult actionResult, string mensagem)
+        public static ActionResult Alert(this ActionResult actionResult, string message)
         {
-            return new MessageActionResultExtension(actionResult, mensagem, MessageActionResultExtension.MessageType.Information);
+            return new MessageActionResultExtension(actionResult, message, MessageActionResultExtension.MessageType.Alert);
+        }
+
+        public static ActionResult Information(this ActionResult actionResult, string message)
+        {
+            return new MessageActionResultExtension(actionResult, message, MessageActionResultExtension.MessageType.Information);
         }
     }
 }

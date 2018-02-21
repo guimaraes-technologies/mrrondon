@@ -45,7 +45,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
                 }
                 else return View(model).Error("A imagem da categoria é obrigatória");
 
-                if (!ModelState.IsValid) return View(model);
+                if (!ModelState.IsValid) return View(model).Error(ModelState);
 
                 _db.SubCategories.Add(model);
                 _db.SaveChanges();

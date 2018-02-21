@@ -1,16 +1,18 @@
-﻿@using MrRondon.Domain.Entities
+﻿@using System.Web.Mvc.Html
+@using MrRondon.Domain.Entities
 @using MrRondon.Presentation.Mvc.Extensions
-@model MrRondon.Presentation.Mvc.ViewModels.CrudEventVm
+@using MrRondon.Presentation.Mvc.ViewModels
+@model MrRondon.Presentation.Mvc.ViewModels.CrudHistoricalSightVm
 
-<h3 class="ui dividing header">Informações da Empresa</h3>
+<h3 class="ui dividing header">Informações do Patrimônio Histórico</h3>
 
-@Html.HiddenFor(model => model.Event.Cover)
-@Html.HiddenFor(model => model.Event.Logo)
+@Html.HiddenFor(model => model.HistoricalSight.Cover)
+@Html.HiddenFor(model => model.HistoricalSight.Logo)
 
 <div class="fields">
     <div class="six wide field">
-        @Html.LabelFor(model => model.Event.Logo)
-        <img id="LogoImage" style="height: 250px; width: 250px;border: #045e55 3px solid" alt="" src="@Url.Content((Model?.Event.GetCover ?? "~/Content/Images/without_image.jpg"))" class="ui centered medium image circular">
+        @Html.LabelFor(model => model.HistoricalSight.Logo)
+        <img id="LogoImage" style="height: 250px; width: 250px;border: #045e55 3px solid" alt="" src="@Url.Content((Model?.HistoricalSight.GetCover ?? "~/Content/Images/without_image.jpg"))" class="ui centered medium image circular">
         <div class="ui centered button">
             <span class="attach basic icon"></span> Anexar arquivo
 
@@ -18,8 +20,8 @@
         </div>
     </div>
     <div class="ten wide field">
-        @Html.LabelFor(model => model.Event.Cover)
-        <img id="CoverImage" style="height: 250px; border: #045e55 3px solid" alt="" class="ui fluid image" src="@Url.Content((Model?.Event.GetCover ?? "~/Content/Images/without_image.jpg"))">
+        @Html.LabelFor(model => model.HistoricalSight.Cover)
+        <img id="CoverImage" style="height: 250px; border: #045e55 3px solid" alt="" class="ui fluid image" src="@Url.Content((Model?.HistoricalSight.GetCover ?? "~/Content/Images/without_image.jpg"))">
         <div class="ui button">
             <span class="attach basic icon"></span> Anexar arquivo
 
@@ -29,35 +31,17 @@
 </div>
 <div class="fields">
     <div class="sixteen wide field">
-        @Html.LabelFor(e => e.Event.Name)
-        @Html.SemanticTextBoxFor(e => e.Event.Name, null)
+        @Html.LabelFor(e => e.HistoricalSight.Name)
+        @Html.SemanticTextBoxFor(e => e.HistoricalSight.Name, null)
     </div>
 </div>
 <div class="fields">
     <div class="sixteen wide field">
-        @Html.LabelFor(e => e.Event.Description)
-        @Html.SemanticTextBoxFor(e => e.Event.Description, null)
-    </div>
-</div>
-<div class="fields">
-    <div class="three wide field">
-        @Html.LabelFor(e => e.Event.StartDate)
-        @Html.SemanticTextDateFor(e => e.Event.StartDate, null)
-    </div>
-    <div class="three wide field">
-        @Html.LabelFor(e => e.Event.EndDate)
-        @Html.SemanticTextDateFor(e => e.Event.EndDate, null)
-    </div>
-    <div class="three wide field">
-        @Html.LabelFor(e => e.Event.Value)
-        @Html.SemanticNumericBoxFor(e => e.Event.Value, null)
-    </div>
-    <div class="seven wide field">
-        @Html.LabelFor(e => e.Event.OrganizerId)
-        @Html.SemanticDropDownListFor(e => e.Event.OrganizerId, (SelectList)ViewBag.Companies)
+        @Html.LabelFor(e => e.HistoricalSight.SightHistory)
+        @Html.SemanticTextAreaFor(e => e.HistoricalSight.SightHistory, null)
     </div>
 </div>
 
 <h3 class="ui dividing header">Informações do Endereço</h3>
-@Html.Partial("_FormAddress", Model?.Event.Address ?? new Address())
+@Html.Partial("_Address", Model?.Address ?? new AddressForHistoricalSightVm())
 @Html.Partial("_ButtonSubmit")

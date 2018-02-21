@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "Todas Pontos Turísticos";
+    ViewBag.Title = "Todas Patrimônios Históricos";
 }
 
 @section header
@@ -14,13 +14,14 @@
     @Html.Partial("_Navigation", 1)
 }
 
-<table class="ui very basic table gt-datatable" data-action="@Url.Action("GetPagination", "Company", new { area = "Admin" })">
+<table class="ui very basic table gt-datatable" data-action="@Url.Action("GetPagination", "HistoricalSight", new { area = "Admin" })">
     <thead>
-    <tr>
-        <th hidden></th>
-        <th class="fourteen wide"></th>
-        <th class="two wide"></th>
-    </tr>
+        <tr>
+            <th hidden></th>
+            <th class="two wide"></th>
+            <th class="twelve wide"></th>
+            <th class="two wide"></th>
+        </tr>
     </thead>
 </table>
 
