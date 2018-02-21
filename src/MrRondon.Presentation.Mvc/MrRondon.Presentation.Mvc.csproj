@@ -429,7 +429,6 @@
     <Content Include="Areas\Admin\Views\Event\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_AddressDetail.cshtml" />
     <Content Include="Areas\Admin\Views\Event\_Address.cshtml" />
-    <Content Include="Areas\Admin\Views\HistoricalSight\_Address.cshtml" />
     <Content Include="Areas\Admin\Views\HistoricalSight\Edit.cshtml" />
     <None Include="Properties\PublishProfiles\Webdeploy.pubxml" />
     <None Include="Scripts\jquery-3.2.1.intellisense.js" />

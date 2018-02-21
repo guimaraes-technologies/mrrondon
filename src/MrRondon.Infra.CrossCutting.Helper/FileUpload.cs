@@ -29,7 +29,7 @@ namespace MrRondon.Infra.CrossCutting.Helper
 
             var fileSize = ConvertBytesToMegabytes(file.ContentLength);
             if (fileSize > AcceptableSize)
-                throw new Exception($"O tamanho máximo aceito é de {AcceptableSize}MB");
+                throw new Exception($"O tamanho máximo aceito para {property} é de {AcceptableSize}MB");
 
             return true;
         }

@@ -28,12 +28,12 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create(CrudHistoricalSightVm model, AddressForHistoricalSightVm addressForHistorical)
+        public ActionResult Create(CrudHistoricalSightVm model, Address address)
         {
             try
             {
-                //model.Address = addressForHistorical;
-                model.HistoricalSight.Address = addressForHistorical.GetAddress();
+                model.HistoricalSight.Address = address;
+                model.HistoricalSight.Address.SetCoordinates(address.LatitudeString, address.LongitudeString);
 
                 if (model.HistoricalSight.Logo == null || model.LogoFile != null)
                     model.HistoricalSight.Logo = FileUpload.GetBytes(model.LogoFile, "Logo");
@@ -77,12 +77,12 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public ActionResult Edit(CrudHistoricalSightVm model, AddressForHistoricalSightVm addressForHistorical)
+        public ActionResult Edit(CrudHistoricalSightVm model, Address address)
         {
             try
             {
-                //model.Address = addressForHistorical;
-                model.HistoricalSight.Address = addressForHistorical.GetAddress();
+                model.HistoricalSight.Address = address;
+                model.HistoricalSight.Address.SetCoordinates(address.LatitudeString, address.LongitudeString);
 
                 if (model.HistoricalSight.Logo == null || model.LogoFile != null)
                     model.HistoricalSight.Logo = FileUpload.GetBytes(model.LogoFile, "Logo");
@@ -144,7 +144,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
 
         private void SetBiewBags(CrudHistoricalSightVm model)
         {
-            ViewBag.Cities = new SelectList(_db.Cities, "CityId", "Name", model?.HistoricalSight?.Address.CityId);
+            ViewBag.Cities = new SelectList(_db.Cities, "CityId", "Name", model?.HistoricalSight?.Address?.CityId);
         }
 
         protected override void Dispose(bool disposing)

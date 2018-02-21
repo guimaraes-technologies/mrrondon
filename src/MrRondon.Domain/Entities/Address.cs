@@ -1,14 +1,14 @@
 ﻿using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using MrRondon.Infra.CrossCutting.Message;
 
 namespace MrRondon.Domain.Entities
 {
     public class Address
     {
-        [Key]
-        public Guid AddressId { get; set; } = Guid.NewGuid();
+        [Key] public Guid AddressId { get; set; } = Guid.NewGuid();
 
         [Display(Name = "Rua/Avenida")]
         [Required(ErrorMessageResourceType = typeof(Error), ErrorMessageResourceName = "Required")]
@@ -28,31 +28,25 @@ namespace MrRondon.Domain.Entities
         [MaxLength(6, ErrorMessage = "Máximo {0} caracteres")]
         public string Number { get; set; }
 
-        [DisplayName("Complemento")]
-        public string AdditionalInformation { get; set; }
+        [DisplayName("Complemento")] public string AdditionalInformation { get; set; }
 
         [Display(Name = "CEP")]
         [Required(ErrorMessageResourceType = typeof(Error), ErrorMessageResourceName = "Required")]
         [MaxLength(10, ErrorMessage = "Máximo {0} caracteres")]
         public string ZipCode { get; set; }
+
         public double Latitude { get; set; }
         public double Longitude { get; set; }
 
-        //[NotMapped]
-        //[Display(Name = "Latitude")]
-        //public string LatitudeString
-        //{
-        //    get => Math.Abs(Latitude) < 1 ? string.Empty : Latitude.ToString().Replace(",", ".");
-        //    set => LatitudeString = value;
-        //}
+        [NotMapped]
+        [Display(Name = "Latitude")]
+        [Required(ErrorMessageResourceType = typeof(Error), ErrorMessageResourceName = "Required")]
+        public string LatitudeString { get; set; }
 
-        //[NotMapped]
-        //[Display(Name = "Longitude")]
-        //public string LongitudeString
-        //{
-        //    get => Math.Abs(Longitude) < 1 ? string.Empty : Longitude.ToString().Replace(",", ".");
-        //    set => LongitudeString = value;
-        //}
+        [NotMapped]
+        [Display(Name = "Longitude")]
+        [Required(ErrorMessageResourceType = typeof(Error), ErrorMessageResourceName = "Required")]
+        public string LongitudeString { get; set; }
 
         [DisplayName("Cidade")]
         public int CityId { get; set; }
@@ -72,6 +66,12 @@ namespace MrRondon.Domain.Entities
 
         public Address SetCoordinates(string latitude, string longitude)
         {
+            if (string.IsNullOrWhiteSpace(latitude) || latitude.Equals("0"))
+                throw new Exception("O campo Latitude é obrigatório");
+
+            if (string.IsNullOrWhiteSpace(longitude) || latitude.Equals("0"))
+                throw new Exception("O campo Longitude é obrigatório");
+
             if (double.TryParse(latitude.Replace(".", ","), out var latitudeResult))
                 Latitude = latitudeResult;
             else throw new Exception("Latitude em formato inválido");

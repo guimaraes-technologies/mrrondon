@@ -1,4 +1,4 @@
-﻿$(function() {
+﻿$(function () {
 
     "use strict";
 
@@ -14,13 +14,13 @@
         $(".gt-info").find(".gt-info-menu-drop").dropdown().find(".text").text(itemActive.text());
     }
 
-    GT.dropdown = function(element) {
+    GT.dropdown = function (element) {
         $(element).dropdown({
             forceSelection: false
         });
     };
 
-    GT.inputdatepicker = function(element) {
+    GT.inputdatepicker = function (element) {
         $(element).datepicker({
             format: "dd/mm/yyyy",
             days: ["D", "S", "T", "Q", "Q", "S", "S"],
@@ -43,16 +43,16 @@
     //    });
     //};
 
-    GT.OnpenMenu = function(e) {
+    GT.OnpenMenu = function (e) {
         $(e).closest(".gt-navigation-left").toggleClass("ativo");
     };
 
-    GT.OnpenSubMenu = function(e) {
+    GT.OnpenSubMenu = function (e) {
         $(e).closest(".gt-container").find("article.gt-article").toggleClass("ativo");
         $(e).closest(".item").toggleClass("ativo");
     };
 
-    GT.SearchRemoto = function() {
+    GT.SearchRemoto = function () {
         $(".gt-dropdown-remote").dropdown({
             minCharacters: 2,
             saveRemoteData: false,
@@ -63,10 +63,10 @@
             apiSettings: {
                 cache: false,
                 url: $(".gt-dropdown-remote").data("url"),
-                onResponse: function(itens) {
+                onResponse: function (itens) {
                     var response = { results: [] };
                     $.each(itens,
-                        function(index, item) {
+                        function (index, item) {
                             response.results.push({
                                 name: item.name,
                                 value: item.value,
@@ -88,55 +88,62 @@
         });
     }
 
-    GT.notification = function(type, message) {
+    GT.notification = function (type, message) {
         switch (type) {
-        case "success":
-            Lobibox.notify("success",
-                {
-                    position: "top right",
-                    sound: "../../sounds/sound2",
-                    delay: 3000,
-                    msg: message,
-                    title: "Sucesso",
-                    icon: "smile icon"
-                });
-            break;
-        case "error":
-            Lobibox.notify("error",
-                {
-                    position: "top right",
-                    sound: "../../sounds/sound4",
-                    delay: 3000,
-                    msg: message,
-                    title: "Erro",
-                    icon: "frown icon"
-                });
-            break;
-        case "warning":
-            Lobibox.notify("warning",
-                {
-                    position: "top right",
-                    sound: "../../sounds/sound5",
-                    delay: 3000,
-                    msg: message,
-                    title: "Alerta",
-                    icon: "warning icon"
-                });
-            break;
-        case "info":
-            Lobibox.notify("info",
-                {
-                    position: "top right",
-                    sound: "../../sounds/sound6",
-                    delay: 3000,
-                    msg: message,
-                    title: "Informação",
-                    icon: "info circle icon"
-                });
-            break;
-        default:
+            case "success":
+                Lobibox.notify("success",
+                    {
+                        position: "top right",
+                        sound: "../../sounds/sound2",
+                        delay: 3000,
+                        msg: message,
+                        title: "Sucesso",
+                        icon: "smile icon"
+                    });
+                break;
+            case "error":
+                Lobibox.notify("error",
+                    {
+                        position: "top right",
+                        sound: "../../sounds/sound4",
+                        delay: 3000,
+                        msg: message,
+                        title: "Erro",
+                        icon: "frown icon"
+                    });
+                break;
+            case "warning":
+                Lobibox.notify("warning",
+                    {
+                        position: "top right",
+                        sound: "../../sounds/sound5",
+                        delay: 3000,
+                        msg: message,
+                        title: "Alerta",
+                        icon: "warning icon"
+                    });
+                break;
+            case "info":
+                Lobibox.notify("info",
+                    {
+                        position: "top right",
+                        sound: "../../sounds/sound6",
+                        delay: 3000,
+                        msg: message,
+                        title: "Informação",
+                        icon: "info circle icon"
+                    });
+                break;
+            default:
         }
     }
 
     GT.SearchRemoto();
+
+    if ($(".latitude").val() === "0") {
+        $(".latitude").val("");
+    }
+    if ($(".longitude").val() === "0") {
+        $(".longitude").val("");
+    }
 });

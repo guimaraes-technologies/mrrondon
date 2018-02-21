@@ -48,7 +48,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
                     model.Company.SubCategoryId = model.SubCategoryId.Value;
                 else model.Company.SubCategoryId = model.CategoryId;
 
-                //address.SetCoordinates(address.LatitudeString, address.LongitudeString);
+                address.SetCoordinates(address.LatitudeString, address.LongitudeString);
                 model.Company.Address = address;
                 model.Company.Contacts = model.Contacts;
                 ModelState.Remove("Company_Logo");
@@ -96,7 +96,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
                     model.Company.SubCategoryId = model.SubCategoryId.Value;
                 else model.Company.SubCategoryId = model.CategoryId;
 
-                //address.SetCoordinates(address.LatitudeString, address.LongitudeString);
+                address.SetCoordinates(address.LatitudeString, address.LongitudeString);
                 model.Company.Address = address;
                 model.Company.Contacts = model.Contacts;
 
