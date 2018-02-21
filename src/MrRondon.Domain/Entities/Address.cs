@@ -60,7 +60,9 @@ namespace MrRondon.Domain.Entities
             AdditionalInformation = newAddress.AdditionalInformation;
             ZipCode = newAddress.ZipCode;
             Latitude = newAddress.Latitude;
+            LatitudeString = newAddress.Latitude.ToString();
             Longitude = newAddress.Longitude;
+            LongitudeString = newAddress.Longitude.ToString();
             CityId = newAddress.CityId;
         }
 
@@ -71,8 +73,8 @@ namespace MrRondon.Domain.Entities
         }
 
         public Address SetCoordinates(string latitude, string longitude)
-            {
-                if (string.IsNullOrWhiteSpace(latitude) || latitude.Equals("0"))
+        {
+            if (string.IsNullOrWhiteSpace(latitude) || latitude.Equals("0"))
                 throw new Exception("O campo Latitude é obrigatório");
 
             if (string.IsNullOrWhiteSpace(longitude) || latitude.Equals("0"))

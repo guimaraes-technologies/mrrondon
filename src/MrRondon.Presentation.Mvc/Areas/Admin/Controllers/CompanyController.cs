@@ -61,7 +61,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
                 if (!ModelState.IsValid)
                 {
                     SetBiewBags(model);
-                    return View(model);
+                    return View(model).Error(ModelState);
                 }
 
                 _db.Companies.Add(model.Company);
@@ -98,8 +98,8 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
                     model.Company.SubCategoryId = model.SubCategoryId.Value;
                 else model.Company.SubCategoryId = model.CategoryId;
 
-                address.SetCoordinates(address.LatitudeString, address.LongitudeString);
                 model.Company.Address = address;
+                model.Company.Address.SetCoordinates(address.LatitudeString, address.LongitudeString);
                 model.Company.Contacts = model.Contacts;
 
                 ModelState.Remove("Company_Logo");
@@ -113,7 +113,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
                 if (!ModelState.IsValid)
                 {
                     SetBiewBags(model);
-                    return View(model);
+                    return View(model).Error(ModelState);
                 }
 
                 var oldCompany = _db.Companies
