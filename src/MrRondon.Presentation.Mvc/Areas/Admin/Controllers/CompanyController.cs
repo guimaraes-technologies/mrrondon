@@ -81,10 +81,12 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
             var company = repo.GetItemByExpression(x => x.CompanyId == id, "Address", "SubCategory", "Contacts");
             if (company == null) return HttpNotFound();
 
-            var model = GetCrudVm(company);
-            SetBiewBags(model);
+            var crud = GetCrudVm(company);
+            crud.Company.Address.SetCoordinates();
 
-            return View(model);
+            SetBiewBags(crud);
+
+            return View(crud);
         }
 
         [HttpPost]

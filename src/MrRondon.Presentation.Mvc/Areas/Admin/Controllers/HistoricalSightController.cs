@@ -67,10 +67,9 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
 
             var crud = new CrudHistoricalSightVm
             {
-                HistoricalSight = historicalSight,
-                //Address = AddressForHistoricalSightVm.GetAddress(historicalSight.Address)
+                HistoricalSight = historicalSight
             };
-
+            crud.HistoricalSight.Address.SetCoordinates();
             SetBiewBags(crud);
 
             return View(crud);

@@ -64,9 +64,15 @@ namespace MrRondon.Domain.Entities
             CityId = newAddress.CityId;
         }
 
-        public Address SetCoordinates(string latitude, string longitude)
+        public void SetCoordinates()
         {
-            if (string.IsNullOrWhiteSpace(latitude) || latitude.Equals("0"))
+            LatitudeString = Latitude.ToString().Replace(",", ".");
+            LongitudeString = Longitude.ToString().Replace(",", ".");
+        }
+
+        public Address SetCoordinates(string latitude, string longitude)
+            {
+                if (string.IsNullOrWhiteSpace(latitude) || latitude.Equals("0"))
                 throw new Exception("O campo Latitude é obrigatório");
 
             if (string.IsNullOrWhiteSpace(longitude) || latitude.Equals("0"))
