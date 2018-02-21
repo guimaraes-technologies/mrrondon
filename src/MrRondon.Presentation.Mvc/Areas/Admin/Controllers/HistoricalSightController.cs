@@ -32,7 +32,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
         {
             try
             {
-                model.Address = addressForHistorical;
+                //model.Address = addressForHistorical;
                 model.HistoricalSight.Address = addressForHistorical.GetAddress();
 
                 if (model.HistoricalSight.Logo == null || model.LogoFile != null)
@@ -59,7 +59,6 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
             }
         }
 
-
         public ActionResult Edit(int id)
         {
             var repo = new RepositoryBase<HistoricalSight>(_db);
@@ -69,7 +68,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
             var crud = new CrudHistoricalSightVm
             {
                 HistoricalSight = historicalSight,
-                Address = AddressForHistoricalSightVm.GetAddress(historicalSight.Address)
+                //Address = AddressForHistoricalSightVm.GetAddress(historicalSight.Address)
             };
 
             SetBiewBags(crud);
@@ -82,7 +81,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
         {
             try
             {
-                model.Address = addressForHistorical;
+                //model.Address = addressForHistorical;
                 model.HistoricalSight.Address = addressForHistorical.GetAddress();
 
                 if (model.HistoricalSight.Logo == null || model.LogoFile != null)
@@ -96,7 +95,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
                 if (!ModelState.IsValid)
                 {
                     SetBiewBags(model);
-                    return View(model);
+                    return View(model).Error(ModelState);
                 }
 
                 //var oldHistoricalSight = _db.HistoricalSights
