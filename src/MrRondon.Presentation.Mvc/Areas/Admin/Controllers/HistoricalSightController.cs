@@ -62,13 +62,13 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
         public ActionResult Details(int id)
         {
             var repo = new RepositoryBase<HistoricalSight>(_db);
-        var historicalSight = repo.GetItemByExpression(x => x.HistoricalSightId == id, "Address");
-            
+            var historicalSight = repo.GetItemByExpression(x => x.HistoricalSightId == id, "Address.City");
+
             if (historicalSight == null) return HttpNotFound();
 
             return View(historicalSight);
         }
-        
+
         public ActionResult Edit(int id)
         {
             var repo = new RepositoryBase<HistoricalSight>(_db);
@@ -113,7 +113,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
                     .FirstOrDefault(x => x.HistoricalSightId == model.HistoricalSight.HistoricalSightId);
 
                 if (oldHistoricalSight == null) return RedirectToAction("Index").Success("Patrimônio Histórico atualizado com sucesso");
-                
+
                 _db.Entry(oldHistoricalSight).CurrentValues.SetValues(model.HistoricalSight);
 
                 oldHistoricalSight.Address.UpdateAddress(model.HistoricalSight.Address);
