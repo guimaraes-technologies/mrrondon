@@ -76,12 +76,12 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public ActionResult Edit(CrudHistoricalSightVm model, Address address)
+        public ActionResult Edit(CrudHistoricalSightVm model)
         {
             try
             {
-                model.HistoricalSight.Address = address;
-                model.HistoricalSight.Address.SetCoordinates(address.LatitudeString, address.LongitudeString);
+                //model.HistoricalSight.Address = address;
+                //model.HistoricalSight.Address.SetCoordinates(address.LatitudeString, address.LongitudeString);
 
                 if (model.HistoricalSight.Logo == null || model.LogoFile != null)
                     model.HistoricalSight.Logo = FileUpload.GetBytes(model.LogoFile, "Logo");
@@ -91,6 +91,8 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
 
                 ModelState.Remove("HistoricalSight.Logo");
                 ModelState.Remove("HistoricalSight.Cover");
+                ModelState.Remove(nameof(model.HistoricalSight.Address));
+
                 if (!ModelState.IsValid)
                 {
                     SetBiewBags(model);
