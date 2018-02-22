@@ -17,8 +17,8 @@
 
 @using (Html.BeginForm("Edit", "HistoricalSight", FormMethod.Post, new { @class = "ui form", enctype = "multipart/form-data" }))
 {
-    @Html.HiddenFor(model => model.HistoricalSight.Address.AddressId)
-    @Html.HiddenFor(model => model.HistoricalSight.HistoricalSightId)
+    @Html.HiddenFor(m => m.HistoricalSight.AddressId)
+    @Html.HiddenFor(m => m.HistoricalSight.HistoricalSightId)
     @Html.Partial("_Form")
 }
 

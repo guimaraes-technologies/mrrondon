@@ -76,12 +76,12 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public ActionResult Edit(CrudHistoricalSightVm model)
+        public ActionResult Edit(CrudHistoricalSightVm model, Address address)
         {
             try
             {
-                //model.HistoricalSight.Address = address;
-                //model.HistoricalSight.Address.SetCoordinates(address.LatitudeString, address.LongitudeString);
+                model.HistoricalSight.Address = address;
+                model.HistoricalSight.Address.SetCoordinates(address.LatitudeString, address.LongitudeString);
 
                 if (model.HistoricalSight.Logo == null || model.LogoFile != null)
                     model.HistoricalSight.Logo = FileUpload.GetBytes(model.LogoFile, "Logo");
@@ -91,7 +91,6 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
 
                 ModelState.Remove("HistoricalSight.Logo");
                 ModelState.Remove("HistoricalSight.Cover");
-                ModelState.Remove(nameof(model.HistoricalSight.Address));
 
                 if (!ModelState.IsValid)
                 {
@@ -99,16 +98,16 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
                     return View(model).Error(ModelState);
                 }
 
-                //var oldHistoricalSight = _db.HistoricalSights
-                //    .Include(c => c.Address)
-                //    .FirstOrDefault(x => x.HistoricalSightId == model.HistoricalSight.HistoricalSightId);
+                var oldHistoricalSight = _db.HistoricalSights
+                    .Include(c => c.Address)
+                    .FirstOrDefault(x => x.HistoricalSightId == model.HistoricalSight.HistoricalSightId);
 
-                //if (oldHistoricalSight == null) return RedirectToAction("Index").Success("Patrimônio Histórico atualizado com sucesso");
+                if (oldHistoricalSight == null) return RedirectToAction("Index").Success("Patrimônio Histórico atualizado com sucesso");
+                
+                _db.Entry(oldHistoricalSight).CurrentValues.SetValues(model.HistoricalSight);
 
-                _db.Entry(model.HistoricalSight).State = EntityState.Modified;
-                //_db.Entry(oldHistoricalSight).CurrentValues.SetValues(model.HistoricalSight);
-                //oldHistoricalSight.Address.UpdateAddress(model.HistoricalSight.Address);
-                //_db.Entry(oldHistoricalSight.Address).State = EntityState.Modified;
+                oldHistoricalSight.Address.UpdateAddress(model.HistoricalSight.Address);
+                _db.Entry(oldHistoricalSight.Address).State = EntityState.Modified;
                 _db.SaveChanges();
 
                 return RedirectToAction("Index").Success("Patrimônio Histórico atualizado com sucesso");
