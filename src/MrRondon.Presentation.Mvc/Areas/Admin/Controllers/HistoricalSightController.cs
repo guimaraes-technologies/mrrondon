@@ -59,6 +59,16 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
             }
         }
 
+        public ActionResult Details(int id)
+        {
+            var repo = new RepositoryBase<HistoricalSight>(_db);
+        var historicalSight = repo.GetItemByExpression(x => x.HistoricalSightId == id, "Address");
+            
+            if (historicalSight == null) return HttpNotFound();
+
+            return View(historicalSight);
+        }
+        
         public ActionResult Edit(int id)
         {
             var repo = new RepositoryBase<HistoricalSight>(_db);
