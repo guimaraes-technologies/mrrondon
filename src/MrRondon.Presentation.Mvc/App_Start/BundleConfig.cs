@@ -46,6 +46,7 @@ namespace MrRondon.Presentation.Mvc
                 "~/Scripts/site/image-preview.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/event").Include(
+                "~/Scripts/site/contact.js",
                 "~/Scripts/DatePicker/datepicker.js",
                 "~/Scripts/site/datepicker.config.js",
                 "~/Scripts/site/image-preview.js"));

@@ -313,7 +313,6 @@ namespace MrRondon.Presentation.Mvc.Extensions
             dropIcon.MergeAttribute("class", "dropdown icon");
 
             tag.Attributes.Add("id", TagBuilder.CreateSanitizedId(fullBindingName));
-            tag.Attributes.Add("name", fullBindingName);
             tag.AddCssClass("ui selection dropdown");
             tag.InnerHtml = $"<input name='{fullBindingName}' type='hidden'>";
             tag.InnerHtml += $"{removeIcon} {dropIcon}";

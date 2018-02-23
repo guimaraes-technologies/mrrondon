@@ -487,7 +487,6 @@
     </Compile>
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\AddressForEventVm.cs" />
-    <Compile Include="ViewModels\AddressForHistoricalSightVm.cs" />
     <Compile Include="ViewModels\ChangePasswordVm.cs" />
     <Compile Include="ViewModels\CrudCompanyVm.cs" />
     <Compile Include="ViewModels\CrudEventVm.cs" />

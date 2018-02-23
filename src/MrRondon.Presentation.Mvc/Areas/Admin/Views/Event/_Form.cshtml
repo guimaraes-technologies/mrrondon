@@ -71,10 +71,12 @@
 <h3 class="ui dividing header">
     Informações do Endereço
 
-    <div class="ui slider checkbox gt-float-right">
-        @Html.CheckBoxFor(model => model.Event.SameAddressAsOganizer, null)
+    <div class="ui slider checkbox gt-float-right sameAsOrganizer">
+        @Html.CheckBoxFor(model => model.Event.SameAddressAsOganizer)
         <label>Mesmo que o organizador</label>
     </div>
 </h3>
-@Html.Partial("_Address", Model?.Address ?? new AddressForEventVm())
+<div class="address">
+    @Html.Partial("_Address", Model?.Address ?? new AddressForEventVm())
+</div>
 @Html.Partial("_ButtonSubmit")

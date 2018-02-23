@@ -39,10 +39,8 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
         {
             try
             {
-                if (imageFile != null)
-                {
-                    model.SetImage(FileUpload.GetBytes(imageFile, "Imagem"));
-                }
+                if (imageFile != null) model.SetImage(FileUpload.GetBytes(imageFile, "Imagem"));
+
                 else return View(model).Error("A imagem da categoria é obrigatória");
 
                 if (!ModelState.IsValid) return View(model).Error(ModelState);
@@ -71,10 +69,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
         {
             try
             {
-                if (imageFile == null)
-                {
-                    return View(model).Error("A imagem da categoria é obrigatória");
-                }
+                if (imageFile == null) return View(model).Error("A imagem da categoria é obrigatória");
 
                 if (!ModelState.IsValid) return View(model);
 

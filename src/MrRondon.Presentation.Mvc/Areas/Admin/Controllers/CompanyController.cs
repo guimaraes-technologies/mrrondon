@@ -29,7 +29,6 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
             var repo = new RepositoryBase<Company>(_db);
             var company = repo.GetItemByExpression(x => x.CompanyId == id, i => i.Address.City, i => i.SubCategory);
             if (company == null) return HttpNotFound();
-            var name = nameof(company.FancyName);
             return View(company);
         }
 
@@ -48,16 +47,17 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
                     model.Company.SubCategoryId = model.SubCategoryId.Value;
                 else model.Company.SubCategoryId = model.CategoryId;
 
-                address.SetCoordinates(address.LatitudeString, address.LongitudeString);
-                model.Company.Address = address;
-                model.Company.Contacts = model.Contacts;
-                ModelState.Remove("Company_Logo");
-                ModelState.Remove("Company_Cover");
                 if (model.Company.Logo == null || model.LogoFile != null)
                     model.Company.Logo = FileUpload.GetBytes(model.LogoFile, "Logo");
                 if (model.Company.Cover == null || model.CoverFile != null)
                     model.Company.Cover = FileUpload.GetBytes(model.CoverFile, "Capa");
 
+                address.SetCoordinates(address.LatitudeString, address.LongitudeString);
+                model.Company.Address = address;
+                model.Company.Contacts = model.Contacts;
+
+                ModelState.Remove("Company_Logo");
+                ModelState.Remove("Company_Cover");
                 if (!ModelState.IsValid)
                 {
                     SetBiewBags(model);
@@ -98,18 +98,17 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
                     model.Company.SubCategoryId = model.SubCategoryId.Value;
                 else model.Company.SubCategoryId = model.CategoryId;
 
+                if (model.Company.Logo == null || model.LogoFile != null)
+                    model.Company.Logo = FileUpload.GetBytes(model.LogoFile, "Logo");
+                if (model.Company.Cover == null || model.CoverFile != null)
+                    model.Company.Cover = FileUpload.GetBytes(model.CoverFile, "Capa");
+
+                address.SetCoordinates(address.LatitudeString, address.LongitudeString);
                 model.Company.Address = address;
-                model.Company.Address.SetCoordinates(address.LatitudeString, address.LongitudeString);
                 model.Company.Contacts = model.Contacts;
 
                 ModelState.Remove("Company_Logo");
                 ModelState.Remove("Company_Cover");
-                if (model.Company.Logo == null || model.LogoFile != null)
-                    model.Company.Logo = FileUpload.GetBytes(model.LogoFile, "Logo");
-
-                if (model.Company.Cover == null || model.CoverFile != null)
-                    model.Company.Cover = FileUpload.GetBytes(model.CoverFile, "Capa");
-
                 if (!ModelState.IsValid)
                 {
                     SetBiewBags(model);

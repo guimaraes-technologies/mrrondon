@@ -29,4 +29,31 @@
     @Scripts.Render("~/bundles/correios")
     @Scripts.Render("~/bundles/validation")
     @Scripts.Render("~/bundles/event")
+    <script>
+        $(".sameAsOrganizer").checkbox({
+                onChecked: function() {
+                    var companyId = $("input[name='Event.OrganizerId']").val();
+                    if (!companyId.length) return;
+
+                    $.ajax({
+                        type: "GET",
+                        dataType: "html",
+                        url: '@Url.Action("GetOrganizerAddress")',
+                        data: { companyId },
+                        contentType: "application/json; charset=utf-8",
+                        success: function(response) {
+                            $(".address").html(response);
+                            $(this).removeClass("loading");
+                        },
+                        error: function(xhr, status, errorThrown) {
+                            $(this).removeClass("loading");
+                        }
+                    });
+                },
+                onUnchecked: function() {
+                    $(".address").show();
+                }
+            }
+        );
+    </script>
 }

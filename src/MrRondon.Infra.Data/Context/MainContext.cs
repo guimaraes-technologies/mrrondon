@@ -16,7 +16,7 @@ namespace MrRondon.Infra.Data.Context
             Configuration.AutoDetectChangesEnabled = false;
         }
 
-        public DbSet<Address> Adresses { get; set; }
+        public DbSet<Address> Addresses { get; set; }
         public DbSet<ApplicationClient> ApplicationClients { get; set; }
         public DbSet<SubCategory> SubCategories { get; set; }
         public DbSet<City> Cities { get; set; }

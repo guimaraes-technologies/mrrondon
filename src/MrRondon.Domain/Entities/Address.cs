@@ -35,7 +35,10 @@ namespace MrRondon.Domain.Entities
         [MaxLength(10, ErrorMessage = "Máximo {0} caracteres")]
         public string ZipCode { get; set; }
 
+        [Required(ErrorMessageResourceType = typeof(Error), ErrorMessageResourceName = "Required")]
         public double Latitude { get; set; }
+
+        [Required(ErrorMessageResourceType = typeof(Error), ErrorMessageResourceName = "Required")]
         public double Longitude { get; set; }
 
         [NotMapped]

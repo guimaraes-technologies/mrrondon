@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
 using MrRondon.Domain.Entities;
@@ -27,27 +29,27 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create(CrudEventVm model)
+        public ActionResult Create(CrudEventVm model, Address address)
         {
             try
             {
+                if (model.Event.Logo == null || model.LogoFile != null)
+                    model.Event.Logo = FileUpload.GetBytes(model.LogoFile, "Logo");
+                if (model.Event.Cover == null || model.CoverFile != null)
+                    model.Event.Cover = FileUpload.GetBytes(model.CoverFile, "Capa");
+
+                model.Event.Address = address;
+                model.Event.Address.SetCoordinates(address.LatitudeString, address.LongitudeString);
+
                 ModelState.Remove("Event_Logo");
                 ModelState.Remove("Event_Cover");
-                RemoveAddressValidation(model);
-
                 if (!ModelState.IsValid)
                 {
                     SetBiewBags(model);
                     return View(model);
                 }
 
-                if (model.Event.Logo == null || model.LogoFile != null)
-                    model.Event.Logo = FileUpload.GetBytes(model.LogoFile, "Logo");
-                if (model.Event.Cover == null || model.CoverFile != null)
-                    model.Event.Cover = FileUpload.GetBytes(model.CoverFile, "Capa");
-
-                model.Address.SetCoordinates(model.Address.LatitudeString, model.Address.LongitudeString);
-                model.Event.Address = model.Address.GetAddress();
+                RemoveAddressValidation(model);
                 _db.Events.Add(model.Event);
                 _db.SaveChanges();
                 return RedirectToAction("Index");
@@ -58,35 +60,37 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
                 return View(model).Error(ex.Message);
             }
         }
-      
-        /*
 
         public ActionResult Edit(Guid id)
         {
             var repo = new RepositoryBase<Event>(_db);
-            var company = repo.GetItemByExpression(x => x.EventId == id, "Address", "Segment");
-            if (company == null) return HttpNotFound();
+            var entity = repo.GetItemByExpression(x => x.EventId == id, x => x.Address);
+            if (entity == null) return HttpNotFound();
 
-            var model = GetCrudVm(company);
+            var model = GetCrudVm(entity);
             SetBiewBags(model);
 
             return View(model);
         }
 
         [HttpPost]
-        public ActionResult Edit(Event company)
+        public ActionResult Edit(Event entity, Address address)
         {
-            var model = new CrudEventVm { Event = company };
+            var model = new CrudEventVm { Event = entity };
             try
             {
-                ModelState.Remove(nameof(company.SubCategoryId));
+                model.Event.Address = address;
+                model.Event.Address.SetCoordinates(address.LatitudeString, address.LongitudeString);
+
+                ModelState.Remove("Event_Logo");
+                ModelState.Remove("Event_Cover");
                 if (!ModelState.IsValid)
                 {
                     SetBiewBags(model);
                     return View(model);
                 }
 
-                _db.Entry(company).State = EntityState.Modified;
+                _db.Entry(entity).State = EntityState.Modified;
                 _db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -99,23 +103,31 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
         }
 
         [AllowAnonymous]
-        public ActionResult Contacts(CrudEventVm companyContact)
+        public ActionResult Contacts(CrudEventVm eventContact)
         {
             UrlsContact();
-            companyContact = companyContact ?? new CrudEventVm();
-            companyContact.Contacts = companyContact.Contacts ?? new List<Contact>();
-            return PartialView("_Contacts", companyContact.Contacts);
+            eventContact = eventContact ?? new CrudEventVm();
+            eventContact.Contacts = eventContact.Contacts ?? new List<Contact>();
+            return PartialView("_Contacts", eventContact.Contacts);
         }
 
         [AllowAnonymous, HttpPost]
-        public ActionResult AddContact(CrudEventVm companyContact)
+        public ActionResult AddContact(CrudEventVm eventContact)
         {
-            companyContact.Contacts = companyContact.Contacts ?? new List<Contact>();
-            companyContact.Contacts.Add(new Contact { Description = companyContact.Description, ContactType = companyContact.ContactType });
-            companyContact.Description = string.Empty;
-            companyContact.ContactType = 0;
+            eventContact.Contacts = eventContact.Contacts ?? new List<Contact>();
+            eventContact.Contacts.Add(new Contact { Description = eventContact.Description, ContactType = eventContact.ContactType });
+            eventContact.Description = string.Empty;
+            eventContact.ContactType = 0;
             UrlsContact();
-            return PartialView("_Contacts", companyContact.Contacts);
+            return PartialView("_Contacts", eventContact.Contacts);
+        }
+
+        [AllowAnonymous, HttpPost]
+        public ActionResult RemoveContact(CrudEventVm eventContact, int index)
+        {
+            UrlsContact();
+            eventContact.Contacts?.RemoveAt(index);
+            return PartialView("_Contacts", eventContact.Contacts);
         }
 
         public void UrlsContact()
@@ -130,7 +142,6 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
 
             return eventVm;
         }
-        */
 
         private void SetBiewBags(CrudEventVm model)
         {
@@ -140,6 +151,17 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
 
             ViewBag.Cities = new SelectList(_db.Cities, "CityId", "Name", cityId);
             ViewBag.Companies = new SelectList(_db.Companies, "CompanyId", "Name", model?.Event?.Organizer?.CompanyId);
+        }
+
+        public ActionResult GetOrganizerAddress(Guid companyId)
+        {
+            var company = _db.Companies.Include(i => i.Address).FirstOrDefault(f => f.CompanyId == companyId);
+            if (company?.Address == null) return PartialView("_FormAddress");
+
+            var cities = _db.Database.SqlQuery<City>("SELECT DISTINCT ci.Name, ci.CityId FROM [City] ci JOIN [Address] ad ON ci.CityId = ad.CityId JOIN [Company] co ON ad.AddressId = co.AddressId").ToList();
+            ViewBag.Cities = new SelectList(cities, "CityId", "Name", company.Address?.CityId);
+            company.Address.SetCoordinates();
+            return PartialView("_Address", AddressForEventVm.GetAddress(company.Address));
         }
 
         [HttpPost]
@@ -168,8 +190,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
         {
             ModelState.Remove(nameof(model.Address.ZipCode));
             ModelState.Remove(nameof(model.Address.AdditionalInformation));
-            ModelState.Remove(nameof(model.Address.Latitude));
-            ModelState.Remove(nameof(model.Address.Longitude));
+            ModelState.Remove(nameof(model.Address.Neighborhood));
             ModelState.Remove(nameof(model.Address.Number));
             ModelState.Remove(nameof(model.Address.Street));
         }

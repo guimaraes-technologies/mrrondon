@@ -3,7 +3,6 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using MrRondon.Domain.Entities;
-using MrRondon.Infra.CrossCutting.Message;
 
 namespace MrRondon.Presentation.Mvc.ViewModels
 {
@@ -23,12 +22,12 @@ namespace MrRondon.Presentation.Mvc.ViewModels
         [MaxLength(6, ErrorMessage = "Máximo {0} caracteres")]
         public string Number { get; set; }
 
-        [DisplayName("Complemento")]
-        public string AdditionalInformation { get; set; }
+        [DisplayName("Complemento")] public string AdditionalInformation { get; set; }
 
         [Display(Name = "CEP")]
         [MaxLength(10, ErrorMessage = "Máximo {0} caracteres")]
         public string ZipCode { get; set; }
+
         public double Latitude { get; set; }
         public double Longitude { get; set; }
 
@@ -46,40 +45,24 @@ namespace MrRondon.Presentation.Mvc.ViewModels
             set => LongitudeString = value;
         }
 
-        [DisplayName("Cidade")]
-        public int CityId { get; set; }
+        [DisplayName("Cidade")] public int CityId { get; set; }
         public City City { get; set; }
 
-        public Address GetAddress()
+        public static AddressForEventVm GetAddress(Address address)
         {
-            return new Address
+            return new AddressForEventVm
             {
-                AddressId = AddressId,
-                Longitude = Longitude,
-                //LongitudeString = LongitudeString,
-                Number = Number,
-                Street = Street,
-                ZipCode = ZipCode,
-                //LatitudeString = LatitudeString,
-                Latitude = Latitude,
-                Neighborhood = Neighborhood,
-                City = City,
-                CityId = CityId,
-                AdditionalInformation = AdditionalInformation
+                AddressId = address.AddressId,
+                Latitude = address.Latitude,
+                Longitude = address.Longitude,
+                Number = address.Number ?? string.Empty,
+                Street = address.Street ?? string.Empty,
+                ZipCode = address.ZipCode ?? string.Empty,
+                Neighborhood = address.Neighborhood ?? string.Empty,
+                AdditionalInformation = address.AdditionalInformation ?? string.Empty,
+                City = address.City,
+                CityId = address.CityId
             };
-        }
-
-        public AddressForEventVm SetCoordinates(string latitude, string longitude)
-        {
-            if (double.TryParse(latitude.Replace(".", ","), out var latitudeResult))
-                Latitude = latitudeResult;
-            else throw new Exception("Latitude em formato inválido");
-
-            if (double.TryParse(longitude.Replace(".", ","), out var longitudeResult))
-                Longitude = longitudeResult;
-            else throw new Exception("Longitude em formato inválido");
-
-            return this;
         }
     }
 }
