@@ -431,6 +431,7 @@
     <Content Include="Areas\Admin\Views\Event\_Address.cshtml" />
     <Content Include="Areas\Admin\Views\HistoricalSight\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\HistoricalSight\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\Error\Erro404.cshtml" />
     <None Include="Properties\PublishProfiles\Webdeploy.pubxml" />
     <None Include="Scripts\jquery-3.2.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.2.1.js" />
@@ -467,6 +468,7 @@
     <Compile Include="Areas\Admin\Controllers\MessageController.cs" />
     <Compile Include="Areas\Admin\Controllers\SubCategoryController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ErrorController.cs" />
     <Compile Include="Extensions\HtmlExtension.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -521,6 +523,7 @@
     <Content Include="Site.Mobile.Master" />
     <Content Include="Views\Account\RecoveryPassword.cshtml" />
     <Content Include="Views\Account\NewPassword.cshtml" />
+    <Content Include="Areas\Admin\Views\Error\Generic.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

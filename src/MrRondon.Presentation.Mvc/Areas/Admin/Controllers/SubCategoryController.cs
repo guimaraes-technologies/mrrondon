@@ -25,7 +25,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
         public ActionResult Details(int id)
         {
             var repo = new RepositoryBase<SubCategory>(_db);
-            var category = repo.GetItemByExpression(x => x.CategoryId == id, "Category");
+            var category = repo.GetItemByExpression(x => x.CategoryId == id, x => x.Category);
             if (category == null) return HttpNotFound();
             return View(category);
         }
@@ -47,7 +47,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
                     ViewBag.Categories = new SelectList(_db.SubCategories.Where(s => s.CategoryId == null).OrderBy(o => o.Name), "SubCategoryId", "Name", model.SubCategoryId);
                     return View(model);
                 }
-                
+
                 _db.SubCategories.Add(model);
                 _db.SaveChanges();
                 return RedirectToAction("Index");
@@ -80,7 +80,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
                     ViewBag.Categories = new SelectList(_db.SubCategories.Where(s => s.CategoryId == null).OrderBy(o => o.Name), "SubCategoryId", "Name", model.SubCategoryId);
                     return View(model);
                 }
-                
+
                 _db.Entry(model).State = EntityState.Modified;
                 _db.SaveChanges();
                 return RedirectToAction("Index");
@@ -109,7 +109,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
         {
             var search = parameters.Search.Value?.ToLower() ?? string.Empty;
             var repo = new RepositoryBase<SubCategory>(_db);
-            var items = repo.GetItemsByExpression(w => w.CategoryId != null && w.Name.Contains(search), "Category").ToList();
+            var items = repo.GetItemsByExpression(w => w.CategoryId != null && w.Name.Contains(search), x => x.Category).ToList();
             var dtResult = new DataTableResultSet(parameters.Draw, 10);
 
             var buttons = new ButtonsSubCategory();

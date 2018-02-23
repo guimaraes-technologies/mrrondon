@@ -62,7 +62,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
         public ActionResult Details(int id)
         {
             var repo = new RepositoryBase<HistoricalSight>(_db);
-            var historicalSight = repo.GetItemByExpression(x => x.HistoricalSightId == id, "Address.City");
+            var historicalSight = repo.GetItemByExpression(x => x.HistoricalSightId == id, x => x.Address.City);
 
             if (historicalSight == null) return HttpNotFound();
 
@@ -72,7 +72,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
         public ActionResult Edit(int id)
         {
             var repo = new RepositoryBase<HistoricalSight>(_db);
-            var historicalSight = repo.GetItemByExpression(x => x.HistoricalSightId == id, "Address");
+            var historicalSight = repo.GetItemByExpression(x => x.HistoricalSightId == id, x => x.Address);
             if (historicalSight == null) return HttpNotFound();
 
             var crud = new CrudHistoricalSightVm

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Linq.Expressions;
 using MrRondon.Domain.Interfaces.Repositories;
@@ -37,11 +36,24 @@ namespace MrRondon.Infra.Data.Repositories
             return DbSet.Any(expression);
         }
 
-        public virtual IEnumerable<TEntity> GetItemsByExpression(Expression<Func<TEntity, bool>> expression, params string[] objectsToInclude)
+        public TEntity GetItemByExpression(Expression<Func<TEntity, bool>> expression, params Expression<Func<TEntity, object>>[] objectsToInclude)
+        {
+            if (objectsToInclude == null) return DbSet.FirstOrDefault(expression);
+
+            IQueryable<TEntity> dbQuery = null;
+            foreach (var obj in objectsToInclude)
+            {
+                if (dbQuery != null) dbQuery.Include(obj);
+                else dbQuery = DbSet.Include(obj);
+            }
+            return dbQuery == null ? DbSet.FirstOrDefault(expression) : dbQuery.FirstOrDefault(expression);
+        }
+
+        public IEnumerable<TEntity> GetItemsByExpression(Expression<Func<TEntity, bool>> expression, params Expression<Func<TEntity, object>>[] objectsToInclude)
         {
             if (objectsToInclude == null) return DbSet.Where(expression);
 
-            DbQuery<TEntity> dbQuery = null;
+            IQueryable<TEntity> dbQuery = null;
             foreach (var obj in objectsToInclude)
             {
                 if (dbQuery != null) dbQuery.Include(obj);
@@ -51,25 +63,12 @@ namespace MrRondon.Infra.Data.Repositories
             return dbQuery?.Where(expression) ?? DbSet.Where(expression);
         }
 
-        public TEntity GetItemByExpression(Expression<Func<TEntity, bool>> expression, params string[] objectsToInclude)
-        {
-            if (objectsToInclude == null) return DbSet.FirstOrDefault(expression);
-
-            DbQuery<TEntity> dbQuery = null;
-            foreach (var obj in objectsToInclude)
-            {
-                if (dbQuery != null) dbQuery.Include(obj);
-                else dbQuery = DbSet.Include(obj);
-            }
-            return dbQuery == null ? DbSet.FirstOrDefault(expression) : dbQuery.FirstOrDefault(expression);
-        }
-
-        public virtual IEnumerable<TEntity> GetItemsByExpression(Expression<Func<TEntity, bool>> expression, Expression<Func<TEntity, object>> orderBy, int start, int length, out int recordsTotal, params string[] objectsToInclude)
+        public virtual IEnumerable<TEntity> GetItemsByExpression(Expression<Func<TEntity, bool>> expression, Expression<Func<TEntity, object>> orderBy, int start, int length, out int recordsTotal, params Expression<Func<TEntity, object>>[] objectsToInclude)
         {
             recordsTotal = DbSet.Count(expression);
             if (objectsToInclude == null) return DbSet.Where(expression).OrderBy(orderBy).Skip(start).Take(length);
 
-            DbQuery<TEntity> dbQuery = null;
+            IQueryable<TEntity> dbQuery = null;
             foreach (var obj in objectsToInclude)
             {
                 if (dbQuery != null) dbQuery.Include(obj);

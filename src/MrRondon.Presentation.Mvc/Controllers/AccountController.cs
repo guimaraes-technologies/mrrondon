@@ -73,7 +73,7 @@ namespace MrRondon.Presentation.Mvc.Controllers
                 if (!ModelState.IsValid) return View(model);
 
                 var repo = new RepositoryBase<User>(_db);
-                var user = repo.GetItemByExpression(x => x.Cpf.Equals(model.UserName), "Contacts");
+                var user = repo.GetItemByExpression(x => x.Cpf.Equals(model.UserName), x => x.Contacts);
                 if (user == null) return View(model).Success("Um código para redefinição da sua senha foi enviado para o seu email");
                 user.GeneratePasswordRecoveryCode();
 

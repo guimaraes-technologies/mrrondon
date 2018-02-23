@@ -27,9 +27,9 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
         public ActionResult Details(Guid id)
         {
             var repo = new RepositoryBase<Company>(_db);
-            var company = repo.GetItemByExpression(x => x.CompanyId == id, "Address.City");
+            var company = repo.GetItemByExpression(x => x.CompanyId == id, i => i.Address.City, i => i.SubCategory);
             if (company == null) return HttpNotFound();
-
+            var name = nameof(company.FancyName);
             return View(company);
         }
 
@@ -78,7 +78,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
         public ActionResult Edit(Guid id)
         {
             var repo = new RepositoryBase<Company>(_db);
-            var company = repo.GetItemByExpression(x => x.CompanyId == id, "Address", "SubCategory", "Contacts");
+            var company = repo.GetItemByExpression(x => x.CompanyId == id, x => x.Address, x => x.SubCategory, x => x.Contacts);
             if (company == null) return HttpNotFound();
 
             var crud = GetCrudVm(company);
