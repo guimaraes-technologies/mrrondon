@@ -33,13 +33,13 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
         {
             try
             {
+                model.Event.Address = address;
+                model.Event.Address.SetCoordinates(address.LatitudeString, address.LongitudeString);
+
                 if (model.Event.Logo == null || model.LogoFile != null)
                     model.Event.Logo = FileUpload.GetBytes(model.LogoFile, "Logo");
                 if (model.Event.Cover == null || model.CoverFile != null)
                     model.Event.Cover = FileUpload.GetBytes(model.CoverFile, "Capa");
-
-                model.Event.Address = address;
-                model.Event.Address.SetCoordinates(address.LatitudeString, address.LongitudeString);
 
                 ModelState.Remove("Event_Logo");
                 ModelState.Remove("Event_Cover");
@@ -81,6 +81,11 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
             {
                 model.Event.Address = address;
                 model.Event.Address.SetCoordinates(address.LatitudeString, address.LongitudeString);
+
+                if (model.Event.Logo == null || model.LogoFile != null)
+                    model.Event.Logo = FileUpload.GetBytes(model.LogoFile, "Logo");
+                if (model.Event.Cover == null || model.CoverFile != null)
+                    model.Event.Cover = FileUpload.GetBytes(model.CoverFile, "Capa");
 
                 ModelState.Remove("Event_Logo");
                 ModelState.Remove("Event_Cover");

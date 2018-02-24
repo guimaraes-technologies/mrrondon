@@ -77,11 +77,9 @@ namespace MrRondon.Domain.Entities
 
         public Address SetCoordinates(string latitude, string longitude)
         {
-            if (string.IsNullOrWhiteSpace(latitude) || latitude.Equals("0"))
-                throw new Exception("O campo Latitude é obrigatório");
+            if (string.IsNullOrWhiteSpace(latitude) || latitude.Equals("0")) return this;
 
-            if (string.IsNullOrWhiteSpace(longitude) || latitude.Equals("0"))
-                throw new Exception("O campo Longitude é obrigatório");
+            if (string.IsNullOrWhiteSpace(longitude) || longitude.Equals("0")) return this;
 
             if (double.TryParse(latitude.Replace(".", ","), out var latitudeResult))
                 Latitude = latitudeResult;

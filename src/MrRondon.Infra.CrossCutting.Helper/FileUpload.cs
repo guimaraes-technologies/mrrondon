@@ -39,7 +39,7 @@ namespace MrRondon.Infra.CrossCutting.Helper
             return Path.GetExtension(file.FileName);
         }
 
-        private static double ConvertBytesToMegabytes(long bytes)
+        public static double ConvertBytesToMegabytes(long bytes)
         {
             return (bytes / 1024f) / 1024f;
         }

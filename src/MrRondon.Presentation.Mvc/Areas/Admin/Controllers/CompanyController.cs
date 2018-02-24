@@ -47,17 +47,17 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
                     model.Company.SubCategoryId = model.SubCategoryId.Value;
                 else model.Company.SubCategoryId = model.CategoryId;
 
+                address.SetCoordinates(address.LatitudeString, address.LongitudeString);
+                model.Company.Address = address;
+                model.Company.Contacts = model.Contacts;
+
                 if (model.Company.Logo == null || model.LogoFile != null)
                     model.Company.Logo = FileUpload.GetBytes(model.LogoFile, "Logo");
                 if (model.Company.Cover == null || model.CoverFile != null)
                     model.Company.Cover = FileUpload.GetBytes(model.CoverFile, "Capa");
 
-                address.SetCoordinates(address.LatitudeString, address.LongitudeString);
-                model.Company.Address = address;
-                model.Company.Contacts = model.Contacts;
-
-                ModelState.Remove("Company_Logo");
-                ModelState.Remove("Company_Cover");
+                ModelState.Remove("Company.Logo");
+                ModelState.Remove("Company.Cover");
                 if (!ModelState.IsValid)
                 {
                     SetBiewBags(model);
@@ -98,17 +98,17 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
                     model.Company.SubCategoryId = model.SubCategoryId.Value;
                 else model.Company.SubCategoryId = model.CategoryId;
 
+                address.SetCoordinates(address.LatitudeString, address.LongitudeString);
+                model.Company.Address = address;
+                model.Company.Contacts = model.Contacts;
+
                 if (model.Company.Logo == null || model.LogoFile != null)
                     model.Company.Logo = FileUpload.GetBytes(model.LogoFile, "Logo");
                 if (model.Company.Cover == null || model.CoverFile != null)
                     model.Company.Cover = FileUpload.GetBytes(model.CoverFile, "Capa");
 
-                address.SetCoordinates(address.LatitudeString, address.LongitudeString);
-                model.Company.Address = address;
-                model.Company.Contacts = model.Contacts;
-
-                ModelState.Remove("Company_Logo");
-                ModelState.Remove("Company_Cover");
+                ModelState.Remove("Company.Logo");
+                ModelState.Remove("Company.Cover");
                 if (!ModelState.IsValid)
                 {
                     SetBiewBags(model);
@@ -196,18 +196,26 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
         {
             var search = parameters.Search.Value?.ToLower() ?? string.Empty;
             var repo = new RepositoryBase<Company>(_db);
-            var items = repo.GetItemsByExpression(w => w.Name.Contains(search), x => x.Name, parameters.Start, parameters.Length, out var recordsTotal).ToList();
+            var items = repo.GetItemsByExpression(w => w.Name.Contains(search), x => x.Name, parameters.Start, parameters.Length, out var recordsTotal)
+                .Select(s=> new 
+                {
+                    s.CompanyId,
+                    s.Logo,
+                    s.Name,
+                    s.Cnpj
+                }).ToList();
             var dtResult = new DataTableResultSet(parameters.Draw, recordsTotal);
-
+            
             var buttons = new ButtonsCompany();
             foreach (var item in items)
             {
+                var lenght = FileUpload.ConvertBytesToMegabytes(item.Logo.LongLength);
                 dtResult.data.Add(new[]
                 {
                     item.CompanyId.ToString(),
-                    $"{buttons.Image(item.Logo)}",
-                    $"{item.Name}",
-                    $"{item.Cnpj}",
+                    lenght > 0.5 ?"": $"{buttons.Image(item.Logo)}",
+                    item.Name,
+                    item.Cnpj,
                     buttons.ToPagination(item.CompanyId)
                 });
             }
@@ -237,7 +245,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
 
         private void SetBiewBags(CrudCompanyVm model)
         {
-            ViewBag.Cities = new SelectList(_db.Cities, "CityId", "Name", model?.Company?.Address.CityId);
+            ViewBag.Cities = new SelectList(_db.Cities, "CityId", "Name", model?.Company?.Address?.CityId);
 
             var categories = _db.SubCategories.Where(s => s.CategoryId == null).OrderBy(o => o.Name);
             ViewBag.Categories = new SelectList(categories, "SubCategoryId", "Name", model?.CategoryId);

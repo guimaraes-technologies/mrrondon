@@ -32,13 +32,13 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
         {
             try
             {
+                model.HistoricalSight.Address = address;
+                model.HistoricalSight.Address.SetCoordinates(address.LatitudeString, address.LongitudeString);
+
                 if (model.HistoricalSight.Logo == null || model.LogoFile != null)
                     model.HistoricalSight.Logo = FileUpload.GetBytes(model.LogoFile, "Logo");
                 if (model.HistoricalSight.Cover == null || model.CoverFile != null)
                     model.HistoricalSight.Cover = FileUpload.GetBytes(model.CoverFile, "Capa");
-
-                model.HistoricalSight.Address = address;
-                model.HistoricalSight.Address.SetCoordinates(address.LatitudeString, address.LongitudeString);
 
                 ModelState.Remove("HistoricalSight.Logo");
                 ModelState.Remove("HistoricalSight.Cover");
