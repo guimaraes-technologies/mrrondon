@@ -209,11 +209,9 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
             var buttons = new ButtonsCompany();
             foreach (var item in items)
             {
-                var lenght = FileUpload.ConvertBytesToMegabytes(item.Logo.LongLength);
                 dtResult.data.Add(new[]
                 {
                     item.CompanyId.ToString(),
-                    lenght > 0.5 ?"": $"{buttons.Image(item.Logo)}",
                     item.Name,
                     item.Cnpj,
                     buttons.ToPagination(item.CompanyId)

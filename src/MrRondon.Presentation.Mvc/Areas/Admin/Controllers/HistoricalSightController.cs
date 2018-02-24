@@ -144,7 +144,6 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
                 dtResult.data.Add(new[]
                 {
                     item.HistoricalSightId.ToString(),
-                    $"{buttons.Image(item.Logo)}",
                     $"{item.Name}",
                     buttons.ToPagination(item.HistoricalSightId)
                 });

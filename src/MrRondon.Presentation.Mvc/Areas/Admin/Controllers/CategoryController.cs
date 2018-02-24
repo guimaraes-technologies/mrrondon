@@ -98,7 +98,6 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
                 dtResult.data.Add(new[]
                 {
                     item.CategoryId.ToString(),
-                    $"{buttons.Image(item.Image)}",
                     item.Name,
                     buttons.ToPagination(item.SubCategoryId)
                 });
