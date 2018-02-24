@@ -17,5 +17,24 @@ namespace MrRondon.Presentation.Mvc.ViewModels
         public HttpPostedFileBase CoverFile { get; set; }
         public HttpPostedFileBase LogoFile { get; set; }
         public List<Contact> Contacts { get; set; }
+
+        public Address GetAddress(AddressForEventVm address)
+        {
+            return new Address
+            {
+                AddressId = address.AddressId,
+                Latitude = address.Latitude,
+                Longitude = address.Longitude,
+                LatitudeString = address.LatitudeString,
+                LongitudeString = address.LongitudeString,
+                Number = address.Number ?? string.Empty,
+                Street = address.Street ?? string.Empty,
+                ZipCode = address.ZipCode ?? string.Empty,
+                Neighborhood = address.Neighborhood ?? string.Empty,
+                AdditionalInformation = address.AdditionalInformation ?? string.Empty,
+                City = address.City,
+                CityId = address.CityId
+            };
+        }
     }
 }

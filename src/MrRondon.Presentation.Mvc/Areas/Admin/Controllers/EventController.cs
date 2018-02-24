@@ -29,11 +29,11 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create(CrudEventVm model, Address address)
+        public ActionResult Create(CrudEventVm model, AddressForEventVm address)
         {
             try
             {
-                model.Event.Address = address;
+                model.Event.Address = model.GetAddress(address);
                 model.Event.Address.SetCoordinates(address.LatitudeString, address.LongitudeString);
 
                 if (model.Event.Logo == null || model.LogoFile != null)
@@ -41,15 +41,14 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
                 if (model.Event.Cover == null || model.CoverFile != null)
                     model.Event.Cover = FileUpload.GetBytes(model.CoverFile, "Capa");
 
-                ModelState.Remove("Event_Logo");
-                ModelState.Remove("Event_Cover");
+                ModelState.Remove("Event.Logo");
+                ModelState.Remove("Event.Cover");
                 if (!ModelState.IsValid)
                 {
                     SetBiewBags(model);
                     return View(model);
                 }
-
-                RemoveAddressValidation(model);
+                
                 _db.Events.Add(model.Event);
                 _db.SaveChanges();
                 return RedirectToAction("Index");
@@ -74,12 +73,12 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public ActionResult Edit(Event entity, Address address)
+        public ActionResult Edit(Event entity, AddressForEventVm address)
         {
             var model = new CrudEventVm { Event = entity };
             try
             {
-                model.Event.Address = address;
+                model.Event.Address = model.GetAddress(address);
                 model.Event.Address.SetCoordinates(address.LatitudeString, address.LongitudeString);
 
                 if (model.Event.Logo == null || model.LogoFile != null)
@@ -87,8 +86,8 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
                 if (model.Event.Cover == null || model.CoverFile != null)
                     model.Event.Cover = FileUpload.GetBytes(model.CoverFile, "Capa");
 
-                ModelState.Remove("Event_Logo");
-                ModelState.Remove("Event_Cover");
+                ModelState.Remove("Event.Logo");
+                ModelState.Remove("Event.Cover");
                 if (!ModelState.IsValid)
                 {
                     SetBiewBags(model);
@@ -174,7 +173,16 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
         {
             var search = parameters.Search.Value?.ToLower() ?? string.Empty;
             var repo = new RepositoryBase<Event>(_db);
-            var items = repo.GetItemsByExpression(w => w.Name.Contains(search), x => x.Name, parameters.Start, parameters.Length, out var recordsTotal).ToList();
+            var items = repo.GetItemsByExpression(w => w.Name.Contains(search), x => x.Name, parameters.Start, parameters.Length, out var recordsTotal, i => i.Address.City)
+                .Select(s =>
+                    new
+                    {
+                        s.EventId,
+                        s.Name,
+                        s.StartDate,
+                        s.EndDate,
+                        s.Address.City
+                    }).ToList();
             var dtResult = new DataTableResultSet(parameters.Draw, recordsTotal);
 
             var buttons = new ButtonsEvent();
@@ -184,19 +192,12 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
                 {
                     item.EventId.ToString(),
                     $"{item.Name}",
+                    $"{(item.StartDate.Date == item.EndDate.Date ? item.StartDate.ToShortDateString() : $"{item.StartDate.ToShortDateString()} - {item.EndDate.ToShortDateString()}")}",
+                    item.City.Name,
                     buttons.ToPagination(item.EventId)
                 });
             }
             return Json(dtResult, JsonRequestBehavior.AllowGet);
-        }
-
-        private void RemoveAddressValidation(CrudEventVm model)
-        {
-            ModelState.Remove(nameof(model.Address.ZipCode));
-            ModelState.Remove(nameof(model.Address.AdditionalInformation));
-            ModelState.Remove(nameof(model.Address.Neighborhood));
-            ModelState.Remove(nameof(model.Address.Number));
-            ModelState.Remove(nameof(model.Address.Street));
         }
 
         protected override void Dispose(bool disposing)

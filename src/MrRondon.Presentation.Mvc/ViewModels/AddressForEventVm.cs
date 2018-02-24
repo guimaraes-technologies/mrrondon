@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using MrRondon.Domain.Entities;
+using MrRondon.Infra.CrossCutting.Message;
 
 namespace MrRondon.Presentation.Mvc.ViewModels
 {
@@ -28,22 +29,21 @@ namespace MrRondon.Presentation.Mvc.ViewModels
         [MaxLength(10, ErrorMessage = "Máximo {0} caracteres")]
         public string ZipCode { get; set; }
 
+        [Required(ErrorMessageResourceType = typeof(Error), ErrorMessageResourceName = "Required")]
         public double Latitude { get; set; }
+
+        [Required(ErrorMessageResourceType = typeof(Error), ErrorMessageResourceName = "Required")]
         public double Longitude { get; set; }
 
         [NotMapped]
-        public string LatitudeString
-        {
-            get => Latitude.ToString().Replace(",", ".");
-            set => LatitudeString = value;
-        }
+        [Display(Name = "Latitude")]
+        [Required(ErrorMessageResourceType = typeof(Error), ErrorMessageResourceName = "Required")]
+        public string LatitudeString { get; set; }
 
         [NotMapped]
-        public string LongitudeString
-        {
-            get => Longitude.ToString().Replace(",", ".");
-            set => LongitudeString = value;
-        }
+        [Display(Name = "Longitude")]
+        [Required(ErrorMessageResourceType = typeof(Error), ErrorMessageResourceName = "Required")]
+        public string LongitudeString { get; set; }
 
         [DisplayName("Cidade")] public int CityId { get; set; }
         public City City { get; set; }
@@ -55,11 +55,11 @@ namespace MrRondon.Presentation.Mvc.ViewModels
                 AddressId = address.AddressId,
                 Latitude = address.Latitude,
                 Longitude = address.Longitude,
-                Number = address.Number ?? string.Empty,
-                Street = address.Street ?? string.Empty,
-                ZipCode = address.ZipCode ?? string.Empty,
-                Neighborhood = address.Neighborhood ?? string.Empty,
-                AdditionalInformation = address.AdditionalInformation ?? string.Empty,
+                Number = address.Number,
+                Street = address.Street,
+                ZipCode = address.ZipCode,
+                Neighborhood = address.Neighborhood,
+                AdditionalInformation = address.AdditionalInformation,
                 City = address.City,
                 CityId = address.CityId
             };
