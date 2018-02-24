@@ -432,6 +432,7 @@
     <Content Include="Areas\Admin\Views\HistoricalSight\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\HistoricalSight\Details.cshtml" />
     <Content Include="Areas\Admin\Views\Error\Erro404.cshtml" />
+    <Content Include="Areas\Admin\Views\Event\Details.cshtml" />
     <None Include="Properties\PublishProfiles\Webdeploy.pubxml" />
     <None Include="Scripts\jquery-3.2.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.2.1.js" />

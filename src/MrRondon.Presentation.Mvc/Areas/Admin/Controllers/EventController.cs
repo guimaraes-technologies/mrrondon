@@ -48,7 +48,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
                     SetBiewBags(model);
                     return View(model);
                 }
-                
+
                 _db.Events.Add(model.Event);
                 _db.SaveChanges();
                 return RedirectToAction("Index");
@@ -58,6 +58,14 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
                 SetBiewBags(model);
                 return View(model).Error(ex.Message);
             }
+        }
+
+        public ActionResult Details(Guid id)
+        {
+            var repo = new RepositoryBase<Event>(_db);
+            var entity = repo.GetItemByExpression(x => x.EventId == id, x => x.Address.City, i => i.Organizer);
+            if (entity == null) return HttpNotFound();
+            return View(entity);
         }
 
         public ActionResult Edit(Guid id)

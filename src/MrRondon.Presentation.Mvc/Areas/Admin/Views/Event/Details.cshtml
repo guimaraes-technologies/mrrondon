@@ -1,7 +1,6 @@
-﻿@using MrRondon.Domain.Entities
-@model MrRondon.Domain.Entities.Company
+﻿@model MrRondon.Domain.Entities.Event
 @{
-    ViewBag.Title = "Detalhes da empresa";
+    ViewBag.Title = "Detalhes do Evento";
 }
 @section header
 {
@@ -14,7 +13,7 @@
     @Html.Partial("_Navigation", 1)
 }
 <div class="ui stackable column grid divided gt-grid-details">
-    <h3 class="ui dividing header">Informações da Empresa</h3>
+    <h3 class="ui dividing header">Informações do Evento</h3>
     <div class="row">
         <div class="four wide column">
             <h4 class="ui header">@Html.DisplayNameFor(e => e.Logo)</h4>
@@ -26,31 +25,22 @@
         </div>
     </div>
     <div class="row">
-        <div class="sixteen wide column">
+        <div class="nine wide column">
             <h4 class="ui header">@Html.DisplayNameFor(e => e.Name)</h4>
             @Model.Name
         </div>
+        <div class="seven wide column">
+            <h4 class="ui header">@Html.DisplayNameFor(e => e.OrganizerId)</h4>
+            @(Model.Organizer?.Name ?? "Não informado")
+        </div>
     </div>
     <div class="row">
         <div class="sixteen wide column">
-            <h4 class="ui header">@Html.DisplayNameFor(e => e.FancyName)</h4>
-            @Model.FancyName
-        </div>
-    </div>
-    <div class="row">
-        <div class="three wide column">
-            <h4 class="ui header">@Html.DisplayNameFor(e => e.Cnpj)</h4>
-            @Model.Cnpj
-        </div>
-        <div class="nine wide column">
-            <h4 class="ui header">@Html.DisplayNameFor(e => e.SubCategoryId)</h4>
-            @Model.GetSegment
+            <h4 class="ui header">@Html.DisplayNameFor(e => e.Description)</h4>
+            @Html.Raw(Model.Description)
         </div>
     </div>
 
     <h3 class="ui dividing header">Informações do Endereço</h3>
     @Html.Partial("_AddressDetail", Model.Address)
-
-    <h3 class="ui dividing header">Informações de Contato</h3>
-    @Html.Partial("_ContactsDetail", Model.Contacts ?? new List<Contact>())
 </div>
