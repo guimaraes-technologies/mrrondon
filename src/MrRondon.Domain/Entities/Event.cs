@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using MrRondon.Infra.CrossCutting.Message;
 
@@ -79,5 +80,7 @@ namespace MrRondon.Domain.Entities
                 return "~/Content/Images/without_image.jpg";
             }
         }
+
+        //public ICollection<Contact> Contacts { get; set; }
     }
 }

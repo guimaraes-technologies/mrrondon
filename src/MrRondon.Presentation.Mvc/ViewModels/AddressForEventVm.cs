@@ -60,7 +60,9 @@ namespace MrRondon.Presentation.Mvc.ViewModels
                 Neighborhood = address.Neighborhood,
                 AdditionalInformation = address.AdditionalInformation,
                 City = address.City,
-                CityId = address.CityId
+                CityId = address.CityId,
+                LatitudeString = address.Latitude.ToString(),
+                LongitudeString = address.Longitude.ToString()
             };
         }
     }
