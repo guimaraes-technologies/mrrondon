@@ -155,7 +155,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
 
         private void SetBiewBags(CrudHistoricalSightVm model)
         {
-            ViewBag.Cities = new SelectList(EventController.GetGities(_db), "CityId", "Name", model?.HistoricalSight?.Address?.CityId);
+            ViewBag.Cities = new SelectList(EventController.GetCities(_db), "CityId", "Name", model?.HistoricalSight?.Address?.CityId);
         }
 
         protected override void Dispose(bool disposing)

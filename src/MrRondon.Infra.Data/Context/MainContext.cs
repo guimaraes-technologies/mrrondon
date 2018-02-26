@@ -43,7 +43,7 @@ namespace MrRondon.Infra.Data.Context
 
             modelBuilder.Entity<SubCategory>()
                 .HasOptional(p => p.Category)
-                .WithMany(p => p.Categories)
+                .WithMany(p => p.SubCategories)
                 .HasForeignKey(p => p.CategoryId);
 
             modelBuilder.Entity<User>()

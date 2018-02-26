@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Runtime.Remoting.Messaging;
 using System.Web.Mvc;
 using MrRondon.Domain.Entities;
 using MrRondon.Infra.CrossCutting.Helper;
@@ -179,7 +178,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
             if (model?.Event == null) cityId = string.Empty;
             else cityId = model.Event.SameAddressAsOganizer ? model.Event?.Organizer?.Address?.CityId.ToString() ?? model.Event?.Address?.CityId.ToString() : model.Event?.Address?.CityId.ToString();
 
-            ViewBag.Cities = new SelectList(GetGities(_db), "CityId", "Name", cityId);
+            ViewBag.Cities = new SelectList(GetCities(_db), "CityId", "Name", cityId);
             ViewBag.Companies = new SelectList(_db.Companies, "CompanyId", "Name", model?.Event?.OrganizerId);
         }
 
@@ -188,7 +187,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
             var company = _db.Companies.Include(i => i.Address).FirstOrDefault(f => f.CompanyId == companyId);
             if (company?.Address == null) return PartialView("_FormAddress");
 
-            var cities = GetGities(_db);
+            var cities = GetCities(_db);
 
             ViewBag.Cities = new SelectList(cities, "CityId", "Name", company.Address?.CityId);
             company.Address.SetCoordinates();
@@ -196,7 +195,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
             return PartialView("_Address", AddressForEventVm.GetAddress(company.Address));
         }
 
-        public static IEnumerable<City> GetGities(MainContext db)
+        public static IEnumerable<City> GetCities(MainContext db)
         {
             var cities = (from ci in db.Cities
                           join ad in db.Addresses on ci.CityId equals ad.CityId

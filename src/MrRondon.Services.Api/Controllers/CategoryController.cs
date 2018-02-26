@@ -30,21 +30,21 @@ namespace MrRondon.Services.Api.Controllers
             try
             {
                 name = name ?? string.Empty;
-                var categories = _db.SubCategories.Where(w => w.CategoryId == null && w.ShowOnApp && w.Name.Contains(name)).ToList();
+                var categories = _db.SubCategories.Where(w => w.CategoryId == null && w.ShowOnApp && w.Name.Contains(name) && (w.Companies.Any() || w.SubCategories.Any(a => a.Companies.Any()))).ToList();
 
-                var categoriesWithSubCategoriesHasCompany = _db.SubCategories.Where(w => w.Categories.Any(x => x.Companies.Any())).ToList();
+                var categoriesWithSubCategoriesHasCompany = _db.SubCategories.Where(w => w.SubCategories.Any(x => x.Companies.Any()));
 
-                categoriesWithSubCategoriesHasCompany.AddRange(categories);
+                //categories.AddRange(categoriesWithSubCategoriesHasCompany);
 
-                    var items = categoriesWithSubCategoriesHasCompany
-                    .Select(s => new CategoryListVm
-                    {
-                        SubCategoryId = s.SubCategoryId,
-                        Name = s.Name,
-                        Image = s.Image,
-                        HasCompany = s.Companies.Any(),
-                        HasSubCategory = s.Categories.Any()
-                    }).Distinct().ToList();
+                var items = categories
+                .Select(s => new CategoryListVm
+                {
+                    SubCategoryId = s.SubCategoryId,
+                    Name = s.Name,
+                    Image = s.Image,
+                    HasCompany = s.Companies.Any(),
+                    HasSubCategory = s.SubCategories.Any()
+                }).Distinct().ToList();
 
                 return Ok(items);
             }

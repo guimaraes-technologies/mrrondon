@@ -28,7 +28,7 @@ namespace MrRondon.Domain.Entities
         public int? CategoryId { get; set; }
         public SubCategory Category { get; set; }
 
-        public ICollection<SubCategory> Categories { get; set; }
+        public ICollection<SubCategory> SubCategories { get; set; }
         public ICollection<Company> Companies { get; set; }
 
         public string GetImage

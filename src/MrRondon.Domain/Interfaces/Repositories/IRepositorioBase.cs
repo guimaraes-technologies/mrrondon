@@ -6,8 +6,6 @@ namespace MrRondon.Domain.Interfaces.Repositories
 {
     public interface IRepositoryBase<TEntity> : IDisposable where TEntity : class
     {
-        TEntity Add(TEntity entity);
-        TEntity Update(TEntity entity);
         bool IsTrue(Expression<Func<TEntity, bool>> expression);
         TEntity GetItemByExpression(Expression<Func<TEntity, bool>> expression, params Expression<Func<TEntity, object>>[] objectsToInclude);
         IEnumerable<TEntity> GetItemsByExpression(Expression<Func<TEntity, bool>> expression, params Expression<Func<TEntity, object>>[] objectsToInclude);
