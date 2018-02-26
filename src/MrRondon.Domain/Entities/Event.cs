@@ -81,6 +81,6 @@ namespace MrRondon.Domain.Entities
             }
         }
 
-        //public ICollection<Contact> Contacts { get; set; }
+        public ICollection<Contact> Contacts { get; set; }
     }
 }

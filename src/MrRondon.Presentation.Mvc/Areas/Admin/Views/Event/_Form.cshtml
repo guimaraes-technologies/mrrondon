@@ -76,6 +76,12 @@
         <label>Mesmo que o organizador</label>
     </div>
 </h3>
+
+<h3 class="ui dividing header">Informações de Contato</h3>
+<div class="list-contact">
+    @Html.Action("Contacts", "Event", new { area = "Admin", companyContact = Model })
+</div>
+
 <div class="address">
     @Html.Partial("_Address", Model?.Address ?? new AddressForEventVm())
 </div>

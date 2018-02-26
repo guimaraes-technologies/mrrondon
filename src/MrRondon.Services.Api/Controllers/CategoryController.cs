@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
+using MrRondon.Domain.Entities;
 using MrRondon.Infra.Data.Context;
 using MrRondon.Services.Api.ViewModels;
 
@@ -30,19 +30,21 @@ namespace MrRondon.Services.Api.Controllers
             try
             {
                 name = name ?? string.Empty;
-                var items = (from s in _db.SubCategories
-                             join c in _db.Companies on s.SubCategoryId equals c.SubCategoryId
-                             where s.ShowOnApp && s.Name.Contains(name)
-                             group s by s.SubCategoryId
-                    into gp
-                             select gp.Select(s => new CategoryListVm
-                             {
-                                 SubCategoryId = s.SubCategoryId,
-                                 Name = s.Name,
-                                 Image = s.Image,
-                                 HasCompany = s.Companies.Any(),
-                                 HasSubCategory = s.Categories.Any()
-                             }).FirstOrDefault()).ToList().Distinct();
+                var categories = _db.SubCategories.Where(w => w.CategoryId == null && w.ShowOnApp && w.Name.Contains(name)).ToList();
+
+                var categoriesWithSubCategoriesHasCompany = _db.SubCategories.Where(w => w.Categories.Any(x => x.Companies.Any())).ToList();
+
+                categoriesWithSubCategoriesHasCompany.AddRange(categories);
+
+                    var items = categoriesWithSubCategoriesHasCompany
+                    .Select(s => new CategoryListVm
+                    {
+                        SubCategoryId = s.SubCategoryId,
+                        Name = s.Name,
+                        Image = s.Image,
+                        HasCompany = s.Companies.Any(),
+                        HasSubCategory = s.Categories.Any()
+                    }).Distinct().ToList();
 
                 return Ok(items);
             }

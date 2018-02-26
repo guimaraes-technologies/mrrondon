@@ -20,6 +20,9 @@ namespace MrRondon.Domain.Entities
         public Guid? CompanyId { get; set; }
         public Company Company { get; set; }
 
+        public Guid? EventId { get; set; }
+        public Event Event { get; set; }
+
         public void Atualizar(Contact item)
         {
             Description = item.Description;
