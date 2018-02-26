@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Data.Entity;
 using System.Web.Http;
 using MrRondon.Infra.Data.Context;
 
@@ -24,8 +23,7 @@ namespace MrRondon.Services.Api.Controllers
             {
                 name = name ?? string.Empty;
                 var subCategories = _db.SubCategories
-                    .Where(x => x.Companies.Any(a => a.SubCategoryId == x.SubCategoryId) && x.ShowOnApp &&
-                    x.CategoryId == categoryId && x.Name.Contains(name));
+                    .Where(x => x.ShowOnApp && x.Companies.Any(a => a.SubCategoryId == x.SubCategoryId) && x.CategoryId == categoryId && x.Name.Contains(name));
 
                 return Ok(subCategories.Select(s => new
                 {

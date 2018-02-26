@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data.Entity;
 using System.Linq;
 using System.Web.Http;
 using MrRondon.Domain.Entities;
@@ -30,11 +31,7 @@ namespace MrRondon.Services.Api.Controllers
             try
             {
                 name = name ?? string.Empty;
-                var categories = _db.SubCategories.Where(w => w.CategoryId == null && w.ShowOnApp && w.Name.Contains(name) && (w.Companies.Any() || w.SubCategories.Any(a => a.Companies.Any()))).ToList();
-
-                var categoriesWithSubCategoriesHasCompany = _db.SubCategories.Where(w => w.SubCategories.Any(x => x.Companies.Any()));
-
-                //categories.AddRange(categoriesWithSubCategoriesHasCompany);
+                var categories = _db.SubCategories.Where(w => w.CategoryId == null && w.ShowOnApp && w.Name.Contains(name) && (w.Companies.Any() || w.SubCategories.Any(a => a.Companies.Any()))).AsNoTracking();
 
                 var items = categories
                 .Select(s => new CategoryListVm
