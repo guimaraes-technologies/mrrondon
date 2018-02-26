@@ -22,7 +22,6 @@ namespace MrRondon.Presentation.Mvc.ViewModels
         {
             return new Address
             {
-                AddressId = address.AddressId,
                 Latitude = address.Latitude,
                 Longitude = address.Longitude,
                 LatitudeString = address.LatitudeString,

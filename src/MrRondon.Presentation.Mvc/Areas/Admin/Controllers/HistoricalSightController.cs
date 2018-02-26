@@ -28,6 +28,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [ValidateInput(false)]
         public ActionResult Create(CrudHistoricalSightVm model, Address address)
         {
             try
@@ -86,6 +87,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [ValidateInput(false)]
         public ActionResult Edit(CrudHistoricalSightVm model, Address address)
         {
             try

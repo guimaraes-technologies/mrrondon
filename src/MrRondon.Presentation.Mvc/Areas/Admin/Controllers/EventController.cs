@@ -29,10 +29,12 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [ValidateInput(false)]
         public ActionResult Create(CrudEventVm model, AddressForEventVm address)
         {
             try
             {
+                model.Address = address;
                 model.Event.Address = model.GetAddress(address);
                 model.Event.Address.SetCoordinates(address.LatitudeString, address.LongitudeString);
 
@@ -46,7 +48,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
                 if (!ModelState.IsValid)
                 {
                     SetBiewBags(model);
-                    return View(model);
+                    return View(model).Error(ModelState);
                 }
 
                 _db.Events.Add(model.Event);
@@ -81,6 +83,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [ValidateInput(false)]
         public ActionResult Edit(Event entity, AddressForEventVm address)
         {
             var model = new CrudEventVm { Event = entity };
@@ -99,7 +102,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
                 if (!ModelState.IsValid)
                 {
                     SetBiewBags(model);
-                    return View(model);
+                    return View(model).Error(ModelState);
                 }
 
                 _db.Entry(entity).State = EntityState.Modified;
@@ -159,10 +162,10 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
         {
             string cityId;
             if (model?.Event == null) cityId = string.Empty;
-            else cityId = model.Event.SameAddressAsOganizer ? model.Address?.CityId.ToString() : "";
+            else cityId = model.Event.SameAddressAsOganizer ? model.Event?.Organizer?.Address?.CityId.ToString() : model.Event?.Address?.CityId.ToString();
 
             ViewBag.Cities = new SelectList(_db.Cities, "CityId", "Name", cityId);
-            ViewBag.Companies = new SelectList(_db.Companies, "CompanyId", "Name", model?.Event?.Organizer?.CompanyId);
+            ViewBag.Companies = new SelectList(_db.Companies, "CompanyId", "Name", model?.Event?.OrganizerId);
         }
 
         public ActionResult GetOrganizerAddress(Guid companyId)
@@ -170,9 +173,16 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
             var company = _db.Companies.Include(i => i.Address).FirstOrDefault(f => f.CompanyId == companyId);
             if (company?.Address == null) return PartialView("_FormAddress");
 
-            var cities = _db.Database.SqlQuery<City>("SELECT DISTINCT ci.Name, ci.CityId FROM [City] ci JOIN [Address] ad ON ci.CityId = ad.CityId JOIN [Company] co ON ad.AddressId = co.AddressId").ToList();
+            var cities = (from ci in _db.Cities
+                          join ad in _db.Addresses on ci.CityId equals ad.CityId
+                          join co in _db.Companies on ad.AddressId equals co.AddressId
+                          group ci by ci.Name
+                into gp
+                          select gp.Select(s => s)).SelectMany(s => s).Distinct().ToList();
+
             ViewBag.Cities = new SelectList(cities, "CityId", "Name", company.Address?.CityId);
             company.Address.SetCoordinates();
+            
             return PartialView("_Address", AddressForEventVm.GetAddress(company.Address));
         }
 

@@ -11,28 +11,25 @@ namespace MrRondon.Domain.Entities
         [Key] public Guid AddressId { get; set; } = Guid.NewGuid();
 
         [Display(Name = "Rua/Avenida")]
-        [Required(ErrorMessageResourceType = typeof(Error), ErrorMessageResourceName = "Required")]
-        [MinLength(5, ErrorMessage = "Mínimo {0} caracteres")]
-        [MaxLength(60, ErrorMessage = "Máximo {0} caracteres")]
+        [Required(ErrorMessageResourceType = typeof(Error), ErrorMessageResourceName = "Required", AllowEmptyStrings = true)]
+        [MaxLength(60, ErrorMessage = "Máximo {1} caracteres")]
         public string Street { get; set; }
 
         [Display(Name = "Bairro")]
-        [Required(ErrorMessageResourceType = typeof(Error), ErrorMessageResourceName = "Required")]
-        [MinLength(4, ErrorMessage = "Mínimo {0} caracteres")]
-        [MaxLength(30, ErrorMessage = "Máximo {0} caracteres")]
+        [Required(ErrorMessageResourceType = typeof(Error), ErrorMessageResourceName = "Required", AllowEmptyStrings = true)]
+        [MaxLength(30, ErrorMessage = "Máximo {1} caracteres")]
         public string Neighborhood { get; set; }
 
         [Display(Name = "Número")]
-        [Required(ErrorMessageResourceType = typeof(Error), ErrorMessageResourceName = "Required")]
-        [MinLength(2, ErrorMessage = "Mínimo {0} caracteres")]
-        [MaxLength(6, ErrorMessage = "Máximo {0} caracteres")]
+        [Required(ErrorMessageResourceType = typeof(Error), ErrorMessageResourceName = "Required", AllowEmptyStrings = true)]
+        [MaxLength(6, ErrorMessage = "Máximo {1} caracteres")]
         public string Number { get; set; }
 
         [DisplayName("Complemento")] public string AdditionalInformation { get; set; }
 
         [Display(Name = "CEP")]
-        [Required(ErrorMessageResourceType = typeof(Error), ErrorMessageResourceName = "Required")]
-        [MaxLength(10, ErrorMessage = "Máximo {0} caracteres")]
+        [Required(ErrorMessageResourceType = typeof(Error), ErrorMessageResourceName = "Required", AllowEmptyStrings = true)]
+        [MaxLength(10, ErrorMessage = "Máximo {1} caracteres")]
         public string ZipCode { get; set; }
 
         [Required(ErrorMessageResourceType = typeof(Error), ErrorMessageResourceName = "Required")]
@@ -43,7 +40,7 @@ namespace MrRondon.Domain.Entities
 
         [NotMapped]
         [Display(Name = "Latitude")]
-        [Required(ErrorMessageResourceType = typeof(Error), ErrorMessageResourceName = "Required")]
+        [Required(ErrorMessageResourceType = typeof(Error), ErrorMessageResourceName = "Required", AllowEmptyStrings = true)]
         public string LatitudeString { get; set; }
 
         [NotMapped]

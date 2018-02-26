@@ -11,13 +11,13 @@ namespace MrRondon.Domain.Entities
 
         [Display(Name = "Nome")]
         [Required(ErrorMessageResourceType = typeof(Error), ErrorMessageResourceName = "Required")]
-        [MinLength(4, ErrorMessage = "Mínimo {0} caracteres")]
-        [MaxLength(30, ErrorMessage = "Máximo {0} caracteres")]
+        [MinLength(4, ErrorMessage = "Mínimo {1} caracteres")]
+        [MaxLength(30, ErrorMessage = "Máximo {1} caracteres")]
         public string Name { get; set; }
 
         [Display(Name = "História")]
         [Required(ErrorMessageResourceType = typeof(Error), ErrorMessageResourceName = "Required")]
-        [MaxLength(800, ErrorMessage = "Máximo {0} caracteres")]
+        [MaxLength(800, ErrorMessage = "Máximo {1} caracteres")]
         public string SightHistory { get; set; }
 
         [Display(Name = "Imagem da Logo")]

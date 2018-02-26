@@ -12,21 +12,21 @@ namespace MrRondon.Presentation.Mvc.ViewModels
         public Guid AddressId { get; set; } = Guid.NewGuid();
 
         [Display(Name = "Rua/Avenida")]
-        [MaxLength(60, ErrorMessage = "Máximo {0} caracteres")]
+        [MaxLength(60, ErrorMessage = "Máximo {1} caracteres")]
         public string Street { get; set; }
 
         [Display(Name = "Bairro")]
-        [MaxLength(30, ErrorMessage = "Máximo {0} caracteres")]
+        [MaxLength(30, ErrorMessage = "Máximo {1} caracteres")]
         public string Neighborhood { get; set; }
 
         [Display(Name = "Número")]
-        [MaxLength(6, ErrorMessage = "Máximo {0} caracteres")]
+        [MaxLength(6, ErrorMessage = "Máximo {1} caracteres")]
         public string Number { get; set; }
 
         [DisplayName("Complemento")] public string AdditionalInformation { get; set; }
 
         [Display(Name = "CEP")]
-        [MaxLength(10, ErrorMessage = "Máximo {0} caracteres")]
+        [MaxLength(10, ErrorMessage = "Máximo {1} caracteres")]
         public string ZipCode { get; set; }
 
         [Required(ErrorMessageResourceType = typeof(Error), ErrorMessageResourceName = "Required")]
@@ -52,7 +52,6 @@ namespace MrRondon.Presentation.Mvc.ViewModels
         {
             return new AddressForEventVm
             {
-                AddressId = address.AddressId,
                 Latitude = address.Latitude,
                 Longitude = address.Longitude,
                 Number = address.Number,

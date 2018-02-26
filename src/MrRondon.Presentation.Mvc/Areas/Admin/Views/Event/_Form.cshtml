@@ -10,7 +10,7 @@
 <div class="fields">
     <div class="six wide field">
         @Html.LabelFor(model => model.Event.Logo)
-        <img id="LogoImage" style="height: 250px; width: 250px;border: #045e55 3px solid" alt="" src="@Url.Content((Model?.Event.GetCover ?? "~/Content/Images/without_image.jpg"))" class="ui centered medium image circular">
+        <img id="LogoImage" style="height: 250px; width: 250px;border: #045e55 3px solid" alt="" src="@Url.Content((Model?.Event.GetLogo ?? "~/Content/Images/without_image.jpg"))" class="ui centered medium image circular">
         <div class="ui centered button">
             <span class="attach basic icon"></span> Anexar arquivo
 

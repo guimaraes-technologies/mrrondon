@@ -12,19 +12,19 @@ namespace MrRondon.Domain.Entities
 
         [Display(Name = "Nome")]
         [Required(ErrorMessageResourceType = typeof(Error), ErrorMessageResourceName = "Required")]
-        [MinLength(4, ErrorMessage = "Mínimo {0} caracteres")]
-        [MaxLength(60, ErrorMessage = "Máximo {0} caracteres")]
+        [MinLength(4, ErrorMessage = "Mínimo {1} caracteres")]
+        [MaxLength(60, ErrorMessage = "Máximo {1} caracteres")]
         public string Name { get; set; }
 
         [Display(Name = "Nome Fantasia")]
         [Required(ErrorMessageResourceType = typeof(Error), ErrorMessageResourceName = "Required")]
-        [MinLength(4, ErrorMessage = "Mínimo {0} caracteres")]
-        [MaxLength(60, ErrorMessage = "Máximo {0} caracteres")]
+        [MinLength(4, ErrorMessage = "Mínimo {1} caracteres")]
+        [MaxLength(60, ErrorMessage = "Máximo {1} caracteres")]
         public string FancyName { get; set; }
 
         [Display(Name = "CNPJ")]
         [Required(ErrorMessageResourceType = typeof(Error), ErrorMessageResourceName = "Required")]
-        [MaxLength(18, ErrorMessage = "Máximo {0} caracteres")]
+        [MaxLength(18, ErrorMessage = "Máximo {1} caracteres")]
         public string Cnpj { get; set; }
 
         [Display(Name = "Imagem da Logo")]
