@@ -48,7 +48,7 @@
     </div>
     <div class="six wide field">
         @Html.LabelFor(e => e.SubCategoryId)
-        @Html.SemanticDropDownListFor(e => e.SubCategoryId, (SelectList)ViewBag.SubCategories)
+        @Html.SemanticDropDownListOptionalFor(e => e.SubCategoryId, (SelectList)ViewBag.SubCategories)
     </div>
 </div>
 

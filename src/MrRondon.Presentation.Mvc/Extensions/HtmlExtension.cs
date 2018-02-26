@@ -314,7 +314,7 @@ namespace MrRondon.Presentation.Mvc.Extensions
 
             tag.Attributes.Add("id", TagBuilder.CreateSanitizedId(fullBindingName));
             tag.AddCssClass("ui selection dropdown");
-            tag.InnerHtml = $"<input name='{fullBindingName}' type='hidden'>";
+            tag.InnerHtml = $"<input name='{fullBindingName}' type='hidden' value='{selectList.FirstOrDefault(f => f.Selected)?.Value}'>";
             tag.InnerHtml += $"{removeIcon} {dropIcon}";
 
             tag.InnerHtml += $"<div class='default text'>{optionLabel}</div>";

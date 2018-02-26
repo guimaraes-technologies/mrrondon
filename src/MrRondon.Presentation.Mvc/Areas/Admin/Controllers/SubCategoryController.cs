@@ -25,9 +25,9 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
         public ActionResult Details(int id)
         {
             var repo = new RepositoryBase<SubCategory>(_db);
-            var category = repo.GetItemByExpression(x => x.SubCategoryId == id, x => x.Category);
-            if (category == null) return HttpNotFound();
-            return View(category);
+            var sub = repo.GetItemByExpression(x => x.SubCategoryId == id, x => x.Category);
+            if (sub == null) return HttpNotFound();
+            return View(sub);
         }
 
         public ActionResult Create()
