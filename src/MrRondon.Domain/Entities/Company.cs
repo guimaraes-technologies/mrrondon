@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using MrRondon.Infra.CrossCutting.Message;
+using Newtonsoft.Json;
 
 namespace MrRondon.Domain.Entities
 {
@@ -48,6 +49,7 @@ namespace MrRondon.Domain.Entities
 
         public ICollection<Contact> Contacts { get; set; }
 
+        [JsonIgnore]
         public string GetLogo
         {
             get
@@ -61,6 +63,7 @@ namespace MrRondon.Domain.Entities
             }
         }
 
+        [JsonIgnore]
         public string GetCover
         {
             get
@@ -74,6 +77,7 @@ namespace MrRondon.Domain.Entities
             }
         }
 
+        [JsonIgnore]
         public string GetSegment => SubCategory.Category == null ? SubCategory.Name : $"{SubCategory.Category.Name} - {SubCategory.Name}";
     }
 }

@@ -23,6 +23,7 @@ namespace MrRondon.Services.Api.Controllers
             try
             {
                 var item = _db.Companies
+                        .Include(i => i.Contacts)
                     .Include(i => i.Address.City)
                     .Include(s => s.SubCategory.Category).AsNoTracking()
                     .FirstOrDefault(f => f.CompanyId == id);
@@ -62,7 +63,7 @@ namespace MrRondon.Services.Api.Controllers
                 var items = _db.Companies.Where(x =>
                     x.SubCategoryId == segmentId && x.Address.CityId == city &&
                     (x.Name.Contains(name) || x.FancyName.Contains(name)));
-                return Ok(items.Select(s=>new
+                return Ok(items.Select(s => new
                 {
                     s.CompanyId,
                     s.Name,
