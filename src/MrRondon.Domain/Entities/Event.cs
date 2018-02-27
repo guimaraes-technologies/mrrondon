@@ -18,7 +18,7 @@ namespace MrRondon.Domain.Entities
 
         [Display(Name = "Descrição")]
         [Required(ErrorMessageResourceType = typeof(Error), ErrorMessageResourceName = "Required")]
-        [MaxLength(200, ErrorMessage = "Máximo {1} caracteres")]
+        [MaxLength(800, ErrorMessage = "Máximo {1} caracteres")]
         public string Description { get; set; }
 
         [Display(Name = "Valor")]
