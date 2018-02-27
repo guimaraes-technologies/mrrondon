@@ -24,14 +24,18 @@ namespace MrRondon.Services.Api.Controllers
             {
                 var item = _db.Companies
                     .Include(i => i.Address.City)
-                    .Include(s => s.SubCategory.Category)
+                    .Include(s => s.SubCategory.Category).AsNoTracking()
                     .FirstOrDefault(f => f.CompanyId == id);
                 if (item == null) return NotFound();
-
+                item.SubCategory.Companies = null;
+                item.SubCategory.Category.SubCategories = null;
+                item.SubCategory.Image = null;
+                item.SubCategory.Category.Image = null;
                 return Ok(new
                 {
                     item.CompanyId,
                     item.Name,
+                    item.Logo,
                     item.FancyName,
                     item.Cnpj,
                     item.AddressId,
