@@ -17,7 +17,7 @@ namespace MrRondon.Services.Api.Controllers
         }
 
         [AllowAnonymous]
-        [Route("{id:int}")]
+        [Route("{id:guid}")]
         public IHttpActionResult Get(Guid id)
         {
             try
@@ -26,7 +26,20 @@ namespace MrRondon.Services.Api.Controllers
                     .Include(i => i.Address.City)
                     .Include(s => s.SubCategory.Category)
                     .FirstOrDefault(f => f.CompanyId == id);
-                return Ok(item);
+                if (item == null) return NotFound();
+
+                return Ok(new
+                {
+                    item.CompanyId,
+                    item.Name,
+                    item.FancyName,
+                    item.Cnpj,
+                    item.AddressId,
+                    item.Address,
+                    item.Contacts,
+                    item.SubCategoryId,
+                    item.SubCategory
+                });
             }
             catch (Exception ex)
             {
