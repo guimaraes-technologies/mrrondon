@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Data.Entity;
 using System.Web.Http;
+using MrRondon.Domain.Entities;
 using MrRondon.Infra.Data.Context;
+using WebGrease.Css.Extensions;
 
 namespace MrRondon.Services.Api.Controllers
 {
@@ -23,7 +26,7 @@ namespace MrRondon.Services.Api.Controllers
             try
             {
                 var item = _db.Companies
-                        .Include(i => i.Contacts)
+                    .Include(i => i.Contacts)
                     .Include(i => i.Address.City)
                     .Include(s => s.SubCategory.Category).AsNoTracking()
                     .FirstOrDefault(f => f.CompanyId == id);
@@ -32,19 +35,29 @@ namespace MrRondon.Services.Api.Controllers
                 item.SubCategory.Category.SubCategories = null;
                 item.SubCategory.Image = null;
                 item.SubCategory.Category.Image = null;
-                return Ok(new
+
+                var result = new Company
                 {
-                    item.CompanyId,
-                    item.Name,
-                    item.Logo,
-                    item.FancyName,
-                    item.Cnpj,
-                    item.AddressId,
-                    item.Address,
-                    item.Contacts,
-                    item.SubCategoryId,
-                    item.SubCategory
-                });
+                    CompanyId = item.CompanyId,
+                    Name = item.Name,
+                    Logo = item.Logo,
+                    FancyName = item.FancyName,
+                    Cnpj = item.Cnpj,
+                    AddressId = item.AddressId,
+                    Address = item.Address,
+                    Contacts = new List<Contact>(),
+                    SubCategoryId = item.SubCategoryId,
+                    SubCategory = item.SubCategory
+                };
+
+                if (item.Contacts == null) return Ok(result);
+
+                foreach (var contact in item.Contacts)
+                {
+                    contact.Company = null;
+                    item.Contacts.Add(contact);
+                }
+                return Ok(result);
             }
             catch (Exception ex)
             {

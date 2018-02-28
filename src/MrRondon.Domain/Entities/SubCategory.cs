@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using MrRondon.Infra.CrossCutting.Message;
+using Newtonsoft.Json;
 
 namespace MrRondon.Domain.Entities
 {
@@ -31,6 +32,7 @@ namespace MrRondon.Domain.Entities
         public ICollection<SubCategory> SubCategories { get; set; }
         public ICollection<Company> Companies { get; set; }
 
+        [JsonIgnore]
         public string GetImage
         {
             get
@@ -41,6 +43,7 @@ namespace MrRondon.Domain.Entities
             }
         }
 
+        [JsonIgnore]
         public void SetImage(byte[] imageBytes)
         {
             Image = imageBytes;
