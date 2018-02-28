@@ -35,7 +35,7 @@ namespace MrRondon.Services.Api.Controllers
         }
 
         [AllowAnonymous]
-        [Route("{subcategoryId:int}")]
+        [Route("subcategory/{subcategoryId:int}")]
         public IHttpActionResult Get(int subcategoryId)
         {
             try
