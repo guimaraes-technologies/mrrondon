@@ -1,4 +1,4 @@
-﻿    using System;
+﻿using System;
 using System.Linq;
 using System.Data.Entity;
 using System.Web.Http;
@@ -16,7 +16,28 @@ namespace MrRondon.Services.Api.Controllers
         {
             _db = new MainContext();
         }
-        
+
+        [AllowAnonymous]
+        [Route("{eventId:guid}")]
+        public IHttpActionResult Get(Guid eventId)
+        {
+            try
+            {
+                var item = _db.Events
+                    .Include(i => i.Address.City)
+                    .Include(i => i.Contacts)
+                    .Include(i => i.Organizer)
+                    .FirstOrDefault(f => f.EventId == eventId);
+
+                if (item == null) return NotFound();
+                return Ok(item);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
         [AllowAnonymous]
         [Route("nearby/meters/{precision:int}/latitude/{latitudeFrom}/longitude/{longitudeFrom}")]
         public IHttpActionResult GetNearby(int precision, string latitudeFrom, string longitudeFrom)
@@ -31,7 +52,15 @@ namespace MrRondon.Services.Api.Controllers
                              where GeoLocatorHelper.PlacesAround(latitude, longitude, item.Address.Latitude, item.Address.Longitude, precision) <= precision
                              select item);
 
-                return Ok(items);
+                var result = items.Select(s =>
+                    new
+                    {
+                        s.EventId,
+                        s.Name,
+                        s.Logo,
+                        s.Address
+                    });
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -46,7 +75,19 @@ namespace MrRondon.Services.Api.Controllers
             try
             {
                 name = string.IsNullOrWhiteSpace(name) ? string.Empty : name;
-                return Ok(_db.Events.Include(i => i.Address.City).Where(x => x.Address.CityId == cityId && x.Name.Contains(name)));
+                var events = _db.Events.Include(i => i.Address.City).Where(x => x.Address.CityId == cityId && x.Name.Contains(name));
+                var result = events.Select(s =>
+                    new
+                    {
+                        s.EventId,
+                        s.Name,
+                        s.Logo,
+                        s.StartDate,
+                        s.EndDate,
+                        s.Value
+                    });
+
+                return Ok(result);
             }
             catch (Exception ex)
             {

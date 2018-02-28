@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using MrRondon.Infra.CrossCutting.Message;
+using Newtonsoft.Json;
 
 namespace MrRondon.Domain.Entities
 {
@@ -55,6 +56,7 @@ namespace MrRondon.Domain.Entities
         public Guid AddressId { get; set; }
         public Address Address { get; set; }
 
+        [JsonIgnore]
         public string GetLogo
         {
             get
@@ -68,6 +70,7 @@ namespace MrRondon.Domain.Entities
             }
         }
 
+        [JsonIgnore]
         public string GetCover
         {
             get
