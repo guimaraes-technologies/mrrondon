@@ -42,8 +42,7 @@ namespace MrRondon.Domain.Entities
                 return "~/Content/Images/without_image.jpg";
             }
         }
-
-        [JsonIgnore]
+        
         public void SetImage(byte[] imageBytes)
         {
             Image = imageBytes;
