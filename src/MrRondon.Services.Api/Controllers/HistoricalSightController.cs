@@ -40,7 +40,10 @@ namespace MrRondon.Services.Api.Controllers
             try
             {
                 name = string.IsNullOrWhiteSpace(name) ? string.Empty : name;
-                return Ok(_db.HistoricalSights.Where(x => x.Address.CityId == cityId && x.Name.Contains(name)));
+                var items = _db.HistoricalSights
+                    .Include(i => i.Address.City)
+                    .Where(x => x.Address.CityId == cityId && x.Name.Contains(name));
+                return Ok(items);
             }
             catch (Exception ex)
             {
