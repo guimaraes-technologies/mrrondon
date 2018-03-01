@@ -21,8 +21,8 @@ namespace MrRondon.Infra.Security.Helpers
             FullName = FindFirst(ClaimTypes.Name).Value;
         }
 
-        public static bool IsAuthenticated => Current.Identity.IsAuthenticated;
-        public static Guid UserId { get; private set; }
+        public bool IsAuthenticated => Current.Identity.IsAuthenticated;
+        public Guid UserId { get; private set; }
         public string FullName { get; }
 
         public static void Signin(User user, string password)
@@ -50,14 +50,12 @@ namespace MrRondon.Infra.Security.Helpers
                 user.LockoutEnd = null;
                 return user.GetClaims(authenticationType);
             }
-            else
+
+            if (user.AccessFailed == 5)
             {
-                if (user.AccessFailed == 5)
-                {
-                    if (!user.LockoutEnd.HasValue) user.LockoutEnd = DateTime.Now.AddMinutes(2);
-                }
-                else user.AccessFailed = user.AccessFailed + 1;
+                if (!user.LockoutEnd.HasValue) user.LockoutEnd = DateTime.Now.AddMinutes(2);
             }
+            else user.AccessFailed = user.AccessFailed + 1;
 
             if (user.AccessFailed > 0) throw new Exception(Error.WrongUserNameOrPassword);
 

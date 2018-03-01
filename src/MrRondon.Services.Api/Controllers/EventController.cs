@@ -3,6 +3,7 @@ using System.Linq;
 using System.Data.Entity;
 using System.Web.Http;
 using MrRondon.Infra.Data.Context;
+using MrRondon.Services.Api.Authorization;
 using MrRondon.Services.Api.Helpers;
 
 namespace MrRondon.Services.Api.Controllers
@@ -30,7 +31,26 @@ namespace MrRondon.Services.Api.Controllers
                     .FirstOrDefault(f => f.EventId == eventId);
 
                 if (item == null) return NotFound();
+                item.Logo = null;
+                if (Authentication.Current.IsAuthenticated)
+                    item.IsFavorite = _db.FavoriteEvents.Any(a => a.EventId == eventId && a.UserId == Authentication.Current.UserId);
                 return Ok(item);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [Route("{eventId:guid}/isfavorite")]
+        public IHttpActionResult IsFavorite(Guid eventId)
+        {
+            try
+            {
+                var isfavorite = _db.FavoriteEvents
+                    .Any(f => f.EventId == eventId && f.UserId == Authentication.Current.UserId);
+
+                return Ok(isfavorite);
             }
             catch (Exception ex)
             {

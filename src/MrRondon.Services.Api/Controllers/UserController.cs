@@ -4,7 +4,8 @@ using System.Linq;
 using System.Web.Http;
 using MrRondon.Domain.Entities;
 using MrRondon.Infra.Data.Context;
-using MrRondon.Infra.Security.Helpers;
+using MrRondon.Services.Api.Authorization;
+using Newtonsoft.Json.Linq;
 
 namespace MrRondon.Services.Api.Controllers
 {
@@ -23,7 +24,7 @@ namespace MrRondon.Services.Api.Controllers
         {
             try
             {
-                return Ok(_db.Users.Find(AccountManager.UserId));
+                return Ok(_db.Users.Find(Authentication.Current.UserId));
             }
             catch (Exception ex)
             {
@@ -36,7 +37,7 @@ namespace MrRondon.Services.Api.Controllers
         {
             try
             {
-                return Ok(_db.FavoriteEvents.Include(i => i.Event).Where(x => x.UserId == AccountManager.UserId));
+                return Ok(_db.FavoriteEvents.Include(i => i.Event).Where(x => x.UserId == Authentication.Current.UserId));
             }
             catch (Exception ex)
             {
@@ -45,15 +46,31 @@ namespace MrRondon.Services.Api.Controllers
         }
 
         [HttpPost]
-        [Route("event/favorite")]
-        public IHttpActionResult MarkAsFavorite([FromBody]FavoriteEvent model)
+        [Route("event/{eventId:guid}/favorite")]
+        public IHttpActionResult MarkAsFavorite(Guid eventId)
         {
             try
             {
-                _db.FavoriteEvents.Add(model);
+                var favoriteEvent = _db.FavoriteEvents.FirstOrDefault(f =>
+                    f.EventId == eventId && f.UserId == Authentication.Current.UserId);
+
+                if (favoriteEvent == null)
+                {
+                    favoriteEvent = new FavoriteEvent
+                    {
+                        EventId = eventId,
+                        UserId = Authentication.Current.UserId
+                    };
+
+                    _db.FavoriteEvents.Add(favoriteEvent);
+                    _db.SaveChanges();
+                    return Ok(true);
+                }
+
+                _db.FavoriteEvents.Remove(favoriteEvent);
                 _db.SaveChanges();
 
-                return Ok(model);
+                return Ok(false);
             }
             catch (Exception ex)
             {
@@ -67,10 +84,16 @@ namespace MrRondon.Services.Api.Controllers
         {
             try
             {
-                _db.FavoriteEvents.Remove(model);
+                if (_db.FavoriteEvents.Any(a => a.EventId == model.EventId)) return Ok(false);
+                var favoriteEvent = _db.FavoriteEvents.FirstOrDefault(f =>
+                    f.EventId == model.EventId && f.UserId == Authentication.Current.UserId);
+
+                if (favoriteEvent == null) return Ok(false);
+
+                _db.FavoriteEvents.Remove(favoriteEvent);
                 _db.SaveChanges();
 
-                return Ok(true);
+                return Ok(false);
             }
             catch (Exception ex)
             {

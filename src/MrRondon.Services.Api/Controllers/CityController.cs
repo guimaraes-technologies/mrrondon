@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Web.Http;
-using MrRondon.Domain.Entities;
 using MrRondon.Infra.Data.Context;
 
 namespace MrRondon.Services.Api.Controllers
@@ -25,8 +23,16 @@ namespace MrRondon.Services.Api.Controllers
             try
             {
                 name = name ?? string.Empty;
-                var cities = GetCities(_db).Where(x => x.Name.Contains(name));
-                return Ok(cities);
+
+                var cities = (from ci in _db.Cities
+                              join ad in _db.Addresses on ci.CityId equals ad.CityId
+                              where ci.Name.Contains(name)
+                              group ci by ci.Name
+                    into gp
+                              select gp.Select(s => s)).SelectMany(s => s).AsNoTracking();
+
+                var result = cities.Distinct();
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -35,13 +41,22 @@ namespace MrRondon.Services.Api.Controllers
         }
 
         [AllowAnonymous]
-        [Route("subcategory/{subcategoryId:int}")]
-        public IHttpActionResult Get(int subcategoryId)
+        [Route("first/{name}")]
+        public IHttpActionResult GetFirst(string name)
         {
             try
             {
-                var cities = GetCities(_db, subcategoryId);
-                return Ok(cities);
+                name = name ?? string.Empty;
+
+                var cities = (from ci in _db.Cities
+                    join ad in _db.Addresses on ci.CityId equals ad.CityId
+                    where ci.Name.Contains(name)
+                    group ci by ci.Name
+                    into gp
+                    select gp.Select(s => s)).SelectMany(s => s).AsNoTracking();
+
+                var result = cities.Distinct();
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -49,29 +64,74 @@ namespace MrRondon.Services.Api.Controllers
             }
         }
 
-        public static IEnumerable<City> GetCities(MainContext db)
+        [AllowAnonymous]
+        [Route("has/company/subcategory/{subCategoryId:int}")]
+        public IHttpActionResult GetWithCompany(int subCategoryId)
         {
-            var cities = (from ci in db.Cities
-                          join ad in db.Addresses on ci.CityId equals ad.CityId
-                          join co in db.Companies on ad.AddressId equals co.AddressId
-                          group ci by ci.Name
+            try
+            {
+                var cities = (from ci in _db.Cities
+                              join ad in _db.Addresses on ci.CityId equals ad.CityId
+                              join co in _db.Companies on ad.AddressId equals co.AddressId
+                              where co.SubCategoryId == subCategoryId
+                              group ci by ci.Name
                 into gp
-                          select gp.Select(s => s)).SelectMany(s => s).AsNoTracking();
+                              select gp.Select(s => s)).SelectMany(s => s).AsNoTracking();
 
-            return cities.Distinct();
+                var result = cities.Distinct();
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
-        public static IEnumerable<City> GetCities(MainContext db, int subCategoryId)
+        [AllowAnonymous]
+        [Route("has/event")]
+        public IHttpActionResult GetWithEvent()
         {
-            var cities = (from ci in db.Cities
-                          join ad in db.Addresses on ci.CityId equals ad.CityId
-                          join co in db.Companies on ad.AddressId equals co.AddressId
-                          where co.SubCategoryId == subCategoryId
-                          group ci by ci.Name
-                into gp
-                          select gp.Select(s => s)).SelectMany(s => s).AsNoTracking();
+            try
+            {
+                var cities = (from ci in _db.Cities
+                    join ad in _db.Addresses on ci.CityId equals ad.CityId
+                    join ev in _db.Events on ad.AddressId equals ev.AddressId
+                    group ci by ci.Name
+                    into gp
+                    select gp.Select(s => s)).SelectMany(s => s).AsNoTracking();
 
-            return cities.Distinct();
+                var result = cities.Distinct();
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [AllowAnonymous]
+        [Route("has/historicalsight")]
+        public IHttpActionResult GetWithHistoricalSightAsync()
+        {
+            try
+            {
+                var cities = (from ci in _db.Cities
+                    join ad in _db.Addresses on ci.CityId equals ad.CityId
+                    join h in _db.HistoricalSights on ad.AddressId equals h.AddressId
+                    group ci by ci.Name
+                    into gp
+                    select gp.Select(s => s)).SelectMany(s => s).AsNoTracking();
+
+                var result = cities.Distinct();
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         protected override void Dispose(bool disposing)

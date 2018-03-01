@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using MrRondon.Infra.CrossCutting.Message;
 using Newtonsoft.Json;
 
@@ -55,6 +56,9 @@ namespace MrRondon.Domain.Entities
         [Required(ErrorMessageResourceType = typeof(Error), ErrorMessageResourceName = "Required")]
         public Guid AddressId { get; set; }
         public Address Address { get; set; }
+
+        [NotMapped]
+        public bool IsFavorite { get; set; }
 
         [JsonIgnore]
         public string GetLogo

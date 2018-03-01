@@ -33,7 +33,6 @@ namespace MrRondon.Domain.Entities
         public Guid AddressId { get; set; }
         public Address Address { get; set; }
 
-
         public string GetLogo
         {
             get
