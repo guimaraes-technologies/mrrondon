@@ -18,7 +18,7 @@ namespace MrRondon.Infra.Security.Helpers
             if (!IsAuthenticated) return;
 
             UserId = Guid.Parse(FindFirst(ClaimTypes.NameIdentifier).Value);
-            FullName = FindFirst(ClaimTypes.Name).Value;
+            FullName = FindFirst(ClaimTypes.Name).Value;    
         }
 
         public bool IsAuthenticated => Current.Identity.IsAuthenticated;

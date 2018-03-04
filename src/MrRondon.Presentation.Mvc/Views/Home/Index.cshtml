@@ -1,0 +1,59 @@
+﻿@{ Layout = null;}
+<html>
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="~/Content/site/cover.css">
+    <title>Mr. Rondon Turismo</title>
+</head>
+<body>
+    <div id="geral">
+        <div id="topo">
+            <div id="titulo">
+                <font size="6" color="white" face="verdana">
+                    <b>Mr. Rondon Turismo</b>
+                </font>
+            </div>
+            <img src="@Url.Content("~/Content/Images/brasao_ro.png")" alt="">
+            <div id="login">
+                <a href="@Url.Action("Signin", "Account")">Àrea restrita</a>
+            </div>
+        </div>
+        <div id="corpo">
+            <div id="parte1">
+                <img src="mosaico.png" width="420px" height="450px" alt="">
+            </div>
+            <div id="parte2">
+                <img src="cel.gif" width="330px" height="450px" alt="">
+            </div>
+            <div id="parte3">
+                <br>
+                <font size="3" color="#006063" face="arial">
+                    <b>Mr. Rondon Turismo</b> é um aplicativo (App) desenvolvido para impulsionar o turismo de Rondônia.
+                    Visando atender as reais necessidades dos pioneiros e dos novos empreendedores do nosso estado,
+                    o App apresenta o perfil rondoniense agregado a uma personalidade histórica, Marechal Rondon.
+                    Com o App Mr. Rondon Turismo, as dificuldades associadas ao desconhecimento do turismo
+                    cultural e do turismo de negócios, transformam-se em oportunidades.
+                </font>
+                <br><br>
+                <div id="botao">
+                    <img src="android.png" width="35px" height="35px" alt="">
+                    <br>
+                    Disponível para Android
+                </div>
+                <div id="botao">
+                    <img src="apple.png" width="25px" height="30px" alt="">
+                    <br>
+                    Disponível para iOS
+                </div>
+            </div>
+            <div id="rodape">
+                <font size="2" color="white" face="verdana">
+                    Governo do Estado de Rondônia - @DateTime.Now.Year<br>
+                    Superintendência Estadual de Turismo - SETUR<br>
+                    &copy; Todos os Direitos Reservados
+                </font>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

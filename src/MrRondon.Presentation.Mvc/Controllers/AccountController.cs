@@ -28,7 +28,7 @@ namespace MrRondon.Presentation.Mvc.Controllers
         [AllowAnonymous]
         public ActionResult Signin(string returnUrl)
         {
-            return AccountManager.IsAuthenticated ? RedirectToLocal(returnUrl) : View(new SigninVm { ReturnUrl = returnUrl });
+            return Account.Current.IsAuthenticated ? RedirectToLocal(returnUrl) : View(new SigninVm { ReturnUrl = returnUrl });
         }
 
         [AllowAnonymous]
@@ -113,7 +113,7 @@ namespace MrRondon.Presentation.Mvc.Controllers
         //            return View(model).Error("O código informado não está correto!");
 
         //        if (!ModelState.IsValid) return View().Error(Error.Default);
-        //        var user = _db.Users.Find(AccountManager.UserId);
+        //        var user = _db.Users.Find(Account.Current.UserId);
         //        if (user == null)
         //            if (!_usuarioAppService.VerificarSenha(model.SenhaAntiga, user.UserId)) throw new Exception("Senha antiga não confere.");
         //        _usuarioAppService.AlterarSenha(user.UserId, model.ConfirmarSenha);
@@ -147,12 +147,12 @@ namespace MrRondon.Presentation.Mvc.Controllers
 
         public ActionResult Details()
         {
-            return View(_usuarioAppService.ObterPorId(Account.UserId));
+            return View(_usuarioAppService.ObterPorId(Account.Current.UserId));
         }
 
         public ActionResult Edit()
         {
-            return View(_usuarioAppService.ObterPorIdCustom(Account.UserId));
+            return View(_usuarioAppService.ObterPorIdCustom(Account.Current.UserId));
         }
 
         [HttpPost]
@@ -164,7 +164,7 @@ namespace MrRondon.Presentation.Mvc.Controllers
                 ModelState.Remove("Cpf");
                 ModelState.Remove("RolesIds");
                 if (!ModelState.IsValid) return View(model).Error(Error.ModelState);
-                if (Account.ContactId > 0) model.ContactId = Account.ContactId;
+                if (Account.Current.ContactId > 0) model.ContactId = Account.ContactId;
                 var result = _usuarioAppService.AtualizarInfo(model);
                 if (result.IsValid) return RedirectToAction("Detalhes").Success(Success.Saved);
 
@@ -204,9 +204,9 @@ namespace MrRondon.Presentation.Mvc.Controllers
         [AllowAnonymous]
         private ActionResult RedirectToLocal(string returnUrl)
         {
-            if (!AccountManager.IsAuthenticated) return RedirectToAction("Signin", "Account", new { area = "" });
+            if (!Account.Current.IsAuthenticated) return RedirectToAction("Signin", "Account", new { area = "" });
 
-            if (!string.IsNullOrWhiteSpace(returnUrl) && AccountManager.IsAuthenticated)
+            if (!string.IsNullOrWhiteSpace(returnUrl) && Account.Current.IsAuthenticated)
                 return Redirect(returnUrl);
 
             return RedirectToAction("Index", "Category", new { area = "Admin" });

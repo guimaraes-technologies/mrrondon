@@ -15,7 +15,7 @@
             <div class="right menu">
                 <div class="item gt-m-0">
                     &emsp;
-                    @if (AccountManager.IsAuthenticated)
+                    @if (Account.Current.IsAuthenticated)
                     {
                         <a class="ui right labeled icon inverted button" href="@Url.Action("Index", "Category", new {area = "Admin"})">@ClaimsPrincipal.Current.Identity.Name <i class="user icon"></i></a>
                     }

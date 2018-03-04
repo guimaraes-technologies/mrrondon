@@ -59,6 +59,7 @@
     <Reference Include="System.Net.Http" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helpers\Account.cs" />
     <Compile Include="Helpers\AccountManager.cs" />
     <Compile Include="Helpers\AuthenticationType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
