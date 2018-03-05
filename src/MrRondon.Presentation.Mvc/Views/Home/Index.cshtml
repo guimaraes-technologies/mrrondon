@@ -1,29 +1,61 @@
 ﻿@{ Layout = null;}
-<html>
+<html lang="pt-br">
 <head>
     <meta charset="utf-8">
+    <link rel="apple-touch-icon" sizes="57x57" href="/Content/Images/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/Content/Images/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/Content/Images/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/Content/Images/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/Content/Images/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/Content/Images/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/Content/Images/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/Content/Images/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/Content/Images/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/Content/Images/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/Content/Images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/Content/Images/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/Content/Images/favicon-16x16.png">
+    <link rel="manifest" href="/Content/Images/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+
+    <meta http-equiv="content-language" content="pt-br">
+    <meta http-equiv="content-type" content="text/html; charset=iso-8859-1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="application-name" content="Mr Rondon Turistmo">
+    <meta name="author" content="Equipe GoNew">
+    <meta name="description" content="Mr. Rondon Turismo é um aplicativo (App) desenvolvido para impulsionar o turismo de Rondônia. Visando atender as reais necessidades dos pioneiros e dos novos empreendedores do nosso estado, o App apresenta o perfil rondoniense agregado a uma personalidade histórica, Marechal Rondon. Com o App Mr. Rondon Turismo, as dificuldades associadas ao desconhecimento do turismo cultural e do turismo de negócios, transformam-se em oportunidades." />
+    <meta name="robots" content="index, follow">
+    <meta name="keywords" content="Mr Rondon, Rondon, Turismo, Setur, Mr Rondon App" />
+    <meta name="revised" content="08/03/2018" />
+    <meta name="copyright" content="Equipe GoNew [mrrondon.ozielguimaraes.net]" />
     <link rel="stylesheet" type="text/css" href="~/Content/site/cover.css">
     <title>Mr. Rondon Turismo</title>
 </head>
 <body>
     <div id="geral">
-        <div id="topo">
-            <div id="titulo">
-                <font size="6" color="white" face="verdana">
-                    <b>Mr. Rondon Turismo</b>
-                </font>
-            </div>
-            <img src="@Url.Content("~/Content/Images/brasao_ro.png")" alt="">
-            <div id="login">
-                <a href="@Url.Action("Signin", "Account")">Àrea restrita</a>
-            </div>
-        </div>
+        <header>
+            <nav>
+                <div class="header-title">
+                    <h1>Mr. Rondon Turismo</h1>
+                </div>
+                <div class="header-brasao">
+                    <img src="@Url.Content("~/Content/Images/brasao_ro.png")" alt="">
+                </div>
+                <div class="header-login">
+                    <a href="@Url.Action("Signin", "Account")">
+                        <img src="@Url.Content("~/Content/Images/login.png")" alt="" width="30" height="35">
+                    </a>
+                </div>
+            </nav>
+        </header>
         <div id="corpo">
             <div id="parte1">
-                <img src="mosaico.png" width="420px" height="450px" alt="">
+                <img src="@Url.Content("~/Content/Images/mosaico.png")" width="420px" height="450px" alt="">
             </div>
             <div id="parte2">
-                <img src="cel.gif" width="330px" height="450px" alt="">
+                <img src="@Url.Content("~/Content/Images/cel.gif")" width="330px" height="450px" alt="">
             </div>
             <div id="parte3">
                 <br>
@@ -41,18 +73,20 @@
                     Disponível para Android
                 </div>
                 <div id="botao">
-                    <img src="@Url.Content("~/Content/Images/ios.png")" width="25px" height="30px" alt="">
+                    <img src="@Url.Content("~/Content/Images/ios.png")" width="35px" height="35px" alt="">
                     <br>
                     Disponível para iOS
                 </div>
             </div>
-            <div id="rodape">
-                <font size="2" color="white" face="verdana">
-                    Governo do Estado de Rondônia - @DateTime.Now.Year<br>
-                    Superintendência Estadual de Turismo - SETUR<br>
-                    &copy; Todos os Direitos Reservados
-                </font>
-            </div>
+            <footer>
+                <div id="rodape">
+                    <font size="2" color="white" face="verdana">
+                        Governo do Estado de Rondônia - @DateTime.Now.Year<br>
+                        Superintendência Estadual de Turismo - SETUR<br>
+                        &copy; Todos os Direitos Reservados
+                    </font>
+                </div>
+            </footer>
         </div>
     </div>
 </body>
