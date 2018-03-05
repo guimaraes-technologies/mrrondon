@@ -466,6 +466,12 @@
     <Content Include="Areas\Admin\Views\Error\Erro404.cshtml" />
     <Content Include="Areas\Admin\Views\Event\Details.cshtml" />
     <Content Include="Content\Images\manifest.json" />
+    <Content Include="Areas\Admin\Views\User\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\User\_Navigation.cshtml" />
+    <Content Include="Areas\Admin\Views\User\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\User\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\User\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\User\_Form.cshtml" />
     <None Include="Properties\PublishProfiles\Webdeploy.pubxml" />
     <None Include="Scripts\jquery-3.2.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.2.1.js" />
@@ -501,6 +507,7 @@
     <Compile Include="Areas\Admin\Controllers\HistoricalSightController.cs" />
     <Compile Include="Areas\Admin\Controllers\MessageController.cs" />
     <Compile Include="Areas\Admin\Controllers\SubCategoryController.cs" />
+    <Compile Include="Areas\Admin\Controllers\UserController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Areas\Admin\Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -529,6 +536,7 @@
     <Compile Include="ViewModels\NewPasswordVm.cs" />
     <Compile Include="ViewModels\RecoveryPasswordVm.cs" />
     <Compile Include="ViewModels\SigninVm.cs" />
+    <Compile Include="ViewModels\UserContactVm.cs" />
     <Compile Include="ViewSwitcher.ascx.cs">
       <DependentUpon>ViewSwitcher.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

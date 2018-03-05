@@ -78,6 +78,7 @@
     <Compile Include="Buttons\ButtonsCity.cs" />
     <Compile Include="Buttons\ButtonsCategory.cs" />
     <Compile Include="Buttons\ButtonsCompany.cs" />
+    <Compile Include="Buttons\ButtonsUser.cs" />
     <Compile Include="DataTableParameters.cs" />
     <Compile Include="EmailManager.cs" />
     <Compile Include="EnumDescription.cs" />

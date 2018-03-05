@@ -1,0 +1,44 @@
+﻿@model SPBA.Application.ViewModels.UsuarioVm
+@{ViewBag.Title = "Detalhes do usuário";}
+@section header
+{
+    <h1 class="ui header">
+        <span class="content spba-text-uppercase">@ViewBag.Title</span>
+    </h1>
+}
+@section navigation_right
+{
+    @Html.Partial("_Navegacao",0)
+}
+<div class="ui stackable column grid divided spba-grid-details">
+    <div class="two column row">
+        <div class="three wide column">
+            <h4 class="ui header">Cpf</h4>
+            @Model.Cpf
+        </div>
+        <div class="thirteen wide column">
+            <h4 class="ui header">Nome completo</h4>
+            @Model.NomeCompleto
+        </div>
+    </div>
+
+    @if (Model.Entidade != null)
+    {
+        <div class="row">
+            <div class="column">
+                <h4 class="ui header">Entidade</h4>
+                @Model.Entidade.Nome
+            </div>
+        </div>
+    }
+
+    <div class="equal width row">
+        @foreach (var item in Model.ListaContatos.OrderBy(o => o.TipoContato))
+        {
+            <div class="column">
+                <h4 class="ui header">@item.TipoContato</h4>
+                @item.Descricao
+            </div>
+        }
+    </div>
+</div>

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 
 namespace MrRondon.Infra.CrossCutting.Helper.Buttons
 {

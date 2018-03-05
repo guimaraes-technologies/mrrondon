@@ -1,0 +1,25 @@
+﻿@model IEnumerable<MrRondon.Domain.Entities.User>
+@{ViewBag.Title = "Usuários";}
+@section header
+{
+    <h1 class="ui header">
+        <span class="content gt-text-uppercase">@ViewBag.Title</span>
+    </h1>
+}
+@section navigation_right
+{
+    @Html.Partial("_Navigation", 1)
+}
+<table class="ui very basic table gt-datatable" data-action="@Url.Action("GetPagination", "User", new { area = "Coordenador" })">
+    <thead>
+    <tr>
+        <th hidden></th>
+        <th class="ten wide"></th>
+        <th class="three wide"></th>
+        <th class="three wide"></th>
+    </tr>
+    </thead>
+</table>
+@section scripts {
+    @Scripts.Render("~/bundles/datatable")
+}
