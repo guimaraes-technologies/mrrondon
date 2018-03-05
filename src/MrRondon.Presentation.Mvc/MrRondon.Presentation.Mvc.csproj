@@ -268,8 +268,10 @@
     <Content Include="Content\components\visit.js" />
     <Content Include="Content\components\visit.min.js" />
     <Content Include="Content\DatePicker\datepicker.css" />
+    <Content Include="Content\Images\android.png" />
     <Content Include="Content\Images\brasao_ro.png" />
     <Content Include="Content\Images\carrossel\1.png" />
+    <Content Include="Content\Images\ios.png" />
     <Content Include="Content\Images\ponto.png" />
     <Content Include="Content\Images\without_image.jpg" />
     <Content Include="Content\plugins\lobibox\lobibox.css" />
