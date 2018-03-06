@@ -90,13 +90,13 @@ namespace MrRondon.Infra.CrossCutting.Helper
                         <hr />
                         <p>Olá <br /><br />Uma nova mensagem foi enviada através aplicativo Mr Rondon.</p>
                         <hr />
-<b>Nome:</b> {name} </b></br>
-<b>Email:</b> {email} </br>
-<b>Celular:</b> {cellphone}   <b>Telefone:</b>{telephone} </br>
-<b>Assunto:</b>  </br>
+<p><b>Nome:</b> {name} </b></p>
+<p><b>Email:</b> {email} </p>
+<p><b>Celular:</b> {cellphone}   <b>Telefone:</b>{telephone}</p>
+<p><b>Assunto:</b>  </p>
 <p>{subject}</p>
 </br>
-<b>Mensagem:</b> </br>
+<p><b>Mensagem:</b> </br></p>
 <p>{message}</p>
                         <hr />
                         <h5 style='text-align: center; color: rgba(0, 0, 0, .5); text-transform: uppercase;margin: 0'>Aplicativo Mr Rondon Turismo/SETUR</h5>
