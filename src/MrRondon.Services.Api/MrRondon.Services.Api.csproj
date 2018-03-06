@@ -157,6 +157,7 @@
     <Compile Include="Controllers\ContactController.cs" />
     <Compile Include="Controllers\EventController.cs" />
     <Compile Include="Controllers\HistoricalSightController.cs" />
+    <Compile Include="Controllers\LocationController.cs" />
     <Compile Include="Controllers\SubCategoryController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Extensions\DoubleExtension.cs" />
@@ -168,6 +169,8 @@
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\CategoryListVm.cs" />
     <Compile Include="ViewModels\ContactMessage.cs" />
+    <Compile Include="ViewModels\Enum.cs" />
+    <Compile Include="ViewModels\LocationVm.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

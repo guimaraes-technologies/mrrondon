@@ -52,6 +52,15 @@ namespace MrRondon.Domain.Entities
         public int CityId { get; set; }
         public City City { get; set; }
 
+        public string FullAddress
+        {
+            get
+            {
+                var address = $"{Street}, {Number}\n{Neighborhood}";
+                return City == null ? address : $"{address}\n{City.Name} - RO\n{ZipCode}";
+            }
+        }
+
         public void UpdateAddress(Address newAddress)
         {
             Street = newAddress.Street;
