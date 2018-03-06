@@ -19,6 +19,7 @@ namespace MrRondon.Services.Api.Controllers
             _db = new MainContext();
         }
 
+        [AllowAnonymous]
         [Route("nearby/meters/{precision:int}/latitude/{latitudeFrom}/longitude/{longitudeFrom}")]
         public IHttpActionResult GetNearby(int precision, string latitudeFrom, string longitudeFrom)
         {
