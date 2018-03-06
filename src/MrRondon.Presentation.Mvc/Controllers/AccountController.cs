@@ -88,7 +88,7 @@ namespace MrRondon.Presentation.Mvc.Controllers
                 var emailManager = new EmailManager(new ArrayList { email });
 
                 emailManager.ForgotPassword(user.FullName, $"{Request.Url.Authority}/account/newpassword/{user.PasswordRecoveryCode}");
-                await emailManager.SendAsync();
+                await emailManager.SendAsync(emailManager.Sender, "Sistema Mr Rondon Turismo");
 
                 return View(model).Success($"Um código para redefinição da sua senha foi enviado para o seu email: '{email}'");
             }

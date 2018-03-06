@@ -20,7 +20,8 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
         [AllowAnonymous]
         public JsonResult CpfEstaEmUso(string value)
         {
-            return Json(!_usuarioAppService.CpfEstaEmUso(value), JsonRequestBehavior.AllowGet);
+            var repo = new RepositoryBase<User>();
+            return Json(!repo.IsTrue(x => x.Cpf.Equals(value)), JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]

@@ -22,13 +22,13 @@ namespace MrRondon.Infra.CrossCutting.Helper
             Recipients = recipients;
         }
 
-        public async Task<bool> SendAsync()
+        public async Task<bool> SendAsync(string sender, string sendFrom)
         {
             try
             {
                 var mailMessage = new MailMessage
                 {
-                    From = new MailAddress(Sender, "Mr Rondon Turismo"),
+                    From = new MailAddress(sender, sendFrom),
                     Priority = MailPriority.Normal,
                     IsBodyHtml = true,
                     Subject = Subject,
@@ -80,6 +80,27 @@ namespace MrRondon.Infra.CrossCutting.Helper
                         <h5 style='text-align: center; color: rgba(0, 0, 0, .5); text-transform: uppercase;margin: 0'>SWTUR - Superintendência de Turismo </h5>
                     </section>
                 ";
+        }
+
+        public void NewContact(string subject, string email, string name, string cellphone, string telephone, string message)
+        {
+            Subject = $"Mr Rondon Turismo - {subject}";
+            Body = $@"<section style='width: 400px; padding: 1em;'>
+<h1 style='text-align: center; text-transform: uppercase;margin: 0'><small>Mr Rondon Turismo</small></h1>
+                        <hr />
+                        <p>Olá <br /><br />Uma nova mensagem foi enviada através aplicativo Mr Rondon.</p>
+                        <hr />
+<b>Nome:</b> {name} </b></br>
+<b>Email:</b> {email} </br>
+<b>Celular:</b> {cellphone}   <b>Telefone:</b>{telephone} </br>
+<b>Assunto:</b>  </br>
+<p>{subject}</p>
+</br>
+<b>Mensagem:</b> </br>
+<p>{message}</p>
+                        <hr />
+                        <h5 style='text-align: center; color: rgba(0, 0, 0, .5); text-transform: uppercase;margin: 0'>Aplicativo Mr Rondon Turismo/SETUR</h5>
+                    </section>";
         }
     }
 }
