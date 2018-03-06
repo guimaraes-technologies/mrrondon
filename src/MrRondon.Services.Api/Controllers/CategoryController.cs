@@ -2,13 +2,14 @@
 using System.Data.Entity;
 using System.Linq;
 using System.Web.Http;
-using MrRondon.Domain.Entities;
 using MrRondon.Infra.Data.Context;
 using MrRondon.Services.Api.ViewModels;
+using WebApi.OutputCache.V2;
 
 namespace MrRondon.Services.Api.Controllers
 {
     [RoutePrefix("v1/category")]
+    [CacheOutput(ClientTimeSpan = 50, ServerTimeSpan = 50)]
     public class CategoryController : ApiController
     {
         private readonly MainContext _db;

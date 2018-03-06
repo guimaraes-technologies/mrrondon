@@ -3,7 +3,6 @@ using System.Collections;
 using System.Threading.Tasks;
 using System.Web.Http;
 using MrRondon.Infra.CrossCutting.Helper;
-using MrRondon.Services.Api.Helpers;
 using MrRondon.Services.Api.ViewModels;
 
 namespace MrRondon.Services.Api.Controllers

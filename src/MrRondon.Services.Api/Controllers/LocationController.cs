@@ -6,9 +6,11 @@ using System.Web.Http;
 using MrRondon.Infra.Data.Context;
 using MrRondon.Services.Api.Helpers;
 using MrRondon.Services.Api.ViewModels;
+using WebApi.OutputCache.V2;
 
 namespace MrRondon.Services.Api.Controllers
 {
+    [CacheOutput(ClientTimeSpan = 50, ServerTimeSpan = 50)]
     [RoutePrefix("v1/location")]
     public class LocationController : ApiController
     {

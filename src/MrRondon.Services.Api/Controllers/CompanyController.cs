@@ -5,11 +5,12 @@ using System.Data.Entity;
 using System.Web.Http;
 using MrRondon.Domain.Entities;
 using MrRondon.Infra.Data.Context;
-using WebGrease.Css.Extensions;
+using WebApi.OutputCache.V2;
 
 namespace MrRondon.Services.Api.Controllers
 {
     [RoutePrefix("v1/company")]
+    [CacheOutput(ClientTimeSpan = 50, ServerTimeSpan = 50)]
     public class CompanyController : ApiController
     {
         private readonly MainContext _db;

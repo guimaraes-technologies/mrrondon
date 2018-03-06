@@ -5,10 +5,12 @@ using System.Web.Http;
 using MrRondon.Infra.Data.Context;
 using MrRondon.Services.Api.Authorization;
 using MrRondon.Services.Api.Helpers;
+using WebApi.OutputCache.V2;
 
 namespace MrRondon.Services.Api.Controllers
 {
     [RoutePrefix("v1/event")]
+    [CacheOutput(ClientTimeSpan = 50, ServerTimeSpan = 50)]
     public class EventController : ApiController
     {
         private readonly MainContext _db;

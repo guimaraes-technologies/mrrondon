@@ -2,10 +2,12 @@
 using System.Linq;
 using System.Web.Http;
 using MrRondon.Infra.Data.Context;
+using WebApi.OutputCache.V2;
 
 namespace MrRondon.Services.Api.Controllers
 {
     [RoutePrefix("v1/subcategory")]
+    [CacheOutput(ClientTimeSpan = 50, ServerTimeSpan = 50)]
     public class SubCategoryController : ApiController
     {
         private readonly MainContext _db;

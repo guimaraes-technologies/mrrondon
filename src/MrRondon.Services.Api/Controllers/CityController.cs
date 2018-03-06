@@ -3,10 +3,12 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web.Http;
 using MrRondon.Infra.Data.Context;
+using WebApi.OutputCache.V2;
 
 namespace MrRondon.Services.Api.Controllers
 {
     [RoutePrefix("v1/city")]
+    [CacheOutput(ClientTimeSpan = 50, ServerTimeSpan = 50)]
     public class CityController : ApiController
     {
         private readonly MainContext _db;
