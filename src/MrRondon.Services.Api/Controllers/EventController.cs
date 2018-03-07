@@ -95,12 +95,16 @@ namespace MrRondon.Services.Api.Controllers
         }
 
         [Route("favorites")]
-        public IHttpActionResult Fsavorite()
+        public IHttpActionResult Favorite()
         {
             try
             {
                 var favorites = _db.FavoriteEvents
                     .Include(i => i.Event).Where(x => x.UserId == Authentication.Current.UserId);
+                foreach (var item in favorites)
+                {
+                    item.Event.Cover = null;
+                }
                 return Ok(favorites);
             }
             catch (Exception ex)

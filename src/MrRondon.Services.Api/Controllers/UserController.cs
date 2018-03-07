@@ -24,7 +24,11 @@ namespace MrRondon.Services.Api.Controllers
         {
             try
             {
-                return Ok(_db.Users.Find(Authentication.Current.UserId));
+                var user = _db.Users
+                    .Include(i => i.Contacts)
+                    .FirstOrDefault(f => f.UserId == Authentication.Current.UserId);
+
+                return Ok(user);
             }
             catch (Exception ex)
             {
