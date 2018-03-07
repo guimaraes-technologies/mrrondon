@@ -34,29 +34,31 @@
     </div>
 </div>
 <div class="fields">
-    <div class="three wide field">
+    <div class="eight wide field">
         @Html.LabelFor(model => model.Event.StartDate)
         <div class="ui calendar">
             <div class="ui input left icon">
                 <i class="calendar icon"></i>
-                @Html.SemanticTextDateFor(model => model.Event.StartDate, new { @class = "gt-calendar", autocomplete = "off" })
+                @Html.SemanticTextDateTimeFor(model => model.Event.StartDate, new { autocomplete = "off" })
             </div>
         </div>
     </div>
-    <div class="three wide field">
+    <div class="eight wide field">
         @Html.LabelFor(model => model.Event.EndDate)
         <div class="ui calendar">
             <div class="ui input left icon">
                 <i class="calendar icon"></i>
-                @Html.SemanticTextDateFor(model => model.Event.EndDate, new { @class = "gt-calendar", autocomplete = "off" })
+                @Html.SemanticTextDateTimeFor(model => model.Event.EndDate, new { autocomplete = "off" })
             </div>
         </div>
     </div>
-    <div class="three wide field">
+</div>
+<div class="fields">
+    <div class="five wide field">
         @Html.LabelFor(e => e.Event.Value)
         @Html.SemanticNumericBoxFor(e => e.Event.Value, null)
     </div>
-    <div class="seven wide field">
+    <div class="eleven wide field">
         @Html.LabelFor(e => e.Event.OrganizerId)
         @Html.SemanticDropDownListOptionalFor(e => e.Event.OrganizerId, (SelectList)ViewBag.Companies)
     </div>
@@ -64,7 +66,7 @@
 <div class="fields">
     <div class="sixteen wide field">
         @Html.LabelFor(e => e.Event.Description)
-        @Html.SemanticTextAreaFor(e => e.Event.Description, null)
+        @Html.SemanticTextAreaFor(e => e.Event.Description)
     </div>
 </div>
 

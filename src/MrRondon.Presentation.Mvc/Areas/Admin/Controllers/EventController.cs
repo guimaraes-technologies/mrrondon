@@ -231,7 +231,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
                 {
                     item.EventId.ToString(),
                     $"{item.Name}",
-                    $"{(item.StartDate.Date == item.EndDate.Date ? item.StartDate.ToShortDateString() : $"{item.StartDate.ToShortDateString()} - {item.EndDate.ToShortDateString()}")}",
+                    $"{(item.StartDate == item.EndDate ? item.StartDate.ToString("dd/MM/yyyy HH:mm") : $"{item.StartDate:dd/MM/yyyy HH:mm} - {item.EndDate:dd/MM/yyyy HH:mm}")}",
                     item.City.Name,
                     buttons.ToPagination(item.EventId)
                 });

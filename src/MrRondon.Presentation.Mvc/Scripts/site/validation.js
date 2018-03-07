@@ -32,7 +32,8 @@
         switch (mask) {
             case "cpf": element.mask("999.999.999-99"); break;
             case "data": element.mask("99/99/9999"); break;
-            case "hora": element.mask("99:99"); break;
+            case "datetime": element.mask("99/99/9999 99:99"); break;
+            case "time": element.mask("99:99"); break;
             case "cep": element.mask("99999-999"); break;
             case "cnpj": element.mask("99.999.999/9999-99"); break;
             case "telephone": element.mask("(99) 9999-9999"); break;
@@ -68,6 +69,7 @@
             switch (element.data("gtmask")) {
                 case "cpf": element.mask("999.999.999-99"); break;
                 case "data": element.mask("99/99/9999"); break;
+                case "datetime": element.mask("99/99/9999 99:99"); break;
                 case "hora": element.mask("99:99"); break;
                 case "cep": element.mask("99999-999"); break;
                 case "cnpj": element.mask("99.999.999/9999-99"); break;

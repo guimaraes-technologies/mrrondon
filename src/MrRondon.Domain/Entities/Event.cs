@@ -32,11 +32,19 @@ namespace MrRondon.Domain.Entities
         [Required(ErrorMessageResourceType = typeof(Error), ErrorMessageResourceName = "Required")]
         public DateTime StartDate { get; set; }
 
+        [Display(Name = "Horário de Início")]
+        [NotMapped]
+        public string StartTime { get; set; }
+
         [Display(Name = "Fim")]
         [DataType(DataType.DateTime)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
         [Required(ErrorMessageResourceType = typeof(Error), ErrorMessageResourceName = "Required")]
         public DateTime EndDate { get; set; }
+
+        [Display(Name = "Horário de Fim")]
+        [NotMapped]
+        public string EndTime { get; set; }
 
         [Display(Name = "Imagem da Logo")]
         [Required(ErrorMessageResourceType = typeof(Error), ErrorMessageResourceName = "Required")]
