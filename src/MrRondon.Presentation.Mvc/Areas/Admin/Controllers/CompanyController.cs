@@ -27,7 +27,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
         public ActionResult Details(Guid id)
         {
             var repo = new RepositoryBase<Company>(_db);
-            var company = repo.GetItemByExpression(x => x.CompanyId == id, i => i.Address.City, i => i.SubCategory.Category);
+            var company = repo.GetItemByExpression(x => x.CompanyId == id, i => i.Address.City, i => i.SubCategory.Category, i => i.Contacts);
             if (company == null) return HttpNotFound();
             return View(company);
         }

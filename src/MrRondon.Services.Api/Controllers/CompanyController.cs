@@ -31,33 +31,32 @@ namespace MrRondon.Services.Api.Controllers
                     .Include(i => i.Address.City)
                     .Include(s => s.SubCategory.Category).AsNoTracking()
                     .FirstOrDefault(f => f.CompanyId == id);
+
                 if (item == null) return NotFound();
                 item.SubCategory.Companies = null;
                 item.SubCategory.Category.SubCategories = null;
                 item.SubCategory.Image = null;
                 item.SubCategory.Category.Image = null;
 
+
                 var result = new Company
                 {
                     CompanyId = item.CompanyId,
                     Name = item.Name,
-                    Logo = item.Logo,
+                    Cover = item.Cover,
                     FancyName = item.FancyName,
                     Cnpj = item.Cnpj,
                     AddressId = item.AddressId,
                     Address = item.Address,
-                    Contacts = new List<Contact>(),
                     SubCategoryId = item.SubCategoryId,
                     SubCategory = item.SubCategory
                 };
-
+                
                 if (item.Contacts == null) return Ok(result);
 
-                foreach (var contact in item.Contacts)
-                {
-                    contact.Company = null;
-                    item.Contacts.Add(contact);
-                }
+                foreach (var contact in item.Contacts) contact.Company = null;
+                result.Contacts = item.Contacts;
+
                 return Ok(result);
             }
             catch (Exception ex)
