@@ -88,7 +88,7 @@ namespace MrRondon.Infra.CrossCutting.Helper
             Body = $@"<section style='width: 400px; padding: 1em;'>
 <h1 style='text-align: center; text-transform: uppercase;margin: 0'><small>Mr Rondon Turismo</small></h1>
                         <hr />
-                        <p>Olá <br /><br />Uma nova mensagem foi enviada através aplicativo Mr Rondon.</p>
+                        <p>Olá <br /><br />Uma nova mensagem foi enviada através do aplicativo Mr Rondon.</p>
                         <hr />
 <p><b>Nome:</b> {name} </b></p>
 <p><b>Email:</b> {email} </p>

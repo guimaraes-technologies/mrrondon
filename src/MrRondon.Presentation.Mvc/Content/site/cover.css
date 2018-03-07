@@ -39,15 +39,16 @@
 #corpo {
     clear: both;
     padding-top: 1px;
-    width: 100%;
+    width: 99%;
     text-align: center;
     color: darkblue;
+    margin: 0 auto
 }
 
 #parte1 {
     float: left;
     /*height:450px;*/
-    width: 450px;
+    width: 30%;
     color: darkblue;
     text-align: center;
     margin-top: 10px;
@@ -59,7 +60,7 @@
 #parte2 {
     float: left;
     /*height:450px;*/
-    width: 450px;
+    width: 28%;
     color: darkblue;
     text-align: center;
     margin-top: 10px;
@@ -71,7 +72,7 @@
 #parte3 {
     float: left;
     /*height:450px;*/
-    width: 420px;
+    width: 33%;
     color: darkblue;
     text-align: justify;
     margin-top: 10px;

@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Data.Entity;
 using System.Web.Http;
+using MrRondon.Domain.Entities;
 using MrRondon.Infra.Data.Context;
 using MrRondon.Services.Api.Authorization;
 using MrRondon.Services.Api.Helpers;
@@ -53,6 +54,54 @@ namespace MrRondon.Services.Api.Controllers
                     .Any(f => f.EventId == eventId && f.UserId == Authentication.Current.UserId);
 
                 return Ok(isfavorite);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("{eventId:guid}/favorite")]
+        public IHttpActionResult MarkAsFavorite(Guid eventId)
+        {
+            try
+            {
+                var favoriteEvent = _db.FavoriteEvents.FirstOrDefault(f =>
+                    f.EventId == eventId && f.UserId == Authentication.Current.UserId);
+
+                if (favoriteEvent == null)
+                {
+                    favoriteEvent = new FavoriteEvent
+                    {
+                        EventId = eventId,
+                        UserId = Authentication.Current.UserId
+                    };
+
+                    _db.FavoriteEvents.Add(favoriteEvent);
+                    _db.SaveChanges();
+                    return Ok(true);
+                }
+
+                _db.FavoriteEvents.Remove(favoriteEvent);
+                _db.SaveChanges();
+
+                return Ok(false);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [Route("favorites")]
+        public IHttpActionResult Fsavorite()
+        {
+            try
+            {
+                var favorites = _db.FavoriteEvents
+                    .Include(i => i.Event).Where(x => x.UserId == Authentication.Current.UserId);
+                return Ok(favorites);
             }
             catch (Exception ex)
             {
