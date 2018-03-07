@@ -1,9 +1,10 @@
-﻿@model MrRondon.Presentation.Mvc.ViewModels.UsuarioContatoVm
+﻿@using MrRondon.Presentation.Mvc.Extensions
+@model MrRondon.Presentation.Mvc.ViewModels.UserContactVm
 @if (Model != null)
 {
     <div class="field">
         @Html.LabelFor(model => model.Cpf)
-        <div class="ui segment spba-m-0" style="padding: 0.67857143em 1em;box-shadow: none">
+        <div class="ui segment gt-m-0" style="padding: 0.67857143em 1em;box-shadow: none">
             @Html.DisplayFor(model => model.Cpf)
             @Html.HiddenFor(model => model.Cpf)
         </div>
@@ -18,22 +19,22 @@ else
 }
 <div class="two fields">
     <div class="field">
-        @Html.LabelFor(model => model.Nome)
-        @Html.SemanticTextBoxFor(model => model.Nome, null)
+        @Html.LabelFor(model => model.FirstName)
+        @Html.SemanticTextBoxFor(model => model.FirstName, null)
     </div>
     <div class="field">
-        @Html.LabelFor(model => model.Sobrenome)
-        @Html.SemanticTextBoxFor(model => model.Sobrenome, null)
+        @Html.LabelFor(model => model.LastName)
+        @Html.SemanticTextBoxFor(model => model.LastName, null)
     </div>
 </div>
 <div class="field">
     @Html.LabelFor(model => model.RolesIds)
-    @Html.SemanticEnumDropDownListFor(model => model.RolesIds, ViewBag.Roles as SelectList, "Selecione...", new { @class = "ui fluid dropdown spba-drop-role", data_setresult = "#dropEntidades", data_dropcompare = "Entidade" })
+    @Html.SemanticEnumDropDownListFor(model => model.RolesIds, ViewBag.Roles as SelectList, "Selecione...", new { @class = "ui fluid dropdown gt-drop-role", data_setresult = "#dropEntidades", data_dropcompare = "Empresa" })
 </div>
-<div id="dropEntidades" class="field" style="display: @(Model?.EntidadeId != null ? "block" : "none")">
-    @Html.Label("Entidade")
-    @Html.SemanticDropDownListFor(model => model.EntidadeId, ViewBag.EntidadeId as SelectList, "Selecione...", new { @class = "ui search fluid dropdown" })
+<div id="dropEntidades" class="field" style="display: @(Model?.CompanyId != null ? "block" : "none")">
+    @Html.Label("Empresa")
+    @Html.SemanticDropDownListFor(model => model.CompanyId, ViewBag.CompanyId as SelectList, "Selecione...", new { @class = "ui search fluid dropdown" })
 </div>
 <div class="lista-contato">
-    @Html.Action("Contatos", "Usuario", new { area = "Coordenador", usuarioContatoVm = Model })
+    @Html.Action("Contacts", "User", new { area = "Admin", userContact = Model })
 </div>

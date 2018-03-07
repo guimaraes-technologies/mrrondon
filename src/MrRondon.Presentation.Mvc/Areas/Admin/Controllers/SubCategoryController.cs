@@ -117,7 +117,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
             {
                 dtResult.data.Add(new[]
                 {
-                    item.CategoryId.ToString(),
+                    item.SubCategoryId.ToString(),
                     $"{item.Name}",
                     $"{item.Category?.Name ?? "Não informada"}",
                     buttons.ToPagination(item.SubCategoryId)

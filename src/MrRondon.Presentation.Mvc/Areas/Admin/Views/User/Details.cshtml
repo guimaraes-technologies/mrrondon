@@ -33,11 +33,11 @@
     }
 
     <div class="equal width row">
-        @foreach (var item in Model.ListaContatos.OrderBy(o => o.TipoContato))
+        @foreach (var item in Model.Contacts.OrderBy(o => o.ContactType))
         {
             <div class="column">
-                <h4 class="ui header">@item.TipoContato</h4>
-                @item.Descricao
+                <h4 class="ui header">@item.ContactType</h4>
+                @item.Description
             </div>
         }
     </div>

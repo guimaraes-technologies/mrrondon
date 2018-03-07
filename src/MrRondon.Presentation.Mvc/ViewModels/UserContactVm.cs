@@ -8,20 +8,20 @@ using MrRondon.Infra.CrossCutting.Message;
 
 namespace MrRondon.Presentation.Mvc.ViewModels
 {
-    public class UsuarioContatoVm
+    public class UserContactVm
     {
         [Key]
-        public Guid UsuarioId { get; set; }
+        public Guid UserId { get; set; }
 
         [DisplayName("Primeiro Nome")]
         [Required(ErrorMessageResourceType = typeof(Error), ErrorMessageResourceName = "Required")]
-        public string Nome { get; set; }
+        public string FirstName { get; set; }
         [Required(ErrorMessageResourceType = typeof(Error), ErrorMessageResourceName = "Required")]
-        public string Sobrenome { get; set; }
+        public string LastName { get; set; }
 
         [DisplayName("CPF")]
         [Required(ErrorMessageResourceType = typeof(Error), ErrorMessageResourceName = "Required")]
-        [Remote("CpfIsInUse", "User","Admin", ErrorMessage = "Esse CPF está em uso.")]
+        [Remote("CpfIsInUse", "User", "Admin", ErrorMessage = "Esse CPF está em uso.")]
         public string Cpf { get; set; }
         public bool IsActive { get; set; } = true;
         public bool IsBlocked { get; set; }
@@ -38,6 +38,21 @@ namespace MrRondon.Presentation.Mvc.ViewModels
         [Display(Name = "Perfil")]
         [Required(ErrorMessageResourceType = typeof(Error), ErrorMessageResourceName = "Required")]
         public int[] RolesIds { get; set; }
-        public int? CompanyId { get; set; }
+        public Guid? CompanyId { get; set; }
+
+        public User GetUser()
+        {
+            var user = new User
+            {
+                FirstName = FirstName,
+                LastName = LastName,
+                Contacts = Contacts,
+                AccessFailed = 0,
+                Cpf = Cpf,
+                IsActive = true
+            };
+
+            return user;
+        }
     }
 }

@@ -33,7 +33,6 @@ namespace MrRondon.Presentation.Mvc.Controllers
 
         [AllowAnonymous]
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult Signin(SigninVm model)
         {
             try
