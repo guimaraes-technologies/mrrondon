@@ -76,15 +76,17 @@ namespace MrRondon.Services.Api.Controllers
             {
                 name = string.IsNullOrWhiteSpace(name) ? string.Empty : name;
 
-                var items = _db.Companies.Where(x =>
-                    x.SubCategoryId == segmentId && x.Address.CityId == city &&
-                    (x.Name.Contains(name) || x.FancyName.Contains(name)));
+                var items = _db.Companies
+                    .Include(i => i.Address)
+                    .Where(x => x.SubCategoryId == segmentId && x.Address.CityId == city &&
+                                (x.Name.Contains(name) || x.FancyName.Contains(name)));
                 return Ok(items.Select(s => new
                 {
                     s.CompanyId,
                     s.Name,
                     s.Logo,
-                    s.Cnpj
+                    s.Cnpj,
+                    s.Address
                 }));
             }
             catch (Exception ex)
