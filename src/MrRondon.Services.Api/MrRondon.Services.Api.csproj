@@ -178,6 +178,7 @@
     <Compile Include="ViewModels\ContactMessage.cs" />
     <Compile Include="ViewModels\Enum.cs" />
     <Compile Include="ViewModels\LocationVm.cs" />
+    <Compile Include="ViewModels\RegisterVm.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -8,6 +8,11 @@ namespace MrRondon.Domain.Entities
 {
     public class User
     {
+        public User()
+        {
+            UserId = UserId == Guid.Empty ? Guid.NewGuid() : UserId;
+        }
+
         [Key]
         public Guid UserId { get; set; } = Guid.NewGuid();
         public string Cpf { get; set; }
