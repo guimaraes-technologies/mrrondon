@@ -59,5 +59,10 @@ namespace MrRondon.Domain.Entities
             FirstName = firstName;
             LastName = lastName;
         }
+
+        public void UpdateStatus()
+        {
+            IsActive = !IsActive;
+        }
     }
 }

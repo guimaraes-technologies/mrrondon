@@ -7,7 +7,7 @@ namespace MrRondon.Infra.CrossCutting.Helper.Buttons
     {
         public string ToPagination(Guid id, bool isActive)
         {
-            return $"{Edit(id)} {UpdateStatus(id, isActive)} {Details(id)}";
+            return $"{UpdateStatus(id, isActive)} {Details(id)}";
         }
 
         private MvcHtmlString Details(Guid id)

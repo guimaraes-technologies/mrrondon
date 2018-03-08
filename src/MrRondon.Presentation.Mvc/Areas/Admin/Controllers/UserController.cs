@@ -63,8 +63,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
                 var cpfIsInUse = _db.Users.Any(x => x.Cpf.Equals(user.Cpf));
                 if (cpfIsInUse) throw new Exception($"Este CPF '{user.Cpf}' já está em uso");
 
-                user.EncryptPassword(user.Cpf.Replace(".", "").Replace("-", ""));
-
+                user.EncryptPassword("111111");
 
                 user.Roles = new List<Role>();
 
@@ -85,6 +84,25 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
             {
                 GetDrops(userContact.RolesIds?.FirstOrDefault());
                 return View(userContact).Error(e.Message);
+            }
+        }
+
+        public ActionResult UpdateStatus(Guid id)
+        {
+            try
+            {
+                var user = _db.Users.FirstOrDefault(f => f.UserId == id);
+
+                if (user == null) throw new Exception("Usuário não encontrado");
+
+                _db.Entry(user).Property(u => u.IsActive).CurrentValue = !user.IsActive;
+                _db.SaveChanges();
+
+                return RedirectToAction("Index").Success("Operação realizada com sucesso");
+            }
+            catch (Exception e)
+            {
+                return RedirectToAction("Index").Error(e.Message);
             }
         }
 
