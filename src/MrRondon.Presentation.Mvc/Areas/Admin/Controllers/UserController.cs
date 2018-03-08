@@ -83,7 +83,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
             }
             catch (Exception e)
             {
-                GetDrops(userContact.RolesIds?.FirstOrDefault(), userContact.CompanyId);
+                GetDrops(userContact.RolesIds?.FirstOrDefault());
                 return View(userContact).Error(e.Message);
             }
         }
@@ -157,13 +157,11 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
             ViewBag.UrlAdd = Url.Action("AddContact", "User", new { area = "Admin" });
             ViewBag.UrlRemove = Url.Action("RemoveContact", "User", new { area = "Admin" });
         }
-        private void GetDrops(int? roleId = null, Guid? companyId = null)
+
+        private void GetDrops(int? roleId = null)
         {
             var roles = _db.Roles;
             ViewBag.Roles = new SelectList(roles, "RoleId", "Name", roleId);
-
-            var companies = _db.Companies;//todo Apenas ativos?
-            ViewBag.EntidadeId = new SelectList(companies, "CompanyId", "Name", companyId);
         }
     }
 }

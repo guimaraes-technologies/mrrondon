@@ -58,6 +58,45 @@ namespace MrRondon.Presentation.Mvc.Controllers
             return RedirectToAction("Signin", "Account", new { area = "" });
         }
 
+        public ActionResult Details()
+        {
+            var user = _db.Users
+                    .Include(i => i.Contacts)
+                .FirstOrDefault(f => f.UserId == Account.Current.UserId);
+            return View(user);
+        }
+
+        public ActionResult Edit()
+        {
+            var user = _db.Users
+                .Include(i => i.Contacts)
+                .FirstOrDefault(f => f.UserId == Account.Current.UserId);
+            return View(user);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(UserContactVm model)
+        {
+            try
+            {
+                ModelState.Remove("Cpf");
+                ModelState.Remove("RolesIds");
+                if (!ModelState.IsValid) return View(model).Error(ModelState);
+
+                var result = _usuarioAppService.AtualizarInfo(model);
+                if (result.IsValid) return RedirectToAction("Details").Success(Success.Saved);
+
+                ViewBag.Erros = result.Erros.Select(validationError => validationError.Message);
+
+                throw new Exception(Error.ModelState);
+            }
+            catch (Exception e)
+            {
+                return View(model).Error(e.Message);
+            }
+        }
+
         [AllowAnonymous]
         public ActionResult RecoveryPassword()
         {
@@ -142,39 +181,6 @@ namespace MrRondon.Presentation.Mvc.Controllers
                 return RedirectToAction("Signin").Success(Success.ChangePassword);
             }
             return View().Error(Error.ModelState);
-        }
-
-        public ActionResult Details()
-        {
-            return View(_usuarioAppService.ObterPorId(Account.Current.UserId));
-        }
-
-        public ActionResult Edit()
-        {
-            return View(_usuarioAppService.ObterPorIdCustom(Account.Current.UserId));
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(UsuarioContatoVm model)
-        {
-            try
-            {
-                ModelState.Remove("Cpf");
-                ModelState.Remove("RolesIds");
-                if (!ModelState.IsValid) return View(model).Error(Error.ModelState);
-                if (Account.Current.ContactId > 0) model.ContactId = Account.ContactId;
-                var result = _usuarioAppService.AtualizarInfo(model);
-                if (result.IsValid) return RedirectToAction("Detalhes").Success(Success.Saved);
-
-                ViewBag.Erros = result.Erros.Select(validationError => validationError.Message);
-
-                throw new Exception(Error.ModelState);
-            }
-            catch (Exception e)
-            {
-                return View(model).Error(e.Message);
-            }
         }
 
         [AllowAnonymous]

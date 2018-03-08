@@ -26,6 +26,7 @@ namespace MrRondon.Presentation.Mvc.ViewModels
         public bool IsActive { get; set; } = true;
         public bool IsBlocked { get; set; }
         public DateTime CreateOn { get; set; } = DateTime.Now;
+        public int AccessFailed { get; set; }
         public ICollection<Role> Roles { get; set; }
         public List<Contact> Contacts { get; set; }
 
@@ -38,7 +39,6 @@ namespace MrRondon.Presentation.Mvc.ViewModels
         [Display(Name = "Perfil")]
         [Required(ErrorMessageResourceType = typeof(Error), ErrorMessageResourceName = "Required")]
         public int[] RolesIds { get; set; }
-        public Guid? CompanyId { get; set; }
 
         public User GetUser()
         {
@@ -47,9 +47,13 @@ namespace MrRondon.Presentation.Mvc.ViewModels
                 FirstName = FirstName,
                 LastName = LastName,
                 Contacts = Contacts,
-                AccessFailed = 0,
+                AccessFailed = AccessFailed,
                 Cpf = Cpf,
-                IsActive = true
+                IsActive = IsActive,
+                CreateOn = CreateOn,
+                UserId = UserId,
+                Roles = Roles,
+                Logins = lo
             };
 
             return user;
