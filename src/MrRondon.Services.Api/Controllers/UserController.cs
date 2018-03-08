@@ -30,6 +30,8 @@ namespace MrRondon.Services.Api.Controllers
                     .Include(i => i.Contacts)
                     .FirstOrDefault(f => f.UserId == Authentication.Current.UserId);
 
+                if (user == null) return BadRequest("Usuário não existe");
+                if (user.Contacts != null) foreach (var contact in user.Contacts) contact.User = null;
                 return Ok(user);
             }
             catch (Exception ex)
