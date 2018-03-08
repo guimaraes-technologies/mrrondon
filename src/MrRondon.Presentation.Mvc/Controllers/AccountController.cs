@@ -11,6 +11,7 @@ using MrRondon.Infra.CrossCutting.Message;
 using MrRondon.Infra.Data.Context;
 using MrRondon.Infra.Data.Repositories;
 using MrRondon.Infra.Security.Helpers;
+using MrRondon.Presentation.Mvc.Areas.Admin.Controllers;
 using MrRondon.Presentation.Mvc.Extensions;
 using MrRondon.Presentation.Mvc.ViewModels;
 
@@ -61,7 +62,7 @@ namespace MrRondon.Presentation.Mvc.Controllers
         public ActionResult Details()
         {
             var user = _db.Users
-                    .Include(i => i.Contacts)
+                .Include(i => i.Contacts)
                 .FirstOrDefault(f => f.UserId == Account.Current.UserId);
             return View(user);
         }
@@ -82,14 +83,20 @@ namespace MrRondon.Presentation.Mvc.Controllers
             {
                 ModelState.Remove("Cpf");
                 ModelState.Remove("RolesIds");
-                if (!ModelState.IsValid) return View(model).Error(ModelState);
+                if (!ModelState.IsValid)
+                {
+                    ViewBag.Erros = ErrorController.Get(ModelState);
+                    return View(model).Error(ModelState);
+                }
 
-                var result = _usuarioAppService.AtualizarInfo(model);
-                if (result.IsValid) return RedirectToAction("Details").Success(Success.Saved);
+                var oldUser = _db.Users
+                    .Include(i => i.Contacts)
+                    .Include(i => i.Roles)
+                    .FirstOrDefault(f => f.UserId == Account.Current.UserId);
 
-                ViewBag.Erros = result.Erros.Select(validationError => validationError.Message);
+                oldUser.Update(model.FirstName, model.LastName);
 
-                throw new Exception(Error.ModelState);
+                throw new Exception("Não implementado");
             }
             catch (Exception e)
             {
@@ -153,8 +160,8 @@ namespace MrRondon.Presentation.Mvc.Controllers
         //        if (!ModelState.IsValid) return View().Error(Error.Default);
         //        var user = _db.Users.Find(Account.Current.UserId);
         //        if (user == null)
-        //            if (!_usuarioAppService.VerificarSenha(model.SenhaAntiga, user.UserId)) throw new Exception("Senha antiga não confere.");
-        //        _usuarioAppService.AlterarSenha(user.UserId, model.ConfirmarSenha);
+        //            if (!_UserAppService.VerificarSenha(model.SenhaAntiga, user.UserId)) throw new Exception("Senha antiga não confere.");
+        //        _UserAppService.AlterarSenha(user.UserId, model.ConfirmarSenha);
         //        return RedirectToAction("Detalhes").Success(Success.Saved);
         //    }
         //    catch (Exception e)
@@ -177,7 +184,7 @@ namespace MrRondon.Presentation.Mvc.Controllers
         {
             if (ModelState.IsValid)
             {
-                _usuarioAppService.AlterarSenha(changePassword.UserId, changePassword.ConfirmarSenha);
+                _UserAppService.AlterarSenha(changePassword.UserId, changePassword.ConfirmarSenha);
                 return RedirectToAction("Signin").Success(Success.ChangePassword);
             }
             return View().Error(Error.ModelState);
@@ -197,7 +204,7 @@ namespace MrRondon.Presentation.Mvc.Controllers
             {
                 if (!ModelState.IsValid) return View(model).Error(Error.ModelState);
 
-                _usuarioAppService.AlterarSenha(model);
+                _UserAppService.AlterarSenha(model);
                 return RedirectToAction("Signin").Success(Success.ChangePassword);
             }
             catch (Exception ex)

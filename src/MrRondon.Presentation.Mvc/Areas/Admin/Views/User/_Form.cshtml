@@ -31,10 +31,6 @@ else
     @Html.LabelFor(model => model.RolesIds)
     @Html.SemanticEnumDropDownListFor(model => model.RolesIds, ViewBag.Roles as SelectList, "Selecione...", new { @class = "ui fluid dropdown gt-drop-role", data_setresult = "#dropEntidades", data_dropcompare = "Empresa" })
 </div>
-<div id="dropEntidades" class="field" style="display: @(Model?.CompanyId != null ? "block" : "none")">
-    @Html.Label("Empresa")
-    @Html.SemanticDropDownListFor(model => model.CompanyId, ViewBag.CompanyId as SelectList, "Selecione...", new { @class = "ui search fluid dropdown" })
-</div>
-<div class="lista-contato">
+<div class="list-contact">
     @Html.Action("Contacts", "User", new { area = "Admin", userContact = Model })
 </div>

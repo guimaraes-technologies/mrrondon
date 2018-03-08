@@ -13,9 +13,11 @@ namespace MrRondon.Presentation.Mvc.ViewModels
         [Key]
         public Guid UserId { get; set; }
 
-        [DisplayName("Primeiro Nome")]
+        [DisplayName("Nome")]
         [Required(ErrorMessageResourceType = typeof(Error), ErrorMessageResourceName = "Required")]
         public string FirstName { get; set; }
+
+        [DisplayName("Sobrenome")]
         [Required(ErrorMessageResourceType = typeof(Error), ErrorMessageResourceName = "Required")]
         public string LastName { get; set; }
 
@@ -52,11 +54,15 @@ namespace MrRondon.Presentation.Mvc.ViewModels
                 IsActive = IsActive,
                 CreateOn = CreateOn,
                 UserId = UserId,
-                Roles = Roles,
-                Logins = lo
+                Roles = Roles
             };
 
             return user;
+        }
+
+        public bool IsValid()
+        {
+            throw new NotImplementedException();
         }
     }
 }

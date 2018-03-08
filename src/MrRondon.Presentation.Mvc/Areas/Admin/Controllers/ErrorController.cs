@@ -17,9 +17,11 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
             }
         }
 
-        public ICollection<string> Get(ModelStateDictionary modelState)
+        public static ICollection<string> Get(ModelStateDictionary modelState)
         {
-            return modelState.Values.Where(x => x.Errors.Any()).SelectMany(s => s.Errors).Select(item => $"- {item.ErrorMessage}").ToList();
+            var errors= modelState.Values.Where(x => x.Errors.Any()).SelectMany(s => s.Errors).Select(item => $"- {item.ErrorMessage}").ToList();
+
+            return errors;
         }
 
         public class Error

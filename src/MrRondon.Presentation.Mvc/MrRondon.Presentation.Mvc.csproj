@@ -490,6 +490,7 @@
     <Content Include="Scripts\site\datepicker.config.js" />
     <Content Include="Scripts\site\image-preview.js" />
     <Content Include="Scripts\site\semantic-extension.js" />
+    <Content Include="Scripts\site\user.js" />
     <Content Include="Scripts\site\validation.js" />
     <Content Include="ViewSwitcher.ascx" />
     <Content Include="Web.config" />
@@ -570,6 +571,7 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Account\Details.cshtml" />
     <Content Include="Views\Account\_Navigation.cshtml" />
+    <Content Include="Views\Account\Edit.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

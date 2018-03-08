@@ -32,7 +32,6 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
 
             if (user == null) return RedirectToAction("Index").Error("Usuário não encontrado");
 
-
             return View(user);
         }
 
@@ -76,6 +75,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
                         user.Roles.Add(role);
                 }
 
+                user.UserId = Guid.NewGuid();
                 _db.Users.Add(user);
                 _db.SaveChanges();
 
@@ -128,7 +128,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
         {
             var search = parameters.Search.Value?.ToLower() ?? string.Empty;
             var repo = new RepositoryBase<User>(_db);
-            var items = repo.GetItemsByExpression(w => w.FullName.Contains(search) || w.Cpf.Replace(".", "").Replace("-", "").Contains(search), x => x.FullName, parameters.Start, parameters.Length, out var recordsTotal)
+            var items = repo.GetItemsByExpression(w => string.Concat(w.FirstName, " ", w.LastName).Contains(search), x => x.FirstName, parameters.Start, parameters.Length, out var recordsTotal)
                 .Select(s => new
                 {
                     s.UserId,
@@ -138,15 +138,16 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
                 }).ToList();
             var dtResult = new DataTableResultSet(parameters.Draw, recordsTotal);
 
-            var buttonsEntidade = new ButtonsUser();
+            var buttonsUser = new ButtonsUser();
             foreach (var item in items)
             {
                 dtResult.data.Add(new[]
                 {
-                    item.IsActive.ToString(),
+                    item.UserId.ToString(),
                     item.FullName,
                     item.Cpf,
-                    buttonsEntidade.ToPagination(item.UserId, item.IsActive)
+                    $"{(item.IsActive ? "Ativado" : "Desativado")}",
+                    buttonsUser.ToPagination(item.UserId, item.IsActive)
                 });
             }
             return Json(dtResult, JsonRequestBehavior.AllowGet);

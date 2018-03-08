@@ -10,16 +10,18 @@
 {
     @Html.Partial("_Navigation", 1)
 }
-<table class="ui very basic table gt-datatable" data-action="@Url.Action("GetPagination", "User", new { area = "Coordenador" })">
+<table class="ui very basic table gt-datatable" data-action="@Url.Action("GetPagination", "User", new { area = "Admin" })">
     <thead>
     <tr>
         <th hidden></th>
-        <th class="ten wide"></th>
+        <th class="nine wide"></th>
         <th class="three wide"></th>
-        <th class="three wide"></th>
+        <th class="two wide"></th>
+        <th class="two wide"></th>
     </tr>
     </thead>
 </table>
+
 @section scripts {
     @Scripts.Render("~/bundles/datatable")
 }

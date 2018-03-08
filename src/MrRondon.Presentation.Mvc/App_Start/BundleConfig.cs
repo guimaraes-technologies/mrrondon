@@ -54,6 +54,10 @@ namespace MrRondon.Presentation.Mvc
             bundles.Add(new ScriptBundle("~/bundles/historicalsight").Include(
                 "~/Scripts/site/image-preview.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/user").Include(
+                "~/Scripts/site/contact.js",
+                "~/Scripts/site/user.js"));
+
             BundleTable.EnableOptimizations = true;
         }
     }

@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Text;
 using System.Web.Mvc;
+using MrRondon.Presentation.Mvc.Areas.Admin.Controllers;
 
 namespace MrRondon.Presentation.Mvc.Extensions
 {

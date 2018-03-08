@@ -53,5 +53,11 @@ namespace MrRondon.Domain.Entities
         {
             return Password = PasswordAssertionConcern.ComputeHash(password);
         }
+
+        public void Update(string firstName, string lastName)
+        {
+            FirstName = firstName;
+            LastName = lastName;
+        }
     }
 }

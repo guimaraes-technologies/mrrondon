@@ -1,16 +1,17 @@
-﻿@model SPBA.Application.ViewModels.UsuarioVm
+﻿@using MrRondon.Presentation.Mvc.Extensions
+@model MrRondon.Domain.Entities.User
 @{ViewBag.Title = "Detalhes do usuário";}
 @section header
 {
     <h1 class="ui header">
-        <span class="content spba-text-uppercase">@ViewBag.Title</span>
+        <span class="content gt-text-uppercase">@ViewBag.Title</span>
     </h1>
 }
 @section navigation_right
 {
-    @Html.Partial("_Navegacao",0)
+    @Html.Partial("_Navigation", 1)
 }
-<div class="ui stackable column grid divided spba-grid-details">
+<div class="ui stackable column grid divided gt-grid-details">
     <div class="two column row">
         <div class="three wide column">
             <h4 class="ui header">Cpf</h4>
@@ -18,25 +19,15 @@
         </div>
         <div class="thirteen wide column">
             <h4 class="ui header">Nome completo</h4>
-            @Model.NomeCompleto
+            @Model.FullName
         </div>
     </div>
-
-    @if (Model.Entidade != null)
-    {
-        <div class="row">
-            <div class="column">
-                <h4 class="ui header">Entidade</h4>
-                @Model.Entidade.Nome
-            </div>
-        </div>
-    }
 
     <div class="equal width row">
         @foreach (var item in Model.Contacts.OrderBy(o => o.ContactType))
         {
             <div class="column">
-                <h4 class="ui header">@item.ContactType</h4>
+                <h4 class="ui header">@EnumExtension.Get(item.ContactType)</h4>
                 @item.Description
             </div>
         }
