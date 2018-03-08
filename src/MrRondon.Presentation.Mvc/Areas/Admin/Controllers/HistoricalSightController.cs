@@ -114,7 +114,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
                     .Include(c => c.Address)
                     .FirstOrDefault(x => x.HistoricalSightId == model.HistoricalSight.HistoricalSightId);
 
-                if (oldHistoricalSight == null) return RedirectToAction("Index").Success("Patrimônio Histórico atualizado com sucesso");
+                if (oldHistoricalSight == null) return RedirectToAction("Index").Success("Memorial atualizado com sucesso");
 
                 _db.Entry(oldHistoricalSight).CurrentValues.SetValues(model.HistoricalSight);
 
@@ -122,7 +122,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
                 _db.Entry(oldHistoricalSight.Address).State = EntityState.Modified;
                 _db.SaveChanges();
 
-                return RedirectToAction("Index").Success("Patrimônio Histórico atualizado com sucesso");
+                return RedirectToAction("Index").Success("Memorial atualizado com sucesso");
             }
             catch (Exception ex)
             {
