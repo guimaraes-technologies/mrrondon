@@ -34,10 +34,13 @@ namespace MrRondon.Services.Api.Controllers
 
                 if (item == null) return NotFound();
                 item.SubCategory.Companies = null;
-                item.SubCategory.Category.SubCategories = null;
-                item.SubCategory.Image = null;
-                item.SubCategory.Category.Image = null;
 
+                if (item.SubCategory.Category != null)
+                {
+                    item.SubCategory.Category.SubCategories = null;
+                    item.SubCategory.Category.Image = null;
+                }
+                item.SubCategory.Image = null;
 
                 var result = new Company
                 {
@@ -51,7 +54,7 @@ namespace MrRondon.Services.Api.Controllers
                     SubCategoryId = item.SubCategoryId,
                     SubCategory = item.SubCategory
                 };
-                
+
                 if (item.Contacts == null) return Ok(result);
 
                 foreach (var contact in item.Contacts) contact.Company = null;
