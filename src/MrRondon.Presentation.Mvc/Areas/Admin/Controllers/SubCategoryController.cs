@@ -62,7 +62,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
         public ActionResult Edit(int id)
         {
             var repo = new RepositoryBase<SubCategory>(_db);
-            var category = repo.GetItemByExpression(x => x.CategoryId == id);
+            var category = repo.GetItemByExpression(x => x.SubCategoryId == id);
             if (category == null) return HttpNotFound();
 
             ViewBag.Categories = new SelectList(_db.SubCategories.Where(s => s.CategoryId == null).OrderBy(o => o.Name), "SubCategoryId", "Name", category.SubCategoryId);
