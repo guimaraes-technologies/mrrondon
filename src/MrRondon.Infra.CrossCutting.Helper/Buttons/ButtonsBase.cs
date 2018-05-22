@@ -15,6 +15,7 @@ namespace MrRondon.Infra.CrossCutting.Helper.Buttons
         protected string IconActive => "checkmark icon";
         protected string IconDisable => "ban icon";
         protected string IconDetails => "list icon";
+        protected string IconReset => "sync icon";
 
         public MvcHtmlString Image(byte[] imageArray)
         {

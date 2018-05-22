@@ -15,6 +15,7 @@ using Address = MrRondon.Domain.Entities.Address;
 
 namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class CompanyController : Controller
     {
         private readonly MainContext _db = new MainContext();

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Security.Claims;
+using System.Text.RegularExpressions;
 
 namespace MrRondon.Domain.Entities
 {
@@ -20,7 +21,7 @@ namespace MrRondon.Domain.Entities
         public string LastName { get; set; }
 
         [MaxLength(100)]
-        public string Password { get;  private set; }
+        public string Password { get; private set; }
         public int AccessFailed { get; set; }
         public DateTime? LastLogin { get; set; }
         public DateTime? LockoutEnd { get; set; }
@@ -68,6 +69,13 @@ namespace MrRondon.Domain.Entities
         public void UpdateStatus()
         {
             IsActive = !IsActive;
+        }
+
+        public string ResetPassword()
+        {
+            var digitsRegex = new Regex(@"[^\d]");
+            var password = digitsRegex.Replace(Cpf, "");
+            return EncryptPassword(password);
         }
     }
 }

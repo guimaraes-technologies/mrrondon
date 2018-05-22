@@ -30,19 +30,16 @@ namespace MrRondon.Domain
             }
 
             // Convert plain text into a byte array.
-            var plainTextBytes = Encoding.UTF8.GetBytes(plainText);
+            var plainTextBytes = Encoding.UTF8.GetBytes($"_{plainText}@GT");
 
             // Allocate array, which will hold plain text and salt.
-            var plainTextWithSaltBytes =
-                    new byte[plainTextBytes.Length + saltBytes.Length];
+            var plainTextWithSaltBytes = new byte[plainTextBytes.Length + saltBytes.Length];
 
             // Copy plain text bytes into resulting array.
-            for (var i = 0; i < plainTextBytes.Length; i++)
-                plainTextWithSaltBytes[i] = plainTextBytes[i];
+            for (var i = 0; i < plainTextBytes.Length; i++) plainTextWithSaltBytes[i] = plainTextBytes[i];
 
             // Append salt bytes to the resulting array.
-            for (var i = 0; i < saltBytes.Length; i++)
-                plainTextWithSaltBytes[plainTextBytes.Length + i] = saltBytes[i];
+            for (var i = 0; i < saltBytes.Length; i++) plainTextWithSaltBytes[plainTextBytes.Length + i] = saltBytes[i];
 
             // Because we support multiple hashing algorithms, we must define
             // hash object as a common (abstract) base class. We will specify the
@@ -86,8 +83,7 @@ namespace MrRondon.Domain
             for (var i = 0; i < hashBytes.Length; i++) hashWithSaltBytes[i] = hashBytes[i];
 
             // Append salt bytes to the result.
-            for (var i = 0; i < saltBytes.Length; i++)
-                hashWithSaltBytes[hashBytes.Length + i] = saltBytes[i];
+            for (var i = 0; i < saltBytes.Length; i++) hashWithSaltBytes[hashBytes.Length + i] = saltBytes[i];
 
             // Convert result into a base64-encoded string.
             var hashValue = Convert.ToBase64String(hashWithSaltBytes);
@@ -105,8 +101,7 @@ namespace MrRondon.Domain
             int hashSizeInBits;
 
             // Make sure that hashing algorithm name is specified.
-            if (hashAlgorithm == null)
-                hashAlgorithm = "";
+            if (hashAlgorithm == null) hashAlgorithm = "";
 
             // Size of hash is based on the specified algorithm.
             switch (hashAlgorithm.ToUpper())
@@ -136,28 +131,26 @@ namespace MrRondon.Domain
             var hashSizeInBytes = hashSizeInBits / 8;
 
             // Make sure that the specified hash value is long enough.
-            if (hashWithSaltBytes.Length < hashSizeInBytes)
-                return false;
+            if (hashWithSaltBytes.Length < hashSizeInBytes) return false;
 
             // Allocate array to hold original salt bytes retrieved from hash.
             var saltBytes = new byte[hashWithSaltBytes.Length - hashSizeInBytes];
 
             // Copy salt from the end of the hash to the new array.
-            for (var i = 0; i < saltBytes.Length; i++)
-                saltBytes[i] = hashWithSaltBytes[hashSizeInBytes + i];
+            for (var i = 0; i < saltBytes.Length; i++) saltBytes[i] = hashWithSaltBytes[hashSizeInBytes + i];
 
             // Compute a new hash string.
             var expectedHashString = ComputeHash(plainText, hashAlgorithm, saltBytes);
 
             // If the computed hash matches the specified hash,
             // the plain text value must be correct.
-            return (hashValue == expectedHashString);
+            return hashValue == expectedHashString;
         }
 
         public static string GetHash(string value)
         {
             HashAlgorithm hashAlgorithm = new SHA256CryptoServiceProvider();
-            var text = $"_{value}@SecretariaTuristo#MrRondon";
+            var text = $"_{value}_Guimaraes@Technology";
             var byteValue = Encoding.UTF8.GetBytes(text);
             var byteHash = hashAlgorithm.ComputeHash(byteValue);
 

@@ -7,7 +7,7 @@ namespace MrRondon.Infra.CrossCutting.Helper.Buttons
     {
         public string ToPagination(Guid id, bool isActive)
         {
-            return $"{UpdateStatus(id, isActive)} {Details(id)}";
+            return $"{UpdateStatus(id, isActive)} {Reset(id)} {Details(id)}";
         }
 
         private MvcHtmlString Details(Guid id)
@@ -54,7 +54,7 @@ namespace MrRondon.Infra.CrossCutting.Helper.Buttons
             {
                 var link = new TagBuilder("a");
                 var iconEdit = new TagBuilder("i");
-                iconEdit.MergeAttribute("class", IconEdit);
+                iconEdit.MergeAttribute("class", IconReset);
                 link.MergeAttribute("href", Url.Action("ResetPassword", "User", new { area = "Admin", id }));
                 link.MergeAttribute("class", "ui tiny icon button");
                 link.MergeAttribute("data-loading", "btn");

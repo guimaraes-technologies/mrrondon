@@ -12,6 +12,7 @@ using MrRondon.Presentation.Mvc.ViewModels;
 
 namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class HistoricalSightController : Controller
     {
         private readonly MainContext _db = new MainContext();

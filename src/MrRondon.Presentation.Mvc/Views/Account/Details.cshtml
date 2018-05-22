@@ -21,10 +21,6 @@
             <h4 class="ui header">Cpf</h4>
             @Model.Cpf
         </div>
-        <div class="one wide column">
-            <h4 class="ui header">Perfil</h4>
-            @Model.
-        </div>
         <div class="thirteen wide column">
             <h4 class="ui header">Nome</h4>
             @Model.FullName
@@ -39,4 +35,17 @@
             </div>
         }
     </div>
+    <h4>PERMISSÕES</h4>
+    @if (Model.Roles != null)
+    {
+        <div class="equal width row">
+            @foreach (var item in Model.Roles.OrderBy(o => o.Name))
+            {
+                <div class="column">
+                    <h4 class="ui header">@item.Name</h4>
+                    @item.Description
+                </div>
+            }
+        </div>
+    }
 </div>

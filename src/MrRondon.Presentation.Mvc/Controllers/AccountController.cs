@@ -65,6 +65,7 @@ namespace MrRondon.Presentation.Mvc.Controllers
         {
             var user = _db.Users
                 .Include(i => i.Contacts)
+                .Include(i => i.Roles)
                 .FirstOrDefault(f => f.UserId == Account.Current.UserId);
             return View(user);
         }
