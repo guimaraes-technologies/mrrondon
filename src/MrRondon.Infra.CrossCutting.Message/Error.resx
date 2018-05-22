@@ -118,24 +118,27 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Default" xml:space="preserve">
-    <value>Sua operação não pode ser completada. Por favor, tente novamente</value>
+    <value>Sua operação não pode ser completada. Por favor, tente novamente.</value>
   </data>
   <data name="DisabledUser" xml:space="preserve">
-    <value>Usuário desabilitado</value>
+    <value>Usuário desabilitado.</value>
   </data>
   <data name="MaxLength" xml:space="preserve">
-    <value>Máximo {1} caracteres permitido</value>
+    <value>Máximo {1} caracteres permitido.</value>
   </data>
   <data name="MinLength" xml:space="preserve">
-    <value>Mínimo {1} caracteres permitido</value>
+    <value>Mínimo {1} caracteres permitido.</value>
+  </data>
+  <data name="PasswordDoesNotMatch" xml:space="preserve">
+    <value>Senha e Confirmação não confere.</value>
   </data>
   <data name="PasswordRequirements" xml:space="preserve">
-    <value>A senha dever conter 1 número, 1 letra minuscula, 1 letra maiuscula e 1 caracter especial e no minímo 8 digitos</value>
+    <value>A senha dever conter pelo menos 1 número, 1 letra minúscula e no mínimo 6 digitos.</value>
   </data>
   <data name="Required" xml:space="preserve">
     <value>O campo {0} é obrigatório.</value>
   </data>
   <data name="WrongUserNameOrPassword" xml:space="preserve">
-    <value>Usuário ou Senha incorreta</value>
+    <value>Usuário ou Senha incorreta.</value>
   </data>
 </root>

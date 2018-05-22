@@ -32,6 +32,9 @@
 <article class="ui container basic segment gt-mt-0">
     @RenderBody()
 </article>
+<nav class="gt-navigation-right">
+    @RenderSection("navigation_right", required: false)
+</nav>
 @section scripts
 {
     @Scripts.Render("~/Scripts/site/carrossel.js")

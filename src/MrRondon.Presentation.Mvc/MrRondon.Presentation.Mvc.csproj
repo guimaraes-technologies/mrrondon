@@ -409,7 +409,7 @@
     <Content Include="Content\themes\default\assets\fonts\icons.woff2" />
     <Content Include="Areas\Admin\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\Admin\Views\Category\_Form.cshtml" />
-    <Content Include="Areas\Admin\Views\Shared\_ButtonSubmit.cshtml" />
+    <Content Include="Views\Shared\_ButtonSubmit.cshtml" />
     <Content Include="Scripts\DataTables\extensions\AutoFill\Readme.md" />
     <Content Include="Scripts\DataTables\extensions\Buttons\Readme.md" />
     <Content Include="Scripts\DataTables\extensions\ColReorder\Readme.md" />
@@ -518,6 +518,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Extensions\MessageActionResultExtension.cs" />
+    <Compile Include="Helpers\Constants.cs" />
     <Compile Include="Helpers\DoubleModelBinder.cs" />
     <Compile Include="Helpers\Seo\FriendlyRoute.cs" />
     <Compile Include="LoginVm.cs" />
@@ -613,7 +614,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>7162</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>

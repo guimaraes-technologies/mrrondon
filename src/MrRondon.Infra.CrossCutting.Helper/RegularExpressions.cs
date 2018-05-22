@@ -11,6 +11,6 @@
         public const string LetterAndNumber = @"^[a-zA-Z0-9]+$";
         public const string Numero = @"^\d{1,8}$";
         public const string Cref = @"^(\d{6}\-)([A-Za-z]){1}(\/)([A-Za-z]){2}$";
-        public const string Password = @"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{8,15}$";
+        public const string Password = @"^(?=.*[a-z])(?=.*[A-Z])(?=.*[^\da-zA-Z]).{6,15}$";
     }
 }

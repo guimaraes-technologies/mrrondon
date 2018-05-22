@@ -5,6 +5,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using MrRondon.Domain;
 using MrRondon.Domain.Entities;
 using MrRondon.Infra.CrossCutting.Helper;
 using MrRondon.Infra.CrossCutting.Message;
@@ -13,6 +14,7 @@ using MrRondon.Infra.Data.Repositories;
 using MrRondon.Infra.Security.Helpers;
 using MrRondon.Presentation.Mvc.Areas.Admin.Controllers;
 using MrRondon.Presentation.Mvc.Extensions;
+using MrRondon.Presentation.Mvc.Helpers;
 using MrRondon.Presentation.Mvc.ViewModels;
 
 namespace MrRondon.Presentation.Mvc.Controllers
@@ -133,7 +135,7 @@ namespace MrRondon.Presentation.Mvc.Controllers
                 var emailManager = new EmailManager(new ArrayList { email });
 
                 emailManager.ForgotPassword(user.FullName, $"{Request.Url.Authority}/account/newpassword/{user.PasswordRecoveryCode}");
-                await emailManager.SendAsync(emailManager.Sender, "Sistema Mr Rondon Turismo");
+                await emailManager.SendAsync(emailManager.Sender, $"Sistema {Constants.SystemName}");
 
                 return View(model).Success($"Um código para redefinição da sua senha foi enviado para o seu email: '{email}'");
             }
@@ -148,27 +150,28 @@ namespace MrRondon.Presentation.Mvc.Controllers
             return View();
         }
 
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult NewPassword(NewPasswordVm model)
-        //{
-        //    try
-        //    {
-        //        if (captcha != HttpContext.Session["captcha"].ToString())
-        //            return View(model).Error("O código informado não está correto!");
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult NewPassword(NewPasswordVm model)
+        {
+            try
+            {
+                if (!ModelState.IsValid) return View().Error(Error.Default);
+                if (!string.Equals(model.NewPassword, model.ConfirmPassword)) return View(model).Error(Error.PasswordDoesNotMatch);
+                var user = _db.Users.Find(Account.Current.UserId);
+                if (user == null) return RedirectToAction("Details").Success(Success.ChangedPassword);
 
-        //        if (!ModelState.IsValid) return View().Error(Error.Default);
-        //        var user = _db.Users.Find(Account.Current.UserId);
-        //        if (user == null)
-        //            if (!_UserAppService.VerificarSenha(model.SenhaAntiga, user.UserId)) throw new Exception("Senha antiga não confere.");
-        //        _UserAppService.AlterarSenha(user.UserId, model.ConfirmarSenha);
-        //        return RedirectToAction("Detalhes").Success(Success.Saved);
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        return View().Error(e.Message);
-        //    }
-        //}
+                user.EncryptPassword(model.NewPassword);
+                _db.Entry(user).Property(u => u.Password).CurrentValue = user.Password;
+                _db.SaveChanges();
+
+                return RedirectToAction("Details").Success(Success.ChangedPassword);
+            }
+            catch (Exception e)
+            {
+                return View().Error(e.Message);
+            }
+        }
 
         /*
         [AllowAnonymous]
@@ -221,7 +224,7 @@ namespace MrRondon.Presentation.Mvc.Controllers
             if (!string.IsNullOrWhiteSpace(returnUrl) && Account.Current.IsAuthenticated)
                 return Redirect(returnUrl);
 
-            return RedirectToAction("Index", "Category", new { area = "Admin" });
+            return RedirectToAction("Index", "Company", new { area = "Admin" });
         }
 
         public void BalanceRoles(User oldUser, User newUser, int[] rolesIds, MainContext ctx)

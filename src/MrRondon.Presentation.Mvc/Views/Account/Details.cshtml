@@ -1,14 +1,29 @@
 ﻿@using MrRondon.Presentation.Mvc.Extensions
 @model MrRondon.Domain.Entities.User
 @{
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
     ViewBag.Title = "Detalhes da conta";
     ViewBag.Menu01 = "active";
+}
+@section header
+{
+    <h1 class="ui header">
+        <span class="content gt-text-uppercase">@ViewBag.Title</span>
+    </h1>
+}
+@section navigation_right
+{
+    @Html.Partial("_Navigation")
 }
 <div class="ui stackable column grid divided gt-grid-details">
     <div class="two column row">
         <div class="three wide column">
             <h4 class="ui header">Cpf</h4>
             @Model.Cpf
+        </div>
+        <div class="one wide column">
+            <h4 class="ui header">Perfil</h4>
+            @Model.
         </div>
         <div class="thirteen wide column">
             <h4 class="ui header">Nome</h4>
@@ -19,9 +34,9 @@
         @foreach (var item in Model.Contacts.OrderBy(o => o.ContactType))
         {
             <div class="column">
-                <h4 class="ui header">@EnumExtension.Get(item.ContactType))</h4>
+                <h4 class="ui header">@EnumExtension.Get(item.ContactType)</h4>
                 @item.Description
-            </div>            
+            </div>
         }
     </div>
 </div>

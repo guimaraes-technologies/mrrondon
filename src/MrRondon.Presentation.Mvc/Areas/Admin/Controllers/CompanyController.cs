@@ -253,7 +253,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
             if (model == null || model.CategoryId == 0) ViewBag.SubCategories = new SelectList(Enumerable.Empty<SelectListItem>());
             else
             {
-                var subCategories = _db.SubCategories.Where(s => s.CategoryId != null).OrderBy(o => o.Name);
+                var subCategories = _db.SubCategories.Where(s => s.CategoryId != null && model.CategoryId == s.SubCategoryId).OrderBy(o => o.Name);
                 ViewBag.SubCategories = new SelectList(subCategories, "SubCategoryId", "Name", model.SubCategoryId);
             }
         }

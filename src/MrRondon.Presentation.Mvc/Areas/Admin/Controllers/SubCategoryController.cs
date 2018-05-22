@@ -94,7 +94,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
 
         public JsonResult GetSubCategories(int categoryId)
         {
-            var results = _db.SubCategories.Where(x => x.SubCategoryId == categoryId).Select(x => new
+            var results = _db.SubCategories.Where(x => x.CategoryId == categoryId).Select(x => new
             {
                 name = x.Name,
                 text = x.Name,

@@ -1,10 +1,10 @@
 ﻿<div class="ui vertical fluid right tabular menu">
     <div class="item header gt-p-0" data-responsive>
-        <a onclick="javascript: SPBA.OnpenSubMenu(this);" class="large ui circular icon basic button">
+        <a onclick="javascript: GT.OnpenSubMenu(this);" class="large ui circular icon basic button">
             <i class="sidebar icon"></i>
         </a>
     </div>
     <a class="item @ViewBag.Menu01" href="@Url.Action("Details", "Account", new {area = ""})">Detalhes da conta</a>
-    <a class="item @ViewBag.Menu02" href="@Url.Action("Editar", "Account", new {area = ""})">Editar informações</a>
-    <a class="item @ViewBag.Menu03" href="@Url.Action("NovaSenha", "Account", new {area = ""})">Alterar senha</a>
+    @*<a class="item @ViewBag.Menu02" href="@Url.Action("Edit", "Account", new {area = ""})">Editar informações</a>*@
+    <a class="item @ViewBag.Menu03" href="@Url.Action("NewPassword", "Account", new {area = ""})">Alterar senha</a>
 </div>

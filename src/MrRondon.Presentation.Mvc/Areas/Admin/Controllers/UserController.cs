@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web.Mvc;
 using MrRondon.Domain.Entities;
 using MrRondon.Infra.CrossCutting.Helper;
@@ -62,8 +63,9 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
 
                 var cpfIsInUse = _db.Users.Any(x => x.Cpf.Equals(user.Cpf));
                 if (cpfIsInUse) throw new Exception($"Este CPF '{user.Cpf}' já está em uso");
-
-                user.EncryptPassword("111111");
+                var digitsRegex = new Regex(@"[^\d]");
+                var password = digitsRegex.Replace(user.Cpf, "");
+                user.EncryptPassword(password);
 
                 user.Roles = new List<Role>();
 

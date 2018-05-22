@@ -19,7 +19,7 @@ namespace MrRondon.Infra.CrossCutting.Message {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class Error {
@@ -61,7 +61,7 @@ namespace MrRondon.Infra.CrossCutting.Message {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Sua operação não pode ser completada. Por favor, tente novamente.
+        ///   Looks up a localized string similar to Sua operação não pode ser completada. Por favor, tente novamente..
         /// </summary>
         public static string Default {
             get {
@@ -70,7 +70,7 @@ namespace MrRondon.Infra.CrossCutting.Message {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Usuário desabilitado.
+        ///   Looks up a localized string similar to Usuário desabilitado..
         /// </summary>
         public static string DisabledUser {
             get {
@@ -79,7 +79,7 @@ namespace MrRondon.Infra.CrossCutting.Message {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Máximo {1} caracteres permitido.
+        ///   Looks up a localized string similar to Máximo {1} caracteres permitido..
         /// </summary>
         public static string MaxLength {
             get {
@@ -88,7 +88,7 @@ namespace MrRondon.Infra.CrossCutting.Message {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Mínimo {1} caracteres permitido.
+        ///   Looks up a localized string similar to Mínimo {1} caracteres permitido..
         /// </summary>
         public static string MinLength {
             get {
@@ -97,7 +97,16 @@ namespace MrRondon.Infra.CrossCutting.Message {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to A senha dever conter 1 número, 1 letra minuscula, 1 letra maiuscula e 1 caracter especial e no minímo 8 digitos.
+        ///   Looks up a localized string similar to Senha e Confirmação não confere..
+        /// </summary>
+        public static string PasswordDoesNotMatch {
+            get {
+                return ResourceManager.GetString("PasswordDoesNotMatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to A senha dever conter pelo menos 1 número, 1 letra minúscula e no mínimo 6 digitos..
         /// </summary>
         public static string PasswordRequirements {
             get {
@@ -115,7 +124,7 @@ namespace MrRondon.Infra.CrossCutting.Message {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Usuário ou Senha incorreta.
+        ///   Looks up a localized string similar to Usuário ou Senha incorreta..
         /// </summary>
         public static string WrongUserNameOrPassword {
             get {
