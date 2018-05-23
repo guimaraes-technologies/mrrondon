@@ -1,0 +1,45 @@
+﻿@using MrRondon.Domain.Entities
+@using MrRondon.Presentation.Mvc.Extensions
+@model MrRondon.Presentation.Mvc.ViewModels.CrudHistoricalSightVm
+
+<h3 class="ui dividing header">Informações do Memorial</h3>
+
+@Html.HiddenFor(model => model.HistoricalSight.Cover)
+@Html.HiddenFor(model => model.HistoricalSight.Logo)
+
+<div class="fields">
+    <div class="six wide field">
+        @Html.LabelFor(model => model.HistoricalSight.Logo)
+        <img id="LogoImage" style="height: 250px; width: 250px;border: #045e55 3px solid" alt="" src="@Url.Content((Model?.HistoricalSight.GetCover ?? "~/Content/Images/without_image.jpg"))" class="ui centered medium image circular">
+        <div class="ui centered button">
+            <span class="attach basic icon"></span> Anexar arquivo
+
+            @Html.TextBoxFor(model => model.LogoFile, new { type = "file", data_fileupload = $"#{nameof(Model.LogoFile)}", data_show = "#LogoImage", onchange = "ImagePreview.Show()" })
+        </div>
+    </div>
+    <div class="ten wide field">
+        @Html.LabelFor(model => model.HistoricalSight.Cover)
+        <img id="CoverImage" style="height: 250px; border: #045e55 3px solid" alt="" class="ui fluid image" src="@Url.Content((Model?.HistoricalSight.GetCover ?? "~/Content/Images/without_image.jpg"))">
+        <div class="ui button">
+            <span class="attach basic icon"></span> Anexar arquivo
+
+            @Html.TextBoxFor(model => model.CoverFile, new { type = "file", data_fileupload = $"#{nameof(Model.CoverFile)}", data_show = "#CoverImage", onchange = "ImagePreview.Show()" })
+        </div>
+    </div>
+</div>
+<div class="fields">
+    <div class="sixteen wide field">
+        @Html.LabelFor(e => e.HistoricalSight.Name)
+        @Html.SemanticTextBoxFor(e => e.HistoricalSight.Name, null)
+    </div>
+</div>
+<div class="fields">
+    <div class="sixteen wide field">
+        @Html.LabelFor(e => e.HistoricalSight.SightHistory)
+        @Html.SemanticTextAreaFor(e => e.HistoricalSight.SightHistory, null)
+    </div>
+</div>
+
+<h3 class="ui dividing header">Informações do Endereço</h3>
+@Html.Partial("_FormAddress", Model?.HistoricalSight.Address ?? new Address())
+@Html.Partial("_ButtonSubmit")

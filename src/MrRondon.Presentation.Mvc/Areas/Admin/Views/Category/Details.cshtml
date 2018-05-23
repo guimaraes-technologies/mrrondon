@@ -1,0 +1,33 @@
+﻿@model SubCategory
+@using MrRondon.Domain.Entities
+@{
+    ViewBag.Title = "Detalhes de categoria";
+}
+@section header
+{
+    <h1 class="ui header">
+        <span class="content gt-text-uppercase">@ViewBag.Title</span>
+    </h1>
+}
+@section navigation_right
+{
+    @Html.Partial("_Navigation", 1)
+}
+<div class="ui stackable column grid divided gt-grid-details">
+    <div class="row">
+        <div class="column">
+            <h4 class="ui header">@Html.DisplayNameFor(e => e.Name)</h4>
+            @Model.Name
+        </div>
+    </div>
+    <div class="row">
+        <div class="column">
+            <h4 class="ui header">@Html.DisplayNameFor(e => e.Image)</h4>
+            <div class="ui medium image">
+                <div style="height: 300px; width: 300px">
+                    <img alt="" class="ui medium circular image" src="@Url.Content(Model.GetImage)" style="height: 100%;border: #045e55 3px solid">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

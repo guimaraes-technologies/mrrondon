@@ -1,0 +1,27 @@
+﻿@model SubCategory
+@using MrRondon.Domain.Entities
+@{
+    ViewBag.Title = "Detalhes da sub categoria";
+}
+@section header
+{
+    <h1 class="ui header">
+        <span class="content gt-text-uppercase">@ViewBag.Title</span>
+    </h1>
+}
+@section navigation_right
+{
+    @Html.Partial("_Navigation", 1)
+}
+<div class="ui stackable column grid divided gt-grid-details">
+    <div class="row">
+        <div class="eight wide column">
+            <h4 class="ui header">@Html.DisplayNameFor(e => e.Name)</h4>
+            @Model.Name
+        </div>
+        <div class=" eight wide column">
+            <h4 class="ui header">@Html.DisplayNameFor(e => e.SubCategoryId)</h4>
+            @(Model?.Category?.Name ?? "Não possui")
+        </div>
+    </div>
+</div>

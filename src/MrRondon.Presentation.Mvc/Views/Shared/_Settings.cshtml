@@ -1,0 +1,14 @@
+﻿@using MrRondon.Infra.CrossCutting.Helper
+@using MrRondon.Presentation.Mvc.Helpers
+<div class="fluid ui large inverted secondary vertical menu gt-settings-menu">
+    <a class="item" href="@Url.Action("Details", "Account", new {area = ""})">
+        @User.Identity.Name <i class="user icon"></i>
+    </a>
+    <a class="item" href="@Url.Action("Signout", "Account", new {area = ""})">
+        Sair <i class="power off icon"></i>
+    </a>
+</div>
+<a onclick="javascript: GT.OnpenMenu(this);" class="big fluid ui right labeled icon button gt-text-uppercase gt-button-responsive">
+    @Constants.SystemName
+    <i class="icon sidebar"></i>
+</a>

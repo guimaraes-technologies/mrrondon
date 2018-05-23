@@ -1,0 +1,96 @@
+﻿@media only screen and (max-width: 500px) {
+
+    .gt-top-header .gt-top-menu img,
+    .gt-home-block .grid .six.wide {
+        display: none;
+    }
+
+    .gt-main {
+        padding-top: 45px;
+    }
+
+        .gt-main header.gt-top-header {
+            margin-top: -45px;
+        }
+
+        .gt-main article.segment {
+            width: 100% !important;
+            margin: 0 !important;
+        }
+
+    .gt-info .gt-info-title {
+        right: inherit;
+        left: 0 !important;
+    }
+
+    .gt-info .gt-info-menu {
+        display: none !important;
+    }
+
+    .gt-info .gt-info-menu-drop {
+        display: block !important;
+    }
+
+    .gt-footer {
+        text-align: center !important;
+    }
+
+        .gt-footer > div:nth-child(2),
+        .gt-footer > div:nth-child(3),
+        .gt-footer > div:nth-child(4) {
+            display: none !important;
+        }
+
+    .gt-navigation-left {
+        margin-left: -300px;
+        transition: margin-left .3s ease-in-out;
+    }
+
+        .gt-navigation-left.ativo {
+            margin-left: 0;
+        }
+
+        .gt-navigation-left > .gt-button-responsive {
+            display: block !important;
+        }
+
+    .gt-main > .gt-container > .gt-navigation-right {
+        margin-right: -105px;
+        max-width: 157px;
+    }
+
+        .gt-main > .gt-container > .gt-navigation-right .item[data-responsive] {
+            display: inherit;
+            text-align: center;
+            width: 50px;
+        }
+
+            .gt-main > .gt-container > .gt-navigation-right .item[data-responsive] > a.button {
+                margin: 5px;
+            }
+
+                .gt-main > .gt-container > .gt-navigation-right .item[data-responsive] > a.button > i.icon {
+                    float: inherit;
+                }
+
+        .gt-main > .gt-container > .gt-navigation-right .item {
+            padding-left: 10px;
+        }
+
+    article.gt-article {
+        transition: all .3s ease-in-out;
+    }
+
+        article.gt-article.ativo {
+            flex: inherit !important;
+            width: calc(100% - 175px) !important;
+        }
+
+    .gt-main > .gt-container > .gt-navigation-right .item[data-responsive].ativo {
+        width: 100%;
+    }
+
+    .gt-datatable tr td[hidden] {
+        visibility: hidden !important;
+    }
+}

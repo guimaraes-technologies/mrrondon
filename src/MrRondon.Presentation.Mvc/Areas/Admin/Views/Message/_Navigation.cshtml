@@ -1,0 +1,17 @@
+﻿@model int
+<div class="ui vertical fluid right tabular menu">
+    <div class="item header gt-p-0" data-responsive>
+        <a onclick="javascript: GT.OnpenSubMenu(this);" class="large ui circular icon basic button">
+            <i class="sidebar icon"></i>
+        </a>
+    </div>
+    <a class="item @(Model == 1 ? "active" : string.Empty)" href="@Url.Action("Unread", "Message", new { area = "Admin" })">
+        Não Lidas
+    </a>
+    <a class="item @(Model == 2 ? "active" : string.Empty)" href="@Url.Action("Read", "Message", new { area = "Admin" })">
+        Lidas
+    </a>
+    <a class="item @(Model == 3 ? "active" : string.Empty)" href="@Url.Action("Attended", "Message", new { area = "Admin" })">
+        Atendidas
+    </a>
+</div>

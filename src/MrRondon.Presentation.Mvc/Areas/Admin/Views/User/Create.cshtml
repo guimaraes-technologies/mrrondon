@@ -1,0 +1,22 @@
+﻿@model MrRondon.Presentation.Mvc.ViewModels.UserContactVm
+@{ViewBag.Title = "Adicionar usuário";}
+@section header
+{
+    <h1 class="ui header">
+        <span class="content gt-text-uppercase">@ViewBag.Title</span>
+    </h1>
+}
+@section navigation_right
+{
+    @Html.Partial("_Navigation", 2)
+}
+@using (Html.BeginForm("Create", "User", new { area = "Admin" }, FormMethod.Post, new { @class = "ui form" }))
+{
+    @Html.Partial("_Form")
+    @Html.Partial("_ButtonSubmit")
+}
+@section scripts
+{
+    @Scripts.Render("~/bundles/validation")
+    @Scripts.Render("~/bundles/user")
+}

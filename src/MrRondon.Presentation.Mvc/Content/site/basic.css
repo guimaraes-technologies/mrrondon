@@ -1,0 +1,446 @@
+﻿body {
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-flow: row wrap;
+    flex-flow: row wrap;
+    overflow: hidden;
+}
+.gt-header{
+    background-color: #045e55 !important;
+}
+.gt-header > h1 {
+    color: #c3c3c3 !important;
+}
+.gt-top-header {
+    width: 100%;
+    min-height: 345px;
+    position: relative;
+}
+
+    .gt-top-header:before {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background-color: #00897b;
+        opacity: .6;
+        z-index: 1;
+    }
+
+    .gt-top-header:after {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background: url(/Content/Images/ponto.png);
+        opacity: .3;
+    }
+
+    .gt-top-header > .gt-carrossel, .gt-top-header > .gt-carrossel > * {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+    }
+
+        .gt-top-header > .gt-carrossel > * {
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+    .gt-top-header > .gt-top-menu {
+        padding: 1rem 0 !important;
+        margin: 0 !important;
+        position: relative;
+        z-index: 101;
+    }
+
+    .gt-top-header > div.container {
+        height: calc(100% - 123px);
+        position: relative;
+    }
+
+        .gt-top-header > div.container > .header {
+            font-size: 35pt;
+            line-height: .85;
+            letter-spacing: 5px;
+            color: #fff;
+            position: absolute;
+            top: 50%;
+            left: 2rem;
+            transform: translateY(-50%);
+            z-index: 10;
+        }
+
+.gt-navigation-left {
+    width: 300px;
+    height: 100%;
+    background-color: #00897b;
+    position: relative;
+}
+
+    .gt-navigation-left > .gt-main-descricao {
+        border-radius: 0 !important;
+        background-color: #00897b !important;
+        color: rgba(255, 255, 255, 0.7) !important;
+        margin: 0 !important;
+        display: block;
+    }
+
+        .gt-navigation-left > .gt-main-descricao:before {
+            content: '';
+            display: block;
+            position: absolute;
+            bottom: -11px;
+            left: 47px;
+            width: 18px;
+            height: 18px;
+            background: #00897b;
+            border-right: 3px solid rgba(0, 0, 0, 0.1);
+            border-bottom: 3px solid rgba(0, 0, 0, 0.1);
+            -webkit-transform: rotate(45deg);
+            -moz-transform: rotate(45deg);
+            -ms-transform: rotate(45deg);
+            -o-transform: rotate(45deg);
+            transform: rotate(45deg);
+            z-index: 1;
+        }
+
+        .gt-navigation-left > .gt-main-descricao:hover {
+            background: rgba(255, 255, 255, 0.08) !important;
+        }
+
+        .gt-navigation-left > .gt-main-descricao > p {
+            margin-bottom: .5rem;
+        }
+
+    .gt-navigation-left > .gt-button-responsive {
+        background-color: inherit !important;
+        border-radius: 0;
+        color: #fff !important;
+        text-align: left;
+        position: fixed !important;
+        top: 0;
+        left: 0;
+        z-index: 10;
+        display: none !important;
+    }
+
+.gt-main {
+    flex: 1;
+    height: 100%;
+    overflow-x: hidden;
+}
+
+    .gt-main > .gt-container {
+        width: 100%;
+        min-height: calc(100% - 71px);
+        display: -webkit-box;
+        display: -moz-box;
+        display: -ms-flexbox;
+        display: -webkit-flex;
+        display: flex;
+        -webkit-flex-flow: row wrap;
+        flex-flow: row wrap;
+        -webkit-align-content: flex-start;
+        align-content: flex-start;
+    }
+
+        .gt-main > .gt-container > .gt-header {
+            flex: 1 100%;
+            padding: 2rem 1em;
+            background-color: #fff;
+        }
+
+        .gt-main > .gt-container > .gt-navigation-right {
+            max-width: 300px;
+            padding: 0 1rem 1rem 0;
+        }
+
+            .gt-main > .gt-container > .gt-navigation-right:before {
+                content: '';
+                width: 1px;
+                height: 100%;
+                background-color: rgba(34,36,38,.15);
+                position: fixed;
+                top: 0;
+                z-index: -1;
+            }
+
+            .gt-main > .gt-container > .gt-navigation-right .item[data-responsive] {
+                display: none;
+            }
+
+        .gt-main > .gt-container > .gt-article {
+            flex: 1;
+            margin: 0 !important;
+            border-top: 1px solid rgba(34,36,38,.15);
+        }
+
+    .gt-main > .gt-footer {
+        width: 100%;
+        height: 71px;
+        padding: 1em;
+        background-color: #fff;
+        border-top: 1px solid rgba(34,36,38,.15);
+    }
+
+.gt-main-menu {
+    max-height: calc(100% - 305px);
+    margin: 0 !important;
+    padding: 22px 0 1rem 0 !important;
+    position: relative;
+    border-bottom: 3px solid rgba(0, 0, 0, 0.1) !important;
+    overflow-x: auto;
+}
+
+    .gt-main-menu:before {
+        content: '';
+        width: 3px;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 4rem;
+        background-color: rgba(0, 0, 0, 0.1);
+    }
+
+    .gt-main-menu a.item {
+        height: 45px;
+        margin: 0 !important;
+        padding-left: 2.73rem !important;
+        border-radius: 0 !important;
+    }
+
+        .gt-main-menu a.item > i.icon {
+            width: 40px !important;
+            height: 40px !important;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: #00897b;
+            border: 3px solid rgba(0, 0, 0, 0.1) !important;
+            border-radius: 100%;
+            margin: 0 0 0 -1px !important;
+        }
+
+            .gt-main-menu a.item > i.icon:before {
+                background: none !important;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translateX(-50%) translateY(-50%);
+            }
+
+        .gt-main-menu a.item > span {
+            position: absolute;
+            top: 50%;
+            left: 90px;
+            transform: translateY(-50%);
+        }
+
+    .gt-main-menu > label.header {
+        font-size: 13pt;
+        font-weight: bold !important;
+        padding: 0.78571429em calc(0.92857143em + 1rem) !important;
+        background-color: rgba(74, 85, 187, .5) !important;
+        transition: background-color .3s ease-in-out !important;
+    }
+
+        .gt-main-menu > label.header:not(:first-child) {
+            border-top: 3px solid rgba(0, 0, 0, .1) !important;
+        }
+
+        .gt-main-menu > label.header:hover {
+            cursor: pointer;
+        }
+
+    .gt-main-menu > .gt-main-menu-block {
+        display: none;
+        opacity: 0;
+        padding: .5rem 0;
+    }
+
+    .gt-main-menu > input[type=checkbox]:checked + .gt-main-menu-block {
+        display: block;
+        opacity: 1;
+    }
+
+.gt-settings-menu {
+    margin: 0 !important;
+    padding: 2rem !important;
+    position: absolute;
+    bottom: 0;
+}
+
+.gt-datatable {
+    width: 100% !important;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1) !important;
+}
+
+.gt-datatable-filter {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.gt-datatable-table {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.gt-datatable-pagination {
+    margin: 0 !important;
+    text-align: center;
+}
+
+.gt-grid-details {
+    margin: 0 !important;
+    padding: 1rem !important;
+}
+
+    .gt-grid-details .row > .column {
+        border-bottom: 1px solid rgba(34, 36, 38, 0.15);
+        padding: 14px;
+        font-size: 12pt;
+    }
+
+        .gt-grid-details .row > .column:first-child {
+            border-left: 1px solid rgba(34, 36, 38, 0.15);
+        }
+
+        .gt-grid-details .row > .column:last-child {
+            border-right: 1px solid rgba(34, 36, 38, 0.15);
+        }
+
+        .gt-grid-details .row > .column > .header {
+            margin-bottom: .5rem;
+        }
+
+.gt-home-block {
+    padding: 5rem 0 !important;
+    border: none !important;
+}
+
+    .gt-home-block:first-child {
+        margin-top: -1em !important;
+    }
+
+    .gt-home-block:last-child {
+        margin-bottom: -1em !important;
+    }
+
+    .gt-home-block:before {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: -100%;
+        bottom: 0;
+        left: -100%;
+        background: inherit;
+        border-top: 1px solid rgba(34, 36, 38, 0.15);
+    }
+
+.gt-info {
+    margin: -1em 0;
+    min-height: 420px;
+    text-align: justify;
+}
+
+    .gt-info .column:first-child {
+        margin-left: -45px;
+        padding: 0 !important;
+    }
+
+    .gt-info .column:last-child {
+        padding-top: calc(20px + 1rem) !important;
+    }
+
+    .gt-info .gt-info-title {
+        margin: 0 !important;
+        padding: 10px 15px !important;
+        background-color: #fff;
+        border: 1px solid #D4D4D5 !important;
+        box-shadow: 0 1px 2px 0 rgba(34, 36, 38, 0.15);
+        position: absolute;
+        top: -45px;
+        right: -50%;
+        z-index: 1;
+    }
+
+    .gt-info .gt-info-menu {
+        padding: calc(20px + 1rem) 0 1rem 0;
+        margin: 0 !important;
+        border: none !important;
+    }
+
+        .gt-info .gt-info-menu .item.active {
+            text-align: right;
+            z-index: 1;
+        }
+
+    .gt-info .gt-info-menu-drop {
+        display: none !important;
+    }
+
+.gt-m-0 {
+    margin: 0 !important;
+}
+
+.gt-mt-0 {
+    margin-top: 0 !important;
+}
+
+.gt-mtb-2rem {
+    margin: 2rem 0 !important;
+}
+
+.gt-mbl-05rem {
+    margin-bottom: .5rem !important;
+    margin-left: .5rem !important;
+}
+
+.gt-mt-05rem {
+    margin-top: .5rem !important;
+}
+
+.gt-mb-05rem {
+    margin-bottom: .5rem !important;
+}
+
+.gt-ml-08rem {
+    margin-left: .8rem !important;
+}
+
+.gt-p-0 {
+    padding: 0 !important;
+}
+
+.gt-float-right {
+    float: right;
+}
+
+.gt-db {
+    display: block;
+}
+
+.gt-text-uppercase {
+    text-transform: uppercase !important;
+}
+
+.gt-text-justify {
+    text-align: justify !important;
+}
+
+.ui.feed .user {
+    color: #4183c4 !important;
+}
+
+.ui.feed .date:first-letter {
+    text-transform: uppercase;
+}

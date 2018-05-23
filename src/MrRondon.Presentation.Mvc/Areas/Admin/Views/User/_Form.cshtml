@@ -1,0 +1,36 @@
+﻿@using MrRondon.Presentation.Mvc.Extensions
+@model MrRondon.Presentation.Mvc.ViewModels.UserContactVm
+@if (Model != null)
+{
+    <div class="field">
+        @Html.LabelFor(model => model.Cpf)
+        <div class="ui segment gt-m-0" style="padding: 0.67857143em 1em;box-shadow: none">
+            @Html.DisplayFor(model => model.Cpf)
+            @Html.HiddenFor(model => model.Cpf)
+        </div>
+    </div>
+}
+else
+{
+    <div class="field">
+        @Html.LabelFor(model => model.Cpf)
+        @Html.SemanticTextCpfFor(model => model.Cpf, new { autocomplete = "off" })
+    </div>
+}
+<div class="two fields">
+    <div class="field">
+        @Html.LabelFor(model => model.FirstName)
+        @Html.SemanticTextBoxFor(model => model.FirstName, null)
+    </div>
+    <div class="field">
+        @Html.LabelFor(model => model.LastName)
+        @Html.SemanticTextBoxFor(model => model.LastName, null)
+    </div>
+</div>
+<div class="field">
+    @Html.LabelFor(model => model.RolesIds)
+    @Html.SemanticEnumDropDownListFor(model => model.RolesIds, ViewBag.Roles as SelectList, "Selecione...", new { @class = "ui fluid dropdown gt-drop-role", data_setresult = "#dropEntidades", data_dropcompare = "Empresa" })
+</div>
+<div class="list-contact">
+    @Html.Action("Contacts", "User", new { area = "Admin", userContact = Model })
+</div>

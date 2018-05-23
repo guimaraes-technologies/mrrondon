@@ -1,0 +1,90 @@
+﻿@using MrRondon.Presentation.Mvc.Extensions
+@using MrRondon.Presentation.Mvc.ViewModels
+@model CrudEventVm
+
+<h3 class="ui dividing header">Informações do evento</h3>
+
+@Html.HiddenFor(model => model.Event.Cover)
+@Html.HiddenFor(model => model.Event.Logo)
+
+<div class="fields">
+    <div class="six wide field">
+        @Html.LabelFor(model => model.Event.Logo)
+        <img id="LogoImage" style="height: 250px; width: 250px;border: #045e55 3px solid" alt="" src="@Url.Content((Model?.Event.GetLogo ?? "~/Content/Images/without_image.jpg"))" class="ui centered medium image circular">
+        <div class="ui centered button">
+            <span class="attach basic icon"></span> Anexar arquivo
+
+            @Html.TextBoxFor(model => model.LogoFile, new { type = "file", data_fileupload = $"#{nameof(Model.LogoFile)}", data_show = "#LogoImage", onchange = "ImagePreview.Show()" })
+        </div>
+    </div>
+    <div class="ten wide field">
+        @Html.LabelFor(model => model.Event.Cover)
+        <img id="CoverImage" style="height: 250px; border: #045e55 3px solid" alt="" class="ui fluid image" src="@Url.Content((Model?.Event.GetCover ?? "~/Content/Images/without_image.jpg"))">
+        <div class="ui button">
+            <span class="attach basic icon"></span> Anexar arquivo
+
+            @Html.TextBoxFor(model => model.CoverFile, new { type = "file", data_fileupload = $"#{nameof(Model.CoverFile)}", data_show = "#CoverImage", onchange = "ImagePreview.Show()" })
+        </div>
+    </div>
+</div>
+<div class="fields">
+    <div class="sixteen wide field">
+        @Html.LabelFor(e => e.Event.Name)
+        @Html.SemanticTextBoxFor(e => e.Event.Name, null)
+    </div>
+</div>
+<div class="fields">
+    <div class="eight wide field">
+        @Html.LabelFor(model => model.Event.StartDate)
+        <div class="ui calendar">
+            <div class="ui input left icon">
+                <i class="calendar icon"></i>
+                @Html.SemanticTextDateTimeFor(model => model.Event.StartDate, new { autocomplete = "off" })
+            </div>
+        </div>
+    </div>
+    <div class="eight wide field">
+        @Html.LabelFor(model => model.Event.EndDate)
+        <div class="ui calendar">
+            <div class="ui input left icon">
+                <i class="calendar icon"></i>
+                @Html.SemanticTextDateTimeFor(model => model.Event.EndDate, new { autocomplete = "off" })
+            </div>
+        </div>
+    </div>
+</div>
+<div class="fields">
+    <div class="five wide field">
+        @Html.LabelFor(e => e.Event.Value)
+        @Html.SemanticNumericBoxFor(e => e.Event.Value, null)
+    </div>
+    <div class="eleven wide field">
+        @Html.LabelFor(e => e.Event.OrganizerId)
+        @Html.SemanticDropDownListOptionalFor(e => e.Event.OrganizerId, (SelectList)ViewBag.Companies)
+    </div>
+</div>
+<div class="fields">
+    <div class="sixteen wide field">
+        @Html.LabelFor(e => e.Event.Description)
+        @Html.SemanticTextAreaFor(e => e.Event.Description)
+    </div>
+</div>
+
+<h3 class="ui dividing header">
+    Informações do Endereço
+
+    <div class="ui slider checkbox gt-float-right sameAsOrganizer">
+        @Html.CheckBoxFor(model => model.Event.SameAddressAsOganizer)
+        <label>Mesmo que o organizador</label>
+    </div>
+</h3>
+
+<h3 class="ui dividing header">Informações de Contato</h3>
+<div class="list-contact">
+    @Html.Action("Contacts", "Event", new { area = "Admin", companyContact = Model })
+</div>
+
+<div class="address">
+    @Html.Partial("_Address", Model?.Address ?? new AddressForEventVm())
+</div>
+@Html.Partial("_ButtonSubmit")

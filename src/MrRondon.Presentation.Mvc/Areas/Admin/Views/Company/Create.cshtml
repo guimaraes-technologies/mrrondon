@@ -1,0 +1,29 @@
+﻿@using MrRondon.Domain.Entities
+@using MrRondon.Presentation.Mvc.Extensions
+@model MrRondon.Presentation.Mvc.ViewModels.CrudCompanyVm
+@{
+    ViewBag.Title = "Adicionar empresa";
+}
+
+@section header
+{
+    <h1 class="ui header">
+        <span class="content gt-text-uppercase">@ViewBag.Title</span>
+    </h1>
+}
+
+@section navigation_right
+{
+    @Html.Partial("_Navigation", 2)
+}
+
+@using (Html.BeginForm("Create", "Company", FormMethod.Post, new { @class = "ui form", enctype = "multipart/form-data" }))
+{
+    @Html.Partial("_Form")
+}
+
+@section scripts {
+    @Scripts.Render("~/bundles/correios")
+    @Scripts.Render("~/bundles/validation")
+    @Scripts.Render("~/bundles/company")
+}

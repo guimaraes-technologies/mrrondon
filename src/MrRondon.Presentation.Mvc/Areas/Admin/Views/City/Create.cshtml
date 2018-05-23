@@ -1,0 +1,27 @@
+﻿@model MrRondon.Domain.Entities.City
+@{
+    ViewBag.Title = "Adicionar cidade";
+}
+
+@section header
+{
+    <h1 class="ui header">
+        <span class="content gt-text-uppercase">@ViewBag.Title</span>
+    </h1>
+}
+
+@section navigation_right
+{
+    @Html.Partial("_Navigation", 2)
+}
+
+@using (Html.BeginForm("Create", "City", FormMethod.Post, new { @class = "ui form" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.Partial("_Form")
+    @Html.Partial("_ButtonSubmit")
+}
+
+@section scripts {
+    @Scripts.Render("~/bundles/validation")
+}

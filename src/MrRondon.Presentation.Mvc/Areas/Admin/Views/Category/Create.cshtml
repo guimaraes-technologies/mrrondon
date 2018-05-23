@@ -1,0 +1,44 @@
+﻿@model MrRondon.Domain.Entities.SubCategory
+@{
+    ViewBag.Title = "Adicionar categoria";
+}
+
+@section header
+{
+    <h1 class="ui header">
+        <span class="content gt-text-uppercase">@ViewBag.Title</span>
+    </h1>
+}
+
+@section navigation_right
+{
+    @Html.Partial("_Navigation", 2)
+}
+
+@using (Html.BeginForm("Create", "Category", FormMethod.Post, new { @class = "ui form", enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.Partial("_Form")
+    @Html.Partial("_ButtonSubmit")
+}
+
+@section scripts {
+    @Scripts.Render("~/bundles/validation")
+
+    <script type="text/javascript">
+        $(document.body).on("change", "#imageFile", function () {
+            var ext = $(this).val().toLowerCase().split('.');
+            if (ext[1].length > 0) {
+                if (ext[1] != "jpg" && ext[1] != "png" && ext[1] != "jpeg" && ext[1] != "bitmap") {
+                    alert('Somente JPG, PNG ou BITMAP são permitidas');
+                } else {
+                    var fReader = new FileReader();
+                    fReader.readAsDataURL($(this).prop("files")[0]);
+                    fReader.onloadend = function (event) {
+                        $(".categoryImage > img").attr("src", event.target.result);
+                    };
+                }
+            }
+        });
+    </script>
+}

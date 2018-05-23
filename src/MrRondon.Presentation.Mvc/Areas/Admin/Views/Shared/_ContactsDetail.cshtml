@@ -1,0 +1,22 @@
+﻿@using MrRondon.Infra.CrossCutting.Helper
+@model IEnumerable<MrRondon.Domain.Entities.Contact>
+
+@if (Model != null)
+{
+    var index = 1;
+
+    foreach (var item in Model)
+    {
+        <div class="two column row">
+            <div class="column">
+                <h4 class="ui header">@Html.Label("Contato") @index</h4>
+                @item.Description
+            </div>
+            <div class="column">
+                <h4 class="ui header">@Html.DisplayNameFor(e => e.ContactType)</h4>
+                @EnumDescription.Get(item.ContactType)
+            </div>
+        </div>
+        index++;
+    }
+}

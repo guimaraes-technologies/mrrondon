@@ -1,0 +1,46 @@
+﻿@model MrRondon.Domain.Entities.Event
+@{
+    ViewBag.Title = "Detalhes do Evento";
+}
+@section header
+{
+    <h1 class="ui header">
+        <span class="content gt-text-uppercase">@ViewBag.Title</span>
+    </h1>
+}
+@section navigation_right
+{
+    @Html.Partial("_Navigation", 1)
+}
+<div class="ui stackable column grid divided gt-grid-details">
+    <h3 class="ui dividing header">Informações do Evento</h3>
+    <div class="row">
+        <div class="four wide column">
+            <h4 class="ui header">@Html.DisplayNameFor(e => e.Logo)</h4>
+            <img style="height: 250px; border: #045e55 3px solid" alt="" class="ui centered medium image circular" src="@Url.Content((Model.GetLogo ?? "~/Content/Images/without_image.jpg"))">
+        </div>
+        <div class="twelve wide column">
+            <h4 class="ui header">@Html.DisplayNameFor(e => e.Cover)</h4>
+            <img style="height: 250px; border: #045e55 3px solid" alt="" class="ui fluid image" src="@Url.Content((Model.GetCover ?? "~/Content/Images/without_image.jpg"))">
+        </div>
+    </div>
+    <div class="row">
+        <div class="nine wide column">
+            <h4 class="ui header">@Html.DisplayNameFor(e => e.Name)</h4>
+            @Model.Name
+        </div>
+        <div class="seven wide column">
+            <h4 class="ui header">@Html.DisplayNameFor(e => e.OrganizerId)</h4>
+            @(Model.Organizer?.Name ?? "Não informado")
+        </div>
+    </div>
+    <div class="row">
+        <div class="sixteen wide column">
+            <h4 class="ui header">@Html.DisplayNameFor(e => e.Description)</h4>
+            @Html.Raw(Model.Description)
+        </div>
+    </div>
+
+    <h3 class="ui dividing header">Informações do Endereço</h3>
+    @Html.Partial("_AddressDetail", Model.Address)
+</div>

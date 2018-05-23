@@ -1,0 +1,57 @@
+﻿@using MrRondon.Domain.Entities
+@model List<Contact>
+
+@if (Model != null && Model.Any())
+{
+    for (var i = 0; i < Model.Count; i++)
+    {
+        <div class="field">
+            <input id="@($"Contacts[{i}].ContactId")" name="@($"Contacts[{i}].ContactId")" type="hidden" value="@Model[i].ContactId">
+            @Html.Label($"Contato {i + 1}")
+            <div class="fields all-items">
+                <input id="@($"Contacts[{i}].ContactId")" name="@($"Contacts[{i}].ContactId")" type="hidden" value="@Model[i].ContactId">
+                <input id="@($"Contacts[{i}].UserId")" name="@($"Contacts[{i}].UserId")" type="hidden" value="@Model[i].UserId">
+                <input id="@($"Contacts[{i}].CompanyId")" name="@($"Contacts[{i}].CompanyId")" type="hidden" value="@Model[i].CompanyId">
+                <div class="six wide field">
+                    <select id="@($"Contacts[{i}].ContactType")" name="@($"Contacts[{i}].ContactType")" class="ui fluid dropdown contactType">
+                        <option>Selecione...</option>
+                        @foreach (var contactType in Enum.GetValues(typeof(ContactType)))
+            {
+                <option value="@contactType" @(Model[i].ContactType == (ContactType)contactType ? "selected='selected'" : string.Empty)>@contactType</option>
+}
+                    </select>
+                </div>
+                <div class="eight wide field">
+                    <input id="@($"Contacts[{i}].Description")" name="@($"Contacts[{i}].Description")" type="text" value="@Model[i].Description" class="description">
+                    <div class="result"></div>
+                </div>
+                <div class="two wide field">
+                    <a href="@ViewBag.UrlRemove" data-index="@i" class="ui fluid button red remove-contact">Remover</a>
+                </div>
+            </div>
+        </div>
+    }
+}
+
+<input type="hidden" id="index" name="index" />
+
+<div class="field">
+    @Html.Label("Novo contato")
+    <div class="fields all-items">
+        <div class="six wide field">
+            <select name="ContactType" class="ui fluid dropdown contactType">
+                @foreach (var contactType in Enum.GetValues(typeof(ContactType)))
+                {
+                    <option value="@contactType">@(contactType)</option>
+                }
+            </select>
+        </div>
+        <div class="eight wide field">
+            <input name="Description" type="text" class="description">
+            <div class="result"></div>
+        </div>
+        <div class="two wide field">
+            <a href="@ViewBag.UrlAdd" class="ui fluid button primary add-contact">Adicionar</a>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,44 @@
+﻿@using System.Security.Claims
+@using System.Web.Optimization
+@using MrRondon.Infra.CrossCutting.Helper
+@using MrRondon.Infra.Security.Helpers
+@using MrRondon.Presentation.Mvc.Helpers
+@{Layout = "~/Views/Shared/_Layout.cshtml";}
+@section styles{
+    @RenderSection("styles", required: false)
+}
+<header class="gt-top-header">
+    <div class="gt-carrossel" data-carrossel-file="@Url.Content("~/Content/Images/carrossel/")" data-carrossel-qtd="29">
+        <div style="background-image: url(@Url.Content($"~/Content/Images/carrossel/{new Random().Next(1, 1)}.png"))"></div>
+    </div>
+    <nav class="ui inverted secondary menu gt-top-menu">
+        <div class="ui container">
+            <img src="@Url.Content("~/Content/Images/brasao_ro.png")" alt="Governo do Estado de Rondônia" />
+            <div class="right menu">
+                <div class="item gt-m-0">
+                    &emsp;
+                    @if (Account.Current.IsAuthenticated)
+                    {
+                        <a class="ui right labeled icon inverted button" href="@Url.Action("Index", "Category", new {area = "Admin"})">@ClaimsPrincipal.Current.Identity.Name <i class="user icon"></i></a>
+                    }
+                </div>
+            </div>
+        </div>
+    </nav>
+    <div class="ui container">
+        <h1 class="ui inverted header gt-text-uppercase gt-m-0">
+            @Constants.SystemName
+        </h1>
+    </div>
+</header>
+<article class="ui container basic segment gt-mt-0">
+    @RenderBody()
+</article>
+<nav class="gt-navigation-right">
+    @RenderSection("navigation_right", required: false)
+</nav>
+@section scripts
+{
+    @Scripts.Render("~/Scripts/site/carrossel.js")
+    @RenderSection("scripts", required: false)
+}

@@ -1,0 +1,31 @@
+﻿@using MrRondon.Domain.Entities
+@{
+    ViewBag.Title = "Mensagens Não Lidas";
+}
+
+@section header
+{
+    <h1 class="ui header">
+        <span class="content gt-text-uppercase">@ViewBag.Title</span>
+    </h1>
+}
+
+@section navigation_right
+{
+    @Html.Partial("_Navigation", 1)
+}
+
+<table class="ui very basic table gt-datatable" data-action="@Url.Action("GetPagination", "Message", new { area = "Admin", status = MessageStatus.Unread })">
+    <thead>
+        <tr>
+            <th hidden></th>
+            <th class="eleven wide"></th>
+            <th class="three wide"></th>
+            <th class="two wide"></th>
+        </tr>
+    </thead>
+</table>
+
+@section scripts {
+    @Scripts.Render("~/bundles/datatable")
+}

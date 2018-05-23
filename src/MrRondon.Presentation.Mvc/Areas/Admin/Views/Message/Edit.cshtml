@@ -1,0 +1,28 @@
+﻿@model MrRondon.Domain.Entities.Message
+@{
+    ViewBag.Title = "Editar message";
+}
+
+@section header
+{
+    <h1 class="ui header">
+        <span class="content gt-text-uppercase">@ViewBag.Title</span>
+    </h1>
+}
+
+@section navigation_right
+{
+    @Html.Partial("_Navigation", 1)
+}
+
+@using (Html.BeginForm("Edit", "Message", FormMethod.Post, new { @class = "ui form" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(e => e.CityId)
+    @Html.Partial("_Form")
+    @Html.Partial("_ButtonSubmit")
+}
+
+@section scripts {
+    @Scripts.Render("~/bundles/validation")
+}

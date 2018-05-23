@@ -1,0 +1,30 @@
+﻿@model MrRondon.Presentation.Mvc.ViewModels.CrudCompanyVm
+@{
+    ViewBag.Title = "Editar empresa";
+}
+
+@section header
+{
+    <h1 class="ui header">
+        <span class="content gt-text-uppercase">@ViewBag.Title</span>
+    </h1>
+}
+
+@section navigation_right
+{
+    @Html.Partial("_Navigation", 1)
+}
+
+@using (Html.BeginForm("Edit", "Company", FormMethod.Post, new { @class = "ui form", enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(e => e.Company.CompanyId)
+    @Html.HiddenFor(e => e.Company.AddressId)
+    @Html.Partial("_Form")
+}
+
+@section scripts {
+    @Scripts.Render("~/bundles/correios")
+    @Scripts.Render("~/bundles/validation")
+    @Scripts.Render("~/bundles/company")
+}

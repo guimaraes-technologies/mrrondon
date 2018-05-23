@@ -1,0 +1,15 @@
+﻿@using MrRondon.Presentation.Mvc.Extensions
+@model MrRondon.Domain.Entities.SubCategory
+
+<div class="ui equal width form">
+    <div class="fields">
+        <div class="eight wide field">
+            @Html.LabelFor(e => e.Name)
+            @Html.SemanticTextBoxFor(e => e.Name, null)
+        </div>
+        <div class="eight wide field">
+            @Html.LabelFor(e => e.CategoryId)
+            @Html.SemanticDropDownListFor(e => e.CategoryId, (SelectList)ViewBag.Categories)
+        </div>
+    </div>
+</div>
