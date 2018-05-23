@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("MrRondon.Infra.Security")]
+[assembly: AssemblyTitle("MrRondon.Infra.CrossCutting.Logging")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Guimaraes Technology")]
-[assembly: AssemblyProduct("MrRondon.Infra.Security")]
+[assembly: AssemblyProduct("MrRondon.Infra.CrossCutting.Logging")]
 [assembly: AssemblyCopyright("Copyright ©  2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("745301bd-5f93-4da3-9800-a68eb2c6698f")]
+[assembly: Guid("31716736-c7a9-4c38-8f2f-32af0b1d64d8")]
 
 // Version information for an assembly consists of the following four values:
 //

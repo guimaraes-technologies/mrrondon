@@ -3,9 +3,11 @@ using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Data.Entity.Validation;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using MrRondon.Domain.Entities;
+using MrRondon.Infra.CrossCutting.Logging;
 
 namespace MrRondon.Infra.Data.Context
 {
@@ -63,6 +65,7 @@ namespace MrRondon.Infra.Data.Context
         {
             try
             {
+                Audit();
                 return base.SaveChanges();
             }
             catch (DbUpdateException ex)
@@ -146,5 +149,20 @@ namespace MrRondon.Infra.Data.Context
                 throw;
             }
         }
+
+        protected virtual void Audit()
+        {
+            var userId = AccountAuditory.Current.UserId;
+            Sql(userId);
+        }
+        
+        private void Sql(Guid userId)
+        {
+            if (Database.Connection.State == System.Data.ConnectionState.Closed) Database.Connection.Open();
+            var command = Database.Connection.CreateCommand();
+            command.CommandText = $"DECLARE @UserId VARBINARY(128);SET @UserId = CAST('{userId}' as VARBINARY(128));SET CONTEXT_INFO @UserId;";
+            command.ExecuteNonQuery();
+        }
+
     }
 }

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2027
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1 - Services", "1 - Services", "{C1576030-3F9D-4380-A4CC-2AC811920A20}"
 EndProject
@@ -28,6 +28,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MrRondon.Infra.CrossCutting.Message", "src\MrRondon.Infra.CrossCutting.Message\MrRondon.Infra.CrossCutting.Message.csproj", "{D1F4856F-CEA2-4C7C-A597-83C9A6ADC196}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MrRondon.Infra.CrossCutting.Helper", "src\MrRondon.Infra.CrossCutting.Helper\MrRondon.Infra.CrossCutting.Helper.csproj", "{2BC14EE1-95F4-41F7-808E-A0568A0D93E9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MrRondon.Infra.CrossCutting.Logging", "src\MrRondon.Infra.CrossCutting.Logging\MrRondon.Infra.CrossCutting.Logging.csproj", "{31716736-C7A9-4C38-8F2F-32AF0B1D64D8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -63,6 +65,10 @@ Global
 		{2BC14EE1-95F4-41F7-808E-A0568A0D93E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2BC14EE1-95F4-41F7-808E-A0568A0D93E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2BC14EE1-95F4-41F7-808E-A0568A0D93E9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{31716736-C7A9-4C38-8F2F-32AF0B1D64D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{31716736-C7A9-4C38-8F2F-32AF0B1D64D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{31716736-C7A9-4C38-8F2F-32AF0B1D64D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{31716736-C7A9-4C38-8F2F-32AF0B1D64D8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -77,6 +83,7 @@ Global
 		{41BBE859-0495-4F10-AF0C-0831E3772336} = {B8BB4750-A478-425B-8A7C-55ADCEDF6A5F}
 		{D1F4856F-CEA2-4C7C-A597-83C9A6ADC196} = {45BA64E4-E4C1-4801-BC2F-4BE08976008F}
 		{2BC14EE1-95F4-41F7-808E-A0568A0D93E9} = {45BA64E4-E4C1-4801-BC2F-4BE08976008F}
+		{31716736-C7A9-4C38-8F2F-32AF0B1D64D8} = {45BA64E4-E4C1-4801-BC2F-4BE08976008F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C1F7F635-B93D-41DE-873D-43C89029C8BB}

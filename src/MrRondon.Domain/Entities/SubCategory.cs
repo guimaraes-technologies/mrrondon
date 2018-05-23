@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using MrRondon.Infra.CrossCutting.Message;
 using Newtonsoft.Json;
 
@@ -18,7 +17,6 @@ namespace MrRondon.Domain.Entities
         [MaxLength(30, ErrorMessage = "Máximo {1} caracteres")]
         public string Name { get; set; }
 
-        [Column(TypeName = "image")]
         [Display(Name = "Imagem")]
         public byte[] Image { get; set; }
 
