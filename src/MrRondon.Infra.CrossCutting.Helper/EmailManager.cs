@@ -57,9 +57,9 @@ namespace MrRondon.Infra.CrossCutting.Helper
             Subject = "Redefinir senha de acesso";
             Body = $@"
                     <section style='width: 400px; padding: 1em;'>
-                        <h1 style='text-align: center; text-transform: uppercase;margin: 0'>Mr Rondon<br /><small>Sistema Mr Rondon Turismo</small></h1>
+                        <h1 style='text-align: center; text-transform: uppercase;margin: 0'>{Constants.SystemName}<br /><small>Sistema {Constants.SystemName}</small></h1>
                         <hr />
-                        <p>Olá {user},<br /><br />Para redefinir sua senha no <a href='{url}'> Mr Rondon Turismo</a>, clique no link abaixo:</p>
+                        <p>Olá {user},<br /><br />Para redefinir sua senha no <a href='{url}'> {Constants.SystemName}</a>, clique no link abaixo:</p>
                         <hr />
                         <a href='{url}' style='display: block;
                                            background: #337f3c;
@@ -77,18 +77,18 @@ namespace MrRondon.Infra.CrossCutting.Helper
                             Redefinir senha
                         </a>                        
                         <hr />
-                        <h5 style='text-align: center; color: rgba(0, 0, 0, .5); text-transform: uppercase;margin: 0'>SWTUR - Superintendência de Turismo </h5>
+                        <h5 style='text-align: center; color: rgba(0, 0, 0, .5); text-transform: uppercase;margin: 0'>SETUR - Superintendência de Turismo </h5>
                     </section>
                 ";
         }
 
         public void NewContact(string subject, string email, string name, string cellphone, string telephone, string message)
         {
-            Subject = $"Mr Rondon Turismo - {subject}";
+            Subject = $"{Constants.SystemName} - {subject}";
             Body = $@"<section style='width: 400px; padding: 1em;'>
-<h1 style='text-align: center; text-transform: uppercase;margin: 0'><small>Mr Rondon Turismo</small></h1>
+<h1 style='text-align: center; text-transform: uppercase;margin: 0'><small>{Constants.SystemName}</small></h1>
                         <hr />
-                        <p>Olá <br /><br />Uma nova mensagem foi enviada através do aplicativo Mr Rondon.</p>
+                        <p>Olá <br /><br />Uma nova mensagem foi enviada através do aplicativo {Constants.SystemName}.</p>
                         <hr />
 <p><b>Nome:</b> {name} </b></p>
 <p><b>Email:</b> {email} </p>
@@ -99,7 +99,7 @@ namespace MrRondon.Infra.CrossCutting.Helper
 <p><b>Mensagem:</b> </br></p>
 <p>{message}</p>
                         <hr />
-                        <h5 style='text-align: center; color: rgba(0, 0, 0, .5); text-transform: uppercase;margin: 0'>Aplicativo Mr Rondon Turismo/SETUR</h5>
+                        <h5 style='text-align: center; color: rgba(0, 0, 0, .5); text-transform: uppercase;margin: 0'>Aplicativo {Constants.SystemName}/SETUR</h5>
                     </section>";
         }
     }

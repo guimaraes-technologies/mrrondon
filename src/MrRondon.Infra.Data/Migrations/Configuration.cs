@@ -28,7 +28,7 @@ namespace MrRondon.Infra.Data.Migrations
 
                 var roles = new List<Role>
                 {
-                    new Role {RoleId = 1, Name = "Admin", Description = "Usuário que controla o sistema."},
+                    new Role {RoleId = 1, Name = "Admin", Description = "Usuï¿½rio que controla o sistema."},
                 };
 
                 for (var i = 0; i < emails.Length; i++)
@@ -64,8 +64,8 @@ namespace MrRondon.Infra.Data.Migrations
                 context.ApplicationClients.Add(new ApplicationClient
                 {
                     ApplicationClientId = Guid.NewGuid(),
-                    Secret = "Mr.Rondon.Turismo.App",
-                    Name = "mrrondon.app",
+                    Secret = "Rondonia.Turismo.App",
+                    Name = "Aplicativo Rondï¿½nia Turismo",
                     RefreshTokenLifeTime = 1,
                     ApplicationType = ApplicationTypes.NativeConfidential,
                     AllowedOrigin = "*",
@@ -136,13 +136,13 @@ namespace MrRondon.Infra.Data.Migrations
             //        new SubCategory
             //        {
             //            SubCategoryId = 10,
-            //            Name = "Hotéis",
+            //            Name = "Hotï¿½is",
             //            CategoryId = 9
             //        },
             //        new SubCategory
             //        {
             //            SubCategoryId = 11,
-            //            Name = "Hotéis Fazenda",
+            //            Name = "Hotï¿½is Fazenda",
             //            CategoryId = 9
             //        },
             //        new SubCategory
@@ -214,7 +214,7 @@ namespace MrRondon.Infra.Data.Migrations
             //        new SubCategory
             //        {
             //            SubCategoryId = 23,
-            //            Name = "Açaiterias",
+            //            Name = "Aï¿½aiterias",
             //            CategoryId = 14
             //        },
             //        new SubCategory
@@ -282,7 +282,7 @@ namespace MrRondon.Infra.Data.Migrations
             //        new SubCategory
             //        {
             //            SubCategoryId = 34,
-            //            Name = "Casas de Espetáculos",
+            //            Name = "Casas de Espetï¿½culos",
             //            CategoryId = 27
             //        },
             //        new SubCategory
@@ -294,7 +294,7 @@ namespace MrRondon.Infra.Data.Migrations
             //        new SubCategory
             //        {
             //            SubCategoryId = 36,
-            //            Name = "Praças",
+            //            Name = "Praï¿½as",
             //            CategoryId = 27
             //        },
 
@@ -307,13 +307,13 @@ namespace MrRondon.Infra.Data.Migrations
             //        new SubCategory
             //        {
             //            SubCategoryId = 38,
-            //            Name = "Parques Aquáticos",
+            //            Name = "Parques Aquï¿½ticos",
             //            CategoryId = 37
             //        },
             //        new SubCategory
             //        {
             //            SubCategoryId = 39,
-            //            Name = "Parques Temáticos",
+            //            Name = "Parques Temï¿½ticos",
             //            CategoryId = 37
             //        },
             //        new SubCategory
@@ -334,7 +334,7 @@ namespace MrRondon.Infra.Data.Migrations
             //        new SubCategory
             //        {
             //            SubCategoryId = 42,
-            //            Name = "Serviços Úteis"
+            //            Name = "Serviï¿½os ï¿½teis"
             //        },
             //        new SubCategory
             //        {
@@ -345,7 +345,7 @@ namespace MrRondon.Infra.Data.Migrations
             //        new SubCategory
             //        {
             //            SubCategoryId = 44,
-            //            Name = "Rodoviária",
+            //            Name = "Rodoviï¿½ria",
             //            CategoryId = 42
             //        },
             //        new SubCategory
@@ -363,7 +363,7 @@ namespace MrRondon.Infra.Data.Migrations
             //        new SubCategory
             //        {
             //            SubCategoryId = 47,
-            //            Name = "Polícia",
+            //            Name = "Polï¿½cia",
             //            CategoryId = 42
             //        },
 
@@ -371,28 +371,28 @@ namespace MrRondon.Infra.Data.Migrations
             //        new SubCategory
             //        {
             //            SubCategoryId = 48,
-            //            Name = "Locação de Equipamentos"
+            //            Name = "Locaï¿½ï¿½o de Equipamentos"
             //        },
 
 
             //        new SubCategory
             //        {
             //            SubCategoryId = 49,
-            //            Name = "Centro de Convenções"
+            //            Name = "Centro de Convenï¿½ï¿½es"
             //        },
 
 
             //        new SubCategory
             //        {
             //            SubCategoryId = 50,
-            //            Name = "Transporte Turístico"
+            //            Name = "Transporte Turï¿½stico"
             //        },
 
 
             //        new SubCategory
             //        {
             //            SubCategoryId = 51,
-            //            Name = "Agências de Turismo"
+            //            Name = "Agï¿½ncias de Turismo"
             //        },
 
 
@@ -423,7 +423,7 @@ namespace MrRondon.Infra.Data.Migrations
             //        AddressId = address1.AddressId,
             //        Address = address1,
             //        Name = "Principe da Beira",
-            //        SightHistory = "A história é interessante, mas outro vai contar  . . . "
+            //        SightHistory = "A histï¿½ria ï¿½ interessante, mas outro vai contar  . . . "
             //    };
             //    context.HistoricalSights.Add(historicalSight);
             //}

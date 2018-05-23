@@ -1,6 +1,8 @@
 ﻿@using System.Security.Claims
 @using System.Web.Optimization
+@using MrRondon.Infra.CrossCutting.Helper
 @using MrRondon.Infra.Security.Helpers
+@using MrRondon.Presentation.Mvc.Helpers
 @{Layout = "~/Views/Shared/_Layout.cshtml";}
 @section styles{
     @RenderSection("styles", required: false)
@@ -25,7 +27,7 @@
     </nav>
     <div class="ui container">
         <h1 class="ui inverted header gt-text-uppercase gt-m-0">
-            Mr Rondon <br />Turismo
+            @Constants.SystemName
         </h1>
     </div>
 </header>

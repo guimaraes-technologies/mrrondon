@@ -1,4 +1,6 @@
-﻿@{ Layout = null;}
+﻿@using MrRondon.Infra.CrossCutting.Helper
+@using MrRondon.Presentation.Mvc.Helpers
+@{ Layout = null;}
 <html lang="pt-br">
 <head>
     <meta charset="utf-8">
@@ -23,22 +25,22 @@
     <meta http-equiv="content-language" content="pt-br">
     <meta http-equiv="content-type" content="text/html; charset=iso-8859-1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="application-name" content="Mr Rondon Turistmo">
+    <meta name="application-name" content="@Constants.SystemName">
     <meta name="author" content="Equipe GoNew">
-    <meta name="description" content="Mr. Rondon Turismo é um aplicativo (App) desenvolvido para impulsionar o turismo de Rondônia. Visando atender as reais necessidades dos pioneiros e dos novos empreendedores do nosso estado, o App apresenta o perfil rondoniense agregado a uma personalidade histórica, Marechal Rondon. Com o App Mr. Rondon Turismo, as dificuldades associadas ao desconhecimento do turismo cultural e do turismo de negócios, transformam-se em oportunidades." />
+    <meta name="description" content="@Constants.SystemName é um aplicativo (App) desenvolvido para impulsionar o turismo de Rondônia. Visando atender as reais necessidades dos pioneiros e dos novos empreendedores do nosso estado, o App apresenta o perfil rondoniense agregado a uma personalidade histórica, Marechal Rondon. Com o App @Constants.SystemName, as dificuldades associadas ao desconhecimento do turismo cultural e do turismo de negócios, transformam-se em oportunidades." />
     <meta name="robots" content="index, follow">
-    <meta name="keywords" content="Mr Rondon, Rondon, Turismo, Setur, Mr Rondon App" />
+    <meta name="keywords" content="@Constants.SystemName, Rondon, Turismo, Setur, @Constants.SystemName App, GoNew" />
     <meta name="revised" content="08/03/2018" />
-    <meta name="copyright" content="Equipe GoNew [mrrondon.ozielguimaraes.net]" />
+    <meta name="copyright" content="Equipe GoNew [https://github.com/guimaraes-technology/mrrondon]" />
     <link rel="stylesheet" type="text/css" href="~/Content/site/cover.css">
-    <title>Mr. Rondon Turismo</title>
+    <title>@Constants.SystemName</title>
 </head>
 <body>
     <div id="geral">
         <header>
             <nav>
                 <div class="header-title">
-                    <h1>Mr. Rondon Turismo</h1>
+                    <h1>@Constants.SystemName</h1>
                 </div>
                 <div class="header-brasao">
                     <img src="@Url.Content("~/Content/Images/brasao_ro.png")" alt="">
@@ -60,10 +62,10 @@
             <div id="parte3">
                 <br>
                 <font size="3" color="#006063" face="arial">
-                    <b>Mr. Rondon Turismo</b> é um aplicativo (App) desenvolvido para impulsionar o turismo de Rondônia.
+                    <b>@Constants.SystemName</b> é um aplicativo (App) desenvolvido para impulsionar o turismo de Rondônia.
                     Visando atender as reais necessidades dos pioneiros e dos novos empreendedores do nosso estado,
                     o App apresenta o perfil rondoniense agregado a uma personalidade histórica, Marechal Rondon.
-                    Com o App Mr. Rondon Turismo, as dificuldades associadas ao desconhecimento do turismo
+                    Com o App @Constants.SystemName, as dificuldades associadas ao desconhecimento do turismo
                     cultural e do turismo de negócios, transformam-se em oportunidades.
                 </font>
                 <br><br>

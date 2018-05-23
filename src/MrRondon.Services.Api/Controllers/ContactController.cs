@@ -18,7 +18,7 @@ namespace MrRondon.Services.Api.Controllers
             {
                 var emailManager = new EmailManager(new ArrayList { contactMessage.Email });
                 emailManager.NewContact(contactMessage.Subject, contactMessage.Email, contactMessage.Name, contactMessage.Cellphone, contactMessage.Telephone, contactMessage.Message);
-                await emailManager.SendAsync(contactMessage.Email, "Aplicativo Mr Rondon Turismo");
+                await emailManager.SendAsync(contactMessage.Email, $"Aplicativo {Constants.SystemName}");
 
                 return Ok(true);
             }

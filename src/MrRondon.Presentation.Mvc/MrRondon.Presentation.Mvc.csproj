@@ -518,7 +518,6 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Extensions\MessageActionResultExtension.cs" />
-    <Compile Include="Helpers\Constants.cs" />
     <Compile Include="Helpers\DoubleModelBinder.cs" />
     <Compile Include="Helpers\Seo\FriendlyRoute.cs" />
     <Compile Include="LoginVm.cs" />
