@@ -179,7 +179,8 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
             if (model?.Event == null) cityId = string.Empty;
             else cityId = model.Event.SameAddressAsOganizer ? model.Event?.Organizer?.Address?.CityId.ToString() ?? model.Event?.Address?.CityId.ToString() : model.Event?.Address?.CityId.ToString();
 
-            ViewBag.Cities = new SelectList(GetCities(_db), "CityId", "Name", cityId);
+            var cities = _db.Cities.OrderBy(o => o.Name);
+            ViewBag.Cities = new SelectList(cities, "CityId", "Name", cityId);
             ViewBag.Companies = new SelectList(_db.Companies, "CompanyId", "Name", model?.Event?.OrganizerId);
         }
 
@@ -188,24 +189,12 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
             var company = _db.Companies.Include(i => i.Address).FirstOrDefault(f => f.CompanyId == companyId);
             if (company?.Address == null) return PartialView("_FormAddress");
 
-            var cities = GetCities(_db);
+            var cities = _db.Cities.OrderBy(o => o.Name);
 
             ViewBag.Cities = new SelectList(cities, "CityId", "Name", company.Address?.CityId);
             company.Address.SetCoordinates();
 
             return PartialView("_Address", AddressForEventVm.GetAddress(company.Address));
-        }
-
-        public static IEnumerable<City> GetCities(MainContext db)
-        {
-            var cities = (from ci in db.Cities
-                          join ad in db.Addresses on ci.CityId equals ad.CityId
-                          join co in db.Companies on ad.AddressId equals co.AddressId
-                          group ci by ci.Name
-                into gp
-                          select gp.Select(s => s)).SelectMany(s => s).Distinct().ToList();
-
-            return cities;
         }
 
         [HttpPost]

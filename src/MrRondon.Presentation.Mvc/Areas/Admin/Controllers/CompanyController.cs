@@ -246,7 +246,8 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
 
         private void SetBiewBags(CrudCompanyVm model)
         {
-            ViewBag.Cities = new SelectList(EventController.GetCities(_db), "CityId", "Name", model?.Company?.Address?.CityId);
+            var cities = _db.Cities.OrderBy(o => o.Name);
+            ViewBag.Cities = new SelectList(cities, "CityId", "Name", model?.Company?.Address?.CityId);
 
             var categories = _db.SubCategories.Where(s => s.CategoryId == null).OrderBy(o => o.Name);
             ViewBag.Categories = new SelectList(categories, "SubCategoryId", "Name", model?.CategoryId);
