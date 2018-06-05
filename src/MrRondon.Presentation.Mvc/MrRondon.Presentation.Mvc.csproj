@@ -511,6 +511,7 @@
     <Compile Include="Areas\Admin\Controllers\UserController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Areas\Admin\Controllers\ErrorController.cs" />
+    <Compile Include="Controllers\DatabaseManagerController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Extensions\EnumExtension.cs" />
     <Compile Include="Extensions\HtmlExtension.cs" />
@@ -579,7 +580,9 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Views\DatabaseManager\" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MrRondon.Domain\MrRondon.Domain.csproj">
       <Project>{0da2d667-7a4c-4c62-8197-75c5ccfc40c0}</Project>

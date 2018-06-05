@@ -59,6 +59,7 @@
     <Compile Include="Entities\RefreshToken.cs" />
     <Compile Include="Entities\Role.cs" />
     <Compile Include="Entities\User.cs" />
+    <Compile Include="Interfaces\Repositories\IDataBaseManagerRepository.cs" />
     <Compile Include="Interfaces\Repositories\IRepositorioBase.cs" />
     <Compile Include="PasswordAssertionConcern.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
