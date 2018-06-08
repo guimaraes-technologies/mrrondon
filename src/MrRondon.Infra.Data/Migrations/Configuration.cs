@@ -53,7 +53,7 @@ namespace MrRondon.Infra.Data.Migrations
                         },
                         Roles = new List<Role> { roles[0] }
                     };
-                    user.EncryptPassword("111111");
+                    user.SetNewPassword("111111");
                     context.Users.Add(user);
                 }
             }

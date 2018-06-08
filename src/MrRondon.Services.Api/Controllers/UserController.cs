@@ -86,7 +86,7 @@ namespace MrRondon.Services.Api.Controllers
                         UserId = user.UserId
                     });
 
-                user.EncryptPassword(user.Password);
+                user.SetNewPassword(user.Password);
                 _db.Users.Add(user);
                 _db.SaveChanges();
                 return Ok(user);

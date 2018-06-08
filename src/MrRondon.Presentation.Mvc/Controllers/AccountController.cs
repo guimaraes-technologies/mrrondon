@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using MrRondon.Domain;
@@ -123,7 +124,7 @@ namespace MrRondon.Presentation.Mvc.Controllers
                 var repo = new RepositoryBase<User>(_db);
                 var user = repo.GetItemByExpression(x => x.Cpf.Equals(model.UserName), x => x.Contacts);
                 if (user == null) return View(model).Success("Um código para redefinição da sua senha foi enviado para o seu email");
-                user.GeneratePasswordRecoveryCode();
+                user.SetPasswordRecoveryCode();
 
                 var query = $"UPDATE [{nameof(Domain.Entities.User)}] SET {nameof(user.PasswordRecoveryCode)}='{user.PasswordRecoveryCode}' WHERE {nameof(user.UserId)}='{user.UserId}'";
                 await _db.Database.ExecuteSqlCommandAsync(query);
@@ -161,9 +162,7 @@ namespace MrRondon.Presentation.Mvc.Controllers
                 if (!string.Equals(model.NewPassword, model.ConfirmPassword)) return View(model).Error(Error.PasswordDoesNotMatch);
                 var user = _db.Users.Find(Account.Current.UserId);
                 if (user == null) return RedirectToAction("Details").Success(Success.ChangedPassword);
-
-                user.EncryptPassword(model.NewPassword);
-                _db.Entry(user).Property(u => u.Password).CurrentValue = user.Password;
+                _db.Entry(user).Property(u => u.Password).CurrentValue = user.EncryptPassword(model.NewPassword);
                 _db.SaveChanges();
 
                 return RedirectToAction("Details").Success(Success.ChangedPassword);

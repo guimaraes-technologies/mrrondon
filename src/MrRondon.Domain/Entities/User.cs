@@ -49,7 +49,7 @@ namespace MrRondon.Domain.Entities
             return new ClaimsIdentity(claims, authenticationType);
         }
 
-        public string GeneratePasswordRecoveryCode()
+        public string SetPasswordRecoveryCode()
         {
             var codes = Guid.NewGuid().ToString().ToUpper().Split('-');
             return PasswordRecoveryCode = $"GT|{codes[codes.Length - 1]}";
@@ -57,7 +57,7 @@ namespace MrRondon.Domain.Entities
 
         public string EncryptPassword(string password)
         {
-            return Password = PasswordAssertionConcern.ComputeHash(password);
+            return PasswordAssertionConcern.ComputeHash(password);
         }
 
         public void Update(string firstName, string lastName)
@@ -75,7 +75,12 @@ namespace MrRondon.Domain.Entities
         {
             var digitsRegex = new Regex(@"[^\d]");
             var password = digitsRegex.Replace(Cpf, "");
-            return EncryptPassword(password);
+            return SetNewPassword(password);
+        }
+
+        public string SetNewPassword(string newPassword)
+        {
+            return Password = EncryptPassword(newPassword);
         }
     }
 }
