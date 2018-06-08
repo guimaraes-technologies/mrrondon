@@ -100,7 +100,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
                 name = x.Name,
                 text = x.Name,
                 value = x.SubCategoryId
-            });
+            }).ToList();
 
             return Json(new { results }, JsonRequestBehavior.AllowGet);
         }
