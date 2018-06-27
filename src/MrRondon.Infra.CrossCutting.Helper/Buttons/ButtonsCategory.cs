@@ -54,12 +54,12 @@ namespace MrRondon.Infra.CrossCutting.Helper.Buttons
             {
                 var link = new TagBuilder("a");
                 var icon = new TagBuilder("i");
-                icon.MergeAttribute("class", showOnApp ? IconDisable : IconActive);
+                icon.MergeAttribute("class", showOnApp ? IconActive : IconDisable);
                 icon.MergeAttribute("class", IconActive);
                 link.MergeAttribute("href", Url.Action("ShowOnApp", "Category", new { area = "Admin", id }));
                 link.MergeAttribute("class", "ui tiny icon button");
                 link.MergeAttribute("data-loading", "btn");
-                link.MergeAttribute("title", $"{(showOnApp ? "Não mostrar no app" : "Mostrar no app")}");
+                link.MergeAttribute("title", $"{(showOnApp ? "Mostrar no app" : "Não mostrar no app")}");
                 link.MergeAttributes(HtmlHelper.AnonymousObjectToHtmlAttributes(null));
                 link.InnerHtml = icon.ToString();
 
