@@ -1,15 +1,14 @@
-﻿using System;
-using System.Data.Entity;
-using System.IO;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using MrRondon.Domain.Entities;
+﻿using MrRondon.Domain.Entities;
 using MrRondon.Infra.CrossCutting.Helper;
 using MrRondon.Infra.CrossCutting.Helper.Buttons;
 using MrRondon.Infra.Data.Context;
 using MrRondon.Infra.Data.Repositories;
 using MrRondon.Presentation.Mvc.Extensions;
+using System;
+using System.Data.Entity;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
 
 namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
 {
@@ -105,6 +104,17 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
             return Json(new { results }, JsonRequestBehavior.AllowGet);
         }
 
+        public ActionResult ShowOnApp(int id)
+        {
+            var repo = new RepositoryBase<SubCategory>(_db);
+            var category = repo.GetItemByExpression(x => x.SubCategoryId == id);
+            if (category == null) return HttpNotFound();
+            _db.Entry(category).Property(p => p.ShowOnApp).CurrentValue = !category.ShowOnApp;
+            _db.SaveChanges();
+
+            return RedirectToAction("Index").Success("Operação realizada com sucesso");
+        }
+
         [HttpPost]
         public JsonResult GetPagination(DataTableParameters parameters)
         {
@@ -121,7 +131,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
                     item.SubCategoryId.ToString(),
                     $"{item.Name}",
                     $"{item.Category?.Name ?? "Não informada"}",
-                    buttons.ToPagination(item.SubCategoryId)
+                    buttons.ToPagination(item.SubCategoryId, item.ShowOnApp)
                 });
             }
             return Json(dtResult, JsonRequestBehavior.AllowGet);

@@ -76,7 +76,18 @@ namespace MrRondon.Presentation.Mvc.Controllers
             var user = _db.Users
                 .Include(i => i.Contacts)
                 .FirstOrDefault(f => f.UserId == Account.Current.UserId);
-            return View(user);
+            if (user == null) return RedirectToAction("Index", "Home").Error("Usuário não encontrado");
+            var userContact = new UserContactVm
+            {
+                UserId = user.UserId,
+                Cpf = user.Cpf,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                IsActive = user.IsActive,
+                Contacts = user.Contacts.ToList(),
+                Roles = user.Roles
+            };
+            return View(userContact);
         }
 
         [HttpPost]
@@ -98,7 +109,7 @@ namespace MrRondon.Presentation.Mvc.Controllers
                     .Include(i => i.Roles)
                     .FirstOrDefault(f => f.UserId == Account.Current.UserId);
 
-                oldUser.Update(model.FirstName, model.LastName);
+                oldUser?.Update(model.FirstName, model.LastName);
 
                 throw new Exception("Não implementado");
             }
@@ -109,13 +120,13 @@ namespace MrRondon.Presentation.Mvc.Controllers
         }
 
         [AllowAnonymous]
-        public ActionResult RecoveryPassword()
+        public ActionResult ForgetPassword()
         {
             return View();
         }
 
         [HttpPost, AllowAnonymous]
-        public async Task<ActionResult> RecoveryPassword(RecoveryPasswordVm model)
+        public async Task<ActionResult> ForgetPassword(ForgetPasswordVm model)
         {
             try
             {
@@ -135,8 +146,10 @@ namespace MrRondon.Presentation.Mvc.Controllers
                     return View(model).Error("Não foi possível enviar um email com o seu código de recuperação, pois não existe nenhum Email para contato");
 
                 var emailManager = new EmailManager(new ArrayList { email });
+                var actualUrl = Request.Url.OriginalString;
+                var url = $"{actualUrl.Replace(Request.Url.Segments[Request.Url.Segments.Length - 1], "recoverypassword")}/{user.PasswordRecoveryCode}";
 
-                emailManager.ForgotPassword(user.FullName, $"{Request.Url.Authority}/account/newpassword/{user.PasswordRecoveryCode}");
+                emailManager.ForgotPassword(user.FullName, url);
                 await emailManager.SendAsync(emailManager.Sender, $"Sistema {Constants.SystemName}");
 
                 return View(model).Success($"Um código para redefinição da sua senha foi enviado para o seu email: '{email}'");
@@ -173,48 +186,36 @@ namespace MrRondon.Presentation.Mvc.Controllers
             }
         }
 
-        /*
         [AllowAnonymous]
-        public ActionResult ChangePassword(Guid id)
+        public ActionResult RecoveryPassword(string code)
         {
-            return View(new ChangePasswordVm { UserId = id });
+            return View(new RecoveryPasswordVm { Code = code });
         }
 
         [AllowAnonymous]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult ChangePassword(ChangePasswordVm changePassword)
-        {
-            if (ModelState.IsValid)
-            {
-                _UserAppService.AlterarSenha(changePassword.UserId, changePassword.ConfirmarSenha);
-                return RedirectToAction("Signin").Success(Success.ChangePassword);
-            }
-            return View().Error(Error.ModelState);
-        }
-
-        [AllowAnonymous]
-        public ActionResult AlterarSenhaComCodigo(string codigo)
-        {
-            return View(new AlterarSenhaComCodigoVm { Codigo = codigo });
-        }
-
-        [HttpPost]
-        [AllowAnonymous]
-        public ActionResult AlterarSenhaComCodigo(AlterarSenhaComCodigoVm model)
+        public ActionResult RecoveryPassword(RecoveryPasswordVm model)
         {
             try
             {
-                if (!ModelState.IsValid) return View(model).Error(Error.ModelState);
+                if (!ModelState.IsValid) return View().Error(Error.Default);
 
-                _UserAppService.AlterarSenha(model);
-                return RedirectToAction("Signin").Success(Success.ChangePassword);
+                if (!string.Equals(model.NewPassword, model.ConfirmPassword)) return View(model).Error(Error.PasswordDoesNotMatch);
+
+                var user = _db.Users.FirstOrDefault(x => x.PasswordRecoveryCode == model.Code);
+                if (user == null) return RedirectToAction("Signin").Success(Success.ChangedPassword);
+
+                _db.Entry(user).Property(u => u.Password).CurrentValue = user.EncryptPassword(model.NewPassword);
+                _db.SaveChanges();
+
+                return RedirectToAction("Signin").Success(Success.ChangedPassword);
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                return View(model).Error(ex.Message);
+                return View().Error(e.Message);
             }
-        }*/
+        }
 
         [AllowAnonymous]
         private ActionResult RedirectToLocal(string returnUrl)

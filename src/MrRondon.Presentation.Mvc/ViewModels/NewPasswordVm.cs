@@ -12,7 +12,7 @@ namespace MrRondon.Presentation.Mvc.ViewModels
         public string NewPassword { get; set; }
         
         [Display(Name = "Confirmar Senha")]
-        [Compare(nameof(NewPassword), ErrorMessage = "Senhas não correspodem")]
+        [Compare(nameof(NewPassword), ErrorMessageResourceType = typeof(Error), ErrorMessageResourceName = "PasswordDoesNotMatch")]
         [Required(ErrorMessageResourceType = typeof(Error), ErrorMessageResourceName = "Required")]
         [RegularExpression(RegularExpressions.LetterAndNumber, ErrorMessageResourceType = typeof(Error), ErrorMessageResourceName = "PasswordRequirements")]
         [DataType(DataType.Password)]

@@ -532,7 +532,7 @@
     </Compile>
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\AddressForEventVm.cs" />
-    <Compile Include="ViewModels\ChangePasswordVm.cs" />
+    <Compile Include="ViewModels\ForgetPasswordVm.cs" />
     <Compile Include="ViewModels\CrudCompanyVm.cs" />
     <Compile Include="ViewModels\CrudEventVm.cs" />
     <Compile Include="ViewModels\CrudHistoricalSightVm.cs" />
@@ -573,6 +573,7 @@
     <Content Include="Views\Account\Details.cshtml" />
     <Content Include="Views\Account\_Navigation.cshtml" />
     <Content Include="Views\Account\Edit.cshtml" />
+    <Content Include="Views\Account\ForgetPassword.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

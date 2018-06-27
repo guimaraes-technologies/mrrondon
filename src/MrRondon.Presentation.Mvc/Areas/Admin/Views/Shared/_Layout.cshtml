@@ -3,6 +3,8 @@
 @section styles{
     @RenderSection("styles", required: false)
 }
+@if (Account.Current.IsAuthenticated)
+{
 @section navigation_left
 {
     <nav class="gt-navigation-left">
@@ -44,6 +46,7 @@
         </div>
         @Html.Partial("_Settings")
     </nav>
+}
 }
 <header class="gt-header">
     @RenderSection("header", required: false)

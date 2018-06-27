@@ -41,7 +41,7 @@ namespace MrRondon.Domain.Entities
             {
                 new Claim(ClaimTypes.NameIdentifier, UserId.ToString()),
                 new Claim(ClaimTypes.Name, FullName),
-                new Claim("http://schemas.microsoft.com/accesscontrolservice/2010/07/claims/identityprovider", "GT - Guimaraes Tecnologia")
+                new Claim("http://schemas.microsoft.com/accesscontrolservice/2010/07/claims/identityprovider", "GT - Guimaraes Technology")
             };
 
             if (Roles != null) claims.AddRange(Roles.Select(x => new Claim(ClaimTypes.Role, x.Name)));
@@ -52,7 +52,7 @@ namespace MrRondon.Domain.Entities
         public string SetPasswordRecoveryCode()
         {
             var codes = Guid.NewGuid().ToString().ToUpper().Split('-');
-            return PasswordRecoveryCode = $"GT|{codes[codes.Length - 1]}";
+            return PasswordRecoveryCode = $"GTech_{codes[1]}";
         }
 
         public string EncryptPassword(string password)

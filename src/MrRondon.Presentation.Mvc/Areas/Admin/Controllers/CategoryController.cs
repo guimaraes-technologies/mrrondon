@@ -48,7 +48,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
 
                 _db.SubCategories.Add(model);
                 _db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index").Success("Operação realizada com sucesso");
             }
             catch (Exception ex)
             {
@@ -77,12 +77,23 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
                 model.SetImage(FileUpload.GetBytes(imageFile, "Imagem"));
                 _db.Entry(model).State = EntityState.Modified;
                 _db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index").Success("Operação realizada com sucesso");
             }
             catch (Exception ex)
             {
                 return View(model).Error(ex.Message);
             }
+        }
+
+        public ActionResult ShowOnApp(int id)
+        {
+            var repo = new RepositoryBase<SubCategory>(_db);
+            var category = repo.GetItemByExpression(x => x.SubCategoryId == id);
+            if (category == null) return HttpNotFound();
+            _db.Entry(category).Property(p => p.ShowOnApp).CurrentValue = !category.ShowOnApp;
+            _db.SaveChanges();
+
+            return RedirectToAction("Index").Success("Operação realizada com sucesso");
         }
 
         [HttpPost]
@@ -100,7 +111,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
                 {
                     item.CategoryId.ToString(),
                     item.Name,
-                    buttons.ToPagination(item.SubCategoryId)
+                    buttons.ToPagination(item.SubCategoryId, item.ShowOnApp)
                 });
             }
             return Json(dtResult, JsonRequestBehavior.AllowGet);

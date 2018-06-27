@@ -54,24 +54,24 @@ namespace MrRondon.Infra.Data.Migrations
                         Roles = new List<Role> { roles[0] }
                     };
                     user.SetNewPassword("111111");
-                    context.Users.Add(user);
+                    //context.Users.Add(user);
                 }
             }
 
 
             if (!context.ApplicationClients.Any())
             {
-                context.ApplicationClients.Add(new ApplicationClient
-                {
-                    ApplicationClientId = Guid.NewGuid(),
-                    Secret = "Rondonia.Turismo.App",
-                    Name = "Aplicativo Rond�nia Turismo",
-                    RefreshTokenLifeTime = 1,
-                    ApplicationType = ApplicationTypes.NativeConfidential,
-                    AllowedOrigin = "*",
-                    Active = true
-
-                });
+                //context.ApplicationClients.Add(new ApplicationClient
+                //{
+                //    ApplicationClientId = Guid.NewGuid(),
+                //    Secret = "Rondonia.Turismo.App",
+                //    Name = "Aplicativo Rond�nia Turismo",
+                //    RefreshTokenLifeTime = 1,
+                //    ApplicationType = ApplicationTypes.NativeConfidential,
+                //    AllowedOrigin = "*",
+                //    Active = true
+                //
+                //});
             }
 
             //if (!context.SubCategories.Any())
@@ -428,7 +428,7 @@ namespace MrRondon.Infra.Data.Migrations
             //    context.HistoricalSights.Add(historicalSight);
             //}
             
-            context.SaveChanges();
+            //context.SaveChanges();
         }
     }
 }
