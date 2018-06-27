@@ -120,8 +120,8 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
         {
             var search = parameters.Search.Value?.ToLower() ?? string.Empty;
             var repo = new RepositoryBase<SubCategory>(_db);
-            var items = repo.GetItemsByExpression(w => w.CategoryId != null && w.Name.Contains(search), x => x.Category).ToList();
-            var dtResult = new DataTableResultSet(parameters.Draw, 10);
+            var items = repo.GetItemsByExpression(w => w.CategoryId.HasValue && w.Name.Contains(search), x => x.Name, parameters.Start, parameters.Length, out var recordsTotal, x => x.Category).ToList();
+            var dtResult = new DataTableResultSet(parameters.Draw, recordsTotal);
 
             var buttons = new ButtonsSubCategory();
             foreach (var item in items.ToList())
