@@ -9,7 +9,7 @@
         </div>
         <div class="eight wide field">
             @Html.LabelFor(e => e.CategoryId)
-            @Html.SemanticDropDownListFor(e => e.CategoryId, (SelectList)ViewBag.Categories)
+            @Html.SemanticDropDownListFor(model => model.CategoryId, (SelectList)ViewBag.Categories, "Selecione..." )
         </div>
     </div>
 </div>

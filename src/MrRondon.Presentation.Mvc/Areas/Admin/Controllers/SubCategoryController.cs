@@ -65,7 +65,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
             var category = repo.GetItemByExpression(x => x.SubCategoryId == id);
             if (category == null) return HttpNotFound();
 
-            ViewBag.Categories = new SelectList(_db.SubCategories.Where(s => s.CategoryId == null).OrderBy(o => o.Name), "SubCategoryId", "Name", category.SubCategoryId);
+            ViewBag.Categories = new SelectList(_db.SubCategories.Where(s => s.CategoryId == null).OrderBy(o => o.Name), "SubCategoryId", "Name", category.CategoryId);
             return View(category);
         }
 
@@ -77,7 +77,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
             {
                 if (!ModelState.IsValid)
                 {
-                    ViewBag.Categories = new SelectList(_db.SubCategories.Where(s => s.CategoryId == null).OrderBy(o => o.Name), "SubCategoryId", "Name", model.SubCategoryId);
+                    ViewBag.Categories = new SelectList(_db.SubCategories.Where(s => s.CategoryId == null).OrderBy(o => o.Name), "SubCategoryId", "Name", model.CategoryId);
                     return View(model);
                 }
 
@@ -87,7 +87,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.Categories = new SelectList(_db.SubCategories.Where(s => s.CategoryId == null).OrderBy(o => o.Name), "SubCategoryId", "Name", model.SubCategoryId);
+                ViewBag.Categories = new SelectList(_db.SubCategories.Where(s => s.CategoryId == null).OrderBy(o => o.Name), "SubCategoryId", "Name", model.CategoryId);
                 return View(model).Error(ex.Message);
             }
         }
