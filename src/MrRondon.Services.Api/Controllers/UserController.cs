@@ -1,13 +1,13 @@
-﻿using System;
+﻿using MrRondon.Domain.Entities;
+using MrRondon.Infra.Data.Context;
+using MrRondon.Services.Api.Authorization;
+using MrRondon.Services.Api.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Web.Http;
-using MrRondon.Domain.Entities;
-using MrRondon.Infra.Data.Context;
-using MrRondon.Services.Api.Authorization;
-using MrRondon.Services.Api.ViewModels;
-using Newtonsoft.Json.Linq;
+using WebApi.OutputCache.V2;
 
 namespace MrRondon.Services.Api.Controllers
 {
@@ -22,6 +22,7 @@ namespace MrRondon.Services.Api.Controllers
         }
 
         [Route("information")]
+        [CacheOutput(ClientTimeSpan = 120, ServerTimeSpan = 120)]
         public IHttpActionResult GetInformation()
         {
             try

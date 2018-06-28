@@ -8,6 +8,7 @@ using MrRondon.Infra.CrossCutting.Helper;
 using MrRondon.Infra.CrossCutting.Helper.Buttons;
 using MrRondon.Infra.Data.Context;
 using MrRondon.Infra.Data.Repositories;
+using MrRondon.Infra.Security.Extensions;
 using MrRondon.Presentation.Mvc.Extensions;
 using MrRondon.Presentation.Mvc.ViewModels;
 using WebGrease.Css.Extensions;
@@ -15,16 +16,17 @@ using Address = MrRondon.Domain.Entities.Address;
 
 namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
 {
-    [Authorize(Roles = "Admin")]
     public class CompanyController : Controller
     {
         private readonly MainContext _db = new MainContext();
 
+        [HasAny("Administrador_Geral", "Administrador_Empresa", "Consulta")]
         public ActionResult Index()
         {
             return View();
         }
 
+        [HasAny("Administrador_Geral", "Administrador_Empresa", "Consulta")]
         public ActionResult Details(Guid id)
         {
             var repo = new RepositoryBase<Company>(_db);
@@ -33,6 +35,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
             return View(company);
         }
 
+        [HasAny("Administrador_Geral", "Administrador_Empresa")]
         public ActionResult Create()
         {
             SetBiewBags(null);
@@ -41,6 +44,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateInput(false)]
+        [HasAny("Administrador_Geral", "Administrador_Empresa")]
         public ActionResult Create(CrudCompanyVm model, Address address)
         {
             try
@@ -77,6 +81,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
             }
         }
 
+        [HasAny("Administrador_Geral", "Administrador_Empresa")]
         public ActionResult Edit(Guid id)
         {
             var repo = new RepositoryBase<Company>(_db);
@@ -93,6 +98,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateInput(false)]
+        [HasAny("Administrador_Geral", "Administrador_Empresa")]
         public ActionResult Edit(CrudCompanyVm model, Address address)
         {
             try
@@ -176,6 +182,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
         }
 
         [AllowAnonymous, HttpPost]
+        [HasAny("Administrador_Geral", "Administrador_Empresa")]
         public ActionResult AddContact(CrudCompanyVm companyContact)
         {
             companyContact.Contacts = companyContact.Contacts ?? new List<Contact>();
@@ -187,6 +194,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
         }
 
         [AllowAnonymous, HttpPost]
+        [HasAny("Administrador_Geral", "Administrador_Empresa")]
         public ActionResult RemoveContact(CrudCompanyVm companyContact, int index)
         {
             UrlsContact();
@@ -195,6 +203,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [HasAny("Administrador_Geral", "Administrador_Empresa", "Consulta")]
         public JsonResult GetPagination(DataTableParameters parameters)
         {
             var search = parameters.Search.Value?.ToLower() ?? string.Empty;

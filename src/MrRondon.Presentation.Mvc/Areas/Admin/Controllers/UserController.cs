@@ -11,19 +11,21 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
+using MrRondon.Infra.Security.Extensions;
 
 namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
 {
-    [Authorize(Roles = "Admin")]
     public class UserController : Controller
     {
         private readonly MainContext _db = new MainContext();
 
+        [HasAny("Administrador_Geral", "Administrador_Usuário", "Consulta")]
         public ActionResult Index()
         {
             return View();
         }
 
+        [HasAny("Administrador_Geral", "Administrador_Usuário", "Consulta")]
         public ActionResult Details(Guid id)
         {
             var user = _db.Users
@@ -36,6 +38,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
             return View(user);
         }
 
+        [HasAny("Administrador_Geral", "Administrador_Usuário")]
         public ActionResult Create()
         {
             GetDrops();
@@ -43,6 +46,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [HasAny("Administrador_Geral", "Administrador_Usuário")]
         public ActionResult Create(UserContactVm userContact)
         {
             try
@@ -87,6 +91,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
             }
         }
 
+        [HasAny("Administrador_Geral", "Administrador_Usuário")]
         public ActionResult UpdateStatus(Guid id)
         {
             try
@@ -106,6 +111,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
             }
         }
 
+        [HasAny("Administrador_Geral", "Administrador_Usuário")]
         public ActionResult ResetPassword(Guid id)
         {
             try
@@ -160,6 +166,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [HasAny("Administrador_Geral", "Administrador_Usuário", "Consulta")]
         public JsonResult GetPagination(DataTableParameters parameters)
         {
             var search = parameters.Search.Value?.ToLower() ?? string.Empty;

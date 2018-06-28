@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using MrRondon.Presentation.Mvc.Extensions;
 
 namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
 {
@@ -12,6 +11,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
         {
             switch (id)
             {
+                case 401: return View("Erro401");
                 case 404: return View("Erro404");
                 default: return View("Generic");
             }

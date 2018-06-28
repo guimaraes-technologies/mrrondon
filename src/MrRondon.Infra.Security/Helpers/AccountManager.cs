@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Security.Claims;
 using System.Security.Principal;
 using System.Web;
@@ -36,6 +37,12 @@ namespace MrRondon.Infra.Security.Helpers
             Auth.SignOut("ApplicationCookie");
         }
 
+        public bool HasAny(params string[] permissions)
+        {
+            var hasPermission = permissions.Any(IsInRole);
+            return hasPermission;
+        }
+        
         public static ClaimsIdentity ValidateLogin(User user, string password, string authenticationType)
         {
             if (user == null) throw new Exception(Error.WrongUserNameOrPassword);

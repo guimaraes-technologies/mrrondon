@@ -8,21 +8,24 @@ using MrRondon.Infra.CrossCutting.Helper;
 using MrRondon.Infra.CrossCutting.Helper.Buttons;
 using MrRondon.Infra.Data.Context;
 using MrRondon.Infra.Data.Repositories;
+using MrRondon.Infra.Security.Extensions;
 using MrRondon.Presentation.Mvc.Extensions;
 using MrRondon.Presentation.Mvc.ViewModels;
 
 namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [HasAny("Administrador_Geral", "Administrador_Evento", "Consulta")]
     public class EventController : Controller
     {
         private readonly MainContext _db = new MainContext();
 
+        [HasAny("Administrador_Geral", "Administrador_Evento", "Consulta")]
         public ActionResult Index()
         {
             return View();
         }
 
+        [HasAny("Administrador_Geral", "Administrador_Evento", "Consulta")]
         public ActionResult Create()
         {
             SetBiewBags(null);
@@ -31,6 +34,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateInput(false)]
+        [HasAny("Administrador_Geral", "Administrador_Evento")]
         public ActionResult Create(CrudEventVm model, AddressForEventVm address)
         {
             try
@@ -63,6 +67,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
             }
         }
 
+        [HasAny("Administrador_Geral", "Administrador_Evento", "Consulta")]
         public ActionResult Details(Guid id)
         {
             var repo = new RepositoryBase<Event>(_db);
@@ -71,6 +76,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
             return View(entity);
         }
 
+        [HasAny("Administrador_Geral", "Administrador_Evento")]
         public ActionResult Edit(Guid id)
         {
             var repo = new RepositoryBase<Event>(_db);
@@ -85,6 +91,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateInput(false)]
+        [HasAny("Administrador_Geral", "Administrador_Evento")]
         public ActionResult Edit(CrudEventVm model, AddressForEventVm address)
         {
             try
@@ -138,6 +145,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
         }
 
         [AllowAnonymous, HttpPost]
+        [HasAny("Administrador_Geral", "Administrador_Evento")]
         public ActionResult AddContact(CrudEventVm eventContact)
         {
             eventContact.Contacts = eventContact.Contacts ?? new List<Contact>();
@@ -149,6 +157,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
         }
 
         [AllowAnonymous, HttpPost]
+        [HasAny("Administrador_Geral", "Administrador_Evento")]
         public ActionResult RemoveContact(CrudEventVm eventContact, int index)
         {
             UrlsContact();
@@ -198,6 +207,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [HasAny("Administrador_Geral", "Administrador_Evento", "Consulta")]
         public JsonResult GetPagination(DataTableParameters parameters)
         {
             var search = parameters.Search.Value?.ToLower() ?? string.Empty;
@@ -229,7 +239,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
             return Json(dtResult, JsonRequestBehavior.AllowGet);
         }
 
-        protected override void Dispose(bool disposing)
+    protected override void Dispose(bool disposing)
         {
             if (disposing)
             {

@@ -1,14 +1,21 @@
-﻿@model int
+﻿@using MrRondon.Infra.Security.Helpers
+@model int
 <div class="ui vertical fluid right tabular menu">
     <div class="item header gt-p-0" data-responsive>
         <a onclick="javascript: GT.OnpenSubMenu(this);" class="large ui circular icon basic button">
             <i class="sidebar icon"></i>
         </a>
     </div>
-    <a class="item @(Model == 1 ? "active" : string.Empty)" href="@Url.Action("Index", "City", new { area = "Admin" })">
-        Todas Cidades
-    </a>
-    <a class="item @(Model == 2 ? "active" : string.Empty)" href="@Url.Action("Create", "City", new { area = "Admin" })">
-        Adicionar Cidade
-    </a>
+    @if (Account.Current.HasAny("Administrador_Geral", "Administrador_Cidade", "Consulta"))
+    {
+        <a class="item @(Model == 1 ? "active" : string.Empty)" href="@Url.Action("Index", "City", new {area = "Admin"})">
+            Todas Cidades
+        </a>
+        if (Account.Current.HasAny("Administrador_Geral", "Administrador_Cidade"))
+        {
+            <a class="item @(Model == 2 ? "active" : string.Empty)" href="@Url.Action("Create", "City", new {area = "Admin"})">
+                Adicionar Cidade
+            </a>
+        }
+    }
 </div>

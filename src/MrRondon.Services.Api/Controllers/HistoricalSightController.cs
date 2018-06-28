@@ -8,7 +8,6 @@ using WebApi.OutputCache.V2;
 namespace MrRondon.Services.Api.Controllers
 {
     [RoutePrefix("v1/historicalsight")]
-    [CacheOutput(ClientTimeSpan = 50, ServerTimeSpan = 50)]
     public class HistoricalSightController : ApiController
     {
         private readonly MainContext _db;
@@ -20,6 +19,7 @@ namespace MrRondon.Services.Api.Controllers
 
         [AllowAnonymous]
         [Route("{id:int}")]
+        [CacheOutput(ClientTimeSpan = 120, ServerTimeSpan = 120)]
         public IHttpActionResult Get(int id)
         {
             try
@@ -37,6 +37,7 @@ namespace MrRondon.Services.Api.Controllers
 
         [AllowAnonymous]
         [Route("city/{cityId:int}/{name=}")]
+        [CacheOutput(ClientTimeSpan = 120, ServerTimeSpan = 120, MustRevalidate = true)]
         public IHttpActionResult Get(int cityId, string name)
         {
             try

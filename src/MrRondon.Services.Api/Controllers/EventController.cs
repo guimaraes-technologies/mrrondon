@@ -23,6 +23,7 @@ namespace MrRondon.Services.Api.Controllers
 
         [AllowAnonymous]
         [Route("{eventId:guid}")]
+        [CacheOutput(ServerTimeSpan = 120)]
         public IHttpActionResult Get(Guid eventId)
         {
             try

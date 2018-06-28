@@ -7,21 +7,23 @@ using MrRondon.Infra.CrossCutting.Helper;
 using MrRondon.Infra.CrossCutting.Helper.Buttons;
 using MrRondon.Infra.Data.Context;
 using MrRondon.Infra.Data.Repositories;
+using MrRondon.Infra.Security.Extensions;
 using MrRondon.Presentation.Mvc.Extensions;
 using MrRondon.Presentation.Mvc.ViewModels;
 
 namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
 {
-    [Authorize(Roles = "Admin")]
     public class HistoricalSightController : Controller
     {
         private readonly MainContext _db = new MainContext();
 
+        [HasAny("Administrador_Geral", "Administrador_Memorial", "Consulta")]
         public ActionResult Index()
         {
             return View();
         }
 
+        [HasAny("Administrador_Geral", "Administrador_Memorial")]
         public ActionResult Create()
         {
             SetBiewBags(null);
@@ -30,6 +32,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateInput(false)]
+        [HasAny("Administrador_Geral", "Administrador_Memorial")]
         public ActionResult Create(CrudHistoricalSightVm model, Address address)
         {
             try
@@ -61,6 +64,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
             }
         }
 
+        [HasAny("Administrador_Geral", "Administrador_Memorial", "Consulta")]
         public ActionResult Details(int id)
         {
             var repo = new RepositoryBase<HistoricalSight>(_db);
@@ -71,6 +75,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
             return View(historicalSight);
         }
 
+        [HasAny("Administrador_Geral", "Administrador_Memorial")]
         public ActionResult Edit(int id)
         {
             var repo = new RepositoryBase<HistoricalSight>(_db);
@@ -89,6 +94,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateInput(false)]
+        [HasAny("Administrador_Geral", "Administrador_Memorial")]
         public ActionResult Edit(CrudHistoricalSightVm model, Address address)
         {
             try
@@ -134,6 +140,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [HasAny("Administrador_Geral", "Administrador_Memorial", "Consulta")]
         public JsonResult GetPagination(DataTableParameters parameters)
         {
             var search = parameters.Search.Value?.ToLower() ?? string.Empty;

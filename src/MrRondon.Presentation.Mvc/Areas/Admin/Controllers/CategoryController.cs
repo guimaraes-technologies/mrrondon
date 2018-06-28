@@ -8,20 +8,22 @@ using MrRondon.Infra.CrossCutting.Helper;
 using MrRondon.Infra.CrossCutting.Helper.Buttons;
 using MrRondon.Infra.Data.Context;
 using MrRondon.Infra.Data.Repositories;
+using MrRondon.Infra.Security.Extensions;
 using MrRondon.Presentation.Mvc.Extensions;
 
 namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
 {
-    [Authorize(Roles = "Admin")]
     public class CategoryController : Controller
     {
         private readonly MainContext _db = new MainContext();
 
+        [HasAny("Administrador_Geral", "Administrador_Categoria", "Consulta")]
         public ActionResult Index()
         {
             return View();
         }
 
+        [HasAny("Administrador_Geral", "Administrador_Categoria", "Consulta")]
         public ActionResult Details(int id)
         {
             var repo = new RepositoryBase<SubCategory>(_db);
@@ -30,12 +32,14 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
             return View(category);
         }
 
+        [HasAny("Administrador_Geral", "Administrador_Categoria")]
         public ActionResult Create()
         {
             return View();
         }
 
         [HttpPost]
+        [HasAny("Administrador_Geral", "Administrador_Categoria")]
         public ActionResult Create(SubCategory model, HttpPostedFileBase imageFile)
         {
             try
@@ -56,6 +60,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
             }
         }
 
+        [HasAny("Administrador_Geral", "Administrador_Categoria")]
         public ActionResult Edit(int id)
         {
             var repo = new RepositoryBase<SubCategory>(_db);
@@ -66,6 +71,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [HasAny("Administrador_Geral", "Administrador_Categoria")]
         public ActionResult Edit(SubCategory model, HttpPostedFileBase imageFile)
         {
             try
@@ -85,6 +91,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
             }
         }
 
+        [HasAny("Administrador_Geral", "Administrador_Categoria")]
         public ActionResult ShowOnApp(int id)
         {
             var repo = new RepositoryBase<SubCategory>(_db);
@@ -97,6 +104,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [HasAny("Administrador_Geral", "Administrador_Categoria", "Consulta")]
         public JsonResult GetPagination(DataTableParameters parameters)
         {
             var search = parameters.Search.Value?.ToLower() ?? string.Empty;

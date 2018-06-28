@@ -1,16 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Data.Entity;
-using System.Web.Http;
-using MrRondon.Domain.Entities;
+﻿using MrRondon.Domain.Entities;
 using MrRondon.Infra.Data.Context;
+using System;
+using System.Data.Entity;
+using System.Linq;
+using System.Web.Http;
 using WebApi.OutputCache.V2;
 
 namespace MrRondon.Services.Api.Controllers
 {
     [RoutePrefix("v1/company")]
-    [CacheOutput(ClientTimeSpan = 50, ServerTimeSpan = 50)]
     public class CompanyController : ApiController
     {
         private readonly MainContext _db;
@@ -22,6 +20,7 @@ namespace MrRondon.Services.Api.Controllers
 
         [AllowAnonymous]
         [Route("{id:guid}")]
+        [CacheOutput(ClientTimeSpan = 120, ServerTimeSpan = 120)]
         public IHttpActionResult Get(Guid id)
         {
             try
@@ -70,6 +69,7 @@ namespace MrRondon.Services.Api.Controllers
 
         [AllowAnonymous]
         [Route("city/{city:int}/segment/{segmentId:int}/{name=}")]
+        [CacheOutput(ClientTimeSpan = 120, ServerTimeSpan = 120, MustRevalidate = true)]
         public IHttpActionResult Get(int segmentId, int city, string name)
         {
             try

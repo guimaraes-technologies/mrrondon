@@ -7,11 +7,12 @@ using MrRondon.Infra.CrossCutting.Helper;
 using MrRondon.Infra.CrossCutting.Helper.Buttons;
 using MrRondon.Infra.Data.Context;
 using MrRondon.Infra.Data.Repositories;
+using MrRondon.Infra.Security.Extensions;
 using MrRondon.Presentation.Mvc.Extensions;
 
 namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [HasAny("Administrador_Geral")]
     public class MessageController : Controller
     {
         private readonly MainContext _db = new MainContext();
@@ -28,7 +29,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
         {
             return View();
         }
-
+        
         public ActionResult Details(Guid id)
         {
             var repo = new RepositoryBase<Message>(_db);

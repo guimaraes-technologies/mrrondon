@@ -21,6 +21,7 @@ namespace MrRondon.Services.Api.Controllers
 
         [AllowAnonymous]
         [Route("{name=}")]
+        [CacheOutput(ServerTimeSpan = 120)]
         public IHttpActionResult Get(string name)
         {
             try

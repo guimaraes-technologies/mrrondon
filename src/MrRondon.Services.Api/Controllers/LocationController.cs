@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections.Generic
 using System.Data.Entity;
 using System.Linq;
 using System.Web.Http;
@@ -10,7 +10,6 @@ using WebApi.OutputCache.V2;
 
 namespace MrRondon.Services.Api.Controllers
 {
-    [CacheOutput(ClientTimeSpan = 50, ServerTimeSpan = 50)]
     [RoutePrefix("v1/location")]
     public class LocationController : ApiController
     {
@@ -23,6 +22,7 @@ namespace MrRondon.Services.Api.Controllers
 
         [AllowAnonymous]
         [Route("nearby/meters/{precision:int}/latitude/{latitudeFrom}/longitude/{longitudeFrom}")]
+        [CacheOutput(ClientTimeSpan = 120, ServerTimeSpan = 240, MustRevalidate = true)]
         public IHttpActionResult GetNearby(int precision, string latitudeFrom, string longitudeFrom)
         {
             try

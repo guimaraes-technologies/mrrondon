@@ -7,7 +7,6 @@ using WebApi.OutputCache.V2;
 namespace MrRondon.Services.Api.Controllers
 {
     [RoutePrefix("v1/subcategory")]
-    [CacheOutput(ClientTimeSpan = 50, ServerTimeSpan = 50)]
     public class SubCategoryController : ApiController
     {
         private readonly MainContext _db;
@@ -19,6 +18,7 @@ namespace MrRondon.Services.Api.Controllers
 
         [AllowAnonymous]
         [Route("{categoryId:int}/{name:alpha=}")]
+        [CacheOutput(ClientTimeSpan = 120, ServerTimeSpan = 120)]
         public IHttpActionResult GetByCategory(int categoryId, string name)
         {
             try
