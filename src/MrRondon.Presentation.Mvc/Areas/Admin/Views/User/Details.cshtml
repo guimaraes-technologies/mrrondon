@@ -39,7 +39,7 @@
             @foreach (var item in Model.Roles.OrderBy(o => o.Name))
             {
                 <div class="column">
-                    <h4 class="ui header">@item.Name</h4>
+                    <h4 class="ui header">@item.Name.Replace("_", " ")</h4>
                     @item.Description
                 </div>
             }

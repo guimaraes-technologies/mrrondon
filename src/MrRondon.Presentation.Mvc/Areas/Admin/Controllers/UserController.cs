@@ -12,6 +12,9 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
 using MrRondon.Infra.Security.Extensions;
+using MrRondon.Infra.Security.Helpers;
+using System.Security.Claims;
+using System.Web.UI.WebControls.Expressions;
 
 namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
 {
@@ -204,8 +207,15 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
 
         private void GetDrops(int? roleId = null)
         {
-            var roles = _db.Roles;
-            ViewBag.Roles = new SelectList(roles, "RoleId", "Name", roleId);
+            var roles = _db.Roles
+                .OrderBy(x => x.Name)
+                .AsNoTracking();
+            ViewBag.Roles = new SelectList(roles.Select(s =>
+            new
+            {
+                s.RoleId,
+                Name = s.Name.Replace("_", " ")
+            }), "RoleId", "Name", roleId);
         }
     }
 }

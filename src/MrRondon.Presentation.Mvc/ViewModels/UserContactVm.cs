@@ -38,7 +38,7 @@ namespace MrRondon.Presentation.Mvc.ViewModels
         [Display(Name = "Tipo de contato")]
         public ContactType ContactType { get; set; }
 
-        [Display(Name = "Perfil")]
+        [Display(Name = "Permissões")]
         [Required(ErrorMessageResourceType = typeof(Error), ErrorMessageResourceName = "Required")]
         public int[] RolesIds { get; set; }
 
