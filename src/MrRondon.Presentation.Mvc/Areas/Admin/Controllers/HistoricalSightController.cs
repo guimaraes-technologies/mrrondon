@@ -8,6 +8,7 @@ using MrRondon.Infra.CrossCutting.Helper.Buttons;
 using MrRondon.Infra.Data.Context;
 using MrRondon.Infra.Data.Repositories;
 using MrRondon.Infra.Security.Extensions;
+using MrRondon.Infra.Security.Helpers;
 using MrRondon.Presentation.Mvc.Extensions;
 using MrRondon.Presentation.Mvc.ViewModels;
 
@@ -155,7 +156,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
                 {
                     item.HistoricalSightId.ToString(),
                     $"{item.Name}",
-                    buttons.ToPagination(item.HistoricalSightId)
+                    buttons.ToPagination(item.HistoricalSightId, Account.Current.Roles)
                 });
             }
             return Json(dtResult, JsonRequestBehavior.AllowGet);

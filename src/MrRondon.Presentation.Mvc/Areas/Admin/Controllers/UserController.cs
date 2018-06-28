@@ -4,17 +4,16 @@ using MrRondon.Infra.CrossCutting.Helper.Buttons;
 using MrRondon.Infra.CrossCutting.Message;
 using MrRondon.Infra.Data.Context;
 using MrRondon.Infra.Data.Repositories;
+using MrRondon.Infra.Security.Extensions;
 using MrRondon.Presentation.Mvc.Extensions;
 using MrRondon.Presentation.Mvc.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Web.Mvc;
-using MrRondon.Infra.Security.Extensions;
-using MrRondon.Infra.Security.Helpers;
 using System.Security.Claims;
-using System.Web.UI.WebControls.Expressions;
+using System.Web.Mvc;
+using MrRondon.Infra.Security.Helpers;
 
 namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
 {
@@ -44,7 +43,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
         [HasAny("Administrador_Geral", "Administrador_Usuário")]
         public ActionResult Create()
         {
-            GetDrops();
+            SetViewBags();
             return View();
         }
 
@@ -89,8 +88,57 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
             }
             catch (Exception e)
             {
-                GetDrops(userContact.RolesIds?.FirstOrDefault());
+                SetViewBags(userContact);
                 return View(userContact).Error(e.Message);
+            }
+        }
+
+        [HasAny("Administrador_Geral", "Administrador_Usuário")]
+        public ActionResult Edit(Guid id)
+        {
+            var repo = new RepositoryBase<User>(_db);
+            var user = repo.GetItemByExpression(x => x.UserId == id, x => x.Roles, x => x.Contacts);
+            if (user == null) return HttpNotFound();
+
+            var crud = GetCrudVm(user);
+
+            SetViewBags(crud);
+
+            return View(crud);
+        }
+
+        [HttpPost]
+        [ValidateInput(false)]
+        [HasAny("Administrador_Geral", "Administrador_Usuário")]
+        public ActionResult Edit(UserContactVm model)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    SetViewBags(model);
+                    return View(model).Error(ModelState);
+                }
+
+                var oldUser = _db.Users
+                    .Include(c => c.Roles)
+                    .Include(c => c.Contacts)
+                    .FirstOrDefault(x => x.UserId == model.UserId);
+                if (oldUser == null) return RedirectToAction("Index").Success("Usuário atualizado com sucesso");
+                oldUser.Update(model.FirstName, model.LastName);
+                var newUser = model.GetUser();
+                newUser.SetPassword(oldUser.Password);
+                newUser.SetInfo(oldUser);
+                BalanceContacts(oldUser, newUser);
+                BalanceRoles(oldUser, newUser, model.RolesIds);
+
+                _db.Entry(oldUser).CurrentValues.SetValues(newUser);
+                _db.SaveChanges();
+                return RedirectToAction("Index").Success("Usuário atualizado com sucesso");
+            }
+            catch (Exception ex)
+            {
+                return View(model).Error(ex.Message);
             }
         }
 
@@ -183,7 +231,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
                     s.IsActive
                 }).ToList();
             var dtResult = new DataTableResultSet(parameters.Draw, recordsTotal);
-
+            
             var buttonsUser = new ButtonsUser();
             foreach (var item in items)
             {
@@ -193,7 +241,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
                     item.FullName,
                     item.Cpf,
                     $"{(item.IsActive ? "Ativado" : "Desativado")}",
-                    buttonsUser.ToPagination(item.UserId, item.IsActive)
+                    buttonsUser.ToPagination(item.UserId, item.IsActive, Account.Current.Roles)
                 });
             }
             return Json(dtResult, JsonRequestBehavior.AllowGet);
@@ -205,7 +253,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
             ViewBag.UrlRemove = Url.Action("RemoveContact", "User", new { area = "Admin" });
         }
 
-        private void GetDrops(int? roleId = null)
+        private void SetViewBags(UserContactVm model = null)
         {
             var roles = _db.Roles
                 .OrderBy(x => x.Name)
@@ -215,7 +263,79 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
             {
                 s.RoleId,
                 Name = s.Name.Replace("_", " ")
-            }), "RoleId", "Name", roleId);
+            }), "RoleId", "Name", model?.RolesIds);
+        }
+
+        private static UserContactVm GetCrudVm(User user)
+        {
+            var model = new UserContactVm
+            {
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Contacts = user.Contacts.ToList(),
+                AccessFailed = user.AccessFailed,
+                Cpf = user.Cpf,
+                IsActive = user.IsActive,
+                CreateOn = user.CreateOn,
+                UserId = user.UserId,
+                RolesIds = user.Roles.Select(s => s.RoleId).ToArray()
+            };
+
+            if (user.Contacts != null) model.Contacts = new List<Contact>(user.Contacts);
+
+            return model;
+        }
+
+        public void BalanceRoles(User oldUser, User newUser, int[] rolesIds)
+        {
+            newUser.Roles = new List<Role>();
+            oldUser.Roles = oldUser.Roles ?? new List<Role>();
+
+            var rolesArray = _db.Roles.ToList();
+            foreach (var role in rolesArray)
+            {
+                if (rolesIds != null && rolesIds.Any(x => x.Equals(role.RoleId)))
+                {
+                    newUser.Roles.Add(_db.Roles.FirstOrDefault(x => x.RoleId == role.RoleId));
+                }
+            }
+
+            foreach (var role in rolesArray)
+            {
+                var userRole = oldUser.Roles.FirstOrDefault(x => x.RoleId == role.RoleId);
+                if (rolesIds != null && rolesIds.Contains(role.RoleId) && userRole == null)
+                {
+                    oldUser.Roles.Add(_db.Roles.FirstOrDefault(x => x.RoleId == role.RoleId));
+                }
+                else
+                {
+                    if (userRole == null) continue;
+                    if (rolesIds != null && rolesIds.Contains(userRole.RoleId)) continue;
+                    oldUser.Roles.Remove(userRole);
+                }
+            }
+        }
+
+        public void BalanceContacts(User oldUser, User newUser)
+        {
+            var ids = oldUser.Contacts.Select((t, i) => oldUser.Contacts.ElementAt(i).ContactId).ToList();
+            _db.Contacts.RemoveRange(oldUser.Contacts.Where(x => ids.Any(e => e == x.ContactId)));
+
+            if (newUser.Contacts == null) return;
+            foreach (var item in newUser.Contacts)
+            {
+                if (oldUser.Contacts == null) continue;
+                var x = oldUser.Contacts.FirstOrDefault(s => s.ContactId == item.ContactId && s.ContactId != Guid.Empty && item.ContactId != Guid.Empty);
+                if (x != null)
+                {
+                    x.Atualizar(item);
+                    _db.Entry(x).CurrentValues.SetValues(item);
+                }
+                else
+                {
+                    oldUser.Contacts.Add(item);
+                }
+            }
         }
     }
 }

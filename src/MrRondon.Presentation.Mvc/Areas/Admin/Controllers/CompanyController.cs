@@ -9,6 +9,7 @@ using MrRondon.Infra.CrossCutting.Helper.Buttons;
 using MrRondon.Infra.Data.Context;
 using MrRondon.Infra.Data.Repositories;
 using MrRondon.Infra.Security.Extensions;
+using MrRondon.Infra.Security.Helpers;
 using MrRondon.Presentation.Mvc.Extensions;
 using MrRondon.Presentation.Mvc.ViewModels;
 using WebGrease.Css.Extensions;
@@ -226,7 +227,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
                     item.CompanyId.ToString(),
                     item.Name,
                     item.Cnpj,
-                    buttons.ToPagination(item.CompanyId)
+                    buttons.ToPagination(item.CompanyId, Account.Current.Roles)
                 });
             }
             return Json(dtResult, JsonRequestBehavior.AllowGet);

@@ -10,6 +10,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using MrRondon.Infra.Security.Extensions;
+using MrRondon.Infra.Security.Helpers;
 
 namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
 {
@@ -138,7 +139,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
                     item.SubCategoryId.ToString(),
                     $"{item.Name}",
                     $"{item.Category?.Name ?? "Não informada"}",
-                    buttons.ToPagination(item.SubCategoryId, item.ShowOnApp)
+                    buttons.ToPagination(item.SubCategoryId, item.ShowOnApp, Account.Current.Roles)
                 });
             }
             return Json(dtResult, JsonRequestBehavior.AllowGet);

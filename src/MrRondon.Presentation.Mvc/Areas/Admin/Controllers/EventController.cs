@@ -9,6 +9,7 @@ using MrRondon.Infra.CrossCutting.Helper.Buttons;
 using MrRondon.Infra.Data.Context;
 using MrRondon.Infra.Data.Repositories;
 using MrRondon.Infra.Security.Extensions;
+using MrRondon.Infra.Security.Helpers;
 using MrRondon.Presentation.Mvc.Extensions;
 using MrRondon.Presentation.Mvc.ViewModels;
 
@@ -233,7 +234,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
                     $"{item.Name}",
                     $"{(item.StartDate == item.EndDate ? item.StartDate.ToString("dd/MM/yyyy HH:mm") : $"{item.StartDate:dd/MM/yyyy HH:mm} - {item.EndDate:dd/MM/yyyy HH:mm}")}",
                     item.City.Name,
-                    buttons.ToPagination(item.EventId)
+                    buttons.ToPagination(item.EventId, Account.Current.Roles)
                 });
             }
             return Json(dtResult, JsonRequestBehavior.AllowGet);

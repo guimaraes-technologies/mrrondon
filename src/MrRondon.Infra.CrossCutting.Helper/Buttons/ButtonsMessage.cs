@@ -1,13 +1,14 @@
 ﻿using System;
+using System.Linq;
 using System.Web.Mvc;
 
 namespace MrRondon.Infra.CrossCutting.Helper.Buttons
 {
     public class ButtonsMessage : ButtonsBase
     {
-        public string ToPagination(Guid id)
+        public string ToPagination(Guid id, string[] permissions)
         {
-            return $"{Details(id)}";
+            return permissions.Any(x => x == "Administrador_Geral") ? $"{Details(id)}" : "";
         }
 
         private MvcHtmlString Details(Guid id)

@@ -1,13 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Threading.Tasks;
-using System.Web.Mvc;
-using MrRondon.Domain;
-using MrRondon.Domain.Entities;
+﻿using MrRondon.Domain.Entities;
 using MrRondon.Infra.CrossCutting.Helper;
 using MrRondon.Infra.CrossCutting.Message;
 using MrRondon.Infra.Data.Context;
@@ -15,8 +6,14 @@ using MrRondon.Infra.Data.Repositories;
 using MrRondon.Infra.Security.Helpers;
 using MrRondon.Presentation.Mvc.Areas.Admin.Controllers;
 using MrRondon.Presentation.Mvc.Extensions;
-using MrRondon.Presentation.Mvc.Helpers;
 using MrRondon.Presentation.Mvc.ViewModels;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Data.Entity;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Web.Mvc;
 
 namespace MrRondon.Presentation.Mvc.Controllers
 {
@@ -105,13 +102,20 @@ namespace MrRondon.Presentation.Mvc.Controllers
                 }
 
                 var oldUser = _db.Users
-                    .Include(i => i.Contacts)
-                    .Include(i => i.Roles)
-                    .FirstOrDefault(f => f.UserId == Account.Current.UserId);
+                    .Include(c => c.Roles)
+                    .Include(c => c.Contacts)
+                    .FirstOrDefault(x => x.UserId == model.UserId);
+                if (oldUser == null) return RedirectToAction("Details").Success("Conta atualizada com sucesso");
+                oldUser.Update(model.FirstName, model.LastName);
+                var newUser = model.GetUser();
+                newUser.SetPassword(oldUser.Password);
+                newUser.SetInfo(oldUser);
+                BalanceContacts(oldUser, newUser);
+                BalanceRoles(oldUser, newUser, model.RolesIds);
 
-                oldUser?.Update(model.FirstName, model.LastName);
-
-                throw new Exception("Não implementado");
+                _db.Entry(oldUser).CurrentValues.SetValues(newUser);
+                _db.SaveChanges();
+                return RedirectToAction("Details").Success("Conta atualizada com sucesso");
             }
             catch (Exception e)
             {
@@ -272,6 +276,58 @@ namespace MrRondon.Presentation.Mvc.Controllers
                 {
                     x.Atualizar(item);
                     ctx.Entry(x).CurrentValues.SetValues(item);
+                }
+                else
+                {
+                    oldUser.Contacts.Add(item);
+                }
+            }
+        }
+
+        public void BalanceRoles(User oldUser, User newUser, int[] rolesIds)
+        {
+            newUser.Roles = new List<Role>();
+            oldUser.Roles = oldUser.Roles ?? new List<Role>();
+
+            var rolesArray = _db.Roles.ToList();
+            foreach (var role in rolesArray)
+            {
+                if (rolesIds != null && rolesIds.Any(x => x.Equals(role.RoleId)))
+                {
+                    newUser.Roles.Add(_db.Roles.FirstOrDefault(x => x.RoleId == role.RoleId));
+                }
+            }
+
+            foreach (var role in rolesArray)
+            {
+                var userRole = oldUser.Roles.FirstOrDefault(x => x.RoleId == role.RoleId);
+                if (rolesIds != null && rolesIds.Contains(role.RoleId) && userRole == null)
+                {
+                    oldUser.Roles.Add(_db.Roles.FirstOrDefault(x => x.RoleId == role.RoleId));
+                }
+                else
+                {
+                    if (userRole == null) continue;
+                    if (rolesIds != null && rolesIds.Contains(userRole.RoleId)) continue;
+                    oldUser.Roles.Remove(userRole);
+                }
+            }
+        }
+
+        public void BalanceContacts(User oldUser, User newUser)
+        {
+            var ids = oldUser.Contacts.Select((t, i) => oldUser.Contacts.ElementAt(i).ContactId).ToList();
+            _db.Contacts.RemoveRange(oldUser.Contacts.Where(x => ids.Any(e => e == x.ContactId)));
+
+            if (newUser.Contacts == null) return;
+            foreach (var item in newUser.Contacts)
+            {
+                if (oldUser.Contacts == null) continue;
+                var x = oldUser.Contacts.FirstOrDefault(s => s.ContactId == item.ContactId && s.ContactId != Guid.Empty && item.ContactId != Guid.Empty);
+                if (x != null)
+                {
+                    x.Atualizar(item);
+                    _db.Entry(x).CurrentValues.SetValues(item);
                 }
                 else
                 {

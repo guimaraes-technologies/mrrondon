@@ -1,12 +1,13 @@
-﻿using System.Web.Mvc;
+﻿using System.Linq;
+using System.Web.Mvc;
 
 namespace MrRondon.Infra.CrossCutting.Helper.Buttons
 {
     public class ButtonsSubCategory : ButtonsBase
     {
-        public string ToPagination(int id, bool showOnApp)
+        public string ToPagination(int id, bool showOnApp, string[] permissions)
         {
-            return $"{Edit(id)} {ShowOnApp(id, showOnApp)} {Details(id)}";
+            return permissions.Any(x => x == "Administrador_Geral" || x == "Administrador_Sub_Categoria") ? $"{Edit(id)} {ShowOnApp(id, showOnApp)} {Details(id)}" : $"{Details(id)}";
         }
 
         private MvcHtmlString Details(int id)

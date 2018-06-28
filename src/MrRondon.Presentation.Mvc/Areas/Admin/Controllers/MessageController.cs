@@ -8,6 +8,7 @@ using MrRondon.Infra.CrossCutting.Helper.Buttons;
 using MrRondon.Infra.Data.Context;
 using MrRondon.Infra.Data.Repositories;
 using MrRondon.Infra.Security.Extensions;
+using MrRondon.Infra.Security.Helpers;
 using MrRondon.Presentation.Mvc.Extensions;
 
 namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
@@ -104,7 +105,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
                     item.MessageId.ToString(),
                     item.Title,
                     EnumDescription.Get(item.Subject),
-                    buttons.ToPagination(item.MessageId)
+                    buttons.ToPagination(item.MessageId, Account.Current.Roles)
                 });
             }
             return Json(dtResult, JsonRequestBehavior.AllowGet);

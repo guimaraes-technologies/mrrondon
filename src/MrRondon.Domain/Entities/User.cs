@@ -82,5 +82,24 @@ namespace MrRondon.Domain.Entities
         {
             return Password = EncryptPassword(newPassword);
         }
+
+        public void SetPassword(string oldUserPassword)
+        {
+            Password = oldUserPassword;
+        }
+
+        public void SetInfo(User oldUser)
+        {
+            FirstName = oldUser.FirstName;
+            LastName = oldUser.LastName;
+            Cpf = oldUser.Cpf;
+            IsActive = oldUser.IsActive;
+            LockoutEnd = oldUser.LockoutEnd;
+            LastLogin = oldUser.LastLogin;
+            AccessFailed = oldUser.AccessFailed;
+            CreateOn = oldUser.CreateOn;
+            Password = oldUser.Password;
+            PasswordRecoveryCode = oldUser.PasswordRecoveryCode;
+        }
     }
 }
