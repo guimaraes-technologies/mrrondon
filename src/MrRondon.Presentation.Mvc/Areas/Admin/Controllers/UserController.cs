@@ -113,7 +113,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
 
         [HttpPost]
         [HasAny(Constants.Roles.GeneralAdministrator, Constants.Roles.UserAdministrator)]
-        public ActionResult Edit(UserContactVm model)
+        public ActionResult Edit(UserContactVm model, int[] rolesIds)
         {
             try
             {
@@ -131,11 +131,11 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
 
                 if (oldUser == null) return RedirectToAction("Index").Success("Usuário atualizado com sucesso");
 
-                oldUser.Update(model.FirstName, model.LastName);
+                //oldUser.Update(model.FirstName, model.LastName);
                 var newUser = model.GetUser();
-                newUser.SetInfo(oldUser);
+                //newUser.SetInfo(oldUser);
 
-                BalanceRoles(oldUser, newUser, model.RolesIds);
+                BalanceRoles(oldUser, newUser, rolesIds);
                 BalanceContacts(oldUser, newUser);
 
                 _db.Entry(oldUser).CurrentValues.SetValues(newUser);
@@ -276,6 +276,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
                 model.SelectListRole.Add(item);
             }
 
+            model.RolesIds = model.Roles?.Select(s => s.RoleId).ToArray();
             ViewBag.Roles = model.SelectListRole;
         }
 
@@ -291,6 +292,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
                 IsActive = user.IsActive,
                 CreateOn = user.CreateOn,
                 UserId = user.UserId,
+                Roles = user.Roles,
                 RolesIds = user.Roles.Select(s => s.RoleId).ToArray()
             };
 
@@ -331,22 +333,28 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
 
         public void BalanceContacts(User oldUser, User newUser)
         {
-            var ids = oldUser.Contacts.Select((t, i) => oldUser.Contacts.ElementAt(i).ContactId).ToList();
-            _db.Contacts.RemoveRange(oldUser.Contacts.Where(x => ids.Any(e => e == x.ContactId)));
-
-            if (newUser.Contacts == null) return;
-            foreach (var item in newUser.Contacts)
+            // Delete children
+            foreach (var existingContact in oldUser.Contacts.ToList())
             {
-                if (oldUser.Contacts == null) continue;
-                var x = oldUser.Contacts.FirstOrDefault(s => s.ContactId == item.ContactId && s.ContactId != Guid.Empty && item.ContactId != Guid.Empty);
-                if (x != null)
-                {
-                    x.Atualizar(item);
-                    _db.Entry(x).CurrentValues.SetValues(item);
-                }
+                if (newUser.Contacts.All(c => c.ContactId != existingContact.ContactId))
+                    _db.Contacts.Remove(existingContact);
+            }
+
+            // Update and Insert children
+            foreach (var childContact in newUser.Contacts)
+            {
+                var existingContact = oldUser.Contacts
+                    .FirstOrDefault(c => c.ContactId == childContact.ContactId);
+
+                childContact.UserId = newUser.UserId;
+                if (existingContact != null)
+                    // Update child
+                    _db.Entry(existingContact).CurrentValues.SetValues(childContact);
                 else
                 {
-                    oldUser.Contacts.Add(item);
+                    // Insert child
+                    oldUser.Contacts.Add(childContact);
+                    _db.Contacts.Add(childContact);
                 }
             }
         }

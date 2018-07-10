@@ -56,8 +56,7 @@ namespace MrRondon.Presentation.Mvc.ViewModels
                 Cpf = Cpf,
                 IsActive = IsActive,
                 CreateOn = CreateOn,
-                UserId = UserId,
-                Roles = new List<Role>(RolesIds.Select(s => new Role { RoleId = s }))
+                UserId = UserId
             };
 
             return user;
