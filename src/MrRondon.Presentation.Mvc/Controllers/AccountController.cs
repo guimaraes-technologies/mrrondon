@@ -228,7 +228,34 @@ namespace MrRondon.Presentation.Mvc.Controllers
             if (!string.IsNullOrWhiteSpace(returnUrl) && Account.Current.IsAuthenticated)
                 return Redirect(returnUrl);
 
-            return RedirectToAction("Index", "Company", new { area = "Admin" });
+            if (Account.Current.HasAny(Constants.Roles.ReadOnly))
+                return RedirectToAction("Index", "Company", new { area = "Admin" });
+
+            if (Account.Current.HasAny(Constants.Roles.GeneralAdministrator))
+                return RedirectToAction("Index", "Company", new { area = "Admin" });
+
+            if (Account.Current.HasAny(Constants.Roles.CategoryAdministrator))
+                return RedirectToAction("Index", "Category", new { area = "Admin" });
+
+            if (Account.Current.HasAny(Constants.Roles.CityAdministrator))
+                return RedirectToAction("Index", "City", new { area = "Admin" });
+
+            if (Account.Current.HasAny(Constants.Roles.CompanyAdministrator))
+                return RedirectToAction("Index", "Company", new { area = "Admin" });
+
+            if (Account.Current.HasAny(Constants.Roles.EventAdministrator))
+                return RedirectToAction("Index", "Event", new { area = "Admin" });
+
+            if (Account.Current.HasAny(Constants.Roles.HistoricalSightAdministrator))
+                return RedirectToAction("Index", "HistoricalSight", new { area = "Admin" });
+
+            if (Account.Current.HasAny(Constants.Roles.SubCategoryAdministrator))
+                return RedirectToAction("Index", "SubCategory", new { area = "Admin" });
+
+            if (Account.Current.HasAny(Constants.Roles.UserAdministrator))
+                return RedirectToAction("Index", "User", new { area = "Admin" });
+
+            return RedirectToAction("Code", "Error", new { id = Constants.Codes.Unauthorized });
         }
 
         public void BalanceRoles(User oldUser, User newUser, int[] rolesIds, MainContext ctx)

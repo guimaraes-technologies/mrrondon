@@ -21,13 +21,13 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
     {
         private readonly MainContext _db = new MainContext();
 
-        [HasAny("Administrador_Geral", "Administrador_Empresa", "Consulta")]
+        [HasAny(Constants.Roles.GeneralAdministrator, Constants.Roles.CompanyAdministrator, Constants.Roles.ReadOnly)]
         public ActionResult Index()
         {
             return View();
         }
 
-        [HasAny("Administrador_Geral", "Administrador_Empresa", "Consulta")]
+        [HasAny(Constants.Roles.GeneralAdministrator, Constants.Roles.CompanyAdministrator, Constants.Roles.ReadOnly)]
         public ActionResult Details(Guid id)
         {
             var repo = new RepositoryBase<Company>(_db);
@@ -36,7 +36,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
             return View(company);
         }
 
-        [HasAny("Administrador_Geral", "Administrador_Empresa")]
+        [HasAny(Constants.Roles.GeneralAdministrator, Constants.Roles.CompanyAdministrator)]
         public ActionResult Create()
         {
             SetBiewBags(null);
@@ -45,7 +45,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateInput(false)]
-        [HasAny("Administrador_Geral", "Administrador_Empresa")]
+        [HasAny(Constants.Roles.GeneralAdministrator, Constants.Roles.CompanyAdministrator)]
         public ActionResult Create(CrudCompanyVm model, Address address)
         {
             try
@@ -82,7 +82,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
             }
         }
 
-        [HasAny("Administrador_Geral", "Administrador_Empresa")]
+        [HasAny(Constants.Roles.GeneralAdministrator, Constants.Roles.CompanyAdministrator)]
         public ActionResult Edit(Guid id)
         {
             var repo = new RepositoryBase<Company>(_db);
@@ -99,7 +99,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateInput(false)]
-        [HasAny("Administrador_Geral", "Administrador_Empresa")]
+        [HasAny(Constants.Roles.GeneralAdministrator, Constants.Roles.CompanyAdministrator)]
         public ActionResult Edit(CrudCompanyVm model, Address address)
         {
             try
@@ -183,7 +183,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
         }
 
         [AllowAnonymous, HttpPost]
-        [HasAny("Administrador_Geral", "Administrador_Empresa")]
+        [HasAny(Constants.Roles.GeneralAdministrator, Constants.Roles.CompanyAdministrator)]
         public ActionResult AddContact(CrudCompanyVm companyContact)
         {
             companyContact.Contacts = companyContact.Contacts ?? new List<Contact>();
@@ -195,7 +195,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
         }
 
         [AllowAnonymous, HttpPost]
-        [HasAny("Administrador_Geral", "Administrador_Empresa")]
+        [HasAny(Constants.Roles.GeneralAdministrator, Constants.Roles.CompanyAdministrator)]
         public ActionResult RemoveContact(CrudCompanyVm companyContact, int index)
         {
             UrlsContact();
@@ -204,7 +204,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        [HasAny("Administrador_Geral", "Administrador_Empresa", "Consulta")]
+        [HasAny(Constants.Roles.GeneralAdministrator, Constants.Roles.CompanyAdministrator, Constants.Roles.ReadOnly)]
         public JsonResult GetPagination(DataTableParameters parameters)
         {
             var search = parameters.Search.Value?.ToLower() ?? string.Empty;
@@ -222,9 +222,8 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
             var buttons = new ButtonsCompany();
             foreach (var item in items)
             {
-                dtResult.data.Add(new[]
+                dtResult.data.Add(new object[]
                 {
-                    item.CompanyId.ToString(),
                     item.Name,
                     item.Cnpj,
                     buttons.ToPagination(item.CompanyId, Account.Current.Roles)

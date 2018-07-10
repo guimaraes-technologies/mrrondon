@@ -15,18 +15,18 @@ using MrRondon.Presentation.Mvc.ViewModels;
 
 namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
 {
-    [HasAny("Administrador_Geral", "Administrador_Evento", "Consulta")]
+    [HasAny(Constants.Roles.GeneralAdministrator, Constants.Roles.EventAdministrator, Constants.Roles.ReadOnly)]
     public class EventController : Controller
     {
         private readonly MainContext _db = new MainContext();
 
-        [HasAny("Administrador_Geral", "Administrador_Evento", "Consulta")]
+        [HasAny(Constants.Roles.GeneralAdministrator, Constants.Roles.EventAdministrator, Constants.Roles.ReadOnly)]
         public ActionResult Index()
         {
             return View();
         }
 
-        [HasAny("Administrador_Geral", "Administrador_Evento", "Consulta")]
+        [HasAny(Constants.Roles.GeneralAdministrator, Constants.Roles.EventAdministrator, Constants.Roles.ReadOnly)]
         public ActionResult Create()
         {
             SetBiewBags(null);
@@ -35,7 +35,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateInput(false)]
-        [HasAny("Administrador_Geral", "Administrador_Evento")]
+        [HasAny(Constants.Roles.GeneralAdministrator, Constants.Roles.EventAdministrator)]
         public ActionResult Create(CrudEventVm model, AddressForEventVm address)
         {
             try
@@ -68,7 +68,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
             }
         }
 
-        [HasAny("Administrador_Geral", "Administrador_Evento", "Consulta")]
+        [HasAny(Constants.Roles.GeneralAdministrator, Constants.Roles.EventAdministrator, Constants.Roles.ReadOnly)]
         public ActionResult Details(Guid id)
         {
             var repo = new RepositoryBase<Event>(_db);
@@ -77,7 +77,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
             return View(entity);
         }
 
-        [HasAny("Administrador_Geral", "Administrador_Evento")]
+        [HasAny(Constants.Roles.GeneralAdministrator, Constants.Roles.EventAdministrator)]
         public ActionResult Edit(Guid id)
         {
             var repo = new RepositoryBase<Event>(_db);
@@ -92,7 +92,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateInput(false)]
-        [HasAny("Administrador_Geral", "Administrador_Evento")]
+        [HasAny(Constants.Roles.GeneralAdministrator, Constants.Roles.EventAdministrator)]
         public ActionResult Edit(CrudEventVm model, AddressForEventVm address)
         {
             try
@@ -146,7 +146,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
         }
 
         [AllowAnonymous, HttpPost]
-        [HasAny("Administrador_Geral", "Administrador_Evento")]
+        [HasAny(Constants.Roles.GeneralAdministrator, Constants.Roles.EventAdministrator)]
         public ActionResult AddContact(CrudEventVm eventContact)
         {
             eventContact.Contacts = eventContact.Contacts ?? new List<Contact>();
@@ -158,7 +158,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
         }
 
         [AllowAnonymous, HttpPost]
-        [HasAny("Administrador_Geral", "Administrador_Evento")]
+        [HasAny(Constants.Roles.GeneralAdministrator, Constants.Roles.EventAdministrator)]
         public ActionResult RemoveContact(CrudEventVm eventContact, int index)
         {
             UrlsContact();
@@ -208,7 +208,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        [HasAny("Administrador_Geral", "Administrador_Evento", "Consulta")]
+        [HasAny(Constants.Roles.GeneralAdministrator, Constants.Roles.EventAdministrator, Constants.Roles.ReadOnly)]
         public JsonResult GetPagination(DataTableParameters parameters)
         {
             var search = parameters.Search.Value?.ToLower() ?? string.Empty;
@@ -228,9 +228,8 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
             var buttons = new ButtonsEvent();
             foreach (var item in items)
             {
-                dtResult.data.Add(new[]
+                dtResult.data.Add(new object[]
                 {
-                    item.EventId.ToString(),
                     $"{item.Name}",
                     $"{(item.StartDate == item.EndDate ? item.StartDate.ToString("dd/MM/yyyy HH:mm") : $"{item.StartDate:dd/MM/yyyy HH:mm} - {item.EndDate:dd/MM/yyyy HH:mm}")}",
                     item.City.Name,

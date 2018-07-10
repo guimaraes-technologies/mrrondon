@@ -21,13 +21,13 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
     {
         private readonly MainContext _db = new MainContext();
 
-        [HasAny("Administrador_Geral", "Administrador_Usuário", "Consulta")]
+        [HasAny(Constants.Roles.GeneralAdministrator, Constants.Roles.UserAdministrator, Constants.Roles.ReadOnly)]
         public ActionResult Index()
         {
             return View();
         }
 
-        [HasAny("Administrador_Geral", "Administrador_Usuário", "Consulta")]
+        [HasAny(Constants.Roles.GeneralAdministrator, Constants.Roles.UserAdministrator, Constants.Roles.ReadOnly)]
         public ActionResult Details(Guid id)
         {
             var user = _db.Users
@@ -40,7 +40,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
             return View(user);
         }
 
-        [HasAny("Administrador_Geral", "Administrador_Usuário")]
+        [HasAny(Constants.Roles.GeneralAdministrator, Constants.Roles.UserAdministrator)]
         public ActionResult Create()
         {
             SetViewBags();
@@ -48,7 +48,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        [HasAny("Administrador_Geral", "Administrador_Usuário")]
+        [HasAny(Constants.Roles.GeneralAdministrator, Constants.Roles.UserAdministrator)]
         public ActionResult Create(UserContactVm model)
         {
             try
@@ -97,7 +97,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
             }
         }
 
-        [HasAny("Administrador_Geral", "Administrador_Usuário")]
+        [HasAny(Constants.Roles.GeneralAdministrator, Constants.Roles.UserAdministrator)]
         public ActionResult Edit(Guid id)
         {
             var repo = new RepositoryBase<User>(_db);
@@ -112,7 +112,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        [HasAny("Administrador  _Geral", "Administrador_Usuário")]
+        [HasAny(Constants.Roles.GeneralAdministrator, Constants.Roles.UserAdministrator)]
         public ActionResult Edit(UserContactVm model)
         {
             try
@@ -149,7 +149,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
             }
         }
 
-        [HasAny("Administrador_Geral", "Administrador_Usuário")]
+        [HasAny(Constants.Roles.GeneralAdministrator, Constants.Roles.UserAdministrator)]
         public ActionResult UpdateStatus(Guid id)
         {
             try
@@ -169,7 +169,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
             }
         }
 
-        [HasAny("Administrador_Geral", "Administrador_Usuário")]
+        [HasAny(Constants.Roles.GeneralAdministrator, Constants.Roles.UserAdministrator)]
         public ActionResult ResetPassword(Guid id)
         {
             try
@@ -224,7 +224,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        [HasAny("Administrador_Geral", "Administrador_Usuário", "Consulta")]
+        [HasAny(Constants.Roles.GeneralAdministrator, Constants.Roles.UserAdministrator, Constants.Roles.ReadOnly)]
         public JsonResult GetPagination(DataTableParameters parameters)
         {
             var search = parameters.Search.Value?.ToLower() ?? string.Empty;
@@ -242,9 +242,9 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
             var buttonsUser = new ButtonsUser();
             foreach (var item in items)
             {
-                dtResult.data.Add(new[]
+                dtResult.data.Add(new object[]
                 {
-                    item.UserId.ToString(),
+                    item.IsActive,
                     item.FullName,
                     item.Cpf,
                     $"{(item.IsActive ? "Ativado" : "Desativado")}",

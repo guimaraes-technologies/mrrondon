@@ -8,7 +8,7 @@ namespace MrRondon.Infra.CrossCutting.Helper.Buttons
     {
         public string ToPagination(int id, string[] permissions)
         {
-            return permissions.Any(x => x == "Administrador_Geral" || x == "Administrador_Memorial") ? $"{Edit(id)} {Details(id)}" : $"{Details(id)}";
+            return permissions.Any(x => x == Constants.Roles.GeneralAdministrator || x == Constants.Roles.HistoricalSightAdministrator) ? $"{Edit(id)} {Details(id)}" : $"{Details(id)}";
         }
 
         private MvcHtmlString Details(int id)

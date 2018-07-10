@@ -1,4 +1,5 @@
-﻿@using MrRondon.Infra.Security.Helpers
+﻿@using MrRondon.Infra.CrossCutting.Helper
+@using MrRondon.Infra.Security.Helpers
 @model int
 <div class="ui vertical fluid right tabular menu">
     <div class="item header gt-p-0" data-responsive>
@@ -6,12 +7,12 @@
             <i class="sidebar icon"></i>
         </a>
     </div>
-    @if (Account.Current.HasAny("Administrador_Geral", "Administrador_Cidade", "Consulta"))
+    @if (Account.Current.HasAny(Constants.Roles.GeneralAdministrator, Constants.Roles.CityAdministrator, Constants.Roles.ReadOnly))
     {
         <a class="item @(Model == 1 ? "active" : string.Empty)" href="@Url.Action("Index", "City", new {area = "Admin"})">
             Todas Cidades
         </a>
-        if (Account.Current.HasAny("Administrador_Geral", "Administrador_Cidade"))
+        if (Account.Current.HasAny(Constants.Roles.GeneralAdministrator, Constants.Roles.CityAdministrator))
         {
             <a class="item @(Model == 2 ? "active" : string.Empty)" href="@Url.Action("Create", "City", new {area = "Admin"})">
                 Adicionar Cidade

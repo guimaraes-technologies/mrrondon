@@ -46,7 +46,7 @@ namespace MrRondon.Infra.CrossCutting.Helper
 
         public int recordsFiltered;
 
-        public List<string[]> data = new List<string[]>();
+        public List<object[]> data = new List<object[]>();
 
         public DataTableResultSet(int draw, int recordsTotal)
         {

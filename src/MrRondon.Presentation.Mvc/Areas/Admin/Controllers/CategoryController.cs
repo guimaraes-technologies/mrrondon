@@ -18,13 +18,13 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
     {
         private readonly MainContext _db = new MainContext();
 
-        [HasAny("Administrador_Geral", "Administrador_Categoria", "Consulta")]
+        [HasAny(Constants.Roles.GeneralAdministrator, Constants.Roles.CategoryAdministrator, Constants.Roles.ReadOnly)]
         public ActionResult Index()
         {
             return View();
         }
 
-        [HasAny("Administrador_Geral", "Administrador_Categoria", "Consulta")]
+        [HasAny(Constants.Roles.GeneralAdministrator, Constants.Roles.CategoryAdministrator, Constants.Roles.ReadOnly)]
         public ActionResult Details(int id)
         {
             var repo = new RepositoryBase<SubCategory>(_db);
@@ -33,14 +33,14 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
             return View(category);
         }
 
-        [HasAny("Administrador_Geral", "Administrador_Categoria")]
+        [HasAny(Constants.Roles.GeneralAdministrator, Constants.Roles.CategoryAdministrator)]
         public ActionResult Create()
         {
             return View();
         }
 
         [HttpPost]
-        [HasAny("Administrador_Geral", "Administrador_Categoria")]
+        [HasAny(Constants.Roles.GeneralAdministrator, Constants.Roles.CategoryAdministrator)]
         public ActionResult Create(SubCategory model, HttpPostedFileBase imageFile)
         {
             try
@@ -61,7 +61,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
             }
         }
 
-        [HasAny("Administrador_Geral", "Administrador_Categoria")]
+        [HasAny(Constants.Roles.GeneralAdministrator, Constants.Roles.CategoryAdministrator)]
         public ActionResult Edit(int id)
         {
             var repo = new RepositoryBase<SubCategory>(_db);
@@ -72,7 +72,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        [HasAny("Administrador_Geral", "Administrador_Categoria")]
+        [HasAny(Constants.Roles.GeneralAdministrator, Constants.Roles.CategoryAdministrator)]
         public ActionResult Edit(SubCategory model, HttpPostedFileBase imageFile)
         {
             try
@@ -92,7 +92,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
             }
         }
 
-        [HasAny("Administrador_Geral", "Administrador_Categoria")]
+        [HasAny(Constants.Roles.GeneralAdministrator, Constants.Roles.CategoryAdministrator)]
         public ActionResult ShowOnApp(int id)
         {
             var repo = new RepositoryBase<SubCategory>(_db);
@@ -105,7 +105,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        [HasAny("Administrador_Geral", "Administrador_Categoria", "Consulta")]
+        [HasAny(Constants.Roles.GeneralAdministrator, Constants.Roles.CategoryAdministrator, Constants.Roles.ReadOnly)]
         public JsonResult GetPagination(DataTableParameters parameters)
         {
             var search = parameters.Search.Value?.ToLower() ?? string.Empty;
@@ -116,9 +116,8 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
             var buttons = new ButtonsCategory();
             foreach (var item in items)
             {
-                dtResult.data.Add(new[]
+                dtResult.data.Add(new object[]
                 {
-                    item.CategoryId.ToString(),
                     item.Name,
                     buttons.ToPagination(item.SubCategoryId, item.ShowOnApp, Account.Current.Roles)
                 });

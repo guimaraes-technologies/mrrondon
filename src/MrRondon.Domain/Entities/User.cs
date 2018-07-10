@@ -27,7 +27,7 @@ namespace MrRondon.Domain.Entities
         public DateTime? LockoutEnd { get; set; }
         public DateTime CreateOn { get; set; } = DateTime.Now;
         public string PasswordRecoveryCode { get; private set; }
-        public bool IsActive { get; set; }
+        public bool IsActive { get; set; } = true;
 
         public ICollection<Role> Roles { get; set; }
         public ICollection<Login> Logins { get; set; }

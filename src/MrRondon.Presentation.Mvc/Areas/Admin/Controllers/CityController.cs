@@ -17,13 +17,13 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
     {
         private readonly MainContext _db = new MainContext();
 
-        [HasAny("Administrador_Geral", "Administrador_Cidade", "Consulta")]
+        [HasAny(Constants.Roles.GeneralAdministrator, Constants.Roles.CityAdministrator, Constants.Roles.ReadOnly)]
         public ActionResult Index()
         {
             return View();
         }
 
-        [HasAny("Administrador_Geral", "Administrador_Cidade", "Consulta")]
+        [HasAny(Constants.Roles.GeneralAdministrator, Constants.Roles.CityAdministrator, Constants.Roles.ReadOnly)]
         public ActionResult Details(int id)
         {
             var repo = new RepositoryBase<City>(_db);
@@ -32,7 +32,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
             return View(city);
         }
 
-        [HasAny("Administrador_Geral", "Administrador_Cidade")]
+        [HasAny(Constants.Roles.GeneralAdministrator, Constants.Roles.CityAdministrator)]
         public ActionResult Create()
         {
             return View();
@@ -40,7 +40,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [HasAny("Administrador_Geral", "Administrador_Cidade")]
+        [HasAny(Constants.Roles.GeneralAdministrator, Constants.Roles.CityAdministrator)]
         public ActionResult Create(City model)
         {
             try
@@ -57,7 +57,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
             }
         }
 
-        [HasAny("Administrador_Geral", "Administrador_Cidade")]
+        [HasAny(Constants.Roles.GeneralAdministrator, Constants.Roles.CityAdministrator)]
         public ActionResult Edit(int id)
         {
             var repo = new RepositoryBase<City>(_db);
@@ -69,7 +69,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [HasAny("Administrador_Geral", "Administrador_Cidade")]
+        [HasAny(Constants.Roles.GeneralAdministrator, Constants.Roles.CityAdministrator)]
         public ActionResult Edit(City model)
         {
             try
@@ -87,7 +87,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        [HasAny("Administrador_Geral", "Administrador_Cidade", "Consulta")]
+        [HasAny(Constants.Roles.GeneralAdministrator, Constants.Roles.CityAdministrator, Constants.Roles.ReadOnly)]
         public JsonResult GetPagination(DataTableParameters parameters)
         {
             var search = parameters.Search.Value?.ToLower() ?? string.Empty;
@@ -98,10 +98,9 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
             var buttons = new ButtonsCity();
             foreach (var item in items)
             {
-                dtResult.data.Add(new[]
+                dtResult.data.Add(new object[]
                 {
-                    item.CityId.ToString(),
-                    $"{item.Name}",
+                    item.Name,
                     buttons.ToPagination(item.CityId, Account.Current.Roles)
                 });
             }

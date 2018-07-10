@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using MrRondon.Domain.Entities;
+using MrRondon.Infra.CrossCutting.Helper;
 
 namespace MrRondon.Infra.Data.Migrations
 {
@@ -35,61 +36,55 @@ namespace MrRondon.Infra.Data.Migrations
                 new Role
                 {
                     RoleId = 1,
-                    Name = "Administrador_Geral",
+                    Name = Constants.Roles.GeneralAdministrator,
                     Description = "Usuário que controla todo o sistema."
                 },
                 new Role
                 {
                     RoleId = 2,
-                    Name = "Administrador_Usuário",
+                    Name = Constants.Roles.UserAdministrator,
                     Description = "Usuário que controla os usuários."
                 },
                 new Role
                 {
                     RoleId = 3,
-                    Name = "Administrador_Categoria",
+                    Name = Constants.Roles.CategoryAdministrator,
                     Description = "Usuário que controla as categorias."
                 },
                 new Role
                 {
                     RoleId = 4,
-                    Name = "Administrador_Cidade",
+                    Name = Constants.Roles.CityAdministrator,
                     Description = "Usuário que controla as cidades."
                 },
                 new Role
                 {
                     RoleId = 5,
-                    Name = "Administrador_Empresa",
+                    Name = Constants.Roles.CompanyAdministrator,
                     Description = "Usuário que controla as empresas."
                 },
                 new Role
                 {
                     RoleId = 6,
-                    Name = "Administrador_Evento",
+                    Name = Constants.Roles.EventAdministrator,
                     Description = "Usuário que controla os eventos."
                 },
                 new Role
                 {
                     RoleId = 7,
-                    Name = "Administrador_Empresa",
-                    Description = "Usuário que controla as empresas."
-                },
-                new Role
-                {
-                    RoleId = 8,
-                    Name = "Administrador_Memorial",
+                    Name = Constants.Roles.HistoricalSightAdministrator,
                     Description = "Usuário que controla os memoriais."
                 },
                 new Role
                 {
-                    RoleId = 9,
-                    Name = "Administrador_Sub_Categoria",
+                    RoleId = 8,
+                    Name = Constants.Roles.SubCategoryAdministrator,
                     Description = "Usuário que controla as sub-categorias."
                 },
                 new Role
                 {
-                    RoleId = 10,
-                    Name = "Consulta",
+                    RoleId = 9,
+                    Name = Constants.Roles.ReadOnly,
                     Description = "Usuário que apenas irá visualizar as informações."
                 }
             };

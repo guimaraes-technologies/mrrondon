@@ -6,7 +6,7 @@
             <i class="sidebar icon"></i>
         </a>
     </div>
-    @if (Account.Current.HasAny("Administrador_Geral"))
+    @if (Account.Current.HasAny(Constants.Roles.GeneralAdministrator))
     {
         <a class="item @(Model == 1 ? "active" : string.Empty)" href="@Url.Action("Unread", "Message", new {area = "Admin"})">
             Não Lidas

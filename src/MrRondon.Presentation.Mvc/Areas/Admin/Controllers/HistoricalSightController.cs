@@ -18,13 +18,13 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
     {
         private readonly MainContext _db = new MainContext();
 
-        [HasAny("Administrador_Geral", "Administrador_Memorial", "Consulta")]
+        [HasAny(Constants.Roles.GeneralAdministrator, Constants.Roles.HistoricalSightAdministrator, Constants.Roles.ReadOnly)]
         public ActionResult Index()
         {
             return View();
         }
 
-        [HasAny("Administrador_Geral", "Administrador_Memorial")]
+        [HasAny(Constants.Roles.GeneralAdministrator, Constants.Roles.HistoricalSightAdministrator)]
         public ActionResult Create()
         {
             SetBiewBags(null);
@@ -33,7 +33,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateInput(false)]
-        [HasAny("Administrador_Geral", "Administrador_Memorial")]
+        [HasAny(Constants.Roles.GeneralAdministrator, Constants.Roles.HistoricalSightAdministrator)]
         public ActionResult Create(CrudHistoricalSightVm model, Address address)
         {
             try
@@ -65,7 +65,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
             }
         }
 
-        [HasAny("Administrador_Geral", "Administrador_Memorial", "Consulta")]
+        [HasAny(Constants.Roles.GeneralAdministrator, Constants.Roles.HistoricalSightAdministrator, Constants.Roles.ReadOnly)]
         public ActionResult Details(int id)
         {
             var repo = new RepositoryBase<HistoricalSight>(_db);
@@ -76,7 +76,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
             return View(historicalSight);
         }
 
-        [HasAny("Administrador_Geral", "Administrador_Memorial")]
+        [HasAny(Constants.Roles.GeneralAdministrator, Constants.Roles.HistoricalSightAdministrator)]
         public ActionResult Edit(int id)
         {
             var repo = new RepositoryBase<HistoricalSight>(_db);
@@ -95,7 +95,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateInput(false)]
-        [HasAny("Administrador_Geral", "Administrador_Memorial")]
+        [HasAny(Constants.Roles.GeneralAdministrator, Constants.Roles.HistoricalSightAdministrator)]
         public ActionResult Edit(CrudHistoricalSightVm model, Address address)
         {
             try
@@ -141,7 +141,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        [HasAny("Administrador_Geral", "Administrador_Memorial", "Consulta")]
+        [HasAny(Constants.Roles.GeneralAdministrator, Constants.Roles.HistoricalSightAdministrator, Constants.Roles.ReadOnly)]
         public JsonResult GetPagination(DataTableParameters parameters)
         {
             var search = parameters.Search.Value?.ToLower() ?? string.Empty;
@@ -152,9 +152,8 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
             var buttons = new ButtonsHistoricalSight();
             foreach (var item in items)
             {
-                dtResult.data.Add(new[]
+                dtResult.data.Add(new object[]
                 {
-                    item.HistoricalSightId.ToString(),
                     $"{item.Name}",
                     buttons.ToPagination(item.HistoricalSightId, Account.Current.Roles)
                 });

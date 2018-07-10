@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using MrRondon.Infra.CrossCutting.Helper;
 
 namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
 {
@@ -11,8 +12,8 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
         {
             switch (id)
             {
-                case 401: return View("Erro401");
-                case 404: return View("Erro404");
+                case Constants.Codes.Unauthorized: return View("Erro401");
+                case Constants.Codes.NotFound: return View("Erro404");
                 default: return View("Generic");
             }
         }

@@ -13,7 +13,7 @@ using MrRondon.Presentation.Mvc.Extensions;
 
 namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
 {
-    [HasAny("Administrador_Geral")]
+    [HasAny(Constants.Roles.GeneralAdministrator)]
     public class MessageController : Controller
     {
         private readonly MainContext _db = new MainContext();
@@ -100,9 +100,9 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
             var buttons = new ButtonsMessage();
             foreach (var item in items)
             {
-                dtResult.data.Add(new[]
+                dtResult.data.Add(new object[]
                 {
-                    item.MessageId.ToString(),
+                    item.Status == MessageStatus.Unread,
                     item.Title,
                     EnumDescription.Get(item.Subject),
                     buttons.ToPagination(item.MessageId, Account.Current.Roles)
