@@ -81,8 +81,7 @@ namespace MrRondon.Presentation.Mvc.Controllers
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 IsActive = user.IsActive,
-                Contacts = user.Contacts.ToList(),
-                Roles = user.Roles
+                Contacts = user.Contacts.ToList()
             };
             return View(userContact);
         }

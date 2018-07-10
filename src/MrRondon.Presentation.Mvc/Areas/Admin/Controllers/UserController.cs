@@ -49,15 +49,19 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
 
         [HttpPost]
         [HasAny("Administrador_Geral", "Administrador_Usuário")]
-        public ActionResult Create(UserContactVm userContact)
+        public ActionResult Create(UserContactVm model)
         {
             try
             {
-                if (!ModelState.IsValid) return View(userContact).Error(ModelState);
+                if (!ModelState.IsValid || !model.IsValid())
+                {
+                    SetViewBags(model);
+                    return View(model).Error(ModelState);
+                }
 
-                var user = userContact.GetUser();
+                var user = model.GetUser();
 
-                if (userContact.Contacts != null && userContact.Contacts.Any(a => a.ContactType == ContactType.Email))
+                if (model.Contacts != null && model.Contacts.Any(a => a.ContactType == ContactType.Email))
                 {
                     var contatos = user.Contacts.Where(f => f.ContactType == ContactType.Email);
                     foreach (var contato in contatos)
@@ -73,10 +77,10 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
 
                 user.Roles = new List<Role>();
 
-                var roles = _db.Roles.Where(x => userContact.RolesIds.Any(r => r == x.RoleId));
+                var roles = _db.Roles.Where(x => model.RolesIds.Any(r => r == x.RoleId));
                 foreach (var role in roles)
                 {
-                    if (userContact.RolesIds != null && userContact.RolesIds.Any(x => x.Equals(role.RoleId)))
+                    if (model.RolesIds != null && model.RolesIds.Any(x => x.Equals(role.RoleId)))
                         user.Roles.Add(role);
                 }
 
@@ -88,8 +92,8 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
             }
             catch (Exception e)
             {
-                SetViewBags(userContact);
-                return View(userContact).Error(e.Message);
+                SetViewBags(model);
+                return View(model).Error(e.Message);
             }
         }
 
@@ -108,13 +112,13 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        [ValidateInput(false)]
-        [HasAny("Administrador_Geral", "Administrador_Usuário")]
+        [HasAny("Administrador  _Geral", "Administrador_Usuário")]
         public ActionResult Edit(UserContactVm model)
         {
             try
             {
-                if (!ModelState.IsValid)
+                ModelState.Remove(nameof(model.RolesIds));
+                if (!ModelState.IsValid || !model.IsValid())
                 {
                     SetViewBags(model);
                     return View(model).Error(ModelState);
@@ -124,13 +128,15 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
                     .Include(c => c.Roles)
                     .Include(c => c.Contacts)
                     .FirstOrDefault(x => x.UserId == model.UserId);
+
                 if (oldUser == null) return RedirectToAction("Index").Success("Usuário atualizado com sucesso");
+
                 oldUser.Update(model.FirstName, model.LastName);
                 var newUser = model.GetUser();
-                newUser.SetPassword(oldUser.Password);
                 newUser.SetInfo(oldUser);
-                BalanceContacts(oldUser, newUser);
+
                 BalanceRoles(oldUser, newUser, model.RolesIds);
+                BalanceContacts(oldUser, newUser);
 
                 _db.Entry(oldUser).CurrentValues.SetValues(newUser);
                 _db.SaveChanges();
@@ -138,6 +144,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
             }
             catch (Exception ex)
             {
+                SetViewBags(model);
                 return View(model).Error(ex.Message);
             }
         }
@@ -231,7 +238,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
                     s.IsActive
                 }).ToList();
             var dtResult = new DataTableResultSet(parameters.Draw, recordsTotal);
-            
+
             var buttonsUser = new ButtonsUser();
             foreach (var item in items)
             {
@@ -258,12 +265,18 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
             var roles = _db.Roles
                 .OrderBy(x => x.Name)
                 .AsNoTracking();
-            ViewBag.Roles = new SelectList(roles.Select(s =>
-            new
+
+            model = model ?? new UserContactVm();
+            foreach (var role in roles)
             {
-                s.RoleId,
-                Name = s.Name.Replace("_", " ")
-            }), "RoleId", "Name", model?.RolesIds);
+                var item = new SelectListItemVm(
+                    role.RoleId,
+                    role.Name.Replace("_", " "),
+                    model.RolesIds?.Any(x => x == role.RoleId) ?? false);
+                model.SelectListRole.Add(item);
+            }
+
+            ViewBag.Roles = model.SelectListRole;
         }
 
         private static UserContactVm GetCrudVm(User user)

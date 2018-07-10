@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Web.Mvc;
 using MrRondon.Domain.Entities;
 using MrRondon.Infra.CrossCutting.Message;
@@ -40,7 +41,9 @@ namespace MrRondon.Presentation.Mvc.ViewModels
 
         [Display(Name = "Permissões")]
         [Required(ErrorMessageResourceType = typeof(Error), ErrorMessageResourceName = "Required")]
-        public int[] RolesIds { get; set; }
+        public int[] RolesIds { get; set; } = { };
+
+        public IList<SelectListItemVm> SelectListRole { get; set; } = new List<SelectListItemVm>();
 
         public User GetUser()
         {
@@ -54,7 +57,7 @@ namespace MrRondon.Presentation.Mvc.ViewModels
                 IsActive = IsActive,
                 CreateOn = CreateOn,
                 UserId = UserId,
-                Roles = Roles
+                Roles = new List<Role>(RolesIds.Select(s => new Role { RoleId = s }))
             };
 
             return user;
@@ -62,7 +65,10 @@ namespace MrRondon.Presentation.Mvc.ViewModels
 
         public bool IsValid()
         {
-            throw new NotImplementedException();
+            if (!RolesIds?.Any() ?? true) throw new Exception("O campo Permissões é obrigatório.");
+            if (!Contacts?.Any(contact => contact.ContactType == ContactType.Email) ?? true) throw new Exception("Pelo um Email de contato deve ser informado.");
+
+            return true;
         }
     }
 }

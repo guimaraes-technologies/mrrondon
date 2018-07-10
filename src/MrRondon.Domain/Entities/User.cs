@@ -90,8 +90,6 @@ namespace MrRondon.Domain.Entities
 
         public void SetInfo(User oldUser)
         {
-            FirstName = oldUser.FirstName;
-            LastName = oldUser.LastName;
             Cpf = oldUser.Cpf;
             IsActive = oldUser.IsActive;
             LockoutEnd = oldUser.LockoutEnd;

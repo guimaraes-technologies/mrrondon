@@ -539,6 +539,7 @@
     <Compile Include="ViewModels\CrudHistoricalSightVm.cs" />
     <Compile Include="ViewModels\NewPasswordVm.cs" />
     <Compile Include="ViewModels\RecoveryPasswordVm.cs" />
+    <Compile Include="ViewModels\SelectListItemVm.cs" />
     <Compile Include="ViewModels\SigninVm.cs" />
     <Compile Include="ViewModels\UserContactVm.cs" />
     <Compile Include="ViewSwitcher.ascx.cs">

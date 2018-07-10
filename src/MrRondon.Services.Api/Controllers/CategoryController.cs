@@ -31,16 +31,17 @@ namespace MrRondon.Services.Api.Controllers
                     .Where(w => w.CategoryId == null && w.ShowOnApp && w.Name.Contains(name) && (w.Companies.Any() || w.SubCategories.Any(a => a.Companies.Any())))
                     .AsNoTracking();
 
-                foreach (var item in categories) if (item.SubCategories.Any()) ;
+                //foreach (var item in categories)
+
                 var items = categories
-        .Select(s => new CategoryListVm
-        {
-            SubCategoryId = s.SubCategoryId,
-            Name = s.Name,
-            Image = s.Image,
-            HasCompany = s.Companies.Any(),
-            HasSubCategory = s.SubCategories.Any()
-        }).Distinct().ToList();
+                    .Select(s => new CategoryListVm
+                    {
+                        SubCategoryId = s.SubCategoryId,
+                        Name = s.Name,
+                        Image = s.Image,
+                        HasCompany = s.Companies.Any(),
+                        HasSubCategory = s.SubCategories.Any()
+                    }).Distinct().ToList();
                 return Ok(items);
             }
             catch (Exception ex)

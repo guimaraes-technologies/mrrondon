@@ -13,7 +13,7 @@ namespace MrRondon.Presentation.Mvc
             app.UseCookieAuthentication(new CookieAuthenticationOptions
             {
                 AuthenticationType = "ApplicationCookie",
-                LoginPath = new PathString("/Account/Signin")
+                LoginPath = new PathString("/account/signin")
             });
         }
     }
