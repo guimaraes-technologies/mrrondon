@@ -8,7 +8,7 @@ namespace MrRondon.Presentation.Mvc.Controllers
     public class DatabaseManagerController : Controller
     {
         [AllowAnonymous]
-        public ActionResult Update(string code)
+        public ActionResult Update()
         {
             try
             {

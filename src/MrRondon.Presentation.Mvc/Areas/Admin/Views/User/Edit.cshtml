@@ -1,4 +1,4 @@
-﻿@model MrRondon.Presentation.Mvc.ViewModels.UserContactVm
+﻿    @model MrRondon.Presentation.Mvc.ViewModels.UserContactVm
 @{ViewBag.Title = "Editar usuário";}
 @section header
 {
@@ -12,7 +12,6 @@
 }
 @using (Html.BeginForm("Edit", "User", new { area = "Admin" }, FormMethod.Post, new { @class = "ui form" }))
 {
-    @Html.AntiForgeryToken()
     @Html.HiddenFor(model => model.UserId)
     @Html.Partial("_Form")
     @Html.Partial("_ButtonSubmit")

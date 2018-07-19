@@ -15,6 +15,12 @@ namespace MrRondon.Presentation.Mvc
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
+                name: "RecoveryPassword",
+                url: "account/recoverypassword/{code}",
+                defaults: new { controller = "Account", action = "RecoveryPassword", code = UrlParameter.Optional }
+            );
+
+            routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }

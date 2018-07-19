@@ -1,8 +1,5 @@
-﻿@using System.Security.Claims
-@using System.Web.Optimization
+﻿@using System.Web.Optimization
 @using MrRondon.Infra.CrossCutting.Helper
-@using MrRondon.Infra.Security.Helpers
-@using MrRondon.Presentation.Mvc.Helpers
 @{Layout = "~/Views/Shared/_Layout.cshtml";}
 @section styles{
     @RenderSection("styles", required: false)
@@ -13,16 +10,9 @@
     </div>
     <nav class="ui inverted secondary menu gt-top-menu">
         <div class="ui container">
-            <img src="@Url.Content("~/Content/Images/brasao_ro.png")" alt="Governo do Estado de Rondônia" />
-            <div class="right menu">
-                <div class="item gt-m-0">
-                    &emsp;
-                    @if (Account.Current.IsAuthenticated)
-                    {
-                        <a class="ui right labeled icon inverted button" href="@Url.Action("Index", "Category", new {area = "Admin"})">@ClaimsPrincipal.Current.Identity.Name <i class="user icon"></i></a>
-                    }
-                </div>
-            </div>
+            <a href="@Url.Action("Index", "Home")">
+                <img src="@Url.Content("~/Content/Images/brasao_ro.png")" alt="Governo do Estado de Rondônia" />
+            </a>
         </div>
     </nav>
     <div class="ui container">

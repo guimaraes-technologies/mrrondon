@@ -8,20 +8,23 @@ using MrRondon.Infra.CrossCutting.Helper;
 using MrRondon.Infra.CrossCutting.Helper.Buttons;
 using MrRondon.Infra.Data.Context;
 using MrRondon.Infra.Data.Repositories;
+using MrRondon.Infra.Security.Extensions;
+using MrRondon.Infra.Security.Helpers;
 using MrRondon.Presentation.Mvc.Extensions;
 
 namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
 {
-    [Authorize(Roles = "Admin")]
     public class CategoryController : Controller
     {
         private readonly MainContext _db = new MainContext();
 
+        [HasAny(Constants.Roles.GeneralAdministrator, Constants.Roles.CategoryAdministrator, Constants.Roles.ReadOnly)]
         public ActionResult Index()
         {
             return View();
         }
 
+        [HasAny(Constants.Roles.GeneralAdministrator, Constants.Roles.CategoryAdministrator, Constants.Roles.ReadOnly)]
         public ActionResult Details(int id)
         {
             var repo = new RepositoryBase<SubCategory>(_db);
@@ -30,12 +33,14 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
             return View(category);
         }
 
+        [HasAny(Constants.Roles.GeneralAdministrator, Constants.Roles.CategoryAdministrator)]
         public ActionResult Create()
         {
             return View();
         }
 
         [HttpPost]
+        [HasAny(Constants.Roles.GeneralAdministrator, Constants.Roles.CategoryAdministrator)]
         public ActionResult Create(SubCategory model, HttpPostedFileBase imageFile)
         {
             try
@@ -48,7 +53,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
 
                 _db.SubCategories.Add(model);
                 _db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index").Success("Operação realizada com sucesso");
             }
             catch (Exception ex)
             {
@@ -56,6 +61,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
             }
         }
 
+        [HasAny(Constants.Roles.GeneralAdministrator, Constants.Roles.CategoryAdministrator)]
         public ActionResult Edit(int id)
         {
             var repo = new RepositoryBase<SubCategory>(_db);
@@ -66,6 +72,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [HasAny(Constants.Roles.GeneralAdministrator, Constants.Roles.CategoryAdministrator)]
         public ActionResult Edit(SubCategory model, HttpPostedFileBase imageFile)
         {
             try
@@ -77,7 +84,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
                 model.SetImage(FileUpload.GetBytes(imageFile, "Imagem"));
                 _db.Entry(model).State = EntityState.Modified;
                 _db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index").Success("Operação realizada com sucesso");
             }
             catch (Exception ex)
             {
@@ -85,7 +92,20 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
             }
         }
 
+        [HasAny(Constants.Roles.GeneralAdministrator, Constants.Roles.CategoryAdministrator)]
+        public ActionResult ShowOnApp(int id)
+        {
+            var repo = new RepositoryBase<SubCategory>(_db);
+            var category = repo.GetItemByExpression(x => x.SubCategoryId == id);
+            if (category == null) return HttpNotFound();
+            _db.Entry(category).Property(p => p.ShowOnApp).CurrentValue = !category.ShowOnApp;
+            _db.SaveChanges();
+
+            return RedirectToAction("Index").Success("Operação realizada com sucesso");
+        }
+
         [HttpPost]
+        [HasAny(Constants.Roles.GeneralAdministrator, Constants.Roles.CategoryAdministrator, Constants.Roles.ReadOnly)]
         public JsonResult GetPagination(DataTableParameters parameters)
         {
             var search = parameters.Search.Value?.ToLower() ?? string.Empty;
@@ -96,11 +116,10 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
             var buttons = new ButtonsCategory();
             foreach (var item in items)
             {
-                dtResult.data.Add(new[]
+                dtResult.data.Add(new object[]
                 {
-                    item.CategoryId.ToString(),
                     item.Name,
-                    buttons.ToPagination(item.SubCategoryId)
+                    buttons.ToPagination(item.SubCategoryId, item.ShowOnApp, Account.Current.Roles)
                 });
             }
             return Json(dtResult, JsonRequestBehavior.AllowGet);

@@ -67,6 +67,10 @@
       <Project>{0DA2D667-7A4C-4C62-8197-75C5CCFC40C0}</Project>
       <Name>MrRondon.Domain</Name>
     </ProjectReference>
+    <ProjectReference Include="..\MrRondon.Infra.CrossCutting.Helper\MrRondon.Infra.CrossCutting.Helper.csproj">
+      <Project>{2BC14EE1-95F4-41F7-808E-A0568A0D93E9}</Project>
+      <Name>MrRondon.Infra.CrossCutting.Helper</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MrRondon.Infra.CrossCutting.Logging\MrRondon.Infra.CrossCutting.Logging.csproj">
       <Project>{31716736-C7A9-4C38-8F2F-32AF0B1D64D8}</Project>
       <Name>MrRondon.Infra.CrossCutting.Logging</Name>

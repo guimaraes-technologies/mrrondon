@@ -50,8 +50,10 @@
             }
         },
         createdRow: function (row, data, index) {
+            if (typeof (data[0]) !== "boolean") return;
+
             $(row).find("td:first").attr("hidden", true);
-            if (data[0] === "False") { $(row).addClass('negative'); }
+            if (!data[0]) { $(row).addClass("negative"); }
         },
         dom:
              "<'ui basic segment gt-datatable-filter' f>" +

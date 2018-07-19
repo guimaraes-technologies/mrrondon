@@ -1,13 +1,14 @@
 ﻿using System;
+using System.Linq;
 using System.Web.Mvc;
 
 namespace MrRondon.Infra.CrossCutting.Helper.Buttons
 {
     public class ButtonsCategory : ButtonsBase
     {
-        public string ToPagination(int id)
+        public string ToPagination(int id, bool showOnApp, string[] permissions)
         {
-            return $"{Edit(id)} {Details(id)}";
+            return permissions.Any(x => x == Constants.Roles.GeneralAdministrator || x == Constants.Roles.CategoryAdministrator) ? $"{Edit(id)} {ShowOnApp(id, showOnApp)} {Details(id)}" : $"{Details(id)}";
         }
 
         private MvcHtmlString Details(int id)
@@ -42,6 +43,26 @@ namespace MrRondon.Infra.CrossCutting.Helper.Buttons
                 link.MergeAttribute("title", "Editar");
                 link.MergeAttributes(HtmlHelper.AnonymousObjectToHtmlAttributes(null));
                 link.InnerHtml = iconEdit.ToString();
+
+                return MvcHtmlString.Create(link.ToString());
+            }
+            catch { return MvcHtmlString.Empty; }
+        }
+
+        private MvcHtmlString ShowOnApp(int id, bool showOnApp)
+        {
+            try
+            {
+                var link = new TagBuilder("a");
+                var icon = new TagBuilder("i");
+                icon.MergeAttribute("class", showOnApp ? IconActive : IconDisable);
+                icon.MergeAttribute("class", IconActive);
+                link.MergeAttribute("href", Url.Action("ShowOnApp", "Category", new { area = "Admin", id }));
+                link.MergeAttribute("class", "ui tiny icon button");
+                link.MergeAttribute("data-loading", "btn");
+                link.MergeAttribute("title", $"{(showOnApp ? "Mostrar no app" : "Não mostrar no app")}");
+                link.MergeAttributes(HtmlHelper.AnonymousObjectToHtmlAttributes(null));
+                link.InnerHtml = icon.ToString();
 
                 return MvcHtmlString.Create(link.ToString());
             }

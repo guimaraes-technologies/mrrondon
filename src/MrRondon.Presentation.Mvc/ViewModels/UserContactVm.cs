@@ -2,9 +2,12 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Data.Entity;
+using System.Linq;
 using System.Web.Mvc;
 using MrRondon.Domain.Entities;
 using MrRondon.Infra.CrossCutting.Message;
+using MrRondon.Infra.Data.Context;
 
 namespace MrRondon.Presentation.Mvc.ViewModels
 {
@@ -38,11 +41,13 @@ namespace MrRondon.Presentation.Mvc.ViewModels
         [Display(Name = "Tipo de contato")]
         public ContactType ContactType { get; set; }
 
-        [Display(Name = "Perfil")]
+        [Display(Name = "Permissões")]
         [Required(ErrorMessageResourceType = typeof(Error), ErrorMessageResourceName = "Required")]
-        public int[] RolesIds { get; set; }
+        public int[] RolesIds { get; set; } = { };
 
-        public User GetUser()
+        public IList<SelectListItemVm> SelectListRole { get; set; } = new List<SelectListItemVm>();
+
+        public User GetUser(MainContext db)
         {
             var user = new User
             {
@@ -54,15 +59,19 @@ namespace MrRondon.Presentation.Mvc.ViewModels
                 IsActive = IsActive,
                 CreateOn = CreateOn,
                 UserId = UserId,
-                Roles = Roles
+                Roles = RolesIds.Select(id => new Role { RoleId = id }).ToList()
             };
 
+            //user.Roles = db.Roles.Where(s => RolesIds.Any(id => id == s.RoleId)).AsNoTracking().ToList();
             return user;
         }
 
         public bool IsValid()
         {
-            throw new NotImplementedException();
+            if (!RolesIds?.Any() ?? true) throw new Exception("O campo Permissões é obrigatório.");
+            if (!Contacts?.Any(contact => contact.ContactType == ContactType.Email) ?? true) throw new Exception("Pelo um Email de contato deve ser informado.");
+
+            return true;
         }
     }
 }

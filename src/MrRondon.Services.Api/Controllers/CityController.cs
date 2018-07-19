@@ -8,7 +8,7 @@ using WebApi.OutputCache.V2;
 namespace MrRondon.Services.Api.Controllers
 {
     [RoutePrefix("v1/city")]
-    [CacheOutput(ClientTimeSpan = 50, ServerTimeSpan = 50)]
+    [CacheOutput(ClientTimeSpan = 120, ServerTimeSpan = 480, MustRevalidate = true)]
     public class CityController : ApiController
     {
         private readonly MainContext _db;
@@ -27,14 +27,13 @@ namespace MrRondon.Services.Api.Controllers
                 name = name ?? string.Empty;
 
                 var cities = (from ci in _db.Cities
-                              join ad in _db.Addresses on ci.CityId equals ad.CityId
-                              where ci.Name.Contains(name)
-                              group ci by ci.Name
+                    join ad in _db.Addresses on ci.CityId equals ad.CityId
+                    where ci.Name.Contains(name)
+                    group ci by ci.Name
                     into gp
-                              select gp.Select(s => s)).SelectMany(s => s).AsNoTracking();
+                    select gp.Select(s => s)).SelectMany(s => s).AsNoTracking().Distinct().ToList();
 
-                var result = cities.Distinct();
-                return Ok(result);
+                return Ok(cities);
             }
             catch (Exception ex)
             {
@@ -55,10 +54,9 @@ namespace MrRondon.Services.Api.Controllers
                     where ci.Name.Contains(name)
                     group ci by ci.Name
                     into gp
-                    select gp.Select(s => s)).SelectMany(s => s).AsNoTracking();
-
-                var result = cities.Distinct();
-                return Ok(result);
+                    select gp.Select(s => s)).SelectMany(s => s).AsNoTracking().Distinct().ToList();
+                
+                return Ok(cities);
             }
             catch (Exception ex)
             {
@@ -73,16 +71,14 @@ namespace MrRondon.Services.Api.Controllers
             try
             {
                 var cities = (from ci in _db.Cities
-                              join ad in _db.Addresses on ci.CityId equals ad.CityId
-                              join co in _db.Companies on ad.AddressId equals co.AddressId
-                              where co.SubCategoryId == subCategoryId
-                              group ci by ci.Name
-                into gp
-                              select gp.Select(s => s)).SelectMany(s => s).AsNoTracking();
-
-                var result = cities.Distinct();
-
-                return Ok(result);
+                    join ad in _db.Addresses on ci.CityId equals ad.CityId
+                    join co in _db.Companies on ad.AddressId equals co.AddressId
+                    where co.SubCategoryId == subCategoryId
+                    group ci by ci.Name
+                    into gp
+                    select gp.Select(s => s)).SelectMany(s => s).AsNoTracking().Distinct().ToList();
+                
+                return Ok(cities);
             }
             catch (Exception ex)
             {
@@ -101,11 +97,9 @@ namespace MrRondon.Services.Api.Controllers
                     join ev in _db.Events on ad.AddressId equals ev.AddressId
                     group ci by ci.Name
                     into gp
-                    select gp.Select(s => s)).SelectMany(s => s).AsNoTracking();
-
-                var result = cities.Distinct();
-
-                return Ok(result);
+                    select gp.Select(s => s)).SelectMany(s => s).AsNoTracking().Distinct().ToList();
+                
+                return Ok(cities);
             }
             catch (Exception ex)
             {
@@ -124,11 +118,10 @@ namespace MrRondon.Services.Api.Controllers
                     join h in _db.HistoricalSights on ad.AddressId equals h.AddressId
                     group ci by ci.Name
                     into gp
-                    select gp.Select(s => s)).SelectMany(s => s).AsNoTracking();
+                    select gp.Select(s => s)).SelectMany(s => s).AsNoTracking().Distinct().ToList();
 
-                var result = cities.Distinct();
 
-                return Ok(result);
+                return Ok(cities);
             }
             catch (Exception ex)
             {

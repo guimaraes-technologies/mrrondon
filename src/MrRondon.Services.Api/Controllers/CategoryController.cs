@@ -19,31 +19,29 @@ namespace MrRondon.Services.Api.Controllers
             _db = new MainContext();
         }
 
-        [Route("{question}")]
-        public IHttpActionResult Test(string question)
-        {
-            return Ok("Logou");
-        }
-
         [AllowAnonymous]
         [Route("{name=}")]
+        [CacheOutput(ServerTimeSpan = 120)]
         public IHttpActionResult Get(string name)
         {
             try
             {
                 name = name ?? string.Empty;
-                var categories = _db.SubCategories.Where(w => w.CategoryId == null && w.ShowOnApp && w.Name.Contains(name) && (w.Companies.Any() || w.SubCategories.Any(a => a.Companies.Any()))).AsNoTracking();
+                var categories = _db.SubCategories
+                    .Where(w => w.CategoryId == null && w.ShowOnApp && w.Name.Contains(name) && (w.Companies.Any() || w.SubCategories.Any(a => a.Companies.Any())))
+                    .AsNoTracking();
+
+                //foreach (var item in categories)
 
                 var items = categories
-                .Select(s => new CategoryListVm
-                {
-                    SubCategoryId = s.SubCategoryId,
-                    Name = s.Name,
-                    Image = s.Image,
-                    HasCompany = s.Companies.Any(),
-                    HasSubCategory = s.SubCategories.Any()
-                }).Distinct().ToList();
-
+                    .Select(s => new CategoryListVm
+                    {
+                        SubCategoryId = s.SubCategoryId,
+                        Name = s.Name,
+                        Image = s.Image,
+                        HasCompany = s.Companies.Any(),
+                        HasSubCategory = s.SubCategories.Any()
+                    }).Distinct().ToList();
                 return Ok(items);
             }
             catch (Exception ex)
