@@ -45,7 +45,7 @@ namespace MrRondon.Services.Api.Controllers
                 name = string.IsNullOrWhiteSpace(name) ? string.Empty : name;
                 var items = _db.HistoricalSights
                     .Include(i => i.Address.City)
-                    .Where(x => x.Address.CityId == cityId && x.Name.Contains(name));
+                    .Where(x => x.Address.CityId == cityId && x.Name.Contains(name)).AsNoTracking().ToList();
                 return Ok(items);
             }
             catch (Exception ex)

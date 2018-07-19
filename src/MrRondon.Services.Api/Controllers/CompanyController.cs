@@ -68,7 +68,7 @@ namespace MrRondon.Services.Api.Controllers
         }
 
         [AllowAnonymous]
-        [Route("city/{city:int}/segment/{segmentId:int}/{name=}/{skip}/{take}")]
+        [Route("city/{city:int}/segment/{segmentId:int}/{skip:int}/{take:int}/{name=}")]
         [CacheOutput(ClientTimeSpan = 120, ServerTimeSpan = 120, MustRevalidate = true)]
         public IHttpActionResult Get(int segmentId, int city, string name, int skip, int take)
         {
@@ -92,7 +92,7 @@ namespace MrRondon.Services.Api.Controllers
                     s.Logo,
                     s.Cnpj,
                     s.Address
-                });
+                }).ToList();
                 return Ok(result);
             }
             catch (Exception ex)

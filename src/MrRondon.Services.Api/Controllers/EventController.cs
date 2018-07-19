@@ -148,7 +148,7 @@ namespace MrRondon.Services.Api.Controllers
         }
 
         [AllowAnonymous]
-        [Route("city/{cityId:int}/{name=}/{skip}/{take}")]
+        [Route("city/{cityId:int}/{skip:int}/{take:int}/{name=}")]
         public IHttpActionResult Get(int cityId, string name, int skip, int take)
         {
             try
@@ -172,7 +172,7 @@ namespace MrRondon.Services.Api.Controllers
                         s.StartDate,
                         s.EndDate,
                         s.Value
-                    });
+                    }).ToList();
 
                 return Ok(result);
             }
