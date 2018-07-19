@@ -126,17 +126,16 @@ namespace MrRondon.Infra.Data.Migrations
 
             if (!context.ApplicationClients.Any())
             {
-                //context.ApplicationClients.Add(new ApplicationClient
-                //{
-                //    ApplicationClientId = Guid.NewGuid(),
-                //    Secret = "Rondonia.Turismo.App",
-                //    Name = "Aplicativo Rond�nia Turismo",
-                //    RefreshTokenLifeTime = 1,
-                //    ApplicationType = ApplicationTypes.NativeConfidential,
-                //    AllowedOrigin = "*",
-                //    Active = true
-                //
-                //});
+                context.ApplicationClients.Add(new ApplicationClient
+                {
+                    ApplicationClientId = Guid.NewGuid(),
+                    Secret = "Rondonia.Turismo.App",
+                    Name = $"Aplicativo {Constants.SystemName}",
+                    RefreshTokenLifeTime = 1,
+                    ApplicationType = ApplicationTypes.NativeConfidential,
+                    AllowedOrigin = "*",
+                    Active = true
+                });
             }
 
             //if (!context.SubCategories.Any())

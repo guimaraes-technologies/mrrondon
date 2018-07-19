@@ -68,26 +68,32 @@ namespace MrRondon.Services.Api.Controllers
         }
 
         [AllowAnonymous]
-        [Route("city/{city:int}/segment/{segmentId:int}/{name=}")]
+        [Route("city/{city:int}/segment/{segmentId:int}/{name=}/{skip}/{take}")]
         [CacheOutput(ClientTimeSpan = 120, ServerTimeSpan = 120, MustRevalidate = true)]
-        public IHttpActionResult Get(int segmentId, int city, string name)
+        public IHttpActionResult Get(int segmentId, int city, string name, int skip, int take)
         {
             try
             {
                 name = string.IsNullOrWhiteSpace(name) ? string.Empty : name;
 
                 var items = _db.Companies
-                    .Include(i => i.Address)
-                    .Where(x => x.SubCategoryId == segmentId && x.Address.CityId == city &&
-                                (x.Name.Contains(name) || x.FancyName.Contains(name)));
-                return Ok(items.Select(s => new
+                        .Include(i => i.Address)
+                        .Where(x => x.SubCategoryId == segmentId && x.Address.CityId == city &&
+                                    (x.Name.Contains(name) || x.FancyName.Contains(name)))
+                    .OrderBy(x => x.FancyName)
+                    .Skip(skip)
+                    .Take(take)
+                    .AsNoTracking();
+
+                var result = items.Select(s => new
                 {
                     s.CompanyId,
                     s.Name,
                     s.Logo,
                     s.Cnpj,
                     s.Address
-                }));
+                });
+                return Ok(result);
             }
             catch (Exception ex)
             {

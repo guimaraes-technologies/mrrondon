@@ -17,6 +17,11 @@
             public const string ReadOnly = "Consulta";
         }
 
+        public static class Emails
+        {
+            public const string Setur = "rondonia.setur@gmail.com";
+        }
+
         public static class Codes
         {
             public const int Unauthorized = 401;

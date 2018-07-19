@@ -11,7 +11,6 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Security.Claims;
 using System.Web.Mvc;
 using MrRondon.Infra.Security.Helpers;
 
@@ -49,17 +48,21 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
 
         [HttpPost]
         [HasAny(Constants.Roles.GeneralAdministrator, Constants.Roles.UserAdministrator)]
-        public ActionResult Create(UserContactVm model)
+        public ActionResult Create(UserContactVm model, string rolesIds)
         {
             try
             {
+                if (string.IsNullOrWhiteSpace(rolesIds)) throw new Exception("Campo Permissões é obrigatório.");
+                model.RolesIds = rolesIds.Split(',').Select(id => Convert.ToInt32(id)).ToArray();
+                ModelState.Remove(nameof(model.RolesIds));
+
                 if (!ModelState.IsValid || !model.IsValid())
                 {
                     SetViewBags(model);
                     return View(model).Error(ModelState);
                 }
 
-                var user = model.GetUser();
+                var user = model.GetUser(_db);
 
                 if (model.Contacts != null && model.Contacts.Any(a => a.ContactType == ContactType.Email))
                 {
@@ -80,8 +83,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
                 var roles = _db.Roles.Where(x => model.RolesIds.Any(r => r == x.RoleId));
                 foreach (var role in roles)
                 {
-                    if (model.RolesIds != null && model.RolesIds.Any(x => x.Equals(role.RoleId)))
-                        user.Roles.Add(role);
+                    if (model.RolesIds != null && model.RolesIds.Any(x => x.Equals(role.RoleId))) user.Roles.Add(role);
                 }
 
                 user.UserId = Guid.NewGuid();
@@ -113,11 +115,14 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
 
         [HttpPost]
         [HasAny(Constants.Roles.GeneralAdministrator, Constants.Roles.UserAdministrator)]
-        public ActionResult Edit(UserContactVm model, int[] rolesIds)
+        public ActionResult Edit(UserContactVm model, string rolesIds)
         {
             try
             {
+                if (string.IsNullOrWhiteSpace(rolesIds)) throw new Exception("Campo Permissões é obrigatório.");
+                model.RolesIds = rolesIds.Split(',').Select(id => Convert.ToInt32(id)).ToArray();
                 ModelState.Remove(nameof(model.RolesIds));
+
                 if (!ModelState.IsValid || !model.IsValid())
                 {
                     SetViewBags(model);
@@ -129,18 +134,16 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
                     .Include(c => c.Contacts)
                     .FirstOrDefault(x => x.UserId == model.UserId);
 
-                if (oldUser == null) return RedirectToAction("Index").Success("Usuário atualizado com sucesso");
+                if (oldUser == null) return RedirectToAction("Index").Success(Success.Saved);
 
-                //oldUser.Update(model.FirstName, model.LastName);
-                var newUser = model.GetUser();
-                //newUser.SetInfo(oldUser);
-
-                BalanceRoles(oldUser, newUser, rolesIds);
+                var newUser = model.GetUser(_db);
+                newUser.SetInfo(oldUser);
+                BalanceRoles(oldUser, newUser, model.RolesIds);
                 BalanceContacts(oldUser, newUser);
 
                 _db.Entry(oldUser).CurrentValues.SetValues(newUser);
                 _db.SaveChanges();
-                return RedirectToAction("Index").Success("Usuário atualizado com sucesso");
+                return RedirectToAction("Index").Success(Success.Saved);
             }
             catch (Exception ex)
             {
@@ -201,7 +204,11 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
         public ActionResult AddContact(UserContactVm userContact)
         {
             userContact.Contacts = userContact.Contacts ?? new List<Contact>();
-            userContact.Contacts.Add(new Contact { Description = userContact.Description, ContactType = userContact.ContactType });
+            userContact.Contacts.Add(new Contact
+            {
+                Description = userContact.Description?.ToLower(),
+                ContactType = userContact.ContactType
+            });
             userContact.Description = string.Empty;
             userContact.ContactType = 0;
             UrlsContact();
@@ -271,7 +278,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
             {
                 var item = new SelectListItemVm(
                     role.RoleId,
-                    role.Name.Replace("_", " "),
+                    role.Name?.Replace("_", " "),
                     model.RolesIds?.Any(x => x == role.RoleId) ?? false);
                 model.SelectListRole.Add(item);
             }
@@ -301,33 +308,46 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
             return model;
         }
 
-        public void BalanceRoles(User oldUser, User newUser, int[] rolesIds)
+        public void BalanceRoles(User oldUser, User newUser, int[] roleIds)
         {
-            newUser.Roles = new List<Role>();
-            oldUser.Roles = oldUser.Roles ?? new List<Role>();
+            //newUser.Roles = new List<Role>();
+            //oldUser.Roles = oldUser.Roles ?? new List<Role>();
 
-            var rolesArray = _db.Roles.ToList();
-            foreach (var role in rolesArray)
-            {
-                if (rolesIds != null && rolesIds.Any(x => x.Equals(role.RoleId)))
-                {
-                    newUser.Roles.Add(_db.Roles.FirstOrDefault(x => x.RoleId == role.RoleId));
-                }
-            }
+            //var rolesArray = _db.Roles.ToList();
+            //foreach (var role in rolesArray)
+            //{
+            //    if (roleIds == null || !roleIds.Any(x => x.Equals(role.RoleId))) continue;
 
-            foreach (var role in rolesArray)
+            //    //var item = _db.Roles.FirstOrDefault(x => x.RoleId == role.RoleId);
+            //    newUser.Roles.Add(rolesArray.FirstOrDefault(x => x.RoleId == role.RoleId));
+            //}
+
+            //foreach (var role in rolesArray)
+            //{
+            //    var userRole = oldUser.Roles.FirstOrDefault(x => x.RoleId == role.RoleId);
+            //    if (roleIds != null && roleIds.Contains(role.RoleId) && userRole == null)
+            //    {
+            //        var item = _db.Roles.FirstOrDefault(x => x.RoleId == role.RoleId);
+            //        oldUser.Roles.Add(rolesArray.FirstOrDefault(x => x.RoleId == role.RoleId));
+            //    }
+            //    else
+            //    {
+            //        if (userRole == null) continue;
+            //        if (roleIds != null && roleIds.Contains(userRole.RoleId)) continue;
+            //        oldUser.Roles.Remove(userRole);
+            //    }
+            //}
+
+            var deletedRoles = oldUser.Roles.Except(newUser.Roles, x => x.RoleId).ToList();
+            var addedRoles = newUser.Roles.Except(oldUser.Roles, x => x.RoleId).ToList();
+            deletedRoles.ForEach(c => oldUser.Roles.Remove(c));
+
+            foreach (var role in addedRoles)
             {
-                var userRole = oldUser.Roles.FirstOrDefault(x => x.RoleId == role.RoleId);
-                if (rolesIds != null && rolesIds.Contains(role.RoleId) && userRole == null)
-                {
-                    oldUser.Roles.Add(_db.Roles.FirstOrDefault(x => x.RoleId == role.RoleId));
-                }
-                else
-                {
-                    if (userRole == null) continue;
-                    if (rolesIds != null && rolesIds.Contains(userRole.RoleId)) continue;
-                    oldUser.Roles.Remove(userRole);
-                }
+                var state = _db.Entry(role).State;
+                _db.Roles.Attach(role);
+                _db.Roles.Add(role);
+                oldUser.Roles.Add(role);
             }
         }
 
@@ -343,13 +363,11 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
             // Update and Insert children
             foreach (var childContact in newUser.Contacts)
             {
-                var existingContact = oldUser.Contacts
-                    .FirstOrDefault(c => c.ContactId == childContact.ContactId);
+                var existingContact = oldUser.Contacts.FirstOrDefault(c => c.ContactId == childContact.ContactId);
 
+                // Update child
                 childContact.UserId = newUser.UserId;
-                if (existingContact != null)
-                    // Update child
-                    _db.Entry(existingContact).CurrentValues.SetValues(childContact);
+                if (existingContact != null) _db.Entry(existingContact).CurrentValues.SetValues(childContact);
                 else
                 {
                     // Insert child

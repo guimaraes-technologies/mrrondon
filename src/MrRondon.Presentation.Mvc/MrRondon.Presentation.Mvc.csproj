@@ -516,6 +516,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Extensions\EnumExtension.cs" />
     <Compile Include="Extensions\HtmlExtension.cs" />
+    <Compile Include="Extensions\LinqExtension.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

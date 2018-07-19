@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
 using MrRondon.Domain.Entities;
 using MrRondon.Infra.CrossCutting.Message;
+using MrRondon.Infra.Data.Context;
 
 namespace MrRondon.Presentation.Mvc.ViewModels
 {
@@ -45,7 +47,7 @@ namespace MrRondon.Presentation.Mvc.ViewModels
 
         public IList<SelectListItemVm> SelectListRole { get; set; } = new List<SelectListItemVm>();
 
-        public User GetUser()
+        public User GetUser(MainContext db)
         {
             var user = new User
             {
@@ -56,9 +58,11 @@ namespace MrRondon.Presentation.Mvc.ViewModels
                 Cpf = Cpf,
                 IsActive = IsActive,
                 CreateOn = CreateOn,
-                UserId = UserId
+                UserId = UserId,
+                Roles = RolesIds.Select(id => new Role { RoleId = id }).ToList()
             };
 
+            //user.Roles = db.Roles.Where(s => RolesIds.Any(id => id == s.RoleId)).AsNoTracking().ToList();
             return user;
         }
 

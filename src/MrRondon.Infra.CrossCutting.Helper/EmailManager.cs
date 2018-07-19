@@ -10,11 +10,8 @@ namespace MrRondon.Infra.CrossCutting.Helper
     public class EmailManager
     {
         public string Subject { get; set; }
-
         public string Body { get; set; }
-
         public ArrayList Recipients { get; set; }
-
         public string Sender => "naorespondi@gmail.com";
 
         public EmailManager(ArrayList recipients)

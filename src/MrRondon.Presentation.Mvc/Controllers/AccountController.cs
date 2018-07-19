@@ -106,7 +106,8 @@ namespace MrRondon.Presentation.Mvc.Controllers
                     .FirstOrDefault(x => x.UserId == model.UserId);
                 if (oldUser == null) return RedirectToAction("Details").Success("Conta atualizada com sucesso");
                 oldUser.Update(model.FirstName, model.LastName);
-                var newUser = model.GetUser();
+
+                var newUser = model.GetUser(_db);
                 newUser.SetPassword(oldUser.Password);
                 newUser.SetInfo(oldUser);
                 BalanceContacts(oldUser, newUser);
