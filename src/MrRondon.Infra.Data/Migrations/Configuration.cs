@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using MrRondon.Domain.Entities;
+using MrRondon.Infra.CrossCutting.Helper;
 
 namespace MrRondon.Infra.Data.Migrations
 {
@@ -19,41 +20,105 @@ namespace MrRondon.Infra.Data.Migrations
         {
             var userIds = new[]
             {
-                Guid.Parse("2A3B3A45-2C1C-4CE1-9618-9D5AA6A2D56F"),
-                Guid.Parse("1C868C4A-9EBD-4C8A-91FC-C326A4E9CAE1")
+                Guid.Parse("1C868C4A-9EBD-4C8A-91FC-C326A4E9CAE1"),
+                Guid.Parse("2C868C4A-9EBD-4C8A-91FC-C326A4E9CAE2"),
+                Guid.Parse("3C868C4A-9EBD-4C8A-91FC-C326A4E9CAE3"),
+                Guid.Parse("4C868C4A-9EBD-4C8A-91FC-C326A4E9CAE4"),
+                Guid.Parse("5C868C4A-9EBD-4C8A-91FC-C326A4E9CAE5"),
+                Guid.Parse("6C868C4A-9EBD-4C8A-91FC-C326A4E9CAE6"),
+                Guid.Parse("7C868C4A-9EBD-4C8A-91FC-C326A4E9CAE7"),
+                Guid.Parse("8C868C4A-9EBD-4C8A-91FC-C326A4E9CAE8"),
+                Guid.Parse("9C868C4A-9EBD-4C8A-91FC-C326A4E9CAE9"),
+                Guid.Parse("10868C4A-9EBD-4C8A-91FC-C326A4E9CA10")
             };
+            var roles = new List<Role>
+            {
+                new Role
+                {
+                    RoleId = 1,
+                    Name = Constants.Roles.GeneralAdministrator,
+                    Description = "Usuário que controla todo o sistema."
+                },
+                new Role
+                {
+                    RoleId = 2,
+                    Name = Constants.Roles.UserAdministrator,
+                    Description = "Usuário que controla os usuários."
+                },
+                new Role
+                {
+                    RoleId = 3,
+                    Name = Constants.Roles.CategoryAdministrator,
+                    Description = "Usuário que controla as categorias."
+                },
+                new Role
+                {
+                    RoleId = 4,
+                    Name = Constants.Roles.CityAdministrator,
+                    Description = "Usuário que controla as cidades."
+                },
+                new Role
+                {
+                    RoleId = 5,
+                    Name = Constants.Roles.CompanyAdministrator,
+                    Description = "Usuário que controla as empresas."
+                },
+                new Role
+                {
+                    RoleId = 6,
+                    Name = Constants.Roles.EventAdministrator,
+                    Description = "Usuário que controla os eventos."
+                },
+                new Role
+                {
+                    RoleId = 7,
+                    Name = Constants.Roles.HistoricalSightAdministrator,
+                    Description = "Usuário que controla os memoriais."
+                },
+                new Role
+                {
+                    RoleId = 8,
+                    Name = Constants.Roles.SubCategoryAdministrator,
+                    Description = "Usuário que controla as sub-categorias."
+                },
+                new Role
+                {
+                    RoleId = 9,
+                    Name = Constants.Roles.ReadOnly,
+                    Description = "Usuário que apenas irá visualizar as informações."
+                }
+            };
+
+            if (!context.Roles.Any())
+            {
+                context.Roles.AddRange(roles);
+            }
+
             if (!context.Users.Any())
             {
-                var emails = new[] { "administrator", "user" };
-
-                var roles = new List<Role>
-                {
-                    new Role {RoleId = 1, Name = "Admin", Description = "Usu�rio que controla o sistema."},
-                };
-
-                for (var i = 0; i < emails.Length; i++)
+                for (var i = 0; i < roles.Count; i++)
                 {
                     var cpf = i + 1;
                     var user = new User
                     {
                         UserId = userIds[i],
                         FirstName = "User",
-                        LastName = "Master",
-                        Cpf = string.Format("{0}{0}{0}.{0}{0}{0}.{0}{0}{0}-{0}{0}", cpf),
+                        LastName = roles[i].Name.Replace("Administrador_", ""),
+                        Cpf = string.Format("{0}{0}{0}.{0}{1}{0}.{1}{0}{0}-{1}{0}", cpf.ToString().Substring(0, 1), Random.Next(9)),
                         AccessFailed = 0,
                         Contacts = new List<Contact>
                         {
                             new Contact
                             {
                                 ContactId = Guid.NewGuid(),
-                                Description = $"{emails[i]}@gmail.com",
+                                Description = $"{RandomString(4 + i)}@gmail.com",
                                 ContactType = ContactType.Email,
                                 UserId = userIds[i]
                             }
                         },
-                        Roles = new List<Role> { roles[0] }
+                        Roles = new List<Role> { roles[i] }
                     };
-                    user.EncryptPassword("111111");
+                    user.SetNewPassword("111111");
                     context.Users.Add(user);
                 }
             }
@@ -65,12 +130,11 @@ namespace MrRondon.Infra.Data.Migrations
                 {
                     ApplicationClientId = Guid.NewGuid(),
                     Secret = "Rondonia.Turismo.App",
-                    Name = "Aplicativo Rond�nia Turismo",
+                    Name = $"Aplicativo {Constants.SystemName}",
                     RefreshTokenLifeTime = 1,
                     ApplicationType = ApplicationTypes.NativeConfidential,
                     AllowedOrigin = "*",
                     Active = true
-
                 });
             }
 
@@ -427,8 +491,16 @@ namespace MrRondon.Infra.Data.Migrations
             //    };
             //    context.HistoricalSights.Add(historicalSight);
             //}
-            
+
             context.SaveChanges();
+        }
+
+        private static readonly Random Random = new Random();
+
+        public static string RandomString(int length)
+        {
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            return new string(Enumerable.Repeat(chars, length).Select(s => s[Random.Next(s.Length)]).ToArray());
         }
     }
 }

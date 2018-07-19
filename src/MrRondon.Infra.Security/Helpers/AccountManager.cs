@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Security.Claims;
 using System.Security.Principal;
 using System.Web;
@@ -24,6 +25,7 @@ namespace MrRondon.Infra.Security.Helpers
         public bool IsAuthenticated => Current.Identity.IsAuthenticated;
         public Guid UserId { get; private set; }
         public string FullName { get; }
+        public string[] Roles => Claims.Where(x => x.Type == ClaimTypes.Role).Select(s => s.Value).ToArray();
 
         public static void Signin(User user, string password)
         {
@@ -34,6 +36,12 @@ namespace MrRondon.Infra.Security.Helpers
         public static void Signout()
         {
             Auth.SignOut("ApplicationCookie");
+        }
+
+        public bool HasAny(params string[] permissions)
+        {
+            var hasPermission = permissions.Any(IsInRole);
+            return hasPermission;
         }
 
         public static ClaimsIdentity ValidateLogin(User user, string password, string authenticationType)

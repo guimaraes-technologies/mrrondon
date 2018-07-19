@@ -8,21 +8,25 @@ using MrRondon.Infra.CrossCutting.Helper;
 using MrRondon.Infra.CrossCutting.Helper.Buttons;
 using MrRondon.Infra.Data.Context;
 using MrRondon.Infra.Data.Repositories;
+using MrRondon.Infra.Security.Extensions;
+using MrRondon.Infra.Security.Helpers;
 using MrRondon.Presentation.Mvc.Extensions;
 using MrRondon.Presentation.Mvc.ViewModels;
 
 namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [HasAny(Constants.Roles.GeneralAdministrator, Constants.Roles.EventAdministrator, Constants.Roles.ReadOnly)]
     public class EventController : Controller
     {
         private readonly MainContext _db = new MainContext();
 
+        [HasAny(Constants.Roles.GeneralAdministrator, Constants.Roles.EventAdministrator, Constants.Roles.ReadOnly)]
         public ActionResult Index()
         {
             return View();
         }
 
+        [HasAny(Constants.Roles.GeneralAdministrator, Constants.Roles.EventAdministrator, Constants.Roles.ReadOnly)]
         public ActionResult Create()
         {
             SetBiewBags(null);
@@ -31,6 +35,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateInput(false)]
+        [HasAny(Constants.Roles.GeneralAdministrator, Constants.Roles.EventAdministrator)]
         public ActionResult Create(CrudEventVm model, AddressForEventVm address)
         {
             try
@@ -63,6 +68,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
             }
         }
 
+        [HasAny(Constants.Roles.GeneralAdministrator, Constants.Roles.EventAdministrator, Constants.Roles.ReadOnly)]
         public ActionResult Details(Guid id)
         {
             var repo = new RepositoryBase<Event>(_db);
@@ -71,6 +77,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
             return View(entity);
         }
 
+        [HasAny(Constants.Roles.GeneralAdministrator, Constants.Roles.EventAdministrator)]
         public ActionResult Edit(Guid id)
         {
             var repo = new RepositoryBase<Event>(_db);
@@ -85,6 +92,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateInput(false)]
+        [HasAny(Constants.Roles.GeneralAdministrator, Constants.Roles.EventAdministrator)]
         public ActionResult Edit(CrudEventVm model, AddressForEventVm address)
         {
             try
@@ -138,6 +146,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
         }
 
         [AllowAnonymous, HttpPost]
+        [HasAny(Constants.Roles.GeneralAdministrator, Constants.Roles.EventAdministrator)]
         public ActionResult AddContact(CrudEventVm eventContact)
         {
             eventContact.Contacts = eventContact.Contacts ?? new List<Contact>();
@@ -149,6 +158,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
         }
 
         [AllowAnonymous, HttpPost]
+        [HasAny(Constants.Roles.GeneralAdministrator, Constants.Roles.EventAdministrator)]
         public ActionResult RemoveContact(CrudEventVm eventContact, int index)
         {
             UrlsContact();
@@ -179,7 +189,8 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
             if (model?.Event == null) cityId = string.Empty;
             else cityId = model.Event.SameAddressAsOganizer ? model.Event?.Organizer?.Address?.CityId.ToString() ?? model.Event?.Address?.CityId.ToString() : model.Event?.Address?.CityId.ToString();
 
-            ViewBag.Cities = new SelectList(GetCities(_db), "CityId", "Name", cityId);
+            var cities = _db.Cities.OrderBy(o => o.Name);
+            ViewBag.Cities = new SelectList(cities, "CityId", "Name", cityId);
             ViewBag.Companies = new SelectList(_db.Companies, "CompanyId", "Name", model?.Event?.OrganizerId);
         }
 
@@ -188,7 +199,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
             var company = _db.Companies.Include(i => i.Address).FirstOrDefault(f => f.CompanyId == companyId);
             if (company?.Address == null) return PartialView("_FormAddress");
 
-            var cities = GetCities(_db);
+            var cities = _db.Cities.OrderBy(o => o.Name);
 
             ViewBag.Cities = new SelectList(cities, "CityId", "Name", company.Address?.CityId);
             company.Address.SetCoordinates();
@@ -196,19 +207,8 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
             return PartialView("_Address", AddressForEventVm.GetAddress(company.Address));
         }
 
-        public static IEnumerable<City> GetCities(MainContext db)
-        {
-            var cities = (from ci in db.Cities
-                          join ad in db.Addresses on ci.CityId equals ad.CityId
-                          join co in db.Companies on ad.AddressId equals co.AddressId
-                          group ci by ci.Name
-                into gp
-                          select gp.Select(s => s)).SelectMany(s => s).Distinct().ToList();
-
-            return cities;
-        }
-
         [HttpPost]
+        [HasAny(Constants.Roles.GeneralAdministrator, Constants.Roles.EventAdministrator, Constants.Roles.ReadOnly)]
         public JsonResult GetPagination(DataTableParameters parameters)
         {
             var search = parameters.Search.Value?.ToLower() ?? string.Empty;
@@ -228,19 +228,18 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
             var buttons = new ButtonsEvent();
             foreach (var item in items)
             {
-                dtResult.data.Add(new[]
+                dtResult.data.Add(new object[]
                 {
-                    item.EventId.ToString(),
                     $"{item.Name}",
                     $"{(item.StartDate == item.EndDate ? item.StartDate.ToString("dd/MM/yyyy HH:mm") : $"{item.StartDate:dd/MM/yyyy HH:mm} - {item.EndDate:dd/MM/yyyy HH:mm}")}",
                     item.City.Name,
-                    buttons.ToPagination(item.EventId)
+                    buttons.ToPagination(item.EventId, Account.Current.Roles)
                 });
             }
             return Json(dtResult, JsonRequestBehavior.AllowGet);
         }
 
-        protected override void Dispose(bool disposing)
+    protected override void Dispose(bool disposing)
         {
             if (disposing)
             {

@@ -1,10 +1,38 @@
 ﻿@using System.Web.Optimization
 @using MrRondon.Infra.CrossCutting.Helper
 <!DOCTYPE html>
-<html>
+<html lang="pt-br">
 <head>
-    <meta charset="utf-8" />
+    <meta charset="utf-8">
+    <link rel="apple-touch-icon" sizes="57x57" href="/Content/Images/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/Content/Images/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/Content/Images/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/Content/Images/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/Content/Images/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/Content/Images/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/Content/Images/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/Content/Images/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/Content/Images/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/Content/Images/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/Content/Images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/Content/Images/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/Content/Images/favicon-16x16.png">
+    <link rel="manifest" href="/Content/Images/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+
+    <meta http-equiv="content-language" content="pt-br">
+    <meta http-equiv="content-type" content="text/html; charset=iso-8859-1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="application-name" content="@Constants.SystemName">
+    <meta name="author" content="Equipe GoNew">
+    <meta name="description" content="@Constants.SystemName é um aplicativo (App) desenvolvido para impulsionar o turismo de Rondônia. Visando atender as reais necessidades dos pioneiros e dos novos empreendedores do nosso estado, o App apresenta o perfil rondoniense agregado a uma personalidade histórica, Marechal Rondon. Com o App @Constants.SystemName, as dificuldades associadas ao desconhecimento do turismo cultural e do turismo de negócios, transformam-se em oportunidades." />
+    <meta name="robots" content="index, follow">
+    <meta name="keywords" content="Rondon, Turismo, Setur, @Constants.SystemName App, GoNew, Guimaraes Technology" />
+    <meta name="revised" content="30/06/2018" />
+    <meta name="copyright" content="Equipe GoNew [https://github.com/guimaraes-technology/mrrondon]" />
+    
     <title>@ViewBag.Title | @Constants.SystemName</title>
     @Styles.Render("~/Content/basic")
     @RenderSection("styles", required: false)

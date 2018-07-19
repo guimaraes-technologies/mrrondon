@@ -23,6 +23,7 @@ namespace MrRondon.Services.Api.Controllers
 
         [AllowAnonymous]
         [Route("{eventId:guid}")]
+        [CacheOutput(ServerTimeSpan = 120)]
         public IHttpActionResult Get(Guid eventId)
         {
             try
@@ -121,7 +122,10 @@ namespace MrRondon.Services.Api.Controllers
             {
                 var latitude = double.Parse(latitudeFrom);
                 var longitude = double.Parse(longitudeFrom);
-                var events = _db.Events.Include(i => i.Address.City).ToList();
+                var events = _db.Events
+                    .Include(i => i.Address.City)
+                    .Where(x => x.StartDate >= DateTime.Today)
+                    .AsNoTracking().ToList();
 
                 var items = (from item in events
                              where GeoLocatorHelper.PlacesAround(latitude, longitude, item.Address.Latitude, item.Address.Longitude, precision) <= precision
@@ -144,14 +148,22 @@ namespace MrRondon.Services.Api.Controllers
         }
 
         [AllowAnonymous]
-        [Route("city/{cityId:int}/{name=}")]
-        public IHttpActionResult Get(int cityId, string name)
+        [Route("city/{cityId:int}/{skip:int}/{take:int}/{name=}")]
+        public IHttpActionResult Get(int cityId, string name, int skip, int take)
         {
             try
             {
                 name = string.IsNullOrWhiteSpace(name) ? string.Empty : name;
-                var events = _db.Events.Include(i => i.Address.City).Where(x => x.Address.CityId == cityId && x.Name.Contains(name));
-                var result = events.Select(s =>
+
+                var items = _db.Events
+                    .Include(i => i.Address.City)
+                    .Where(x => x.Address.CityId == cityId && x.StartDate >= DateTime.Today  && x.Name.Contains(name))
+                    .OrderBy(x => x.Name)
+                    .Skip(skip)
+                    .Take(take)
+                    .AsNoTracking();
+                
+                var result = items.Select(s =>
                     new
                     {
                         s.EventId,
@@ -160,7 +172,7 @@ namespace MrRondon.Services.Api.Controllers
                         s.StartDate,
                         s.EndDate,
                         s.Value
-                    });
+                    }).ToList();
 
                 return Ok(result);
             }

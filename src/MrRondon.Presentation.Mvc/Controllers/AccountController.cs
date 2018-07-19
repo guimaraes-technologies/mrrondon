@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Web.Mvc;
-using MrRondon.Domain;
-using MrRondon.Domain.Entities;
+﻿using MrRondon.Domain.Entities;
 using MrRondon.Infra.CrossCutting.Helper;
 using MrRondon.Infra.CrossCutting.Message;
 using MrRondon.Infra.Data.Context;
@@ -14,8 +6,14 @@ using MrRondon.Infra.Data.Repositories;
 using MrRondon.Infra.Security.Helpers;
 using MrRondon.Presentation.Mvc.Areas.Admin.Controllers;
 using MrRondon.Presentation.Mvc.Extensions;
-using MrRondon.Presentation.Mvc.Helpers;
 using MrRondon.Presentation.Mvc.ViewModels;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Data.Entity;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Web.Mvc;
 
 namespace MrRondon.Presentation.Mvc.Controllers
 {
@@ -75,7 +73,17 @@ namespace MrRondon.Presentation.Mvc.Controllers
             var user = _db.Users
                 .Include(i => i.Contacts)
                 .FirstOrDefault(f => f.UserId == Account.Current.UserId);
-            return View(user);
+            if (user == null) return RedirectToAction("Index", "Home").Error("Usuário não encontrado");
+            var userContact = new UserContactVm
+            {
+                UserId = user.UserId,
+                Cpf = user.Cpf,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                IsActive = user.IsActive,
+                Contacts = user.Contacts.ToList()
+            };
+            return View(userContact);
         }
 
         [HttpPost]
@@ -93,13 +101,21 @@ namespace MrRondon.Presentation.Mvc.Controllers
                 }
 
                 var oldUser = _db.Users
-                    .Include(i => i.Contacts)
-                    .Include(i => i.Roles)
-                    .FirstOrDefault(f => f.UserId == Account.Current.UserId);
-
+                    .Include(c => c.Roles)
+                    .Include(c => c.Contacts)
+                    .FirstOrDefault(x => x.UserId == model.UserId);
+                if (oldUser == null) return RedirectToAction("Details").Success("Conta atualizada com sucesso");
                 oldUser.Update(model.FirstName, model.LastName);
 
-                throw new Exception("Não implementado");
+                var newUser = model.GetUser(_db);
+                newUser.SetPassword(oldUser.Password);
+                newUser.SetInfo(oldUser);
+                BalanceContacts(oldUser, newUser);
+                BalanceRoles(oldUser, newUser, model.RolesIds);
+
+                _db.Entry(oldUser).CurrentValues.SetValues(newUser);
+                _db.SaveChanges();
+                return RedirectToAction("Details").Success("Conta atualizada com sucesso");
             }
             catch (Exception e)
             {
@@ -108,13 +124,13 @@ namespace MrRondon.Presentation.Mvc.Controllers
         }
 
         [AllowAnonymous]
-        public ActionResult RecoveryPassword()
+        public ActionResult ForgetPassword()
         {
             return View();
         }
 
         [HttpPost, AllowAnonymous]
-        public async Task<ActionResult> RecoveryPassword(RecoveryPasswordVm model)
+        public async Task<ActionResult> ForgetPassword(ForgetPasswordVm model)
         {
             try
             {
@@ -123,7 +139,7 @@ namespace MrRondon.Presentation.Mvc.Controllers
                 var repo = new RepositoryBase<User>(_db);
                 var user = repo.GetItemByExpression(x => x.Cpf.Equals(model.UserName), x => x.Contacts);
                 if (user == null) return View(model).Success("Um código para redefinição da sua senha foi enviado para o seu email");
-                user.GeneratePasswordRecoveryCode();
+                user.SetPasswordRecoveryCode();
 
                 var query = $"UPDATE [{nameof(Domain.Entities.User)}] SET {nameof(user.PasswordRecoveryCode)}='{user.PasswordRecoveryCode}' WHERE {nameof(user.UserId)}='{user.UserId}'";
                 await _db.Database.ExecuteSqlCommandAsync(query);
@@ -134,8 +150,10 @@ namespace MrRondon.Presentation.Mvc.Controllers
                     return View(model).Error("Não foi possível enviar um email com o seu código de recuperação, pois não existe nenhum Email para contato");
 
                 var emailManager = new EmailManager(new ArrayList { email });
+                var actualUrl = Request.Url.OriginalString;
+                var url = $"{actualUrl.Replace(Request.Url.Segments[Request.Url.Segments.Length - 1], "recoverypassword")}/{user.PasswordRecoveryCode}";
 
-                emailManager.ForgotPassword(user.FullName, $"{Request.Url.Authority}/account/newpassword/{user.PasswordRecoveryCode}");
+                emailManager.ForgotPassword(user.FullName, url);
                 await emailManager.SendAsync(emailManager.Sender, $"Sistema {Constants.SystemName}");
 
                 return View(model).Success($"Um código para redefinição da sua senha foi enviado para o seu email: '{email}'");
@@ -161,9 +179,7 @@ namespace MrRondon.Presentation.Mvc.Controllers
                 if (!string.Equals(model.NewPassword, model.ConfirmPassword)) return View(model).Error(Error.PasswordDoesNotMatch);
                 var user = _db.Users.Find(Account.Current.UserId);
                 if (user == null) return RedirectToAction("Details").Success(Success.ChangedPassword);
-
-                user.EncryptPassword(model.NewPassword);
-                _db.Entry(user).Property(u => u.Password).CurrentValue = user.Password;
+                _db.Entry(user).Property(u => u.Password).CurrentValue = user.EncryptPassword(model.NewPassword);
                 _db.SaveChanges();
 
                 return RedirectToAction("Details").Success(Success.ChangedPassword);
@@ -174,48 +190,36 @@ namespace MrRondon.Presentation.Mvc.Controllers
             }
         }
 
-        /*
         [AllowAnonymous]
-        public ActionResult ChangePassword(Guid id)
+        public ActionResult RecoveryPassword(string code)
         {
-            return View(new ChangePasswordVm { UserId = id });
+            return View(new RecoveryPasswordVm { Code = code });
         }
 
         [AllowAnonymous]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult ChangePassword(ChangePasswordVm changePassword)
-        {
-            if (ModelState.IsValid)
-            {
-                _UserAppService.AlterarSenha(changePassword.UserId, changePassword.ConfirmarSenha);
-                return RedirectToAction("Signin").Success(Success.ChangePassword);
-            }
-            return View().Error(Error.ModelState);
-        }
-
-        [AllowAnonymous]
-        public ActionResult AlterarSenhaComCodigo(string codigo)
-        {
-            return View(new AlterarSenhaComCodigoVm { Codigo = codigo });
-        }
-
-        [HttpPost]
-        [AllowAnonymous]
-        public ActionResult AlterarSenhaComCodigo(AlterarSenhaComCodigoVm model)
+        public ActionResult RecoveryPassword(RecoveryPasswordVm model)
         {
             try
             {
-                if (!ModelState.IsValid) return View(model).Error(Error.ModelState);
+                if (!ModelState.IsValid) return View().Error(Error.Default);
 
-                _UserAppService.AlterarSenha(model);
-                return RedirectToAction("Signin").Success(Success.ChangePassword);
+                if (!string.Equals(model.NewPassword, model.ConfirmPassword)) return View(model).Error(Error.PasswordDoesNotMatch);
+
+                var user = _db.Users.FirstOrDefault(x => x.PasswordRecoveryCode == model.Code);
+                if (user == null) return RedirectToAction("Signin").Success(Success.ChangedPassword);
+
+                _db.Entry(user).Property(u => u.Password).CurrentValue = user.EncryptPassword(model.NewPassword);
+                _db.SaveChanges();
+
+                return RedirectToAction("Signin").Success(Success.ChangedPassword);
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                return View(model).Error(ex.Message);
+                return View().Error(e.Message);
             }
-        }*/
+        }
 
         [AllowAnonymous]
         private ActionResult RedirectToLocal(string returnUrl)
@@ -225,7 +229,34 @@ namespace MrRondon.Presentation.Mvc.Controllers
             if (!string.IsNullOrWhiteSpace(returnUrl) && Account.Current.IsAuthenticated)
                 return Redirect(returnUrl);
 
-            return RedirectToAction("Index", "Company", new { area = "Admin" });
+            if (Account.Current.HasAny(Constants.Roles.ReadOnly))
+                return RedirectToAction("Index", "Company", new { area = "Admin" });
+
+            if (Account.Current.HasAny(Constants.Roles.GeneralAdministrator))
+                return RedirectToAction("Index", "Company", new { area = "Admin" });
+
+            if (Account.Current.HasAny(Constants.Roles.CategoryAdministrator))
+                return RedirectToAction("Index", "Category", new { area = "Admin" });
+
+            if (Account.Current.HasAny(Constants.Roles.CityAdministrator))
+                return RedirectToAction("Index", "City", new { area = "Admin" });
+
+            if (Account.Current.HasAny(Constants.Roles.CompanyAdministrator))
+                return RedirectToAction("Index", "Company", new { area = "Admin" });
+
+            if (Account.Current.HasAny(Constants.Roles.EventAdministrator))
+                return RedirectToAction("Index", "Event", new { area = "Admin" });
+
+            if (Account.Current.HasAny(Constants.Roles.HistoricalSightAdministrator))
+                return RedirectToAction("Index", "HistoricalSight", new { area = "Admin" });
+
+            if (Account.Current.HasAny(Constants.Roles.SubCategoryAdministrator))
+                return RedirectToAction("Index", "SubCategory", new { area = "Admin" });
+
+            if (Account.Current.HasAny(Constants.Roles.UserAdministrator))
+                return RedirectToAction("Index", "User", new { area = "Admin" });
+
+            return RedirectToAction("Code", "Error", new { id = Constants.Codes.Unauthorized });
         }
 
         public void BalanceRoles(User oldUser, User newUser, int[] rolesIds, MainContext ctx)
@@ -272,6 +303,58 @@ namespace MrRondon.Presentation.Mvc.Controllers
                 {
                     x.Atualizar(item);
                     ctx.Entry(x).CurrentValues.SetValues(item);
+                }
+                else
+                {
+                    oldUser.Contacts.Add(item);
+                }
+            }
+        }
+
+        public void BalanceRoles(User oldUser, User newUser, int[] rolesIds)
+        {
+            newUser.Roles = new List<Role>();
+            oldUser.Roles = oldUser.Roles ?? new List<Role>();
+
+            var rolesArray = _db.Roles.ToList();
+            foreach (var role in rolesArray)
+            {
+                if (rolesIds != null && rolesIds.Any(x => x.Equals(role.RoleId)))
+                {
+                    newUser.Roles.Add(_db.Roles.FirstOrDefault(x => x.RoleId == role.RoleId));
+                }
+            }
+
+            foreach (var role in rolesArray)
+            {
+                var userRole = oldUser.Roles.FirstOrDefault(x => x.RoleId == role.RoleId);
+                if (rolesIds != null && rolesIds.Contains(role.RoleId) && userRole == null)
+                {
+                    oldUser.Roles.Add(_db.Roles.FirstOrDefault(x => x.RoleId == role.RoleId));
+                }
+                else
+                {
+                    if (userRole == null) continue;
+                    if (rolesIds != null && rolesIds.Contains(userRole.RoleId)) continue;
+                    oldUser.Roles.Remove(userRole);
+                }
+            }
+        }
+
+        public void BalanceContacts(User oldUser, User newUser)
+        {
+            var ids = oldUser.Contacts.Select((t, i) => oldUser.Contacts.ElementAt(i).ContactId).ToList();
+            _db.Contacts.RemoveRange(oldUser.Contacts.Where(x => ids.Any(e => e == x.ContactId)));
+
+            if (newUser.Contacts == null) return;
+            foreach (var item in newUser.Contacts)
+            {
+                if (oldUser.Contacts == null) continue;
+                var x = oldUser.Contacts.FirstOrDefault(s => s.ContactId == item.ContactId && s.ContactId != Guid.Empty && item.ContactId != Guid.Empty);
+                if (x != null)
+                {
+                    x.Atualizar(item);
+                    _db.Entry(x).CurrentValues.SetValues(item);
                 }
                 else
                 {

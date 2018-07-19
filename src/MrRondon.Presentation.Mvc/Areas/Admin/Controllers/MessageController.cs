@@ -7,11 +7,13 @@ using MrRondon.Infra.CrossCutting.Helper;
 using MrRondon.Infra.CrossCutting.Helper.Buttons;
 using MrRondon.Infra.Data.Context;
 using MrRondon.Infra.Data.Repositories;
+using MrRondon.Infra.Security.Extensions;
+using MrRondon.Infra.Security.Helpers;
 using MrRondon.Presentation.Mvc.Extensions;
 
 namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [HasAny(Constants.Roles.GeneralAdministrator)]
     public class MessageController : Controller
     {
         private readonly MainContext _db = new MainContext();
@@ -28,7 +30,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
         {
             return View();
         }
-
+        
         public ActionResult Details(Guid id)
         {
             var repo = new RepositoryBase<Message>(_db);
@@ -98,12 +100,12 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
             var buttons = new ButtonsMessage();
             foreach (var item in items)
             {
-                dtResult.data.Add(new[]
+                dtResult.data.Add(new object[]
                 {
-                    item.MessageId.ToString(),
+                    item.Status == MessageStatus.Unread,
                     item.Title,
                     EnumDescription.Get(item.Subject),
-                    buttons.ToPagination(item.MessageId)
+                    buttons.ToPagination(item.MessageId, Account.Current.Roles)
                 });
             }
             return Json(dtResult, JsonRequestBehavior.AllowGet);

@@ -8,6 +8,8 @@ using MrRondon.Infra.CrossCutting.Helper;
 using MrRondon.Infra.CrossCutting.Helper.Buttons;
 using MrRondon.Infra.Data.Context;
 using MrRondon.Infra.Data.Repositories;
+using MrRondon.Infra.Security.Extensions;
+using MrRondon.Infra.Security.Helpers;
 using MrRondon.Presentation.Mvc.Extensions;
 using MrRondon.Presentation.Mvc.ViewModels;
 using WebGrease.Css.Extensions;
@@ -15,16 +17,17 @@ using Address = MrRondon.Domain.Entities.Address;
 
 namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
 {
-    [Authorize(Roles = "Admin")]
     public class CompanyController : Controller
     {
         private readonly MainContext _db = new MainContext();
 
+        [HasAny(Constants.Roles.GeneralAdministrator, Constants.Roles.CompanyAdministrator, Constants.Roles.ReadOnly)]
         public ActionResult Index()
         {
             return View();
         }
 
+        [HasAny(Constants.Roles.GeneralAdministrator, Constants.Roles.CompanyAdministrator, Constants.Roles.ReadOnly)]
         public ActionResult Details(Guid id)
         {
             var repo = new RepositoryBase<Company>(_db);
@@ -33,6 +36,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
             return View(company);
         }
 
+        [HasAny(Constants.Roles.GeneralAdministrator, Constants.Roles.CompanyAdministrator)]
         public ActionResult Create()
         {
             SetBiewBags(null);
@@ -41,6 +45,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateInput(false)]
+        [HasAny(Constants.Roles.GeneralAdministrator, Constants.Roles.CompanyAdministrator)]
         public ActionResult Create(CrudCompanyVm model, Address address)
         {
             try
@@ -77,10 +82,11 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
             }
         }
 
+        [HasAny(Constants.Roles.GeneralAdministrator, Constants.Roles.CompanyAdministrator)]
         public ActionResult Edit(Guid id)
         {
             var repo = new RepositoryBase<Company>(_db);
-            var company = repo.GetItemByExpression(x => x.CompanyId == id, x => x.Address, x => x.SubCategory, x => x.Contacts);
+            var company = repo.GetItemByExpression(x => x.CompanyId == id, x => x.Address, x => x.SubCategory.Category, x => x.Contacts);
             if (company == null) return HttpNotFound();
 
             var crud = GetCrudVm(company);
@@ -93,6 +99,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateInput(false)]
+        [HasAny(Constants.Roles.GeneralAdministrator, Constants.Roles.CompanyAdministrator)]
         public ActionResult Edit(CrudCompanyVm model, Address address)
         {
             try
@@ -176,6 +183,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
         }
 
         [AllowAnonymous, HttpPost]
+        [HasAny(Constants.Roles.GeneralAdministrator, Constants.Roles.CompanyAdministrator)]
         public ActionResult AddContact(CrudCompanyVm companyContact)
         {
             companyContact.Contacts = companyContact.Contacts ?? new List<Contact>();
@@ -187,6 +195,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
         }
 
         [AllowAnonymous, HttpPost]
+        [HasAny(Constants.Roles.GeneralAdministrator, Constants.Roles.CompanyAdministrator)]
         public ActionResult RemoveContact(CrudCompanyVm companyContact, int index)
         {
             UrlsContact();
@@ -195,6 +204,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [HasAny(Constants.Roles.GeneralAdministrator, Constants.Roles.CompanyAdministrator, Constants.Roles.ReadOnly)]
         public JsonResult GetPagination(DataTableParameters parameters)
         {
             var search = parameters.Search.Value?.ToLower() ?? string.Empty;
@@ -212,12 +222,11 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
             var buttons = new ButtonsCompany();
             foreach (var item in items)
             {
-                dtResult.data.Add(new[]
+                dtResult.data.Add(new object[]
                 {
-                    item.CompanyId.ToString(),
                     item.Name,
                     item.Cnpj,
-                    buttons.ToPagination(item.CompanyId)
+                    buttons.ToPagination(item.CompanyId, Account.Current.Roles)
                 });
             }
             return Json(dtResult, JsonRequestBehavior.AllowGet);
@@ -231,30 +240,42 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
 
         private static CrudCompanyVm GetCrudVm(Company company)
         {
-            var model = new CrudCompanyVm { Company = company };
+            var model = new CrudCompanyVm
+            {
+                Company = company ,
+            };
 
             if (company.Contacts != null) model.Contacts = new List<Contact>(company.Contacts);
-            if (company.SubCategory?.CategoryId != null)
+            if (company.SubCategory?.Category != null)
             {
                 model.SubCategoryId = company.SubCategoryId;
-                model.CategoryId = company.SubCategory.CategoryId.Value;
+                model.CategoryId = company.SubCategory.Category.SubCategoryId;
             }
             else model.CategoryId = company.SubCategoryId;
-
+            
             return model;
         }
 
         private void SetBiewBags(CrudCompanyVm model)
         {
-            ViewBag.Cities = new SelectList(EventController.GetCities(_db), "CityId", "Name", model?.Company?.Address?.CityId);
+            var cities = _db.Cities.OrderBy(o => o.Name);
+            ViewBag.Cities = new SelectList(cities, "CityId", "Name", model?.Company?.Address?.CityId);
 
-            var categories = _db.SubCategories.Where(s => s.CategoryId == null).OrderBy(o => o.Name);
+            var categories = _db.SubCategories
+                .Where(s => s.CategoryId == null)
+                .OrderBy(o => o.Name)
+                .AsNoTracking()
+                .ToList();
             ViewBag.Categories = new SelectList(categories, "SubCategoryId", "Name", model?.CategoryId);
 
             if (model == null || model.CategoryId == 0) ViewBag.SubCategories = new SelectList(Enumerable.Empty<SelectListItem>());
             else
             {
-                var subCategories = _db.SubCategories.Where(s => s.CategoryId != null && model.CategoryId == s.SubCategoryId).OrderBy(o => o.Name);
+                var subCategories = _db.SubCategories
+                    .Where(s => model.CategoryId == s.CategoryId)
+                    .OrderBy(o => o.Name)
+                    .AsNoTracking()
+                    .ToList();
                 ViewBag.SubCategories = new SelectList(subCategories, "SubCategoryId", "Name", model.SubCategoryId);
             }
         }

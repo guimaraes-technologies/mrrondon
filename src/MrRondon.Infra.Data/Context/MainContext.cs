@@ -1,13 +1,12 @@
-﻿using System;
+﻿using MrRondon.Domain.Entities;
+using MrRondon.Infra.CrossCutting.Logging;
+using System;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Data.Entity.Validation;
-using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
-using MrRondon.Domain.Entities;
-using MrRondon.Infra.CrossCutting.Logging;
 
 namespace MrRondon.Infra.Data.Context
 {

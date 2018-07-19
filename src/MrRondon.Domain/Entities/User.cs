@@ -27,7 +27,7 @@ namespace MrRondon.Domain.Entities
         public DateTime? LockoutEnd { get; set; }
         public DateTime CreateOn { get; set; } = DateTime.Now;
         public string PasswordRecoveryCode { get; private set; }
-        public bool IsActive { get; set; }
+        public bool IsActive { get; set; } = true;
 
         public ICollection<Role> Roles { get; set; }
         public ICollection<Login> Logins { get; set; }
@@ -41,7 +41,7 @@ namespace MrRondon.Domain.Entities
             {
                 new Claim(ClaimTypes.NameIdentifier, UserId.ToString()),
                 new Claim(ClaimTypes.Name, FullName),
-                new Claim("http://schemas.microsoft.com/accesscontrolservice/2010/07/claims/identityprovider", "GT - Guimaraes Tecnologia")
+                new Claim("http://schemas.microsoft.com/accesscontrolservice/2010/07/claims/identityprovider", "GT - Guimaraes Technology")
             };
 
             if (Roles != null) claims.AddRange(Roles.Select(x => new Claim(ClaimTypes.Role, x.Name)));
@@ -49,15 +49,15 @@ namespace MrRondon.Domain.Entities
             return new ClaimsIdentity(claims, authenticationType);
         }
 
-        public string GeneratePasswordRecoveryCode()
+        public string SetPasswordRecoveryCode()
         {
             var codes = Guid.NewGuid().ToString().ToUpper().Split('-');
-            return PasswordRecoveryCode = $"GT|{codes[codes.Length - 1]}";
+            return PasswordRecoveryCode = $"GTech_{codes[1]}";
         }
 
         public string EncryptPassword(string password)
         {
-            return Password = PasswordAssertionConcern.ComputeHash(password);
+            return PasswordAssertionConcern.ComputeHash(password);
         }
 
         public void Update(string firstName, string lastName)
@@ -75,7 +75,29 @@ namespace MrRondon.Domain.Entities
         {
             var digitsRegex = new Regex(@"[^\d]");
             var password = digitsRegex.Replace(Cpf, "");
-            return EncryptPassword(password);
+            return SetNewPassword(password);
+        }
+
+        public string SetNewPassword(string newPassword)
+        {
+            return Password = EncryptPassword(newPassword);
+        }
+
+        public void SetPassword(string oldUserPassword)
+        {
+            Password = oldUserPassword;
+        }
+
+        public void SetInfo(User oldUser)
+        {
+            Cpf = oldUser.Cpf;
+            IsActive = oldUser.IsActive;
+            LockoutEnd = oldUser.LockoutEnd;
+            LastLogin = oldUser.LastLogin;
+            AccessFailed = oldUser.AccessFailed;
+            CreateOn = oldUser.CreateOn;
+            Password = oldUser.Password;
+            PasswordRecoveryCode = oldUser.PasswordRecoveryCode;
         }
     }
 }

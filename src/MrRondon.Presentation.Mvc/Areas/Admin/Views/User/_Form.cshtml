@@ -29,7 +29,7 @@ else
 </div>
 <div class="field">
     @Html.LabelFor(model => model.RolesIds)
-    @Html.SemanticEnumDropDownListFor(model => model.RolesIds, ViewBag.Roles as SelectList, "Selecione...", new { @class = "ui fluid dropdown gt-drop-role", data_setresult = "#dropEntidades", data_dropcompare = "Empresa" })
+    @Html.SemanticDropDownListMultipleFor(model => model.RolesIds, Model?.SelectListRole)
 </div>
 <div class="list-contact">
     @Html.Action("Contacts", "User", new { area = "Admin", userContact = Model })

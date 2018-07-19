@@ -5,6 +5,7 @@ using System.Linq.Expressions;
 using System.Web.Mvc;
 using MrRondon.Infra.CrossCutting.Helper;
 using MrRondon.Infra.CrossCutting.Helper.Buttons;
+using MrRondon.Presentation.Mvc.ViewModels;
 using Newtonsoft.Json;
 
 namespace MrRondon.Presentation.Mvc.Extensions
@@ -296,25 +297,58 @@ namespace MrRondon.Presentation.Mvc.Extensions
             var fullBindingName = html.ViewContext.ViewData.TemplateInfo.GetFullHtmlFieldName(ExpressionHelper.GetExpressionText(expression));
             var metadata = ModelMetadata.FromLambdaExpression(expression, html.ViewData);
             var validations = html.GetUnobtrusiveValidationAttributes(metadata.PropertyName, metadata);
-            var tag = new TagBuilder("select");
+            var tag = new TagBuilder("div");
 
             InsertValidateAttribute(tag, validations);
 
             if (htmlAttributes != null) tag.MergeAttributes(HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes));
 
             tag.Attributes.Add("id", TagBuilder.CreateSanitizedId(fullBindingName));
-            tag.Attributes.Add("name", fullBindingName);
-            tag.AddCssClass("ui search dropdown");
+            tag.AddCssClass("ui selection dropdown");
+            var selectListItems = selectList as SelectListItem[] ?? selectList.ToArray();
+            tag.InnerHtml = $"<input name='{fullBindingName}' type='hidden' value='{selectListItems.FirstOrDefault(f => f.Selected)?.Value}'>";
 
-            tag.InnerHtml += $"<option value=''>{optionLabel}</option>";
-            if (selectList == null) return new MvcHtmlString(tag.ToString());
+            tag.InnerHtml += $"<div class='default text'>{optionLabel}</div>";
+            tag.InnerHtml += "<div class='menu'>";
 
-            foreach (var item in selectList)
+            foreach (var item in selectListItems)
             {
-                tag.InnerHtml += $"<option value='{item.Value}' {(item.Selected ? "selected" : string.Empty)}>{item.Text}</option>";
+                tag.InnerHtml += $"<div class='item' data-value='{item.Value}' {(item.Selected ? "selected" : string.Empty)}>{item.Text}</div>";
             }
 
+            tag.InnerHtml += "</div>";//close menu div
             return new MvcHtmlString(tag.ToString());
+        }
+
+        public static MvcHtmlString SemanticDropDownListMultipleFor<TModel, TProperty>(this HtmlHelper<TModel> html, Expression<Func<TModel, TProperty>> expression, IList<SelectListItemVm> selectList = null, string optionLabel = "Selecione...", object htmlAttributes = null)
+        {
+            var fullBindingName = html.ViewContext.ViewData.TemplateInfo.GetFullHtmlFieldName(ExpressionHelper.GetExpressionText(expression));
+            var metadata = ModelMetadata.FromLambdaExpression(expression, html.ViewData);
+            var validations = html.GetUnobtrusiveValidationAttributes(metadata.PropertyName, metadata);
+            var tag = new TagBuilder("div");
+            InsertValidateAttribute(tag, validations);
+
+            if (htmlAttributes != null) tag.MergeAttributes(HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes));
+            tag.Attributes.Add("id", TagBuilder.CreateSanitizedId(fullBindingName));
+            tag.AddCssClass("ui fluid multiple search selection dropdown");
+            var value = selectList?
+                .Where(s => s.Selected)
+                .Aggregate(string.Empty, (current, item) => $"{(string.IsNullOrWhiteSpace(current) ? "" : $"{current},")}{item.Value}");
+
+            tag.InnerHtml = $"<input type='hidden' name='{fullBindingName}' value='{value}'>";
+            tag.InnerHtml += "<i class='dropdown icon'></i>";
+            tag.InnerHtml += $"<div class='default text'>{optionLabel}</div>";
+            tag.InnerHtml += "<div class='menu'>";
+
+            if (selectList != null)
+                foreach (var item in selectList)
+                {
+                    tag.InnerHtml += $"<div class='item' data-value='{item.Value}' {(item.Selected ? "selected" : string.Empty)}>{item.Text}</div>";
+                }
+
+            tag.InnerHtml += "</div>";
+            var result = new MvcHtmlString(tag.ToString());
+            return result;
         }
 
         public static MvcHtmlString SemanticDropDownListOptionalFor<TModel, TProperty>(this HtmlHelper<TModel> html, Expression<Func<TModel, TProperty>> expression, IEnumerable<SelectListItem> selectList, string optionLabel = "Selecione...", object htmlAttributes = null)
@@ -334,15 +368,15 @@ namespace MrRondon.Presentation.Mvc.Extensions
 
             tag.Attributes.Add("id", TagBuilder.CreateSanitizedId(fullBindingName));
             tag.AddCssClass("ui selection dropdown");
-            tag.InnerHtml = $"<input name='{fullBindingName}' type='hidden' value='{selectList.FirstOrDefault(f => f.Selected)?.Value}'>";
+            var selectListItems = selectList as SelectListItem[] ?? selectList.ToArray();
+            var selectedValue = selectListItems.FirstOrDefault(f => f.Selected)?.Value;
+            tag.InnerHtml = $"<input name='{fullBindingName}' type='hidden' value='{selectedValue}'>";
             tag.InnerHtml += $"{removeIcon} {dropIcon}";
 
             tag.InnerHtml += $"<div class='default text'>{optionLabel}</div>";
             tag.InnerHtml += "<div class='menu'>";
 
-            if (selectList == null) return new MvcHtmlString(tag.ToString());
-
-            foreach (var item in selectList)
+            foreach (var item in selectListItems)
             {
                 tag.InnerHtml += $"<div class='item' data-value='{item.Value}' {(item.Selected ? "selected" : string.Empty)}>{item.Text}</div>";
             }

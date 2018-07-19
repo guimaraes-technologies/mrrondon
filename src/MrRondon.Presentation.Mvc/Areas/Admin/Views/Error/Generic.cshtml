@@ -10,8 +10,7 @@
 }
 
 <style>
-    body { text-align: center; padding: 150px; }
-    h1 { font-size: 50px; }
+    h1 {font-size: 30px;color: red}
     body { font: 20px Helvetica, sans-serif; color: #333; }
     article { display: block; text-align: left; width: 650px; margin: 0 auto; }
     a { color: #dc8100; text-decoration: none; }
@@ -19,8 +18,15 @@
 </style>
 
 <article>
-    <h1>Erro 404! </h1>
+    <h1>Erro! </h1>
     <div>
         <p>Desculpe pelo transtorno, mas não foi possível processar esta requisição.</p>
+        <div class="ui divider gt-mtb-2rem"></div>
+        <div class="field">
+            <button onclick="window.history.back()" class="ui button right floated gt-text-uppercase" type="submit">
+                <i class="ui backward icon"></i>
+                Voltar
+            </button>
+        </div>
     </div>
 </article>

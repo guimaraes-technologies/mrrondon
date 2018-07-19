@@ -32,4 +32,17 @@
             </div>
         }
     </div>
+    <h4>PERMISSÕES</h4>
+    @if (Model.Roles != null)
+    {
+        <div class="equal width row">
+            @foreach (var item in Model.Roles.OrderBy(o => o.Name))
+            {
+                <div class="column">
+                    <h4 class="ui header">@item.Name.Replace("_", " ")</h4>
+                    @item.Description
+                </div>
+            }
+        </div>
+    }
 </div>

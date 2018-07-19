@@ -7,21 +7,24 @@ using MrRondon.Infra.CrossCutting.Helper;
 using MrRondon.Infra.CrossCutting.Helper.Buttons;
 using MrRondon.Infra.Data.Context;
 using MrRondon.Infra.Data.Repositories;
+using MrRondon.Infra.Security.Extensions;
+using MrRondon.Infra.Security.Helpers;
 using MrRondon.Presentation.Mvc.Extensions;
 using MrRondon.Presentation.Mvc.ViewModels;
 
 namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
 {
-    [Authorize(Roles = "Admin")]
     public class HistoricalSightController : Controller
     {
         private readonly MainContext _db = new MainContext();
 
+        [HasAny(Constants.Roles.GeneralAdministrator, Constants.Roles.HistoricalSightAdministrator, Constants.Roles.ReadOnly)]
         public ActionResult Index()
         {
             return View();
         }
 
+        [HasAny(Constants.Roles.GeneralAdministrator, Constants.Roles.HistoricalSightAdministrator)]
         public ActionResult Create()
         {
             SetBiewBags(null);
@@ -30,6 +33,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateInput(false)]
+        [HasAny(Constants.Roles.GeneralAdministrator, Constants.Roles.HistoricalSightAdministrator)]
         public ActionResult Create(CrudHistoricalSightVm model, Address address)
         {
             try
@@ -61,6 +65,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
             }
         }
 
+        [HasAny(Constants.Roles.GeneralAdministrator, Constants.Roles.HistoricalSightAdministrator, Constants.Roles.ReadOnly)]
         public ActionResult Details(int id)
         {
             var repo = new RepositoryBase<HistoricalSight>(_db);
@@ -71,6 +76,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
             return View(historicalSight);
         }
 
+        [HasAny(Constants.Roles.GeneralAdministrator, Constants.Roles.HistoricalSightAdministrator)]
         public ActionResult Edit(int id)
         {
             var repo = new RepositoryBase<HistoricalSight>(_db);
@@ -89,6 +95,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateInput(false)]
+        [HasAny(Constants.Roles.GeneralAdministrator, Constants.Roles.HistoricalSightAdministrator)]
         public ActionResult Edit(CrudHistoricalSightVm model, Address address)
         {
             try
@@ -134,6 +141,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [HasAny(Constants.Roles.GeneralAdministrator, Constants.Roles.HistoricalSightAdministrator, Constants.Roles.ReadOnly)]
         public JsonResult GetPagination(DataTableParameters parameters)
         {
             var search = parameters.Search.Value?.ToLower() ?? string.Empty;
@@ -144,11 +152,10 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
             var buttons = new ButtonsHistoricalSight();
             foreach (var item in items)
             {
-                dtResult.data.Add(new[]
+                dtResult.data.Add(new object[]
                 {
-                    item.HistoricalSightId.ToString(),
                     $"{item.Name}",
-                    buttons.ToPagination(item.HistoricalSightId)
+                    buttons.ToPagination(item.HistoricalSightId, Account.Current.Roles)
                 });
             }
             return Json(dtResult, JsonRequestBehavior.AllowGet);
@@ -156,7 +163,8 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
 
         private void SetBiewBags(CrudHistoricalSightVm model)
         {
-            ViewBag.Cities = new SelectList(EventController.GetCities(_db), "CityId", "Name", model?.HistoricalSight?.Address?.CityId);
+            var cities = _db.Cities.OrderBy(o => o.Name);
+            ViewBag.Cities = new SelectList(cities, "CityId", "Name", model?.HistoricalSight?.Address?.CityId);
         }
 
         protected override void Dispose(bool disposing)

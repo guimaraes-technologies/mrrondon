@@ -1,16 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Data.Entity;
-using System.Web.Http;
-using MrRondon.Domain.Entities;
+﻿using MrRondon.Domain.Entities;
 using MrRondon.Infra.Data.Context;
+using System;
+using System.Data.Entity;
+using System.Linq;
+using System.Web.Http;
 using WebApi.OutputCache.V2;
 
 namespace MrRondon.Services.Api.Controllers
 {
     [RoutePrefix("v1/company")]
-    [CacheOutput(ClientTimeSpan = 50, ServerTimeSpan = 50)]
     public class CompanyController : ApiController
     {
         private readonly MainContext _db;
@@ -22,6 +20,7 @@ namespace MrRondon.Services.Api.Controllers
 
         [AllowAnonymous]
         [Route("{id:guid}")]
+        [CacheOutput(ClientTimeSpan = 120, ServerTimeSpan = 120)]
         public IHttpActionResult Get(Guid id)
         {
             try
@@ -69,25 +68,32 @@ namespace MrRondon.Services.Api.Controllers
         }
 
         [AllowAnonymous]
-        [Route("city/{city:int}/segment/{segmentId:int}/{name=}")]
-        public IHttpActionResult Get(int segmentId, int city, string name)
+        [Route("city/{city:int}/segment/{segmentId:int}/{skip:int}/{take:int}/{name=}")]
+        [CacheOutput(ClientTimeSpan = 120, ServerTimeSpan = 120, MustRevalidate = true)]
+        public IHttpActionResult Get(int segmentId, int city, string name, int skip, int take)
         {
             try
             {
                 name = string.IsNullOrWhiteSpace(name) ? string.Empty : name;
 
                 var items = _db.Companies
-                    .Include(i => i.Address)
-                    .Where(x => x.SubCategoryId == segmentId && x.Address.CityId == city &&
-                                (x.Name.Contains(name) || x.FancyName.Contains(name)));
-                return Ok(items.Select(s => new
+                        .Include(i => i.Address)
+                        .Where(x => x.SubCategoryId == segmentId && x.Address.CityId == city &&
+                                    (x.Name.Contains(name) || x.FancyName.Contains(name)))
+                    .OrderBy(x => x.FancyName)
+                    .Skip(skip)
+                    .Take(take)
+                    .AsNoTracking();
+
+                var result = items.Select(s => new
                 {
                     s.CompanyId,
                     s.Name,
                     s.Logo,
                     s.Cnpj,
                     s.Address
-                }));
+                }).ToList();
+                return Ok(result);
             }
             catch (Exception ex)
             {
