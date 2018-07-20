@@ -226,9 +226,6 @@ namespace MrRondon.Presentation.Mvc.Controllers
         {
             if (!Account.Current.IsAuthenticated) return RedirectToAction("Signin", "Account", new { area = "" });
 
-            if (!string.IsNullOrWhiteSpace(returnUrl) && Account.Current.IsAuthenticated)
-                return Redirect(returnUrl);
-
             if (Account.Current.HasAny(Constants.Roles.ReadOnly))
                 return RedirectToAction("Index", "Company", new { area = "Admin" });
 
