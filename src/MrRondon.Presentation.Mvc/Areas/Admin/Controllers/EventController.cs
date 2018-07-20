@@ -230,7 +230,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
             {
                 dtResult.data.Add(new object[]
                 {
-                    $"{item.Name}",
+                    item.Name,
                     $"{(item.StartDate == item.EndDate ? item.StartDate.ToString("dd/MM/yyyy HH:mm") : $"{item.StartDate:dd/MM/yyyy HH:mm} - {item.EndDate:dd/MM/yyyy HH:mm}")}",
                     item.City.Name,
                     buttons.ToPagination(item.EventId, Account.Current.Roles)

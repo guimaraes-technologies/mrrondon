@@ -154,7 +154,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
             {
                 dtResult.data.Add(new object[]
                 {
-                    $"{item.Name}",
+                    item.Name,
                     buttons.ToPagination(item.HistoricalSightId, Account.Current.Roles)
                 });
             }

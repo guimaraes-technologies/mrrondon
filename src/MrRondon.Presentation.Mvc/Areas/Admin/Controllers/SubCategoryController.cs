@@ -136,7 +136,7 @@ namespace MrRondon.Presentation.Mvc.Areas.Admin.Controllers
             {
                 dtResult.data.Add(new object[]
                 {
-                    $"{item.Name}",
+                    item.Name,
                     $"{item.Category?.Name ?? "Não informada"}",
                     buttons.ToPagination(item.SubCategoryId, item.ShowOnApp, Account.Current.Roles)
                 });
