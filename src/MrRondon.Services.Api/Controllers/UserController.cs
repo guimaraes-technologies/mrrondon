@@ -63,14 +63,6 @@ namespace MrRondon.Services.Api.Controllers
                         UserId = user.UserId
                     });
 
-                if (!string.IsNullOrWhiteSpace(register.Email))
-                    user.Contacts.Add(new Contact
-                    {
-                        ContactType = ContactType.Email,
-                        Description = register.Email,
-                        UserId = user.UserId
-                    });
-
                 if (!string.IsNullOrWhiteSpace(register.Telephone))
                     user.Contacts.Add(new Contact
                     {
