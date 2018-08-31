@@ -11,7 +11,7 @@ namespace MrRondon.Services.Api
             config.Formatters.Remove(config.Formatters.XmlFormatter);
             config.Formatters.JsonFormatter.SupportedMediaTypes.Add(new MediaTypeHeaderValue("application/json"));
             config.Formatters.JsonFormatter.SerializerSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
-            config.Formatters.JsonFormatter.Indent = true;
+            config.Formatters.JsonFormatter.Indent = false;
 
             // Web API routes
             config.MapHttpAttributeRoutes();
