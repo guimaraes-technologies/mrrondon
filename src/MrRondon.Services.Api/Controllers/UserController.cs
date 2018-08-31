@@ -42,6 +42,7 @@ namespace MrRondon.Services.Api.Controllers
         }
 
         [HttpPost]
+        [AllowAnonymous]
         [Route("register")]
         public IHttpActionResult Register([FromBody]RegisterVm register)
         {
