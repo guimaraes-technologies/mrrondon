@@ -9,7 +9,7 @@ using WebApi.OutputCache.V2;
 namespace MrRondon.Services.Api.Controllers
 {
     [RoutePrefix("v1/category")]
-    [CacheOutput(ClientTimeSpan = 50, ServerTimeSpan = 50)]
+    [CacheOutput(ClientTimeSpan = 50, ServerTimeSpan = 120)]
     public class CategoryController : ApiController
     {
         private readonly MainContext _db;
