@@ -32,7 +32,9 @@ namespace MrRondon.Services.Api.Controllers
                     .FirstOrDefault(f => f.UserId == Authentication.Current.UserId);
 
                 if (user == null) return BadRequest("Usuário não existe");
-                if (user.Contacts != null) foreach (var contact in user.Contacts) contact.User = null;
+                if (user.Contacts == null) return Ok(user);
+
+                foreach (var contact in user.Contacts) contact.User = null;
                 return Ok(user);
             }
             catch (Exception ex)
@@ -42,6 +44,7 @@ namespace MrRondon.Services.Api.Controllers
         }
 
         [HttpPost]
+        [AllowAnonymous]
         [Route("register")]
         public IHttpActionResult Register([FromBody]RegisterVm register)
         {
@@ -54,14 +57,6 @@ namespace MrRondon.Services.Api.Controllers
                     Cpf = register.Cpf,
                     Contacts = new List<Contact>()
                 };
-
-                if (!string.IsNullOrWhiteSpace(register.Email))
-                    user.Contacts.Add(new Contact
-                    {
-                        ContactType = ContactType.Email,
-                        Description = register.Email,
-                        UserId = user.UserId
-                    });
 
                 if (!string.IsNullOrWhiteSpace(register.Email))
                     user.Contacts.Add(new Contact

@@ -94,7 +94,7 @@ namespace MrRondon.Services.Api.Controllers
             {
                 var cities = (from ci in _db.Cities
                     join ad in _db.Addresses on ci.CityId equals ad.CityId
-                    join ev in _db.Events on ad.AddressId equals ev.AddressId
+                    join ev in _db.Events.Where(x => x.StartDate >= DateTime.Today) on ad.AddressId equals ev.AddressId
                     group ci by ci.Name
                     into gp
                     select gp.Select(s => s)).SelectMany(s => s).AsNoTracking().Distinct().ToList();
